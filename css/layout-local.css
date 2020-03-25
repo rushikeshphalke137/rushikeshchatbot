@@ -561,9 +561,9 @@ p.tooltip-txt, li.tooltip-txt {
 }
 
 .activeBtn {
-  background-color: rgb(255, 140, 0) !important;
+  background-color: white !important;
   border-color: rgb(255, 140, 0) !important;
-  color: white !important;
+  color: rgb(255, 140, 0) !important;
   width: 90px !important;
 }
 
@@ -600,7 +600,7 @@ p.tooltip-txt, li.tooltip-txt {
 
 /* EDITS to MAP CANVAS */
 #mapCanvas {
-  height: calc(100vh - 118px);
+  height: calc(100vh - 140px);
 }
 
 /* POPUP for ESRI MAP */
