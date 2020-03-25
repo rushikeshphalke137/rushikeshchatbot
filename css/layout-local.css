@@ -11,7 +11,7 @@ html, body {
 }
 
 body {
-  background-color: #343434 !important;
+  background-color: #232d4b !important;
   color: #333333 !important;
   overflow-y: auto;
   overflow-x: hidden;
@@ -551,7 +551,7 @@ p.tooltip-txt, li.tooltip-txt {
 }
 
 .recoveredCount, .dailyRecoveredCount {
-  color:rgb(49, 163, 8);
+  color:rgb(255, 140, 0);
 }
 
 .uparrow{
@@ -561,27 +561,31 @@ p.tooltip-txt, li.tooltip-txt {
 }
 
 .activeBtn {
-  background-color: rgb(255,140,0) !important;
+  background-color: rgb(255, 140, 0) !important;
   border-color: rgb(255, 140, 0) !important;
   color: white !important;
+  width: 90px !important;
 }
 
 .confirmBtn {
-  background-color: rgb(227, 74, 51) !important;
+  background-color: white !important;
   border-color: rgb(227, 74, 51) !important;
-  color: white !important;
+  color: rgb(227, 74, 51) !important;
+  width: 90px !important;
 }
 
 .deathBtn {
-  background-color:rgb(43, 140, 190) !important;
+  background-color: white !important;
   border-color:rgb(43, 140, 190) !important;
-  color: white !important;
+  color: rgb(43, 140, 190) !important;
+  width: 90px !important;
 }
 
 .recoveredBtn{
-  background-color: rgb(49, 163, 8) !important;
+  background-color: white !important;
   border-color: rgb(49, 163, 8) !important;
-  color: white !important;
+  color: rgb(49, 163, 8) !important;
+  width: 120px !important;
 }
 
 .heatmapInfo {
@@ -753,7 +757,7 @@ p.tooltip-txt, li.tooltip-txt {
 }
 
 .display.dataTable.no-footer {
-  background: rgba(51, 60, 68, 0.92) none repeat scroll 0 0;
+  background: rgb(255, 140, 0) none repeat scroll 0 0;
   border-top: 1px solid #656565;
   color: #000;
   font-size: 1rem;
@@ -972,13 +976,13 @@ button, input, select, textarea {
 
 #queryWrapper{
   padding: 5px;
-  -moz-box-shadow: 0 0 5px #888;
+  /* -moz-box-shadow: 0 0 5px #888;
   -webkit-box-shadow: 0 0 5px #888;
-  box-shadow: 0 0 5px #888;
+  box-shadow: 0 0 5px #888; */
 }
 
 .esriSimpleSliderTL {
-  top: 80px !important;
+  top: 30px !important;
   left: 10px !important;
 }
 
@@ -1585,7 +1589,7 @@ div#socialSharing a span#linkedin:hover {
   cursor: pointer;
   outline: none;
   box-sizing: content-box;
-  margin-right: 5px;
+  /*margin-right: 5px;*/
   margin-top: 3px;
   margin-bottom: 5px;
 }
@@ -1615,7 +1619,7 @@ div#socialSharing a span#linkedin:hover {
 }
 
 .icon-link.round-corner {
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 .icon-link:hover {
@@ -1730,4 +1734,33 @@ div#socialSharing a span#linkedin:hover {
   box-shadow: 0 0 5px #a5a0a0;
   margin-bottom: 10px;
   /* padding: 5px; */
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 12px solid rgb(255, 140, 0);
+  position: absolute;
+  top: 78%;
+  right: 86%;
+}
+
+.nav-link.active {
+  background-color: transparent !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+.filterIcons {
+  color: white;
+  font-size: 1.5em;
+  width: 30px;
+}
+
+.filterText {
+  color: aqua;
+  font-size: 1.5em;
+  width: 140px;
 }

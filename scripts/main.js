@@ -471,9 +471,9 @@ require([
       globals.startDateString = startDateString;
       globals.endDateString = endDateString;
 
-      document.getElementById("daterange").innerHTML = "Time Slider from <strong><i> " + startDateString + "</strong> to <strong>" + endDateString + "</i></strong>";
+      //document.getElementById("daterange").innerHTML = "Time Slider from <strong><i> " + startDateString + "</strong> to <strong>" + endDateString + "</i></strong>";
       if (!(/Android|webOS|iPad|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
-        document.getElementById("selectedDate").innerHTML = "Selected Date <strong><i> " + globals.endDateString + "</i></strong>";
+     //   document.getElementById("selectedDate").innerHTML = "Selected Date <strong><i> " + globals.endDateString + "</i></strong>";
       }
       var self = this;
       timeSlider.on("time-extent-change", function(evt) {
@@ -594,8 +594,8 @@ require([
     }
 
     function csvOnError(error) {
-      dojo.byId("info").innerHTML = "Data reading error.";
-      dojo.byId("infoGraph").innerHTML = "Data reading error.";
+    //  dojo.byId("info").innerHTML = "Data reading error.";
+      //dojo.byId("infoGraph").innerHTML = "Data reading error.";
       //console.log("csvOnError function called");
     }
 
@@ -674,6 +674,7 @@ require([
     //main function for single attribute rendering: color codes polygons, display legend, etc
     function setRendererSingle() {
       //show summary info
+      console.log('setRendererSingle');
       var html = getSummaryInfo();
       var html1 = getSummaryInfoOnMap();
       if (/Android|webOS|iPad|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -681,17 +682,18 @@ require([
         html1 = html1.replace("number", "#");
       }
 
-      dojo.byId("summaryInfo").innerHTML = html;
-      dojo.byId("summaryInfoGraph").innerHTML = html;
-      dojo.byId("summaryInfoOnMap").innerHTML = html1;
+     //  dojo.byId("summaryInfo").innerHTML = html;
+      // dojo.byId("summaryInfoGraph").innerHTML = html;
+       dojo.byId("summaryInfoOnMap").innerHTML = html1;
       dojo.connect(dojo.byId("renderField"), "onclick", changeRenderField);
-      dojo.connect(dojo.byId("renderMobileField"), "onclick", changeRenderField);
+    //  dojo.connect(dojo.byId("renderMobileField"), "onclick", changeRenderField);
       renderLegend();
     }
 
 
     function renderLegend() {
       //clear out the current legend
+      console.log('renderLegend');
       clearDIV("legend");
 
       //reference the legend div
@@ -925,6 +927,7 @@ require([
 
     //Change rendering field, this is ONLY for single attribute mode
     function changeRenderField(event) {
+      console.log('changeRenderField');
       globals.renderFieldIndex = Number(event.target.value);
       $('.renderField').addClass('disabled');
       $(event.target).removeClass('disabled');
@@ -1439,6 +1442,7 @@ require([
     // Functions related to action button
     //////////////////////////////////////
     function activateTool() {
+      console.log('activateTool');
       var tool = this.label.toUpperCase().replace(/ /g, "_");
       if (tool == "RESET") {
         globals.map.graphics.clear();

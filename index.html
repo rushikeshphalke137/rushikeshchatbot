@@ -2,9 +2,11 @@
 <html>
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8 />
-  <meta name=" description" content="A dashboard for 2019 Novel Coronavirus (COVID-19) surveillance data. Time slider provides a different perspective. Supports interactive heatmap, data query and export.">
-  <meta name="keywords" content="2019 Novel Coronavirus, covid dashboard, covid-19 dashboard, COVID-19, surveillance data, heatmap">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name=" description"
+    content="A dashboard for 2019 Novel Coronavirus (COVID-19) surveillance data. Time slider provides a different perspective. Supports interactive heatmap, data query and export.">
+  <meta name="keywords"
+    content="2019 Novel Coronavirus, covid dashboard, covid-19 dashboard, COVID-19, surveillance data, heatmap">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=0" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@uva_bi" />
@@ -28,12 +30,15 @@
   <link rel="stylesheet" href="css/layout-local.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+    rel="stylesheet">
 
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.8/jquery.csv.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-html5-1.6.1/datatables.min.js"></script>
   <script defer src="https://js.arcgis.com/3.31/"></script>
@@ -46,289 +51,376 @@
   <script src="https://www.amcharts.com/lib/4/themes/dark.js"></script>
 
   <script src="js/amchart_barchart.js"></script>
-  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
+  <script async defer crossorigin="anonymous"
+    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
   <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
 </head>
 
-<body class="claro" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false">
-  <div class="loading">Loading&#8230;</div>
-  <div class="container-fluid">
-    <div class="row header">
-      <div class="w-100 navbar-header mt-2 d-none justify-content-left d-md-flex">
-        <div class="d-flex" style="margin-bottom: 0.2rem;">
+<body class="container-fluid h-100 claro" data-dojo-type="dijit/layout/BorderContainer"
+  data-dojo-props="design:'headline',gutters:false">
+
+  <header class="row">
+    <!-- Application Header -->
+    <div class="col-12" style="border-bottom: 10px solid #e57200;">
+
+      <!-- Desktop/IPad View -->
+      <div class="w-100 mt-2 d-none d-lg-flex justify-content-left">
+        <div class="d-flex mr-auto" style="margin-bottom: 0.2rem;">
           <a href="https://biocomplexity.virginia.edu/" target="_blank">
-            <img src="images/logos/bii_logo_v5-01.png" class="img-fluid" style="height: 4rem;" alt="BII@UVA">
+            <img src="images/logos/bii_logo_v5-01.png" class="img-fluid" style="height: 4rem; width: 220px;"
+              alt="BII@UVA">
           </a>
-          <div class="nav navbar-left d-none d-md-flex" style="margin-top: 0.5rem;color: #ddd;font-size: 2rem;margin-left: 1rem;">
-            <div class="d-flex">COVID-19 Surveillance Dashboard</div>
-            <div style="font-size: 0.5em;color: #ffbc3e;margin-top: 1.1rem;margin-left: 5px;">1.1.3</div>
+          <div class="d-none d-lg-flex" style="margin-top: 0.5rem;color: white; font-size: 2rem;margin-left: 1rem;">
+            <div class="d-flex">COVID-19 Resource Optimization Dashboard</div>
           </div>
         </div>
-        <div class="d-flex announcement"></div>
+
+        <div class="icon-bar d-flex align-items-center">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F&amp;src=sdkpreparse"
+            target="_blank" class="icon-link round-corner facebook fill mr-2"><i class="fa fa-facebook"></i>
+            <!-- <span style="color: white;padding-left: 6px;">Share</span> -->
+          </a>
+          <a class="icon-link round-corner twitter fill mr-2"
+            href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2Fmaster%2Findex.html&ref_src=twsrc%5Etfw&text=Check%20out%20this%20%23covid19%20dashboard%20by%20%40UVA_BI%20which%20has%20a%20time%20slider.%20Search%20is%20easy%3A%20click%20on%20Data%20icon%20and%20type%20something.&tw_p=tweetbutton&url=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F"
+            data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" data-show-count="false"
+            data-text="Check out this #covid19 dashboard by @UVA_BI which has a time slider. Search is easy: click on Data icon and type something."
+            target="_blank">
+            <i class="fa fa-twitter"></i>
+            <!-- <span style="color: white;padding-left: 6px;">Tweet</span> -->
+          </a>
+          <a class="icon-link round-corner linkedin fill mr-2"
+            href="https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin"
+            data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" target="_blank">
+            <i class="fa fa-linkedin"></i>
+            <!-- <span style="color: white;padding-left: 6px;">Share</span> -->
+          </a>
+        </div>
+
         <div class="d-flex align-items-center">
-          <button type="button" class="btn video-btn d-inline-flex moreOptionDropDown" style="vertical-align: top !important;">
+          <button type="button" class="btn video-btn d-inline-flex moreOptionDropDown"
+            style="vertical-align: top !important;">
             <div class="moreOptions mr-2">More Options</div>
-            <i class="fa fa-bars hamburgerIcon hamburgerIconMobile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+            <i class="fa fa-bars hamburgerIcon hamburgerIconMobile" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false"></i>
           </button>
         </div>
       </div>
 
-      <div class="w-100 navbar-header mt-3 mb-2 d-md-none d-flex justify-content-between" style="border-bottom: 2px solid #595959;">
+      <!-- Mobile/iPad Portrait View -->
+      <div class="w-100 mt-3 mb-2 d-flex d-lg-none justify-content-between" style="border-bottom: 2px solid #595959;">
         <div class="d-flex" style="margin-bottom: 0.2rem;">
           <a href="https://biocomplexity.virginia.edu/" target="_blank">
             <img src="images/favicon.ico" sizes="16x16 32x32" class="img-fluid" style="height: 2rem;" alt="BII@UVA">
           </a>
-          <div class="title" style="color: #ddd;font-size: 1.2rem;margin-left: 0.3rem;">
-            COVID-19 Surveillance Dashboard<span style="font-size: 0.7em;color: #ffbc3e;margin-top: 1.1rem;margin-left: 5px;">1.1.3</span>
+          <div class="title" style="color:white; font-size: 1rem !important; margin-left: 0.3rem;">
+            COVID-19 Resource Optimization Dashboard
           </div>
         </div>
-        <div>
-          <i class="fa fa-bars hamburgerIcon hamburgerIconMobile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-        </div>
-      </div>
-
-      <div class="w-100 d-none d-md-flex" style="padding-bottom: 0px;">
-        <div class="btn-toolbar w-100" role="toolbar" aria-label="Toolbar with button groups">
-          <div id="renderField" class="btn-group mr-3 d-block" role="group" aria-label="First group">
-            <button type="button" value="6" class="btn activeBtn renderField">Active</button>
-            <button type="button" value="3" class="btn confirmBtn disabled renderField">Confirmed</button>
-            <button type="button" value="4" class="btn deathBtn disabled renderField">Deaths</button>
-            <button type="button" value="5" class="btn recoveredBtn disabled renderField">Recovered</button>
-          </div>
-          <div class="btn-group mr-3 d-block" role="group" aria-label="Third group">
-            <button type="button" id="graphView" value="graphs" class="btn btn-primary toggleGraphView">Chart</button>
-            <button type="button" id="dataDashboardView" value="dataView" class="btn btn-primary disabled toggleGraphView">Data</button>
-          </div>
-
-          <div class="btn-group mr-auto d-block" role="group" aria-label="Third group">
-            <div class="form-inline form-group">
-              <div class="form-group" style="width: 145px;">
-                <div class="input-group">
-                  <input type="text" placeholder="mm-dd-yyyy" style="border-radius: 5px !important;" class="form-control datepicker1" name="sample-date" />
-                  <div class="text-center calenderIcon" title="Select date" data-toggle="datepicker1" data-target-name="sample-date">
-                    <i class="fa fa-calendar fa-2x" style="font-size: 1.5em;"></i>
-                  </div>
-                </div>
-              </div>
-              <!--<div class="d-none d-md-flex">        
-                <select id="regionSelect" class="regionSelect custom-select region-select"></select>
-              </div>-->
-            </div>
-          </div>
-          <div class="icon-bar d-sm-none d-md-flex">
-            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F&amp;src=sdkpreparse" target="_blank" class="icon-link round-corner facebook fill" style="width: 70px;height: 25px;line-height: 25px;"><i class="fa fa-facebook"></i>
-            <span style="color: white;padding-left: 6px;">Share</span></a>
-            <a class="icon-link round-corner twitter fill" style="width: 70px;height: 25px;line-height: 25px;" href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2Fmaster%2Findex.html&ref_src=twsrc%5Etfw&text=Check%20out%20this%20%23covid19%20dashboard%20by%20%40UVA_BI%20which%20has%20a%20time%20slider.%20Search%20is%20easy%3A%20click%20on%20Data%20icon%20and%20type%20something.&tw_p=tweetbutton&url=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F"  data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" data-show-count="false"
-            data-text="Check out this #covid19 dashboard by @UVA_BI which has a time slider. Search is easy: click on Data icon and type something." target="_blank">
-            <i class="fa fa-twitter"></i><span style="color: white;padding-left: 6px;">Tweet</span></a>
-            <a href="https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin" style="width: 70px;height: 25px;line-height: 25px;" data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" target="_blank" class="icon-link round-corner linkedin fill">
-              <i class="fa fa-linkedin"></i><span style="color: white;padding-left: 6px;">Share</span></a>
-          </div>
+        <div class="mr-1">
+          <i class="fa fa-bars hamburgerIcon hamburgerIconMobile" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false"></i>
         </div>
       </div>
-
-      <div class="w-100 d-md-none d-sm-flex" style="margin-bottom: 5px;">
-        <div class="btn-toolbar w-100 justify-content-between" style="flex:1;" role="toolbar" aria-label="Toolbar with button groups">
-          <div class="d-md-none d-sm-flex mt-1 btn-group d-block" style="width: 42%;" role="group" aria-label="Date group">
-            <div class="form-inline form-group">
-              <div class="form-group d-flex justify-content-between">
-                <div class="input-group">
-                  <input type="text" placeholder="mm-dd-yyyy" style="border-radius: 5px !important;" class="form-control datepicker2" name="sample-date-1" />
-                  <div class="text-center calenderIcon" data-toggle="datepicker2" data-target-name="sample-date-1">
-                    <i class="fa fa-calendar fa-2x" style="font-size: 1.3em;"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="btn-group d-block" role="group" aria-label="Third group">
-            <button type="button" id="mapView" value="map" class="btn btn-primary toggleView">Map</button>
-            <button type="button" id="chartView" value="charts" class="btn btn-primary disabled toggleView">Chart</button>
-            <button type="button" id="dataView" value="data" class="btn btn-primary disabled toggleView">Data</button>
-          </div>
-
-          <div id="renderMobileField" class="btn-group d-block" role="group" aria-label="First group">
-            <button type="button" value="6" class="btn activeBtn renderField">A</button>
-            <button type="button" value="3" class="btn confirmBtn disabled renderField">C</button>
-            <button type="button" value="4" class="btn deathBtn disabled renderField">D</button>
-            <button type="button" value="5" class="btn recoveredBtn disabled renderField">R</button>
-          </div>
-
-          <!--<div class="d-md-none d-sm-flex">        
-            <select id="regionMobileSelect" class="regionMobileSelect custom-select my-select">
-              <option>Select Region</option>
-            </select>
-          </div> -->
-
-        </div>
-      </div>
-
 
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-            <button type="button" class="close closeButton" data-dismiss="modal" aria-label="Close">
-              <div style="font-size: 1.3rem !important;" aria-hidden="true">&times;</div>
-            </button>
-            <!-- 16:9 aspect ratio -->
-            <div class="embed-responsive embed-responsive-16by9">
-              <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay" allowfullscreen></iframe>
-            </div>
+  </header>
+
+  <div class="row">
+    <!-- <div class="col-12 pt-1 d-none d-lg-flex">
+      <div id="queryWrapper" class="d-flex mr-auto" style="width: 60%;">
+        <div class="queryLabel">Query</div> <span id="tooltipDataTable"><img class="tooltip-img"
+            src="images/info-help.png" alt="Help"></span>
+
+        <div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'tooltipDataTable',position:['below']">
+          <div class="tooltip-txt pb-2">You can query the data in two ways:
+            <div class="tooltip-txt">1. Fill in a list of comma-separated place name, click on "QUERY" button or press
+              <b>enter key</b>.
+              A place name can be a state name in the USA, a province-level name for China and the country name for
+              the other countries.
+              The query tool is case-insensitive and supports substring.</div>
+            <div class="tooltip-txt">2. Click on the map while holding down the <b>ctrl key</b> (<b>command key</b> in
+              Mac OS)
+              to manually select regions. Hold the <b>shift key</b> while clicking on a selected region to remove it
+              from the query.</div>
+            <div class="tooltip-txt">Click on "RESET" button to reset everything to the default display.</div>
           </div>
         </div>
+
+        <div class="w-100">
+          <input name="queryByName" class="w-75 pl-1" style="height: 30px;" placeholder="Query by comma separated names"
+            id="queryByName" size="35">
+          <button class="queryButtons" data-dojo-type="dijit/form/Button">Query</button>
+          <button class="queryButtons resetDefault" data-dojo-type="dijit/form/Button">Reset</button>
+        </div>
+
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-12 col-md-6 col-lg-5 order-2 order-md-1 leftPane dataContainer">
-        <div id="info"></div>
-        <div id="summaryInfo" class="mt-2"></div>
-        <div id="queryWrapper" class="d-flex mt-3">
-          <div class="queryLabel">Query</div> <span id="tooltipDataTable"><img class="tooltip-img" src="images/info-help.png" alt="Help"></span>
-          <div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'tooltipDataTable',position:['below']">
-            <div class="tooltip-txt pb-2">You can query the data in two ways:
-              <div class="tooltip-txt">1. Fill in a list of comma-separated place name, click on "QUERY" button or press
-                <b>enter key</b>.
-                A place name can be a state name in the USA, a province-level name for China and the country name for
-                the other countries.
-                The query tool is case-insensitive and supports substring.</div>
-              <div class="tooltip-txt">2. Click on the map while holding down the <b>ctrl key</b> (<b>command key</b> in
-                Mac OS)
-                to manually select regions. Hold the <b>shift key</b> while clicking on a selected region to remove it
-                from the query.</div>
-              <div class="tooltip-txt">Click on "RESET" button to reset everything to the default display.</div>
-            </div>
-          </div>
-          <div class="w-100">
-            <input name="queryByName" class="pl-1" style="width: 60%;" placeholder="Query by comma separated names" id="queryByName" size="35">
-            <button class="queryButtons" data-dojo-type="dijit/form/Button">Query</button>
-            <button class="queryButtons resetDefault" data-dojo-type="dijit/form/Button">Reset</button>
-          </div>
-        </div>
 
-        <div id="dataTableWrapper" class="mt-3">
-          <div id="dataTable"></div>
-        </div>
-        <br>
+    </div> -->
 
-        <div id="supportInfoWrapper">
-          <p><b>Data for all regions is updated at least twice daily (2pm and 2am UTC), with additional updates as warranted</b>.
-            <br>Data:
-            <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports/" target="_blank">WHO</a>,
-            <a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html" target="_blank">CDC</a>,
-            <a href="https://www.ecdc.europa.eu/en/geographical-distribution-2019-ncov-cases" target="_blank">ECDC</a>,
-            <a href="http://www.nhc.gov.cn/yjb/new_index.shtml" target="_blank">NHC</a>,
-            <a href="https://www.1point3acres.com/" target="_blank">1point3acres</a>,
-            <a href="https://3g.dxy.cn/newh5/view/pneumonia" target="_blank">DXY</a>,
-            <a href="https://news.qq.com/zt2020/page/feiyan.htm" target="_blank">QQ</a>,
-            <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">JHU CSSE</a>,
-            <a href="https://www.adci.com/adc-worldmap/" target="_blank">ADCi</a>.
-        </div>
-        <div id="displayOption" class="d-none"></div>
-        <!-- Copyright -->
-        <div class="footer">
-          <div class="icon-bar d-sm-block d-md-none">
-            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F&amp;src=sdkpreparse" target="_blank" class="icon-link round-corner facebook fill"><i class="fa fa-facebook"></i></a>
-            <a class="icon-link round-corner twitter fill" href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2Fmaster%2Findex.html&ref_src=twsrc%5Etfw&text=Check%20out%20this%20%23covid19%20dashboard%20by%20%40UVA_BI%20which%20has%20a%20time%20slider.%20Search%20is%20easy%3A%20click%20on%20Data%20icon%20and%20type%20something.&tw_p=tweetbutton&url=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F"  data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" data-show-count="false"
-            data-text="Check out this #covid19 dashboard by @UVA_BI which has a time slider. Search is easy: click on Data icon and type something." target="_blank"><i class="fa fa-twitter"></i></a>
-            <a href="https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin" data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" target="_blank" class="icon-link round-corner linkedin fill"><i class="fa fa-linkedin"></i></a>
-          </div>
-          <div id="copyright">THE CONTENTS OF THIS WEBSITE, INCLUDING DATA, MAPS, PLOTS, COPYRIGHT 2020, UVA,
-            ALL RIGHTS RESERVED, IS PROVIDED TO THE PUBLIC FOR RESEARCH AND ACADEMIC PURPOSES.
-            THE WEBSITE USES A NUMBER OF OPEN SOURCE DATA SETS. UVA PROVIDES NO WARRANTIES,
-            CLAIMS OR REPRESENTATIONS&ndash;WHETHER EXPRESS, IMPLIED, OR STATUTORY&ndash;WITH RESPECT TO THIS WEBSITE,
-            INCLUDING, WITHOUT LIMITATION, WARRANTIES OF QUALITY, PERFORMANCE, NON&ndash;INFRINGEMENT,
-            MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE, AND DISAVOWS ANY WARRANTIES CREATED BY COURSE OF
-            DEALING,
-            COURSE OF PERFORMANCE, OR TRADE USAGE. </div>
-        </div>
-        <!-- Copyright -->
-      </div>
-      <div class="col-12 col-md-6 col-lg-7 order-1 order-md-2 p-0 mapContainer">
-        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'">
-          <!--Map Section-->
-          <div id="mapCanvas" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
-            <div class="esriSimpleSlider esriSimpleSliderVertical customZoom" style="z-index: 30;">
-              <button class="mapButtons" data-dojo-type="dijit/form/Button" data-dojo-props="title:'Zoom to Africa'">AF</button>
-              <button class="mapButtons" data-dojo-type="dijit/form/Button" data-dojo-props="title:'Zoom to Asia'">AS</button>
-              <button class="mapButtons" data-dojo-type="dijit/form/Button" data-dojo-props="title:'Zoom to Europe'">EU</button>
-              <button class="mapButtons" data-dojo-type="dijit/form/Button" data-dojo-props="title:'Zoom to N. America'">NA</button>
-              <br><button class="mapButtons" data-dojo-type="dijit/form/Button" data-dojo-props="title:'Zoom to Oceania'">OC</button>
-              <button class="mapButtons" data-dojo-type="dijit/form/Button" data-dojo-props="title:'Zoom to S. America'">SA</button>
-              <button class="mapButtons resetDefault" data-dojo-type="dijit/form/Button" data-dojo-props="title:'Zoom to default and reset'">Reset</button>
-            </div>
-            <div id="bottomPanel">
-              <div id="timeInfo">
-                <div><span id="daterange"></span>
-                  &nbsp;&nbsp;<span id="selectedDate"></span>
-                </div>
-                <div id="timeSliderDiv"></div>
-              </div>
-            </div>
-            <div id="summaryInfoOnMap" class="mt-2"></div>
-          </div>
-
-          <div id="displayOptionWrapper">
-            <div id="legend"></div>
-            <div id="defaultSliderOption"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-5 order-2 order-md-1 leftPane graphContainer">
-        <div id="infoGraph"></div>
-        <div id="summaryInfoGraph" class="mt-2"></div>
-        <div class="d-flex newFeatures">As of 03/20, we only show recovered totals for the United States as a whole. At the state level, Active = Confirmed - Deaths.</div>
-        <div class="w-100" style="box-shadow: 0 0 5px #a5a0a0;">
-          <!-- Default switch -->
-          <div class="d-flex justify-content-end"> 
-            <!-- <div class="d-flex justify-content-start logarithmicDiv" style="padding: 10px;">
-                <label class="mt-2"> Scale : &nbsp;</label>
-                <input id="logScaleToggle" type="checkbox" checked data-toggle="toggle" data-off="Linear" data-on="Logarithmic" data-onstyle="success" data-offstyle="danger" />
-            </div> -->
-            <div class="d-flex justify-content-end" style="padding: 10px;">
-            <span id="tooltipChart" class="mt-1"><img class="tooltip-img" src="images/info-help.png" alt="Help"></span>
-            <div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'tooltipChart',position:['below']">
-              <div class="tooltip-txt pb-2">Click on 'Type' to toggle between viewing cumulative or daily rates.
-                <br>Click on legend to toggle an attribute (Confirmed, Deaths, Recovered).
-                <br>Drag the mouse to select date ranges.</div>
-            </div>
-            <label class="mt-2"> Type : &nbsp;</label>
-            <input id="chartToggle" type="checkbox" checked data-toggle="toggle" data-off="Daily" data-on="Cumulative" data-onstyle="success" data-offstyle="danger" />
-            </div>
-           </div>
-          <div id="chartdiv" class="d-flex"></div>
-        </div>
-        <!-- Copyright -->
-        <div class="footer">
-          <div class="icon-bar d-sm-block d-md-none">
-            <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F&amp;src=sdkpreparse" target="_blank" class="icon-link round-corner facebook fill"><i class="fa fa-facebook"></i></a>
-            <a class="icon-link round-corner twitter fill" href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2Fmaster%2Findex.html&ref_src=twsrc%5Etfw&text=Check%20out%20this%20%23covid19%20dashboard%20by%20%40UVA_BI%20which%20has%20a%20time%20slider.%20Search%20is%20easy%3A%20click%20on%20Data%20icon%20and%20type%20something.&tw_p=tweetbutton&url=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F"  data-url="http://nssac.bii.virginia.edu/covid-19/dashboard/" data-show-count="false"
-            data-text="Check out this #covid19 dashboard by @UVA_BI which has a time slider. Search is easy: click on Data icon and type something." target="_blank"><i class="fa fa-twitter"></i></a>
-            <a href="https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin" data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" target="_blank" class="icon-link round-corner linkedin fill"><i class="fa fa-linkedin"></i></a>
-          </div>
-
-          <div id="copyright">THE CONTENTS OF THIS WEBSITE, INCLUDING DATA, MAPS, PLOTS, COPYRIGHT 2020, UVA,
-            ALL RIGHTS RESERVED, IS PROVIDED TO THE PUBLIC FOR RESEARCH AND ACADEMIC PURPOSES.
-            THE WEBSITE USES A NUMBER OF OPEN SOURCE DATA SETS. UVA PROVIDES NO WARRANTIES,
-            CLAIMS OR REPRESENTATIONS&ndash;WHETHER EXPRESS, IMPLIED, OR STATUTORY&ndash;WITH RESPECT TO THIS WEBSITE,
-            INCLUDING, WITHOUT LIMITATION, WARRANTIES OF QUALITY, PERFORMANCE, NON&ndash;INFRINGEMENT,
-            MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE, AND DISAVOWS ANY WARRANTIES CREATED BY COURSE OF
-            DEALING,
-            COURSE OF PERFORMANCE, OR TRADE USAGE. </div>
-        </div>
-        <!-- Copyright -->
-      </div>
-    </div>
-
-  </div> <!-- loading -->
   </div>
 
-  <!-- dropdown sub items of menu -->
+  <div class="row">
+    <div class="col-12 pt-2 pb-1 d-none d-lg-flex btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      <div id="renderField" class="btn-group mr-3 d-block" role="group" aria-label="First group">
+        <button type="button" value="6" class="btn btn-outline-* activeBtn renderField">Cases</button>
+        <span class="arrow-down"></span>
+        <button type="button" value="3" class="btn btn-outline-* confirmBtn renderField">
+          <i class="fa fa-bed"></i> Beds</button>
+        <button type="button" value="4" class="btn btn-outline-* deathBtn renderField">Ventilators</button>
+        <button type="button" value="5" class="btn btn-outline-* recoveredBtn renderField">
+          <i class="fa fa-user-md"></i> Medical Staff</button>
+      </div>
+      <!-- <div id="renderField" class="btn-group mr-3 d-block" role="group" aria-label="First group">
+        <button type="button" value="6" class="btn activeBtn renderField">Active</button>
+        <button type="button" value="3" class="btn confirmBtn disabled renderField">Confirmed</button>
+        <button type="button" value="4" class="btn deathBtn disabled renderField">Deaths</button>
+        <button type="button" value="5" class="btn recoveredBtn disabled renderField">Recovered</button>
+      </div> -->
+
+      <div class="btn-group mr-auto d-block" role="group" aria-label="Second group">
+        <div class="form-inline form-group">
+          <div class="form-group" style="width: 145px;">
+            <div class="input-group">
+              <input type="text" placeholder="mm-dd-yyyy" style="border-radius: 5px !important;"
+                class="form-control datepicker1" name="sample-date" />
+              <div class="text-center calenderIcon" title="Select date" data-toggle="datepicker1"
+                data-target-name="sample-date">
+                <i class="fa fa-calendar fa-2x" style="font-size: 1.5em;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="queryWrapper" class="d-flex" style="width: 42%;">
+        <div class="queryLabel">Query</div> <span id="tooltipDataTable"><img class="tooltip-img"
+            src="images/info-help.png" alt="Help"></span>
+
+        <div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'tooltipDataTable',position:['below']">
+          <div class="tooltip-txt pb-2">You can query the data in two ways:
+            <div class="tooltip-txt">1. Fill in a list of comma-separated place name, click on "QUERY" button or press
+              <b>enter key</b>.
+              A place name can be a state name in the USA, a province-level name for China and the country name for
+              the other countries.
+              The query tool is case-insensitive and supports substring.</div>
+            <div class="tooltip-txt">2. Click on the map while holding down the <b>ctrl key</b> (<b>command key</b> in
+              Mac OS)
+              to manually select regions. Hold the <b>shift key</b> while clicking on a selected region to remove it
+              from the query.</div>
+            <div class="tooltip-txt">Click on "RESET" button to reset everything to the default display.</div>
+          </div>
+        </div>
+
+        <div class="w-100">
+          <input name="queryByName" class="pl-1" style="width: 80%; height: 30px;"
+            placeholder="Query by comma separated names" id="queryByName" size="35">
+          <button class="queryButtons" data-dojo-type="dijit/form/Button">Query</button>
+          <button class="queryButtons resetDefault" data-dojo-type="dijit/form/Button">Reset</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Space for Map and Data-->
+  <div class="row" style="background-color: white; height: calc(100% - 116px);">
+
+    <div class="col-12 col-lg-7 pl-0 pr-0 mapContainer">
+      <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'">
+        <!--Map Section-->
+        <div id="mapCanvas" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+
+          <div id="summaryInfoOnMap" class="mt-2"></div>
+        </div>
+
+        <div id="displayOptionWrapper">
+          <div id="legend"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-5 dataContainer" style="background-color: #232d4b !important;">
+      <div class="col-12 pl-0 pr-0 mb-2 d-flex" style="border: 2px solid grey;">
+
+        <div class="w-25" style="border-right: 4px  dotted grey;">
+          <div class="d-flex justify-content-center" style="color: white; font-size: 2em;">Cases</div>
+          <div class="activeCount d-flex justify-content-center" style="font-size: 2.5em;"> 53,245 </div>
+        </div>
+
+        <div class="w-75">
+          <div class="d-flex align-items-center">
+
+            <div class="d-flex justify-content-center ml-2 filterIcons"><i class="fa fa-bed mr-1"></i></div>
+            <div class="filterText">Beds</div>
+            <div class="recoveredCount justify-content-center">
+              <span>5,690 </span>
+              <span style="font-size: 1.2rem;">used </span>
+              <span> / 9000 </span>
+              <span style="font-size: 1.2rem;">total </span>
+            </div>
+
+          </div>
+
+          <div class="d-flex align-items-center">
+            <div class="d-flex justify-content-center ml-2 filterIcons"><i class="fa fa-bed mr-1"></i></div>
+            <div class="filterText">Ventilators</div>
+            <div class="recoveredCount justify-content-center">
+              <span>4355 </span>
+              <span style="font-size: 1.2rem;">used </span>
+              <span> / 8500 </span>
+              <span style="font-size: 1.2rem;">total </span>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center">
+
+            <div class="d-flex justify-content-center ml-2 filterIcons"><i class="fa fa-user-md mr-1"></i></div>
+            <div class="filterText">Medical Staff</div>
+            <div class="recoveredCount justify-content-center">
+              <span>2345 </span>
+              <span style="font-size: 1.2rem;">needed </span>
+              <span> / 5400 </span>
+              <span style="font-size: 1.2rem;">available </span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <div class="col-12 pl-0 pr-0">
+        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist"
+          style="border-bottom: 5px solid rgb(255, 140, 0) !important;">
+          <a class="graphToggle nav-item nav-link" id="graphView" value="garphs" data-toggle="tab" href="#nav-home"
+            role="tab" aria-controls="nav-home" aria-selected="false">Chart
+          </a>
+
+          <a class="graphToggle nav-item nav-link" id="dataDashboardView" value="dataView" data-toggle="tab"
+            href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true"
+            style="background-color: rgb(255, 140, 0) !important; color: black; font-weight: 500;">Data
+          </a>
+        </div>
+      </div>
+
+      <div id="dataTableWrapper" class="mt-3">
+        <div id="dataTable"></div>
+      </div>
+      <br>
+
+      <div id="supportInfoWrapper">
+        <p><b>Data for all regions is updated at least twice daily (2pm and 2am UTC), with additional updates as
+            warranted</b>.
+          <br>Data:
+          <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports/"
+            target="_blank">WHO</a>,
+          <a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html" target="_blank">CDC</a>,
+          <a href="https://www.ecdc.europa.eu/en/geographical-distribution-2019-ncov-cases" target="_blank">ECDC</a>,
+          <a href="http://www.nhc.gov.cn/yjb/new_index.shtml" target="_blank">NHC</a>,
+          <a href="https://www.1point3acres.com/" target="_blank">1point3acres</a>,
+          <a href="https://3g.dxy.cn/newh5/view/pneumonia" target="_blank">DXY</a>,
+          <a href="https://news.qq.com/zt2020/page/feiyan.htm" target="_blank">QQ</a>,
+          <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">JHU CSSE</a>,
+          <a href="https://www.adci.com/adc-worldmap/" target="_blank">ADCi</a>.
+      </div>
+      <div id="displayOption" class="d-none"></div>
+      <!-- Copyright -->
+      <div class="footer">
+        <div class="icon-bar d-sm-block d-md-none">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F&amp;src=sdkpreparse"
+            target="_blank" class="icon-link round-corner facebook fill"><i class="fa fa-facebook"></i></a>
+          <a class="icon-link round-corner twitter fill"
+            href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2Fmaster%2Findex.html&ref_src=twsrc%5Etfw&text=Check%20out%20this%20%23covid19%20dashboard%20by%20%40UVA_BI%20which%20has%20a%20time%20slider.%20Search%20is%20easy%3A%20click%20on%20Data%20icon%20and%20type%20something.&tw_p=tweetbutton&url=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F"
+            data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" data-show-count="false"
+            data-text="Check out this #covid19 dashboard by @UVA_BI which has a time slider. Search is easy: click on Data icon and type something."
+            target="_blank"><i class="fa fa-twitter"></i></a>
+          <a href="https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin"
+            data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" target="_blank"
+            class="icon-link round-corner linkedin fill"><i class="fa fa-linkedin"></i></a>
+        </div>
+        <div id="copyright">THE CONTENTS OF THIS WEBSITE, INCLUDING DATA, MAPS, PLOTS, COPYRIGHT 2020, UVA,
+          ALL RIGHTS RESERVED, IS PROVIDED TO THE PUBLIC FOR RESEARCH AND ACADEMIC PURPOSES.
+          THE WEBSITE USES A NUMBER OF OPEN SOURCE DATA SETS. UVA PROVIDES NO WARRANTIES,
+          CLAIMS OR REPRESENTATIONS&ndash;WHETHER EXPRESS, IMPLIED, OR STATUTORY&ndash;WITH RESPECT TO THIS WEBSITE,
+          INCLUDING, WITHOUT LIMITATION, WARRANTIES OF QUALITY, PERFORMANCE, NON&ndash;INFRINGEMENT,
+          MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE, AND DISAVOWS ANY WARRANTIES CREATED BY COURSE OF
+          DEALING,
+          COURSE OF PERFORMANCE, OR TRADE USAGE. </div>
+      </div>
+
+    </div>
+
+    <div class="col-12 col-lg-5 graphContainer" style="background-color: #4a4647;">
+      <div class="w-100" style="box-shadow: 0 0 5px #a5a0a0;">
+        <!-- Default switch -->
+
+        <div class="d-flex justify-content-end" style="padding: 10px;">
+          <span id="tooltipChart" class="mt-1"><img class="tooltip-img" src="images/info-help.png" alt="Help"></span>
+          <div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'tooltipChart',position:['below']">
+            <div class="tooltip-txt pb-2">Click on 'Type' to toggle between viewing cumulative or daily rates.
+              <br>Click on legend to toggle an attribute (Confirmed, Deaths, Recovered).
+              <br>Drag the mouse to select date ranges.</div>
+          </div>
+          <label class="mt-2"> Type : &nbsp;</label>
+          <input id="chartToggle" type="checkbox" checked data-toggle="toggle" data-off="Daily" data-on="Cumulative"
+            data-onstyle="success" data-offstyle="danger" />
+        </div>
+
+        <div id="chartdiv" class="d-flex"></div>
+      </div>
+      <!-- Copyright -->
+      <div class="footer">
+        <div class="icon-bar d-sm-block d-md-none">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F&amp;src=sdkpreparse"
+            target="_blank" class="icon-link round-corner facebook fill"><i class="fa fa-facebook"></i></a>
+          <a class="icon-link round-corner twitter fill"
+            href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2Fmaster%2Findex.html&ref_src=twsrc%5Etfw&text=Check%20out%20this%20%23covid19%20dashboard%20by%20%40UVA_BI%20which%20has%20a%20time%20slider.%20Search%20is%20easy%3A%20click%20on%20Data%20icon%20and%20type%20something.&tw_p=tweetbutton&url=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F"
+            data-url="http://nssac.bii.virginia.edu/covid-19/dashboard/" data-show-count="false"
+            data-text="Check out this #covid19 dashboard by @UVA_BI which has a time slider. Search is easy: click on Data icon and type something."
+            target="_blank"><i class="fa fa-twitter"></i></a>
+          <a href="https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin"
+            data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" target="_blank"
+            class="icon-link round-corner linkedin fill"><i class="fa fa-linkedin"></i></a>
+        </div>
+
+        <div id="copyright">THE CONTENTS OF THIS WEBSITE, INCLUDING DATA, MAPS, PLOTS, COPYRIGHT 2020, UVA,
+          ALL RIGHTS RESERVED, IS PROVIDED TO THE PUBLIC FOR RESEARCH AND ACADEMIC PURPOSES.
+          THE WEBSITE USES A NUMBER OF OPEN SOURCE DATA SETS. UVA PROVIDES NO WARRANTIES,
+          CLAIMS OR REPRESENTATIONS&ndash;WHETHER EXPRESS, IMPLIED, OR STATUTORY&ndash;WITH RESPECT TO THIS WEBSITE,
+          INCLUDING, WITHOUT LIMITATION, WARRANTIES OF QUALITY, PERFORMANCE, NON&ndash;INFRINGEMENT,
+          MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE, AND DISAVOWS ANY WARRANTIES CREATED BY COURSE OF
+          DEALING,
+          COURSE OF PERFORMANCE, OR TRADE USAGE. </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="close closeButton" data-dismiss="modal" aria-label="Close">
+            <div style="font-size: 1.3rem !important;" aria-hidden="true">&times;</div>
+          </button>
+          <!-- 16:9 aspect ratio -->
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="optionMenu" class="optionMenu text-left" style="display: none;" aria-labelledby="navbarDropdown">
     <ul>
       <a href="https://nssac.github.io" target="_blank">
@@ -337,7 +429,8 @@
       <a href="https://nssac.github.io/covid-19/dashboard/" target="_blank">
         <li style="border-top: 1px solid black;">README</li>
       </a>
-      <a class="video-btn" href="#" target="_blank" data-toggle="modal" data-src="https://www.youtube.com/embed/xJWTc3bo8q4" data-target="#myModal">
+      <a class="video-btn" href="#" target="_blank" data-toggle="modal"
+        data-src="https://www.youtube.com/embed/xJWTc3bo8q4" data-target="#myModal">
         <li style="border-top: 1px solid black;">
           Tutorial Video
         </li>
