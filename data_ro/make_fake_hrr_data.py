@@ -1,12 +1,12 @@
 import sys
 import random
-from datetime import timedelta, date
+from datetime import datetime, timedelta, date
 
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
-_, fake_hrr_file=sys.argv
+_, fake_hrr_file, start, end=sys.argv
 
 # Read the fake HHR list into a list of dicts
 hrr_list=[]
@@ -62,8 +62,8 @@ for hrr in hrr_list:
 region_file.close()
 
 # Loop through the dates and hrr_list to generate files for each hrr, then 
-start_date = date(2020, 3, 26)
-end_date = date(2020, 5, 7)
+start_date = datetime.strptime(start,"%m-%d-%Y")
+end_date = datetime.strptime(end, "%m-%d-%Y")
 seed = 5
 print("Looping through dates")
 for single_date in daterange(start_date, end_date):
