@@ -652,7 +652,7 @@ console.log('csvStore',csvStore,'globals',globals);
       var numClasses = 5;
       //different colors for different attribute
       var colors = [];
-      if (globals.csvDataHeader[globals.renderFieldIndex] == 'bedsAvail') {
+      if (globals.csvDataHeader[globals.renderFieldIndex] == 'Beds Avail') {
         //for confirmed, suspected
         numClasses = 6;
         //OrRd
@@ -664,7 +664,7 @@ console.log('csvStore',csvStore,'globals',globals);
         colors.push(new Color([179, 0, 0]));
         var breakMins = [1, 10, 100, 500, 1000, 10000];
         var breakMaxs = [9, 99, 499, 999, 9999, 299999];
-      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'ventsAvail') {
+      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Vent. Avail') {
         //for deaths
         //PuBu
         colors.push(new Color([241, 238, 246]));
@@ -674,7 +674,7 @@ console.log('csvStore',csvStore,'globals',globals);
         colors.push(new Color([4, 90, 141]));
         var breakMins = [1, 2, 6, 11, 21];
         var breakMaxs = [1, 5, 10, 20, 9999];
-      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'staffNeeded') {
+      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Staff Avail') {
         //for recovered
         //YlGn
         colors.push(new Color([255, 255, 204]));
