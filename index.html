@@ -129,12 +129,12 @@
   <div class="row">
     <div class="col-12 pt-2 pb-1 d-none d-lg-flex btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
       <div id="renderField" class="btn-group mr-3 d-block" role="group" aria-label="First group">
-        <button type="button" value="6" class="btn btn-outline-* activeBtn renderField">Cases</button>
+        <button type="button" value="9" class="btn btn-outline-* activeBtn renderField">Cases</button>
         <!-- <span class="arrow-down"></span> -->
         <button type="button" value="3" class="btn btn-outline-* confirmBtn disabled renderField">
           <i class="fa fa-bed"></i> Beds</button>
         <button type="button" value="4" class="btn btn-outline-* deathBtn disabled renderField">Ventilators</button>
-        <button type="button" value="5" class="btn btn-outline-* recoveredBtn disabled renderField">
+        <button type="button" value="8" class="btn btn-outline-* recoveredBtn disabled renderField">
           <i class="fa fa-user-md"></i> Medical Staff</button>
       </div>
 
@@ -188,10 +188,12 @@
   <!-- Space for Map and Data-->
   <div class="row" style="height: calc(100% - 135px);">
 
-    <div class="col-12 col-lg-7 pl-0 pr-0 h-100 mapContainer">
+    <div class="col-12 col-lg-7 pl-0 pr-0 mapContainer">
       <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'">
         <!--Map Section-->
         <div id="mapCanvas" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+
+          <!-- <div id="summaryInfoOnMap" class="mt-2"></div> -->
         </div>
 
         <div id="displayOptionWrapper">

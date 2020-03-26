@@ -22,7 +22,8 @@ globals.defaultExtents = {};
 
 //supported data levels
 //to be cleaned up
-globals.dataLevels = ["State"]; //state_fips, county_fips in the CSV header
+//globals.dataLevels = ["State"]; //state_fips, county_fips in the CSV header
+globals.dataLevels = ["State", "County"];
 
 //store REST API URL for corresponding polygon
 globals.mapServiceUrls = {
@@ -36,7 +37,7 @@ globals.mapServiceUrls = {
   // County: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/NCOV_World_Countries_States_Provinces_wUnknown/FeatureServer/0"
 }
 //flag used to indicate data level in the file, e.g., State, County
-globals.dataLevel = "";
+globals.dataLevel = "State";
 
 //array that holds data from csv file, only one csv file at a time
 globals.csvData = [];
@@ -61,13 +62,16 @@ globals.mainlandChinaRowForSelectedDate = [];
 globals.usaRowForSelectedDate = [];
 
 //daily summary in csv format: date,totalConfirmed,totalDeaths,totalRecovered,newConfirmed,newDeaths,newRecovered
-globals.dailySummaryFile = "data/nssac-ncov-sd-summary.csv";
+//globals.dailySummaryFile = "data/nssac-ncov-sd-summary.csv";
+globals.dailySummaryFile = "data_ro/nssac_ncov_ro-summary.csv";
 globals.dailySummary = [];
 
-globals.regionFile = "data/nssac-ncov-sd-region_list.csv";
+//globals.regionFile = "data/nssac-ncov-sd-region_list.csv";
+globals.regionFile = "data_ro/nssac_ncov_ro_region_list.csv";
 globals.regionNames = [];
 
-globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
+//globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
+globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
 
 //file used for rendering
 globals.renderFile = null;
@@ -140,12 +144,12 @@ require([
     globals.displayLevel = 'State';
 
     globals.defaultExtents.default = new Extent({
-      "xmin": -16666948,
-      "xmax": -4456592,
-      "ymin": 2015549,
-      "ymax": 7064062,
+      "xmin":  -124.730045456146,
+      "xmax": -66.9505093527641,
+      "ymin": 24.5439397696533,
+      "ymax": 49.3839397693269,
       "spatialReference": {
-        "wkid": 102100
+        "wkid": 4326
       }
     });
     globals.defaultExtents.AF = new Extent({
@@ -249,20 +253,21 @@ require([
 
     $('#regionSelect').on('change', function (e) {
       globals.regionSelected = this.value;
-      if (globals.regionSelected == 'All regions') {
-        globals.filteredRegion = [];
-        globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
-        getDataFromCSVFile(globals.regionSummaryFile);
-        resetMapToDefault();
-        $('.resetDefault').click();
-      } else {
+      // if (globals.regionSelected == 'All regions') {
+      //   globals.filteredRegion = [];
+      //   globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
+      //   getDataFromCSVFile(globals.regionSummaryFile);
+      //   resetMapToDefault();
+      //   $('.resetDefault').click();
+      // } else {
         queryByRegionName();
         filteredRegion(globals.regionSelected);
-        globals.regionSummaryFile = "./data/regions/nssac-ncov-sd-summary-" + globals.regionSelected.toLowerCase() + ".csv";
+        //globals.regionSummaryFile = "./data/regions/nssac-ncov-sd-summary-" + globals.regionSelected.toLowerCase() + ".csv";
+        globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
         getDataFromCSVFile(globals.regionSummaryFile);
         $('.logarithmicDiv').css("visibility", "hidden");
         toggleChart();
-      }
+     // }
       setRendererSingle();
     });
 
@@ -277,7 +282,8 @@ require([
       } else {
         queryByRegionName();
         filteredRegion(globals.regionSelected);
-        globals.regionSummaryFile = "./data/regions/nssac-ncov-sd-summary-" + globals.regionSelected.toLowerCase() + ".csv";
+      //  globals.regionSummaryFile = "./data/regions/nssac-ncov-sd-summary-" + globals.regionSelected.toLowerCase() + ".csv";
+      globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
         getDataFromCSVFile(globals.regionSummaryFile);
         toggleChart();
       }
@@ -378,8 +384,8 @@ require([
     $(".datepicker1").datepicker("setDate", defaultDate);
     $(".datepicker2").datepicker("setDate", defaultDate);
     globals.selectedDate = defaultDate;
-    globals.renderFile = "data/nssac-ncov-sd-" + defaultDate + ".csv"
-
+    //globals.renderFile = "data/nssac-ncov-sd-" + defaultDate + ".csv"
+    globals.renderFile  = "data_ro/nssac_ncov_ro_04-01-2020.csv" 
     initialSetup();
     getCSVDataAndRendering();
 
@@ -394,15 +400,20 @@ require([
       //display map and zoom to China
       var infoTemplate = new InfoTemplate(
         "Place : ${HRRCITY}",
-        "No Of Beds : ${DHS_Beds}",
-        "Total Population : ${Total_Pop}"
+        "${HRRCITY:globals.joinFunctionInfoWindow}"
       );
-
+console.log('globals-',globals)
+      // var layer = new FeatureLayer(globals.mapServiceUrls.HRR, {
+      //   id: "state_layer",
+      //   mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+      //   infoTemplate: infoTemplate,
+      //   outFields: ["HRRNUM", "HRRCITY", "DHS_Beds", "Total_Pop"]
+      // });
       var layer = new FeatureLayer(globals.mapServiceUrls.HRR, {
         id: "state_layer",
         mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
         infoTemplate: infoTemplate,
-        outFields: ["HRRNUM", "HRRCITY", "DHS_Beds", "Total_Pop"]
+        outFields: ["HRRCITY", "DHS_Beds"]
       });
       var symbol = new SimpleFillSymbol(
         SimpleFillSymbol.STYLE_SOLID,
@@ -420,10 +431,10 @@ require([
       globals.queryTask = new QueryTask(globals.mapServiceUrls.HRR);
       globals.query = new Query();
       globals.query.outSpatialReference = {
-        "wkid": 102100
+        "wkid": 4326
       };
       globals.query.returnGeometry = true;
-      globals.query.outFields = ["HRRNUM", "HRRCITY", "DHS_Beds", "Total_Pop"];
+      globals.query.outFields = ["HRRCITY"];
 
       globals.map.on("update-end", function () {
         $('.loading').hide();
@@ -439,20 +450,22 @@ require([
       var csvStore = new CsvStore({
         url: fileURL
       });
-
+console.log('csvStore',csvStore,'globals',globals);
       csvStore.fetch({
         onComplete: function (items) {
+          console.log('items-',items);
           csvDataReady(csvStore, items);
           //before we display anything, decide what's data level based on first attribute name
-          if (globals.csvDataHeader[0].toLowerCase() == "name") {
-            globals.dataLevel = "State";
-            globals.map.getLayer("state_layer").show();
-          }
-          if (globals.csvDataHeader[0].toLowerCase() == "county_fips") {
-            globals.dataLevel = "County";
-            globals.map.getLayer("state_layer").hide();
-          }
+          // if (globals.csvDataHeader[1].toLowerCase() == "HRRCity") {
+             globals.dataLevel = "State";
+             globals.map.getLayer("state_layer").show();
+          // }
+          // if (globals.csvDataHeader[0].toLowerCase() == "county_fips") {
+        //    globals.dataLevel = "State";
+        //    globals.map.getLayer("state_layer").hide();
+        //  }
           if (globals.dataLevels.indexOf(globals.dataLevel) !== -1) {
+            console.log('globals.dataLevels');
             setRendererSingle();
           }
         }, //onComplete
@@ -463,6 +476,7 @@ require([
     //process data in csvStore and store them in a global variable called csvData
     function csvDataReady(csvStore, items) {
       //reset all global variables related to CSV data
+      console.log('items-new',items,'csvStore-new',csvStore);
       globals.csvData = [];
       globals.csvDataHeader = [];
       globals.csvDataStats = [];
@@ -473,17 +487,24 @@ require([
         var currentItemAttributes = csvStore.getAttributes(items[i]);
         if (csvHeader == null) {
           csvHeader = currentItemAttributes;
-          csvHeader.push("Active");
+        //  csvHeader.push("Active");
         }
+        console.log('csvHeader-new',csvHeader);
         var itemData = [];
         for (var j = 0; j < csvHeader.length; j++) {
-          if (j > 2 && parseFloat(csvStore.getValue(items[i], csvHeader[j]))) {
-            itemData.push(parseFloat(csvStore.getValue(items[i], csvHeader[j])));
+          if (j > 2) {
+            if(parseFloat(csvStore.getValue(items[i], csvHeader[j]))) {
+              itemData.push(parseFloat(csvStore.getValue(items[i], csvHeader[j])));
+            } else {
+              itemData.push(parseFloat(0, csvHeader[j]));
+            }
+            
           } else {
             itemData.push(csvStore.getValue(items[i], csvHeader[j])); //alway parse the first column as string
           }
         }
-        itemData[6] = itemData[3] - itemData[4] - itemData[5];
+      //  itemData[10] = itemData[3] - itemData[4] - itemData[5];
+        console.log('itemData-new',itemData);
         globals.csvData.push(itemData);
       }
 
@@ -495,18 +516,18 @@ require([
 
       //default render field is the 4th column (skip name,region,last update)
       if (!globals.renderFieldIndex)
-        globals.renderFieldIndex = 6;
+        globals.renderFieldIndex = 9;
 
       //show csv data in data table
-      var names = [];
-      for (var i = 0; i < globals.csvData.length; i++) {
-        names.push(globals.csvData[i][0]);
-      }
+      // var names = [];
+      // for (var i = 0; i < globals.csvData.length; i++) {
+      //   names.push(globals.csvData[i][0]);
+      // }
 
-      if (globals.regionSelected !== 'All regions') {
-        names = remove(names, globals.regionSelected);
-      }
-      showCSVDataInTable(names);
+      // if (globals.regionSelected !== 'All regions') {
+      //   names = remove(names, globals.regionSelected);
+      // }
+     // showCSVDataInTable(names);
     }
 
     function csvOnError(error) {
@@ -588,7 +609,28 @@ require([
     }
 
     //main function for single attribute rendering: color codes polygons, display legend, etc
+    // function setRendererSingle() {
+    //   //show summary info
+    //   console.log('setRendererSingle-old');
+    //   var html = getSummaryInfo();
+    //   var html1 = getSummaryInfoOnMap();
+    //   if (/Android|webOS|iPad|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    //     html = html.replace("number", "#");
+    //     html1 = html1.replace("number", "#");
+    //   }
+
+    //   dojo.byId("summaryInfo").innerHTML = html;
+    //   dojo.byId("summaryInfoGraph").innerHTML = html;
+    //   dojo.byId("summaryInfoOnMap").innerHTML = html1;
+    //   dojo.connect(dojo.byId("renderField"), "onclick", changeRenderField);
+    //   dojo.connect(dojo.byId("renderMobileField"), "onclick", changeRenderField);
+    //   renderLegend();
+    // }
+
     function setRendererSingle() {
+      console.log('setRendererSingle');
+      // var html1 = getSummaryInfoOnMap();
+      // dojo.byId("summaryInfoOnMap").innerHTML = html1;
       dojo.connect(dojo.byId("renderField"), "onclick", changeRenderField);
       renderLegend();
     }
@@ -597,6 +639,7 @@ require([
     function renderLegend() {
       //clear out the current legend
       clearDIV("legend");
+      console.log('globals-renderLegend',globals);
 
       //reference the legend div
       var legendDiv = document.getElementById("legend");
@@ -609,7 +652,7 @@ require([
       var numClasses = 5;
       //different colors for different attribute
       var colors = [];
-      if (globals.csvDataHeader[globals.renderFieldIndex] == 'Confirmed') {
+      if (globals.csvDataHeader[globals.renderFieldIndex] == 'bedsAvail') {
         //for confirmed, suspected
         numClasses = 6;
         //OrRd
@@ -621,7 +664,7 @@ require([
         colors.push(new Color([179, 0, 0]));
         var breakMins = [1, 10, 100, 500, 1000, 10000];
         var breakMaxs = [9, 99, 499, 999, 9999, 299999];
-      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Deaths') {
+      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'ventsAvail') {
         //for deaths
         //PuBu
         colors.push(new Color([241, 238, 246]));
@@ -631,7 +674,7 @@ require([
         colors.push(new Color([4, 90, 141]));
         var breakMins = [1, 2, 6, 11, 21];
         var breakMaxs = [1, 5, 10, 20, 9999];
-      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Recovered') {
+      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'staffNeeded') {
         //for recovered
         //YlGn
         colors.push(new Color([255, 255, 204]));
@@ -841,14 +884,16 @@ require([
     //used for rendering function to join polygon and the data in csvData
     //this function relies on 3 global variables: renderFieldIndex, csvDataRanges[renderFieldIndex][0], csvDataRanges[renderFieldIndex][1]
     globals.joinFunction = function (value) {
+      console.log('value-new',value);
       for (var i = 0; i < globals.csvData.length; i++) {
-        if (globals.dataLevel == "County")
-          var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.NAME : value;
-        if (globals.dataLevel == "State")
-          var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.NAME : value;
+        // if (globals.dataLevel == "County")
+        //   var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
+        // if (globals.dataLevel == "State")
+        //   var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
+        var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
         var returnValue;
 
-        var csvFipsValue = globals.csvData[i][0];
+        var csvFipsValue = globals.csvData[i][1];
         if (fipsValue == csvFipsValue) {
           var csvDataValue = globals.csvData[i][globals.renderFieldIndex];
           //check to see whether the value is in display range
@@ -866,11 +911,36 @@ require([
     // determine whether or the "value" argument is a graphic or number
     globals.joinFunctionInfoWindow = function (value) {
       var featureID = null;
+      // for (var i = 0; i < globals.csvData.length; i++) {
+      //   if (globals.dataLevel == "State")
+      //     var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.NAME : value;
+      //   var returnValue = '';
+      //   var csvFipsValue = globals.csvData[i][0];
+      //   if (fipsValue == csvFipsValue) {
+      //     featureID = fipsValue;
+      //     break;
+      //   }
+      // }
+      // //now use all fields to set info window
+      // for (var i = 0; i < globals.csvData.length; i++) {
+      //   if (globals.csvData[i][0] == featureID) {
+      //     //hard coded for now, DX 02/03/2020
+      //     returnValue += "<b>Place Name:</b> " + globals.csvData[i][0];
+      //     returnValue += "<br><b>Region:</b> " + globals.csvData[i][1];
+      //     // HARD CODED added 03/22 DX
+      //     for (var j = 3; j < 6; j++)
+      //       returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
+      //     returnValue += "<br><b>Last Update:</b> " + globals.csvData[i][2];
+      //     break;
+      //   }
+      // }
+console.log('value--',value);
+
       for (var i = 0; i < globals.csvData.length; i++) {
         if (globals.dataLevel == "State")
-          var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.NAME : value;
+          var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
         var returnValue = '';
-        var csvFipsValue = globals.csvData[i][0];
+        var csvFipsValue = globals.csvData[i][1];
         if (fipsValue == csvFipsValue) {
           featureID = fipsValue;
           break;
@@ -878,10 +948,10 @@ require([
       }
       //now use all fields to set info window
       for (var i = 0; i < globals.csvData.length; i++) {
-        if (globals.csvData[i][0] == featureID) {
+        if (globals.csvData[i][1] == featureID) {
           //hard coded for now, DX 02/03/2020
-          returnValue += "<b>Place Name:</b> " + globals.csvData[i][0];
-          returnValue += "<br><b>Region:</b> " + globals.csvData[i][1];
+          returnValue += "<b>Place Name:</b> " + globals.csvData[i][1];
+        //  returnValue += "<br><b>bedsAvail:</b> " + globals.csvData[i][3];
           // HARD CODED added 03/22 DX
           for (var j = 3; j < 6; j++)
             returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
@@ -889,6 +959,7 @@ require([
           break;
         }
       }
+
       return returnValue;
     }
 
@@ -1211,7 +1282,12 @@ require([
       });
     }
 
-
+    // function getSummaryInfoOnMap() {
+    //   var html = "<div class='summaryInfoHeader'><i>Cumulative number from <b><span class='numCountry'>" + globals.numberCountryForSelectedDate + "</span></b> countries. </i>";
+	  //   html += "<i>Last Update : " + globals.csvDataStats[2][1].split('*')[0].trim() + " (UTC).</i>";
+    //   html += "</div>";
+    //   return html;
+    // }
     //for a given attribute, return (daily) new cases number
     //globals.dailySummary was set by the summary CSV files with below dateFormat
     //date,totalConfirmed,totalDeaths,totalRecovered,newConfirmed,newDeaths,newRecovered
