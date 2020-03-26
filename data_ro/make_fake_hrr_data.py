@@ -47,7 +47,7 @@ print("Closed fin file")
 
 # Open nssac_ncov_ro_summary.csv
 full_summary_file = open("nssac_ncov_ro-summary.csv", "w")
-full_summary_file.write("date,totalBedsAvail,totalVentsAvail,totalStaffAvail,totalBedsNeeded,totalVentsNeeded,totalStaffNeeded,totalCases\n")
+full_summary_file.write("date,Total Beds Avail,Total Vent. Avail,Total Staff Avail,Total Beds Needed,Total Vents Needed,Total Staff Needed,Total Cases\n")
 
 print("Creating and initializing HHR files")
 # Loop through the HRRs and create their region_summary files
@@ -57,19 +57,19 @@ region_file.write("All Regions\n")
 for hrr in hrr_list:
     region_file.write(f"{hrr['hrrcity']}\n")
     hrr_file = open("regions/nssac_ncov_ro_summary_hrr_" + str(hrr["hrrnum"]) + ".csv", "w")
-    hrr_file.write("date,totalBedsAvail,totalVentsAvail,totalStaffAvail,totalBedsNeeded,totalVentsNeeded,totalStaffNeeded,totalCases\n")
+    hrr_file.write("date,Total Beds Avail,Total Vent. Avail,Total Staff Avail,Total Beds Needed,Total Vent. Needed,Total Staff Needed,Total Cases\n")
     hrr_file.close()
 region_file.close()
 
 # Loop through the dates and hrr_list to generate files for each hrr, then 
-start_date = date(2020, 4, 1)
-end_date = date(2020, 4, 30)
+start_date = date(2020, 3, 26)
+end_date = date(2020, 5, 7)
 seed = 5
 print("Looping through dates")
 for single_date in daterange(start_date, end_date):
     temp_date = single_date.strftime("%m-%d-%Y")
     dateFile = open("nssac_ncov_ro_" + temp_date + ".csv", "w")
-    dateFile.write("HRRNum,HRRCity,lastUpdate,bedsAvail,ventsAvail,staffAvail,bedsNeeded,ventsNeeded,staffNeeded,cases\n")
+    dateFile.write("HRRNum,HRR City,Last Update,Beds Avail,Vent. Avail,Staff Avail,Beds Needed,Vents Needed,Staff Needed,Cases\n")
 
     totalBedsAvail = 0
     totalVentsAvail = 0
