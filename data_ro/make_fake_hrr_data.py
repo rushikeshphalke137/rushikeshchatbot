@@ -23,7 +23,6 @@ print("Reading HRR File")
 
 for line in fin:
     count += 1
-    print(count)
     modulo = count % 5
     if modulo == 0:  
         object_id = int(line.strip())
@@ -52,10 +51,15 @@ full_summary_file.write("date,totalBedsAvail,totalVentsAvail,totalStaffAvail,tot
 
 print("Creating and initializing HHR files")
 # Loop through the HRRs and create their region_summary files
+region_file=open("nssac_ncov_ro_region_list.csv", "w")
+region_file.write("All Regions\n")
+
 for hrr in hrr_list:
+    region_file.write(f"{hrr['hrrcity']}\n")
     hrr_file = open("regions/nssac_ncov_ro_summary_hrr_" + str(hrr["hrrnum"]) + ".csv", "w")
     hrr_file.write("date,totalBedsAvail,totalVentsAvail,totalStaffAvail,totalBedsNeeded,totalVentsNeeded,totalStaffNeeded,totalCases\n")
     hrr_file.close()
+region_file.close()
 
 # Loop through the dates and hrr_list to generate files for each hrr, then 
 start_date = date(2020, 4, 1)
