@@ -356,15 +356,10 @@ require([
         onComplete: function (items) {
           //     console.log('items-', items);
           csvDataReady(csvStore, items);
-          //before we display anything, decide what's data level based on first attribute name
-          // if (globals.csvDataHeader[1].toLowerCase() == "HRRCity") {
+
           globals.dataLevel = "State";
           globals.map.getLayer("state_layer").show();
-          // }
-          // if (globals.csvDataHeader[0].toLowerCase() == "county_fips") {
-          //    globals.dataLevel = "State";
-          //    globals.map.getLayer("state_layer").hide();
-          //  }
+
           if (globals.dataLevels.indexOf(globals.dataLevel) !== -1) {
             console.log('globals.dataLevels');
             setRendererSingle();
@@ -539,7 +534,7 @@ require([
         colors.push(new Color([252, 141, 89]));
         colors.push(new Color([253, 187, 132]));
         colors.push(new Color([253, 212, 158]));
-        colors.push(new Color([254, 240, 217]));        
+        colors.push(new Color([254, 240, 217]));
         var breakMins = [1, 6, 16, 51, 100, 200];
         var breakMaxs = [5, 15, 50, 99, 199, 29999];
       } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Vent. Avail') {
@@ -720,12 +715,13 @@ require([
       var http = new XMLHttpRequest();
       http.open('HEAD', globals.renderFile, false);
       http.send();
-      if (http.status != 404) {
-        renderByFile();
-      } else {
+      if (http.status === 404) {
         if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && $('#dataView').hasClass('disabled')) {
           alert("Data for " + selectedDate + " is not available yet.");
         }
+      } else {
+        renderByFile();
+        updateSummaryInfo(selectedDate);
       }
 
     }
@@ -1292,4 +1288,75 @@ function resetMapToDefault() {
   dojo.byId("infoGraph").innerHTML = "";
   dojo.byId("queryByName").value = "";
   globals.map.setExtent(globals.defaultExtents.default);
+}
+
+function updateSummaryInfo(selectedDate) {
+
+  var filteredData = globals.dailySummary.filter(function (data) {
+    if (data[0] === selectedDate) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  if (filteredData.length === 0) {
+    console.log('No summary data available for ' + selectedDate);
+    return;
+  }
+  filteredData = filteredData[0];
+
+  $('[data-toggle="tooltip"]').tooltip('dispose');
+
+  // Calculate Beds statistics
+  var total = Number(filteredData[1]);
+  var needed = Number(filteredData[4]);
+  var available = total - needed;
+  var availablePercentage = Number((available / total) * 100);
+
+  var tooltip = "Beds Available : <b>" + available.toLocaleString() + "</b><br>";
+  tooltip = tooltip + "Beds Needed : <b>" + needed.toLocaleString() + "</b><br>";
+  tooltip = tooltip + "Total Beds : <b>" + total.toLocaleString() + "</b><br>";
+  tooltip = tooltip + "Percentage Available : <b>" + availablePercentage.toFixed(2) + " %</b>";
+
+  if (availablePercentage > 75) {
+    $('.beds-progress-bar').addClass('bg-success');
+  } else if (availablePercentage > 50 && availablePercentage < 75) {
+    $('.beds-progress-bar').addClass('bg-warning');
+  } else {
+    $('.beds-progress-bar').addClass('bg-danger');
+  }
+
+  $('.bedsUsedCount').html(available.toLocaleString());
+  $(".beds-progress-bar").attr('aria-valuenow', availablePercentage.toFixed(2));
+  $(".beds-progress-bar").width(availablePercentage.toFixed(2) + "%");
+  $(".beds-tooltip").attr('title', tooltip);
+
+  // Calculate Ventilator statistics
+  total = Number(filteredData[2]);
+  needed = Number(filteredData[5]);
+  available = total - needed;
+  availablePercentage = Number((available / total) * 100);
+
+  tooltip = "Ventilators Available : <b>" + available.toLocaleString() + "</b><br>";
+  tooltip = tooltip + "Ventilators Needed : <b>" + needed.toLocaleString() + "</b><br>";
+  tooltip = tooltip + "Total Ventilators : <b>" + total.toLocaleString() + "</b><br>";
+  tooltip = tooltip + "Percentage Available : <b>" + availablePercentage.toFixed(2) + " %</b>";
+
+  if (availablePercentage > 75) {
+    $('.ventilator-progress-bar').addClass('bg-success');
+  } else if (availablePercentage > 50 && availablePercentage < 75) {
+    $('.ventilator-progress-bar').addClass('bg-warning');
+  } else {
+    $('.ventilator-progress-bar').addClass('bg-danger');
+  }
+
+  $(".ventUsedCount").html(available.toLocaleString());
+  $(".ventilator-progress-bar").attr('aria-valuenow', availablePercentage.toFixed(2));
+  $(".ventilator-progress-bar").width(availablePercentage.toFixed(2) + "%");
+  $(".ventilator-tooltip").attr('title', tooltip);
+
+  $('.totalCases').html(Number(filteredData[7]).toLocaleString());
+
+  $('[data-toggle="tooltip"]').tooltip();
 }
