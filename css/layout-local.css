@@ -817,7 +817,9 @@ table.dataTable tbody th, table.dataTable tbody td {
 table.dataTable div.dataTables_scrollHeadInner thead {
   height: 10em;
 }
-
+div#dataTable div.dataTables_scroll {
+  max-height: 240px;
+}
 /* gradient for CSV button across browsers */
 /* Button gradient for all browsers. */
 button.dt-button, div.dt-button, a.dt-button {

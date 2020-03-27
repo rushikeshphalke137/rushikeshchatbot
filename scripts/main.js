@@ -1099,7 +1099,7 @@ require([
       tableHTML = "<table id=\"example\" class=\"display\" cellspacing=\"0\" width=\"100%\">\n<thead><tr>";
       // change caption in the table. hard coded, DX 02/04/2020
      // tableHTML += "<th>HRR City</th><th>Region</th>";
-      for (var i = 0; i < globals.csvDataHeader.length; i++)
+      for (var i = 1; i < globals.csvDataHeader.length; i++)
         tableHTML += "<th>" + globals.csvDataHeader[i] + "</th>";
   //    tableHTML += "<th>Last Update</th>";
 
@@ -1115,7 +1115,7 @@ require([
           //customized order: move 3rd column to the end
        //   tableHTML += "<td>" + name + "</td>";
        //   tableHTML += "<td>" + globals.csvData[i][1] + "</td>";
-          for (var j = 0; j < globals.csvDataHeader.length; j++) {
+          for (var j = 1; j < globals.csvDataHeader.length; j++) {
             tableHTML += "<td>" + globals.csvData[i][j].toLocaleString() + "</td>";
           }
         //  tableHTML += "<td>" + globals.csvData[i][2] + "</td>";
