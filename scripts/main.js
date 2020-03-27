@@ -67,7 +67,7 @@ globals.dailySummaryFile = "data_ro/nssac_ncov_ro-summary.csv";
 globals.dailySummary = [];
 
 //globals.regionFile = "data/nssac-ncov-sd-region_list.csv";
-globals.regionFile = "data_ro/nssac_ncov_ro_region_list.csv";
+globals.regionFile = "data_ro/nssac_ncov_ro_03-26-2020.csv";
 globals.regionNames = [];
 
 //globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
@@ -98,35 +98,35 @@ globals.chartDataFile = [];
 globals.globalDataSummary = [];
 
 require([
-  "esri/Color",
-  "esri/geometry/Extent",
-  "esri/graphic",
-  "esri/dijit/Legend",
-  "esri/InfoTemplate",
-  "esri/layers/FeatureLayer",
-  "esri/layers/GraphicsLayer",
-  "esri/map",
-  "esri/renderers/ClassBreaksRenderer",
-  "esri/symbols/SimpleFillSymbol",
-  "esri/symbols/SimpleLineSymbol",
-  "esri/renderers/SimpleRenderer",
-  "esri/TimeExtent",
-  "esri/dijit/TimeSlider",
-  "esri/tasks/query",
-  "esri/tasks/QueryTask",
-  "esri/toolbars/draw",
-  "esri/urlUtils",
-  "dojo/on",
-  "dojo/parser",
-  "dojo/_base/array",
-  "dojo/_base/lang",
-  "dijit/registry",
-  "dijit/Tooltip",
-  "dojox/data/CsvStore",
-  "dijit/layout/BorderContainer",
-  "dijit/layout/ContentPane",
-  "dojo/domReady!"
-],
+    "esri/Color",
+    "esri/geometry/Extent",
+    "esri/graphic",
+    "esri/dijit/Legend",
+    "esri/InfoTemplate",
+    "esri/layers/FeatureLayer",
+    "esri/layers/GraphicsLayer",
+    "esri/map",
+    "esri/renderers/ClassBreaksRenderer",
+    "esri/symbols/SimpleFillSymbol",
+    "esri/symbols/SimpleLineSymbol",
+    "esri/renderers/SimpleRenderer",
+    "esri/TimeExtent",
+    "esri/dijit/TimeSlider",
+    "esri/tasks/query",
+    "esri/tasks/QueryTask",
+    "esri/toolbars/draw",
+    "esri/urlUtils",
+    "dojo/on",
+    "dojo/parser",
+    "dojo/_base/array",
+    "dojo/_base/lang",
+    "dijit/registry",
+    "dijit/Tooltip",
+    "dojox/data/CsvStore",
+    "dijit/layout/BorderContainer",
+    "dijit/layout/ContentPane",
+    "dojo/domReady!"
+  ],
   function (
     Color, Extent, Graphic, Legend, InfoTemplate,
     FeatureLayer, GraphicsLayer, Map, ClassBreaksRenderer,
@@ -144,7 +144,7 @@ require([
     globals.displayLevel = 'State';
 
     globals.defaultExtents.default = new Extent({
-      "xmin":  -124.730045456146,
+      "xmin": -124.730045456146,
       "xmax": -66.9505093527641,
       "ymin": 24.5439397696533,
       "ymax": 49.3839397693269,
@@ -152,64 +152,11 @@ require([
         "wkid": 4326
       }
     });
-    globals.defaultExtents.AF = new Extent({
-      "xmin": -4696291.017839989,
-      "xmax": 9754587.801638449,
-      "ymin": -3644517.508636239,
-      "ymax": 4378312.9801737275,
-      "spatialReference": {
-        "wkid": 102100
-      }
-    });
-    globals.defaultExtents.AS = new Extent({
-      "xmin": 5117000.421521468,
-      "xmax": 1.9567879240999904E7,
-      "ymin": 934366.2337577409,
-      "ymax": 8957196.722567707,
-      "spatialReference": {
-        "wkid": 102100
-      }
-    });
-    globals.defaultExtents.EU = new Extent({
-      "xmin": -3059233,
-      "xmax": 7066205,
-      "ymin": 5006523,
-      "ymax": 10017938,
-      "spatialReference": {
-        "wkid": 102100
-      }
-    });
-    globals.defaultExtents.NA = new Extent({
-      "xmin": -1.792417738475593E7,
-      "xmax": -3473298.5652774936,
-      "ymin": 973501.9922397411,
-      "ymax": 8996332.481049707,
-      "spatialReference": {
-        "wkid": 102100
-      }
-    });
-    globals.defaultExtents.OC = new Extent({
-      "xmin": 8296780.798183954,
-      "xmax": 2.0037508342788905E7,
-      "ymin": -6472076.058960726,
-      "ymax": 1550754.42984924,
-      "spatialReference": {
-        "wkid": 102100
-      }
-    });
-    globals.defaultExtents.SA = new Extent({
-      "xmin": -1.2699553627408953E7,
-      "xmax": 1751325.1920694842,
-      "ymin": -6540563.636304227,
-      "ymax": 1482266.8525057398,
-      "spatialReference": {
-        "wkid": 102100
-      }
-    });
 
     globals.map = new Map("mapCanvas", {
       basemap: "gray",
-      extent: globals.defaultExtents.default
+      extent: globals.defaultExtents.default,
+      zoom: 4
     });
 
     globals.map.infoWindow.resize(280, 210);
@@ -260,14 +207,14 @@ require([
       //   resetMapToDefault();
       //   $('.resetDefault').click();
       // } else {
-        queryByRegionName();
-        filteredRegion(globals.regionSelected);
-        //globals.regionSummaryFile = "./data/regions/nssac-ncov-sd-summary-" + globals.regionSelected.toLowerCase() + ".csv";
-        globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
-        getDataFromCSVFile(globals.regionSummaryFile);
-        $('.logarithmicDiv').css("visibility", "hidden");
-        toggleChart();
-     // }
+      queryByRegionName();
+      filteredRegion(globals.regionSelected);
+      //globals.regionSummaryFile = "./data/regions/nssac-ncov-sd-summary-" + globals.regionSelected.toLowerCase() + ".csv";
+      globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
+      getDataFromCSVFile(globals.regionSummaryFile);
+      $('.logarithmicDiv').css("visibility", "hidden");
+      toggleChart();
+      // }
       setRendererSingle();
     });
 
@@ -282,8 +229,8 @@ require([
       } else {
         queryByRegionName();
         filteredRegion(globals.regionSelected);
-      //  globals.regionSummaryFile = "./data/regions/nssac-ncov-sd-summary-" + globals.regionSelected.toLowerCase() + ".csv";
-      globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
+        //  globals.regionSummaryFile = "./data/regions/nssac-ncov-sd-summary-" + globals.regionSelected.toLowerCase() + ".csv";
+        globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
         getDataFromCSVFile(globals.regionSummaryFile);
         toggleChart();
       }
@@ -317,8 +264,8 @@ require([
     }
 
     //Setup Date Picker
-    min = new Date('2020-01-23');
-    max = new Date();
+    min = new Date();
+    max = new Date('2020-04-20');
 
     $('[data-toggle=datepicker1]').each(function () {
       var target = $(this).data('target-name');
@@ -385,7 +332,7 @@ require([
     $(".datepicker2").datepicker("setDate", defaultDate);
     globals.selectedDate = defaultDate;
     //globals.renderFile = "data/nssac-ncov-sd-" + defaultDate + ".csv"
-    globals.renderFile  = "data_ro/nssac_ncov_ro_04-01-2020.csv" 
+    globals.renderFile = "data_ro/nssac_ncov_ro_04-01-2020.csv"
     initialSetup();
     getCSVDataAndRendering();
 
@@ -402,7 +349,7 @@ require([
         "Place : ${HRRCITY}",
         "${HRRCITY:globals.joinFunctionInfoWindow}"
       );
-console.log('globals-',globals)
+      console.log('globals-', globals)
       // var layer = new FeatureLayer(globals.mapServiceUrls.HRR, {
       //   id: "state_layer",
       //   mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
@@ -413,8 +360,9 @@ console.log('globals-',globals)
         id: "state_layer",
         mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
         infoTemplate: infoTemplate,
-        outFields: ["HRRCITY", "DHS_Beds"]
+        outFields: ["HRRNUM", "HRRCITY", "DHS_Beds", "Total_Pop"]
       });
+
       var symbol = new SimpleFillSymbol(
         SimpleFillSymbol.STYLE_SOLID,
         new SimpleLineSymbol(
@@ -450,20 +398,20 @@ console.log('globals-',globals)
       var csvStore = new CsvStore({
         url: fileURL
       });
-console.log('csvStore',csvStore,'globals',globals);
+      console.log('csvStore', csvStore, 'globals', globals);
       csvStore.fetch({
         onComplete: function (items) {
-          console.log('items-',items);
+          console.log('items-', items);
           csvDataReady(csvStore, items);
           //before we display anything, decide what's data level based on first attribute name
           // if (globals.csvDataHeader[1].toLowerCase() == "HRRCity") {
-             globals.dataLevel = "State";
-             globals.map.getLayer("state_layer").show();
+          globals.dataLevel = "State";
+          globals.map.getLayer("state_layer").show();
           // }
           // if (globals.csvDataHeader[0].toLowerCase() == "county_fips") {
-        //    globals.dataLevel = "State";
-        //    globals.map.getLayer("state_layer").hide();
-        //  }
+          //    globals.dataLevel = "State";
+          //    globals.map.getLayer("state_layer").hide();
+          //  }
           if (globals.dataLevels.indexOf(globals.dataLevel) !== -1) {
             console.log('globals.dataLevels');
             setRendererSingle();
@@ -476,7 +424,7 @@ console.log('csvStore',csvStore,'globals',globals);
     //process data in csvStore and store them in a global variable called csvData
     function csvDataReady(csvStore, items) {
       //reset all global variables related to CSV data
-      console.log('items-new',items,'csvStore-new',csvStore);
+      console.log('items-new', items, 'csvStore-new', csvStore);
       globals.csvData = [];
       globals.csvDataHeader = [];
       globals.csvDataStats = [];
@@ -487,24 +435,24 @@ console.log('csvStore',csvStore,'globals',globals);
         var currentItemAttributes = csvStore.getAttributes(items[i]);
         if (csvHeader == null) {
           csvHeader = currentItemAttributes;
-        //  csvHeader.push("Active");
+          //  csvHeader.push("Active");
         }
-        console.log('csvHeader-new',csvHeader);
+        console.log('csvHeader-new', csvHeader);
         var itemData = [];
         for (var j = 0; j < csvHeader.length; j++) {
           if (j > 2) {
-            if(parseFloat(csvStore.getValue(items[i], csvHeader[j]))) {
+            if (parseFloat(csvStore.getValue(items[i], csvHeader[j]))) {
               itemData.push(parseFloat(csvStore.getValue(items[i], csvHeader[j])));
             } else {
               itemData.push(parseFloat(0, csvHeader[j]));
             }
-            
+
           } else {
             itemData.push(csvStore.getValue(items[i], csvHeader[j])); //alway parse the first column as string
           }
         }
-      //  itemData[10] = itemData[3] - itemData[4] - itemData[5];
-        console.log('itemData-new',itemData);
+        //  itemData[10] = itemData[3] - itemData[4] - itemData[5];
+        console.log('itemData-new', itemData);
         globals.csvData.push(itemData);
       }
 
@@ -527,7 +475,7 @@ console.log('csvStore',csvStore,'globals',globals);
       // if (globals.regionSelected !== 'All regions') {
       //   names = remove(names, globals.regionSelected);
       // }
-     // showCSVDataInTable(names);
+      // showCSVDataInTable(names);
     }
 
     function csvOnError(error) {
@@ -639,7 +587,7 @@ console.log('csvStore',csvStore,'globals',globals);
     function renderLegend() {
       //clear out the current legend
       clearDIV("legend");
-      console.log('globals-renderLegend',globals);
+      console.log('globals-renderLegend', globals);
 
       //reference the legend div
       var legendDiv = document.getElementById("legend");
@@ -793,7 +741,7 @@ console.log('csvStore',csvStore,'globals',globals);
             new Color([102, 255, 255]),
             2
           ),
-          new Color([255, 0, 0,])
+          new Color([255, 0, 0, ])
         );
 
         var fips;
@@ -884,7 +832,7 @@ console.log('csvStore',csvStore,'globals',globals);
     //used for rendering function to join polygon and the data in csvData
     //this function relies on 3 global variables: renderFieldIndex, csvDataRanges[renderFieldIndex][0], csvDataRanges[renderFieldIndex][1]
     globals.joinFunction = function (value) {
-      console.log('value-new',value);
+      console.log('value-new', value);
       for (var i = 0; i < globals.csvData.length; i++) {
         // if (globals.dataLevel == "County")
         //   var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
@@ -934,7 +882,7 @@ console.log('csvStore',csvStore,'globals',globals);
       //     break;
       //   }
       // }
-console.log('value--',value);
+      console.log('value--', value);
 
       for (var i = 0; i < globals.csvData.length; i++) {
         if (globals.dataLevel == "State")
@@ -951,7 +899,7 @@ console.log('value--',value);
         if (globals.csvData[i][1] == featureID) {
           //hard coded for now, DX 02/03/2020
           returnValue += "<b>Place Name:</b> " + globals.csvData[i][1];
-        //  returnValue += "<br><b>bedsAvail:</b> " + globals.csvData[i][3];
+          //  returnValue += "<br><b>bedsAvail:</b> " + globals.csvData[i][3];
           // HARD CODED added 03/22 DX
           for (var j = 3; j < 6; j++)
             returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
@@ -977,7 +925,9 @@ console.log('value--',value);
     }
 
     function remove(array, element) {
-      return array.filter(function (item) { return item == element; });
+      return array.filter(function (item) {
+        return item == element;
+      });
     }
 
     //for a list of name, separated by comma,
@@ -1027,7 +977,7 @@ console.log('value--',value);
                 new Color([102, 255, 255]),
                 2
               ),
-              new Color([255, 0, 0,])
+              new Color([255, 0, 0, ])
             );
             var names = [];
             queryTask.execute(query, function (fset) {
@@ -1214,21 +1164,17 @@ console.log('value--',value);
             "sPrevious": '<i title="Previous" class="fa fa-chevron-left" ></i>'
           }
         },
-        buttons: [
-          {
-            extend: 'csvHtml5',
-            text: downloadOptions,
-            titleAttr: 'CSV'
-          }
-        ],
-        columnDefs: [
-          {
-            render: function (data, type, full, meta) {
-              return "<div class='text-wrap width-600'>" + data + "</div>";
-            },
-            targets: 5
-          }
-        ]
+        buttons: [{
+          extend: 'csvHtml5',
+          text: downloadOptions,
+          titleAttr: 'CSV'
+        }],
+        columnDefs: [{
+          render: function (data, type, full, meta) {
+            return "<div class='text-wrap width-600'>" + data + "</div>";
+          },
+          targets: 5
+        }]
       });
     }
 
@@ -1264,7 +1210,7 @@ console.log('value--',value);
           //bindChart();
         },
         dataType: "text",
-        complete: function () { }
+        complete: function () {}
       });
     }
 
@@ -1278,13 +1224,13 @@ console.log('value--',value);
           globals.globalChartDataSummary = JSON.parse(jsonobject);
         },
         dataType: "text",
-        complete: function () { }
+        complete: function () {}
       });
     }
 
     // function getSummaryInfoOnMap() {
     //   var html = "<div class='summaryInfoHeader'><i>Cumulative number from <b><span class='numCountry'>" + globals.numberCountryForSelectedDate + "</span></b> countries. </i>";
-	  //   html += "<i>Last Update : " + globals.csvDataStats[2][1].split('*')[0].trim() + " (UTC).</i>";
+    //   html += "<i>Last Update : " + globals.csvDataStats[2][1].split('*')[0].trim() + " (UTC).</i>";
     //   html += "</div>";
     //   return html;
     // }
@@ -1302,7 +1248,7 @@ console.log('value--',value);
             case 'Recovered':
               return globals.dailySummary[i][6];
             default:
-            // code block
+              // code block
           } //end of switch
         } //end of if
       } //end of for
@@ -1348,16 +1294,14 @@ function bindChart() {
       $('.dataContainer').show();
       if ($($.fn.dataTable.tables(true)))
         $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-    }
-    else if (event.target.value == 'charts') {
+    } else if (event.target.value == 'charts') {
       $('.mapContainer').hide();
       $('.graphContainer').show();
 
       cumulative_data();
       $('.logarithmicDiv').css("visibility", "visible");
       $('.dataContainer').hide();
-    }
-    else {
+    } else {
       $('.dataContainer').hide();
       $('.mapContainer').show();
       $('.graphContainer').hide();
@@ -1372,8 +1316,7 @@ function bindChart() {
       $('.dataContainer').show();
       if ($($.fn.dataTable.tables(true)))
         $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-    }
-    else {
+    } else {
       $('.dataContainer').hide();
       $('.graphContainer').show();
 
