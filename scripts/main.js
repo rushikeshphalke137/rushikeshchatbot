@@ -398,10 +398,10 @@ require([
       var csvStore = new CsvStore({
         url: fileURL
       });
-      console.log('csvStore', csvStore, 'globals', globals);
+    //  console.log('csvStore', csvStore, 'globals', globals);
       csvStore.fetch({
         onComplete: function (items) {
-          console.log('items-', items);
+     //     console.log('items-', items);
           csvDataReady(csvStore, items);
           //before we display anything, decide what's data level based on first attribute name
           // if (globals.csvDataHeader[1].toLowerCase() == "HRRCity") {
@@ -424,7 +424,7 @@ require([
     //process data in csvStore and store them in a global variable called csvData
     function csvDataReady(csvStore, items) {
       //reset all global variables related to CSV data
-      console.log('items-new', items, 'csvStore-new', csvStore);
+   //   console.log('items-new', items, 'csvStore-new', csvStore);
       globals.csvData = [];
       globals.csvDataHeader = [];
       globals.csvDataStats = [];
@@ -437,7 +437,7 @@ require([
           csvHeader = currentItemAttributes;
           //  csvHeader.push("Active");
         }
-        console.log('csvHeader-new', csvHeader);
+       // console.log('csvHeader-new', csvHeader);
         var itemData = [];
         for (var j = 0; j < csvHeader.length; j++) {
           if (j > 2) {
@@ -452,7 +452,7 @@ require([
           }
         }
         //  itemData[10] = itemData[3] - itemData[4] - itemData[5];
-        console.log('itemData-new', itemData);
+     //   console.log('itemData-new', itemData);
         globals.csvData.push(itemData);
       }
 
@@ -466,16 +466,16 @@ require([
       if (!globals.renderFieldIndex)
         globals.renderFieldIndex = 9;
 
-      //show csv data in data table
-      // var names = [];
-      // for (var i = 0; i < globals.csvData.length; i++) {
-      //   names.push(globals.csvData[i][0]);
-      // }
+    //  show csv data in data table
+      var names = [];
+      for (var i = 0; i < globals.csvData.length; i++) {
+        names.push(globals.csvData[i][1]);
+      }
 
       // if (globals.regionSelected !== 'All regions') {
       //   names = remove(names, globals.regionSelected);
       // }
-      // showCSVDataInTable(names);
+      showCSVDataInTable(names);
     }
 
     function csvOnError(error) {
@@ -832,7 +832,7 @@ require([
     //used for rendering function to join polygon and the data in csvData
     //this function relies on 3 global variables: renderFieldIndex, csvDataRanges[renderFieldIndex][0], csvDataRanges[renderFieldIndex][1]
     globals.joinFunction = function (value) {
-      console.log('value-new', value);
+    //  console.log('value-new', value);
       for (var i = 0; i < globals.csvData.length; i++) {
         // if (globals.dataLevel == "County")
         //   var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
@@ -1091,46 +1091,50 @@ require([
     //hard coded: move the 3rd column, i.e., Last Update, to the end DX 02/07/2020
     //@param names an array that stores a list of place name
     function showCSVDataInTable(names) {
+      console.log('tableHTML-new-names',names);
       globals.map.infoWindow.hide();
       var tableHTML = null;
       var lengthMenuOptions = null;
       var downloadOptions = "";
       tableHTML = "<table id=\"example\" class=\"display\" cellspacing=\"0\" width=\"100%\">\n<thead><tr>";
       // change caption in the table. hard coded, DX 02/04/2020
-      tableHTML += "<th>Place</th><th>Region</th>";
-      for (var i = 3; i < globals.csvDataHeader.length; i++)
+     // tableHTML += "<th>HRR City</th><th>Region</th>";
+      for (var i = 0; i < globals.csvDataHeader.length; i++)
         tableHTML += "<th>" + globals.csvDataHeader[i] + "</th>";
-      tableHTML += "<th>Last Update</th>";
+  //    tableHTML += "<th>Last Update</th>";
 
       tableHTML += "</tr></thead><tbody>";
       var showUSAFlag = false;
       var showMainlandChinaFlag = false;
       for (var i = 0; i < globals.csvData.length; i++) {
-        var name = globals.csvData[i][0];
-        if (names.indexOf(name) == -1)
-          continue;
-        else {
+        var name = globals.csvData[i][1];
+        // if (names.indexOf('HRR City') == -1)
+        //   continue;
+        // else {
           tableHTML += "<tr>";
           //customized order: move 3rd column to the end
-          tableHTML += "<td>" + name + "</td>";
-          tableHTML += "<td>" + globals.csvData[i][1] + "</td>";
-          for (var j = 3; j < globals.csvDataHeader.length; j++) {
+       //   tableHTML += "<td>" + name + "</td>";
+       //   tableHTML += "<td>" + globals.csvData[i][1] + "</td>";
+          for (var j = 0; j < globals.csvDataHeader.length; j++) {
             tableHTML += "<td>" + globals.csvData[i][j].toLocaleString() + "</td>";
           }
-          tableHTML += "<td>" + globals.csvData[i][2] + "</td>";
+        //  tableHTML += "<td>" + globals.csvData[i][2] + "</td>";
           tableHTML += "</tr>\n";
-          if (globals.csvData[i][1] == 'USA' || globals.csvData[i][1] == 'United States')
-            showUSAFlag = true;
-          if (globals.csvData[i][1] == 'Mainland China')
-            showMainlandChinaFlag = true;
-        }
+          //showUSAFlag = true;
+          // if (globals.csvData[i][1] == 'USA' || globals.csvData[i][1] == 'United States')
+          //   showUSAFlag = true;
+          // if (globals.csvData[i][1] == 'Mainland China')
+          //   showMainlandChinaFlag = true;
+    //    }
       }
       //add usaRowForSeledtedDate and mainlandChinaRowForSelectedDate
-      if (showMainlandChinaFlag)
-        tableHTML += getHTMLRowFromArray(globals.mainlandChinaRowForSelectedDate);
-      if (showUSAFlag)
-        tableHTML += getHTMLRowFromArray(globals.usaRowForSelectedDate);
+      // if (showMainlandChinaFlag)
+      //   tableHTML += getHTMLRowFromArray(globals.mainlandChinaRowForSelectedDate);
+      // if (showUSAFlag)
+      //   tableHTML += getHTMLRowFromArray(globals.usaRowForSelectedDate);
+      //tableHTML += getHTMLRowFromArray(globals.mainlandChinaRowForSelectedDate);
       tableHTML += "</table>";
+      console.log('tableHTML-new',tableHTML);
       dojo.byId("dataTable").innerHTML = tableHTML;
 
       if (/Android|webOS|iPhone|iPod|ipad|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -1326,16 +1330,16 @@ function bindChart() {
 
   $('#graphView').click();
 
-  $('#chartToggle').on('change', function (e) {
-    $('#chartdiv').html('');
-    if (this.checked) {
-      cumulative_data();
-    } else {
-      $('.logarithmicDiv').css("visibility", "hidden");
-      daily_data();
-    }
-  });
-  $('#chartToggle').change();
+  // $('#chartToggle').on('change', function (e) {
+  //   $('#chartdiv').html('');
+  //   if (this.checked) {
+  //     cumulative_data();
+  //   } else {
+  //     $('.logarithmicDiv').css("visibility", "hidden");
+  //     daily_data();
+  //   }
+  // });
+  // $('#chartToggle').change();
 
 }
 
