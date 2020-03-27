@@ -265,9 +265,9 @@ require([
 
     //Setup Date Picker
     min = new Date();
-    max = new Date('2020-04-20');
+    max = new Date('2020-05-06');
 
-    $('[data-toggle=datepicker1]').each(function () {
+    $('[data-toggle=datepicker]').each(function () {
       var target = $(this).data('target-name');
       var t = $('input[name=' + target + ']');
       t.datepicker({
@@ -276,63 +276,22 @@ require([
         dateFormat: "mm-dd-yy",
         autoclose: true,
         onSelect: function (selected, evnt) {
-          var dateIndex = checkDateIndex(selected);
-          dateIndex = dateIndex == -1 ? 0 : dateIndex;
-          globals.map.timeSlider.setThumbIndexes([dateIndex]);
           $('#legend').show();
           changeDate(selected);
-          if (globals.regionSelected !== 'All regions') {
-            queryByRegionName();
-          }
         }
       });
       $(this).on("click", function () {
         t.datepicker("show");
       });
     });
-
-    $('[data-toggle=datepicker2]').each(function () {
-      var target = $(this).data('target-name');
-      var t = $('input[name=' + target + ']');
-      t.datepicker({
-        minDate: min,
-        maxDate: max,
-        dateFormat: "mm-dd-yy",
-        autoclose: true,
-        onSelect: function (selected, evnt) {
-          var dateIndex = checkDateIndex(selected);
-          dateIndex = dateIndex == -1 ? 0 : dateIndex;
-          globals.map.timeSlider.setThumbIndexes([dateIndex]);
-          $('#legend').show();
-          changeDate(selected);
-          if (globals.regionSelected !== 'All regions') {
-            queryByRegionName();
-          }
-        }
-      });
-      $(this).on("click", function () {
-        t.datepicker("show");
-      });
-    });
-
-
-    function checkDateIndex(value) {
-      var timeStopsMDY = globals.map.timeSlider.timeStops.map(function (item) {
-        return (item.getMonth() + 1).toString().padStart(2, '0') + "-" + item.getDate().toString().padStart(2, '0') + '-' + item.getFullYear();
-      });
-      return timeStopsMDY.findIndex(function (item) {
-        return item == value;
-      });
-    }
 
     //set globals.dailySummary which is to set calendar default date as well
 
     var defaultDate = globals.dailySummary[globals.dailySummary.length - 1][0];
-    $(".datepicker1").datepicker("setDate", defaultDate);
-    $(".datepicker2").datepicker("setDate", defaultDate);
+    $(".datepicker").datepicker("setDate", defaultDate);
     globals.selectedDate = defaultDate;
-    //globals.renderFile = "data/nssac-ncov-sd-" + defaultDate + ".csv"
-    globals.renderFile = "data_ro/nssac_ncov_ro_04-01-2020.csv"
+    console.log(defaultDate)
+    globals.renderFile = "data_ro/nssac_ncov_ro_03-26-2020.csv"
     initialSetup();
     getCSVDataAndRendering();
 
@@ -349,13 +308,7 @@ require([
         "Place : ${HRRCITY}",
         "${HRRCITY:globals.joinFunctionInfoWindow}"
       );
-      console.log('globals-', globals)
-      // var layer = new FeatureLayer(globals.mapServiceUrls.HRR, {
-      //   id: "state_layer",
-      //   mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
-      //   infoTemplate: infoTemplate,
-      //   outFields: ["HRRNUM", "HRRCITY", "DHS_Beds", "Total_Pop"]
-      // });
+
       var layer = new FeatureLayer(globals.mapServiceUrls.HRR, {
         id: "state_layer",
         mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
@@ -398,10 +351,10 @@ require([
       var csvStore = new CsvStore({
         url: fileURL
       });
-    //  console.log('csvStore', csvStore, 'globals', globals);
+      //  console.log('csvStore', csvStore, 'globals', globals);
       csvStore.fetch({
         onComplete: function (items) {
-     //     console.log('items-', items);
+          //     console.log('items-', items);
           csvDataReady(csvStore, items);
           //before we display anything, decide what's data level based on first attribute name
           // if (globals.csvDataHeader[1].toLowerCase() == "HRRCity") {
@@ -424,7 +377,6 @@ require([
     //process data in csvStore and store them in a global variable called csvData
     function csvDataReady(csvStore, items) {
       //reset all global variables related to CSV data
-   //   console.log('items-new', items, 'csvStore-new', csvStore);
       globals.csvData = [];
       globals.csvDataHeader = [];
       globals.csvDataStats = [];
@@ -435,9 +387,9 @@ require([
         var currentItemAttributes = csvStore.getAttributes(items[i]);
         if (csvHeader == null) {
           csvHeader = currentItemAttributes;
-          //  csvHeader.push("Active");
         }
-       // console.log('csvHeader-new', csvHeader);
+
+        // console.log('csvHeader-new', csvHeader);
         var itemData = [];
         for (var j = 0; j < csvHeader.length; j++) {
           if (j > 2) {
@@ -452,7 +404,7 @@ require([
           }
         }
         //  itemData[10] = itemData[3] - itemData[4] - itemData[5];
-     //   console.log('itemData-new', itemData);
+        //   console.log('itemData-new', itemData);
         globals.csvData.push(itemData);
       }
 
@@ -466,15 +418,12 @@ require([
       if (!globals.renderFieldIndex)
         globals.renderFieldIndex = 9;
 
-    //  show csv data in data table
+      //  show csv data in data table
       var names = [];
       for (var i = 0; i < globals.csvData.length; i++) {
         names.push(globals.csvData[i][1]);
       }
 
-      // if (globals.regionSelected !== 'All regions') {
-      //   names = remove(names, globals.regionSelected);
-      // }
       showCSVDataInTable(names);
     }
 
@@ -556,25 +505,6 @@ require([
       }
     }
 
-    //main function for single attribute rendering: color codes polygons, display legend, etc
-    // function setRendererSingle() {
-    //   //show summary info
-    //   console.log('setRendererSingle-old');
-    //   var html = getSummaryInfo();
-    //   var html1 = getSummaryInfoOnMap();
-    //   if (/Android|webOS|iPad|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    //     html = html.replace("number", "#");
-    //     html1 = html1.replace("number", "#");
-    //   }
-
-    //   dojo.byId("summaryInfo").innerHTML = html;
-    //   dojo.byId("summaryInfoGraph").innerHTML = html;
-    //   dojo.byId("summaryInfoOnMap").innerHTML = html1;
-    //   dojo.connect(dojo.byId("renderField"), "onclick", changeRenderField);
-    //   dojo.connect(dojo.byId("renderMobileField"), "onclick", changeRenderField);
-    //   renderLegend();
-    // }
-
     function setRendererSingle() {
       console.log('setRendererSingle');
       // var html1 = getSummaryInfoOnMap();
@@ -604,14 +534,14 @@ require([
         //for confirmed, suspected
         numClasses = 6;
         //OrRd
-        colors.push(new Color([254, 240, 217]));
-        colors.push(new Color([253, 212, 158]));
-        colors.push(new Color([253, 187, 132]));
-        colors.push(new Color([252, 141, 89]));
-        colors.push(new Color([227, 74, 51]));
         colors.push(new Color([179, 0, 0]));
-        var breakMins = [1, 10, 100, 500, 1000, 10000];
-        var breakMaxs = [9, 99, 499, 999, 9999, 299999];
+        colors.push(new Color([227, 74, 51]));
+        colors.push(new Color([252, 141, 89]));
+        colors.push(new Color([253, 187, 132]));
+        colors.push(new Color([253, 212, 158]));
+        colors.push(new Color([254, 240, 217]));        
+        var breakMins = [1, 6, 16, 51, 100, 200];
+        var breakMaxs = [5, 15, 50, 99, 199, 29999];
       } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Vent. Avail') {
         //for deaths
         //PuBu
@@ -785,21 +715,17 @@ require([
 
     function changeDate(selectedDate) {
       globals.selectedDate = selectedDate;
-      globals.renderFile = "data/nssac-ncov-sd-" + selectedDate + ".csv"
+      globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
       //check whether file exists
       var http = new XMLHttpRequest();
       http.open('HEAD', globals.renderFile, false);
       http.send();
       if (http.status != 404) {
         renderByFile();
-        dojo.byId("info").innerHTML = "";
-        dojo.byId("infoGraph").innerHTML = "";
       } else {
         if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && $('#dataView').hasClass('disabled')) {
           alert("Data for " + selectedDate + " is not available yet.");
         }
-        dojo.byId("info").innerHTML = "<span style='padding: 3px;'>Data for " + selectedDate + " is not available yet.</span>";
-        dojo.byId("infoGraph").innerHTML = "<span style='padding: 3px;'>Data for " + selectedDate + " is not available yet.</span>";
       }
 
     }
@@ -832,12 +758,8 @@ require([
     //used for rendering function to join polygon and the data in csvData
     //this function relies on 3 global variables: renderFieldIndex, csvDataRanges[renderFieldIndex][0], csvDataRanges[renderFieldIndex][1]
     globals.joinFunction = function (value) {
-    //  console.log('value-new', value);
+      //  console.log('value-new', value);
       for (var i = 0; i < globals.csvData.length; i++) {
-        // if (globals.dataLevel == "County")
-        //   var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
-        // if (globals.dataLevel == "State")
-        //   var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
         var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
         var returnValue;
 
@@ -859,30 +781,6 @@ require([
     // determine whether or the "value" argument is a graphic or number
     globals.joinFunctionInfoWindow = function (value) {
       var featureID = null;
-      // for (var i = 0; i < globals.csvData.length; i++) {
-      //   if (globals.dataLevel == "State")
-      //     var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.NAME : value;
-      //   var returnValue = '';
-      //   var csvFipsValue = globals.csvData[i][0];
-      //   if (fipsValue == csvFipsValue) {
-      //     featureID = fipsValue;
-      //     break;
-      //   }
-      // }
-      // //now use all fields to set info window
-      // for (var i = 0; i < globals.csvData.length; i++) {
-      //   if (globals.csvData[i][0] == featureID) {
-      //     //hard coded for now, DX 02/03/2020
-      //     returnValue += "<b>Place Name:</b> " + globals.csvData[i][0];
-      //     returnValue += "<br><b>Region:</b> " + globals.csvData[i][1];
-      //     // HARD CODED added 03/22 DX
-      //     for (var j = 3; j < 6; j++)
-      //       returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
-      //     returnValue += "<br><b>Last Update:</b> " + globals.csvData[i][2];
-      //     break;
-      //   }
-      // }
-      console.log('value--', value);
 
       for (var i = 0; i < globals.csvData.length; i++) {
         if (globals.dataLevel == "State")
@@ -921,7 +819,6 @@ require([
     function clearDisplayOptionWrapper() {
       clearDIV("displayOption");
       clearDIV("legend");
-      clearDIV("defaultSliderOption");
     }
 
     function remove(array, element) {
@@ -1091,17 +988,16 @@ require([
     //hard coded: move the 3rd column, i.e., Last Update, to the end DX 02/07/2020
     //@param names an array that stores a list of place name
     function showCSVDataInTable(names) {
-      console.log('tableHTML-new-names',names);
       globals.map.infoWindow.hide();
       var tableHTML = null;
       var lengthMenuOptions = null;
       var downloadOptions = "";
       tableHTML = "<table id=\"example\" class=\"display\" cellspacing=\"0\" width=\"100%\">\n<thead><tr>";
       // change caption in the table. hard coded, DX 02/04/2020
-     // tableHTML += "<th>HRR City</th><th>Region</th>";
+      // tableHTML += "<th>HRR City</th><th>Region</th>";
       for (var i = 1; i < globals.csvDataHeader.length; i++)
         tableHTML += "<th>" + globals.csvDataHeader[i] + "</th>";
-  //    tableHTML += "<th>Last Update</th>";
+      //    tableHTML += "<th>Last Update</th>";
 
       tableHTML += "</tr></thead><tbody>";
       var showUSAFlag = false;
@@ -1111,21 +1007,21 @@ require([
         // if (names.indexOf('HRR City') == -1)
         //   continue;
         // else {
-          tableHTML += "<tr>";
-          //customized order: move 3rd column to the end
-       //   tableHTML += "<td>" + name + "</td>";
-       //   tableHTML += "<td>" + globals.csvData[i][1] + "</td>";
-          for (var j = 1; j < globals.csvDataHeader.length; j++) {
-            tableHTML += "<td>" + globals.csvData[i][j].toLocaleString() + "</td>";
-          }
+        tableHTML += "<tr>";
+        //customized order: move 3rd column to the end
+        //   tableHTML += "<td>" + name + "</td>";
+        //   tableHTML += "<td>" + globals.csvData[i][1] + "</td>";
+        for (var j = 1; j < globals.csvDataHeader.length; j++) {
+          tableHTML += "<td>" + globals.csvData[i][j].toLocaleString() + "</td>";
+        }
         //  tableHTML += "<td>" + globals.csvData[i][2] + "</td>";
-          tableHTML += "</tr>\n";
-          //showUSAFlag = true;
-          // if (globals.csvData[i][1] == 'USA' || globals.csvData[i][1] == 'United States')
-          //   showUSAFlag = true;
-          // if (globals.csvData[i][1] == 'Mainland China')
-          //   showMainlandChinaFlag = true;
-    //    }
+        tableHTML += "</tr>\n";
+        //showUSAFlag = true;
+        // if (globals.csvData[i][1] == 'USA' || globals.csvData[i][1] == 'United States')
+        //   showUSAFlag = true;
+        // if (globals.csvData[i][1] == 'Mainland China')
+        //   showMainlandChinaFlag = true;
+        //    }
       }
       //add usaRowForSeledtedDate and mainlandChinaRowForSelectedDate
       // if (showMainlandChinaFlag)
@@ -1134,7 +1030,6 @@ require([
       //   tableHTML += getHTMLRowFromArray(globals.usaRowForSelectedDate);
       //tableHTML += getHTMLRowFromArray(globals.mainlandChinaRowForSelectedDate);
       tableHTML += "</table>";
-      console.log('tableHTML-new',tableHTML);
       dojo.byId("dataTable").innerHTML = tableHTML;
 
       if (/Android|webOS|iPhone|iPod|ipad|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
