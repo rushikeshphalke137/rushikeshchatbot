@@ -598,11 +598,6 @@ p.tooltip-txt, li.tooltip-txt {
   font-size: 10px;
 }
 
-/* EDITS to MAP CANVAS */
-#mapCanvas {
-  height: calc(100vh - 140px);
-}
-
 /* POPUP for ESRI MAP */
 .esriPopup {
   border-radius: 5px;
@@ -743,31 +738,44 @@ p.tooltip-txt, li.tooltip-txt {
   content: " ";
 }
 
-#rightPane #dataTableWrapper {
+#rightPane #dataTable {
   box-shadow: none;
   font-family: "Roboto Condensed", sans-serif;
   font-size: 0.9rem;
   font-weight: normal;
   text-align: center;
-}
-
-#rightPane #dataTableWrapper #dataTable {
-  border-bottom: 1px solid #656565;
+  border-bottom: 1px solid black;
   padding: 0 0 5px;
 }
 
 .display.dataTable.no-footer {
-  background: rgb(255, 140, 0) none repeat scroll 0 0;
-  border-top: 1px solid #656565;
+  background: black none repeat scroll 0 0;
+  border-top: 1px solid black;
   color: #000;
   font-size: 1rem;
-  font-weight: normal;
+  font-weight: normal !important;
 }
 
 .display.dataTable.no-footer thead {
-  color: #ddd;
+  color: white;
   font-size: 1rem;
-  font-weight: normal;
+  font-weight: normal !important;
+}
+
+#example_wrapper {
+  height: 100% !important;
+}
+
+.dataTables_scroll {
+  height: calc(100% - 75px) !important;
+}
+
+.dataTables_scrollBody {
+  height: calc(100% - 65px) !important;
+}
+
+#example_filter {
+  display: none;
 }
 
 .dataTables_wrapper .dataTables_length,
@@ -817,9 +825,7 @@ table.dataTable tbody th, table.dataTable tbody td {
 table.dataTable div.dataTables_scrollHeadInner thead {
   height: 10em;
 }
-div#dataTable div.dataTables_scroll {
-  max-height: 240px;
-}
+
 /* gradient for CSV button across browsers */
 /* Button gradient for all browsers. */
 button.dt-button, div.dt-button, a.dt-button {
