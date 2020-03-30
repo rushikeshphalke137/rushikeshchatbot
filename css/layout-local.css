@@ -1778,3 +1778,14 @@ div#socialSharing a span#linkedin:hover {
   -webkit-box-shadow: 0px 0px 10px 10px aqua;
   box-shadow: 0px 0px 10px 10px aqua;
 }
+
+.selectedFilter {
+  background-color: rgb(255, 140, 0) !important;
+  color: black !important;
+  font-weight: 500;
+}
+
+.dataChartFilter {
+  color: white;
+  cursor: pointer;
+}

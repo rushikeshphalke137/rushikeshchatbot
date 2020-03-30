@@ -98,35 +98,35 @@ globals.chartDataFile = [];
 globals.globalDataSummary = [];
 
 require([
-    "esri/Color",
-    "esri/geometry/Extent",
-    "esri/graphic",
-    "esri/dijit/Legend",
-    "esri/InfoTemplate",
-    "esri/layers/FeatureLayer",
-    "esri/layers/GraphicsLayer",
-    "esri/map",
-    "esri/renderers/ClassBreaksRenderer",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/renderers/SimpleRenderer",
-    "esri/TimeExtent",
-    "esri/dijit/TimeSlider",
-    "esri/tasks/query",
-    "esri/tasks/QueryTask",
-    "esri/toolbars/draw",
-    "esri/urlUtils",
-    "dojo/on",
-    "dojo/parser",
-    "dojo/_base/array",
-    "dojo/_base/lang",
-    "dijit/registry",
-    "dijit/Tooltip",
-    "dojox/data/CsvStore",
-    "dijit/layout/BorderContainer",
-    "dijit/layout/ContentPane",
-    "dojo/domReady!"
-  ],
+  "esri/Color",
+  "esri/geometry/Extent",
+  "esri/graphic",
+  "esri/dijit/Legend",
+  "esri/InfoTemplate",
+  "esri/layers/FeatureLayer",
+  "esri/layers/GraphicsLayer",
+  "esri/map",
+  "esri/renderers/ClassBreaksRenderer",
+  "esri/symbols/SimpleFillSymbol",
+  "esri/symbols/SimpleLineSymbol",
+  "esri/renderers/SimpleRenderer",
+  "esri/TimeExtent",
+  "esri/dijit/TimeSlider",
+  "esri/tasks/query",
+  "esri/tasks/QueryTask",
+  "esri/toolbars/draw",
+  "esri/urlUtils",
+  "dojo/on",
+  "dojo/parser",
+  "dojo/_base/array",
+  "dojo/_base/lang",
+  "dijit/registry",
+  "dijit/Tooltip",
+  "dojox/data/CsvStore",
+  "dijit/layout/BorderContainer",
+  "dijit/layout/ContentPane",
+  "dojo/domReady!"
+],
   function (
     Color, Extent, Graphic, Legend, InfoTemplate,
     FeatureLayer, GraphicsLayer, Map, ClassBreaksRenderer,
@@ -198,23 +198,40 @@ require([
       timeline_data();
     });
 
+    $('.chartFilter').on('click', function (e) {
+      $('.dataFilter').removeClass('selectedFilter');
+      $('.chartFilter').addClass('selectedFilter');
+      $('#dataTable').addClass('d-none');
+      $('#graphWrapper').removeClass('d-none');
+    });
+
+    $('.dataFilter').on('click', function (e) {
+      $('.chartFilter').removeClass('selectedFilter');
+      $('.dataFilter').addClass('selectedFilter');
+      $('#graphWrapper').addClass('d-none');
+      $('#dataTable').removeClass('d-none');
+    });
+
+    $('.resetDefault').on('click', function (e) {
+      resetMapToDefault();
+    });
+
+    $('.queryFilter').on('click', function (e) {
+      queryByName();
+    });
+
     $('#regionSelect').on('change', function (e) {
       globals.regionSelected = this.value;
-      // if (globals.regionSelected == 'All regions') {
-      //   globals.filteredRegion = [];
-      //   globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
-      //   getDataFromCSVFile(globals.regionSummaryFile);
-      //   resetMapToDefault();
-      //   $('.resetDefault').click();
-      // } else {
+
       queryByRegionName();
       filteredRegion(globals.regionSelected);
+
       //globals.regionSummaryFile = "./data/regions/nssac-ncov-sd-summary-" + globals.regionSelected.toLowerCase() + ".csv";
       globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
       getDataFromCSVFile(globals.regionSummaryFile);
+
       $('.logarithmicDiv').css("visibility", "hidden");
       toggleChart();
-      // }
       setRendererSingle();
     });
 
@@ -666,7 +683,7 @@ require([
             new Color([102, 255, 255]),
             2
           ),
-          new Color([255, 0, 0, ])
+          new Color([255, 0, 0,])
         );
 
         var fips;
@@ -872,7 +889,7 @@ require([
                 new Color([102, 255, 255]),
                 2
               ),
-              new Color([255, 0, 0, ])
+              new Color([255, 0, 0,])
             );
             var names = [];
             queryTask.execute(query, function (fset) {
@@ -1095,7 +1112,7 @@ require([
           //bindChart();
         },
         dataType: "text",
-        complete: function () {}
+        complete: function () { }
       });
     }
 
@@ -1109,62 +1126,8 @@ require([
           globals.globalChartDataSummary = JSON.parse(jsonobject);
         },
         dataType: "text",
-        complete: function () {}
+        complete: function () { }
       });
-    }
-
-    // function getSummaryInfoOnMap() {
-    //   var html = "<div class='summaryInfoHeader'><i>Cumulative number from <b><span class='numCountry'>" + globals.numberCountryForSelectedDate + "</span></b> countries. </i>";
-    //   html += "<i>Last Update : " + globals.csvDataStats[2][1].split('*')[0].trim() + " (UTC).</i>";
-    //   html += "</div>";
-    //   return html;
-    // }
-    //for a given attribute, return (daily) new cases number
-    //globals.dailySummary was set by the summary CSV files with below dateFormat
-    //date,totalConfirmed,totalDeaths,totalRecovered,newConfirmed,newDeaths,newRecovered
-    function getNewCases(attribute) {
-      for (var i = 0; i < globals.dailySummary.length; i++) {
-        if (globals.dailySummary[i][0] == globals.selectedDate) {
-          switch (attribute) {
-            case 'Confirmed':
-              return globals.dailySummary[i][4];
-            case 'Deaths':
-              return globals.dailySummary[i][5];
-            case 'Recovered':
-              return globals.dailySummary[i][6];
-            default:
-              // code block
-          } //end of switch
-        } //end of if
-      } //end of for
-      return 0;
-    }
-
-    //////////////////////////////////////
-    // Functions related to action button
-    //////////////////////////////////////
-    function activateTool() {
-      console.log('activateTool');
-      var tool = this.label.toUpperCase().replace(/ /g, "_");
-      if (tool == "RESET") {
-        globals.map.graphics.clear();
-        globals.map.infoWindow.hide();
-        globals.selectedRegions = [];
-        dojo.byId("info").innerHTML = "";
-        dojo.byId("infoGraph").innerHTML = "";
-        dojo.byId("queryByName").value = "";
-        globals.map.setExtent(globals.defaultExtents.default);
-        var names = [];
-        for (var i = 0; i < globals.csvData.length; i++) {
-          names.push(globals.csvData[i][0]);
-        }
-        showCSVDataInTable(names);
-      } else if (tool == "QUERY")
-        queryByName();
-      else { //set default zoom by name
-        globals.map.infoWindow.hide();
-        globals.map.setExtent(globals.defaultExtents[tool]);
-      }
     }
 
   });
@@ -1259,16 +1222,6 @@ function resetToDefault(timeSlider, changeDate, startDateString, endDateString) 
   globals.regionSelected = 'All regions';
 }
 
-function resetMapToDefault() {
-  globals.map.graphics.clear();
-  globals.map.infoWindow.hide();
-  globals.selectedRegions = [];
-  dojo.byId("info").innerHTML = "";
-  dojo.byId("infoGraph").innerHTML = "";
-  dojo.byId("queryByName").value = "";
-  globals.map.setExtent(globals.defaultExtents.default);
-}
-
 function updateSummaryInfo(selectedDate) {
 
   var filteredData = globals.dailySummary.filter(function (data) {
@@ -1338,4 +1291,14 @@ function updateSummaryInfo(selectedDate) {
   $('.totalCases').html(Number(filteredData[7]).toLocaleString());
 
   $('[data-toggle="tooltip"]').tooltip();
+}
+
+function resetMapToDefault() {
+  globals.map.graphics.clear();
+  globals.map.infoWindow.hide();
+  globals.selectedRegions = [];
+
+  $('#queryByName')[0].value = "";
+  globals.map.setExtent(globals.defaultExtents.default);
+  globals.map.setZoom(4);
 }
