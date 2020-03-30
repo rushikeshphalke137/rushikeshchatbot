@@ -67,7 +67,8 @@ globals.dailySummaryFile = "data_ro/nssac_ncov_ro-summary.csv";
 globals.dailySummary = [];
 
 //globals.regionFile = "data/nssac-ncov-sd-region_list.csv";
-globals.regionFile = "data_ro/nssac_ncov_ro_03-26-2020.csv";
+//globals.regionFile = "data_ro/nssac_ncov_ro_03-26-2020.csv";
+globals.regionFile = "data_ro/nssac_ncov_ro_03-31-2020.csv";
 globals.regionNames = [];
 
 //globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
@@ -163,12 +164,13 @@ require([
 
     //connect onClick event listeners for buttons:
     //"Query" to search by name; "Clear" to clear graphics
+    
     registry.forEach(function (d) {
       if (d.declaredClass === "dijit.form.Button") {
         d.on("click", activateTool);
       }
     });
-
+    
     //add response to enter key on query input box
     dojo.byId("queryByName").addEventListener('keypress', function (event) {
       if (event.keyCode == 13) {
@@ -217,7 +219,7 @@ require([
       // }
       setRendererSingle();
     });
-
+    console.log('1st-here');
     $('#regionMobileSelect').on('change', function (e) {
       globals.regionSelected = this.value;
       if (globals.regionSelected == 'All regions') {
@@ -291,7 +293,8 @@ require([
     $(".datepicker").datepicker("setDate", defaultDate);
     globals.selectedDate = defaultDate;
     console.log(defaultDate)
-    globals.renderFile = "data_ro/nssac_ncov_ro_03-26-2020.csv"
+  //  globals.renderFile = "data_ro/nssac_ncov_ro_03-26-2020.csv"
+    globals.renderFile = "data_ro/nssac_ncov_ro_03-31-2020.csv";
     initialSetup();
     getCSVDataAndRendering();
 
@@ -308,7 +311,7 @@ require([
         "Place : ${HRRCITY}",
         "${HRRCITY:globals.joinFunctionInfoWindow}"
       );
-
+//console.log('infoTemplate',infoTemplate);
       var layer = new FeatureLayer(globals.mapServiceUrls.HRR, {
         id: "state_layer",
         mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
@@ -348,6 +351,7 @@ require([
 
     function getCSVDataAndRendering() {
       fileURL = globals.renderFile;
+      console.log('fileURL=',fileURL);
       var csvStore = new CsvStore({
         url: fileURL
       });
@@ -411,7 +415,7 @@ require([
 
       //default render field is the 4th column (skip name,region,last update)
       if (!globals.renderFieldIndex)
-        globals.renderFieldIndex = 9;
+        globals.renderFieldIndex = 12;
 
       //  show csv data in data table
       var names = [];
