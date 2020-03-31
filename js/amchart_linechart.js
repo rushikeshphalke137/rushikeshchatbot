@@ -7,11 +7,13 @@ function cumulative_data() {
   am4core.ready(function () {
     var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-    chart.dataSource.url = "./data/nssac-ncov-sd-summary.csv";
+    //chart.dataSource.url = "./data/nssac-ncov-sd-summary.csv";
+    chart.dataSource.url = globals.regionSummaryFile;
     chart.dataSource.parser = new am4core.CSVParser();
     chart.dataSource.parser.options.useColumnNames = true;
     chart.dataSource.parser.options.skipEmpty = false;
-    chart.dataSource.parser.options.numberFields = ["totalConfirmed", "totalDeaths", "totalRecovered"];
+    //chart.dataSource.parser.options.numberFields = ["totalConfirmed", "totalDeaths", "totalRecovered"];
+    chart.dataSource.parser.options.numberFields = ["Total Beds Avail","Total Vent. Avail","Total Beds Needed"];
     chart.colors.step = 2;
 
     // Create axes
@@ -41,9 +43,9 @@ function cumulative_data() {
       valueAxis.renderer.opposite = false;
     }
 
-    createAxisAndSeries("totalConfirmed", "Confirmed", am4core.color("rgb(227, 74, 51)"));
-    createAxisAndSeries("totalDeaths", "Deaths", am4core.color("rgb(43, 140, 190)"));
-    createAxisAndSeries("totalRecovered", "Recovered", am4core.color("rgb(49, 163, 8)"));
+    createAxisAndSeries("Total Beds Avail", "Beds Avail", am4core.color("rgb(227, 74, 51)"));
+    createAxisAndSeries("Total Vent. Avail", "Vent Available", am4core.color("rgb(43, 140, 190)"));
+    createAxisAndSeries("Total Beds Needed", "Beds Needed", am4core.color("rgb(49, 163, 8)"));
 
     // Add legend
     chart.legend = new am4charts.Legend();
