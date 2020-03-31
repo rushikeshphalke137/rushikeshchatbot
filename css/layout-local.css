@@ -1183,14 +1183,6 @@ button, input, select, textarea {
   height: 400px;
   width: 100%; 
 }
-.data-chart-tab a.nav-link.active {
-  background-color: rgb(255, 140, 0) !important;
-  font-weight: bold !important;
-}
-
-.data-chart-tab a.nav-link {
-  font-weight: bold !important;
-}
 
 #daterange, #selectedDate{
   color: orange !important;
