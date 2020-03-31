@@ -67,7 +67,6 @@ globals.dailySummaryFile = "data_ro/nssac_ncov_ro-summary.csv";
 globals.dailySummary = [];
 
 //globals.regionFile = "data/nssac-ncov-sd-region_list.csv";
-//globals.regionFile = "data_ro/nssac_ncov_ro_03-26-2020.csv";
 globals.regionFile = "data_ro/nssac_ncov_ro_03-31-2020.csv";
 globals.regionNames = [];
 
@@ -99,35 +98,35 @@ globals.chartDataFile = [];
 globals.globalDataSummary = [];
 
 require([
-    "esri/Color",
-    "esri/geometry/Extent",
-    "esri/graphic",
-    "esri/dijit/Legend",
-    "esri/InfoTemplate",
-    "esri/layers/FeatureLayer",
-    "esri/layers/GraphicsLayer",
-    "esri/map",
-    "esri/renderers/ClassBreaksRenderer",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/renderers/SimpleRenderer",
-    "esri/TimeExtent",
-    "esri/dijit/TimeSlider",
-    "esri/tasks/query",
-    "esri/tasks/QueryTask",
-    "esri/toolbars/draw",
-    "esri/urlUtils",
-    "dojo/on",
-    "dojo/parser",
-    "dojo/_base/array",
-    "dojo/_base/lang",
-    "dijit/registry",
-    "dijit/Tooltip",
-    "dojox/data/CsvStore",
-    "dijit/layout/BorderContainer",
-    "dijit/layout/ContentPane",
-    "dojo/domReady!"
-  ],
+  "esri/Color",
+  "esri/geometry/Extent",
+  "esri/graphic",
+  "esri/dijit/Legend",
+  "esri/InfoTemplate",
+  "esri/layers/FeatureLayer",
+  "esri/layers/GraphicsLayer",
+  "esri/map",
+  "esri/renderers/ClassBreaksRenderer",
+  "esri/symbols/SimpleFillSymbol",
+  "esri/symbols/SimpleLineSymbol",
+  "esri/renderers/SimpleRenderer",
+  "esri/TimeExtent",
+  "esri/dijit/TimeSlider",
+  "esri/tasks/query",
+  "esri/tasks/QueryTask",
+  "esri/toolbars/draw",
+  "esri/urlUtils",
+  "dojo/on",
+  "dojo/parser",
+  "dojo/_base/array",
+  "dojo/_base/lang",
+  "dijit/registry",
+  "dijit/Tooltip",
+  "dojox/data/CsvStore",
+  "dijit/layout/BorderContainer",
+  "dijit/layout/ContentPane",
+  "dojo/domReady!"
+],
   function (
     Color, Extent, Graphic, Legend, InfoTemplate,
     FeatureLayer, GraphicsLayer, Map, ClassBreaksRenderer,
@@ -164,13 +163,12 @@ require([
 
     //connect onClick event listeners for buttons:
     //"Query" to search by name; "Clear" to clear graphics
-    
     registry.forEach(function (d) {
       if (d.declaredClass === "dijit.form.Button") {
         d.on("click", activateTool);
       }
     });
-    
+
     //add response to enter key on query input box
     dojo.byId("queryByName").addEventListener('keypress', function (event) {
       if (event.keyCode == 13) {
@@ -200,26 +198,43 @@ require([
       timeline_data();
     });
 
+    $('.chartFilter').on('click', function (e) {
+      $('.dataFilter').removeClass('selectedFilter');
+      $('.chartFilter').addClass('selectedFilter');
+      $('#dataTable').addClass('d-none');
+      $('#graphWrapper').removeClass('d-none');
+    });
+
+    $('.dataFilter').on('click', function (e) {
+      $('.chartFilter').removeClass('selectedFilter');
+      $('.dataFilter').addClass('selectedFilter');
+      $('#graphWrapper').addClass('d-none');
+      $('#dataTable').removeClass('d-none');
+    });
+
+    $('.resetDefault').on('click', function (e) {
+      resetMapToDefault();
+    });
+
+    $('.queryFilter').on('click', function (e) {
+      queryByName();
+    });
+
     $('#regionSelect').on('change', function (e) {
       globals.regionSelected = this.value;
-      // if (globals.regionSelected == 'All regions') {
-      //   globals.filteredRegion = [];
-      //   globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
-      //   getDataFromCSVFile(globals.regionSummaryFile);
-      //   resetMapToDefault();
-      //   $('.resetDefault').click();
-      // } else {
+
       queryByRegionName();
       filteredRegion(globals.regionSelected);
+
       //globals.regionSummaryFile = "./data/regions/nssac-ncov-sd-summary-" + globals.regionSelected.toLowerCase() + ".csv";
       globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
       getDataFromCSVFile(globals.regionSummaryFile);
+
       $('.logarithmicDiv').css("visibility", "hidden");
       toggleChart();
-      // }
       setRendererSingle();
     });
-    console.log('1st-here');
+
     $('#regionMobileSelect').on('change', function (e) {
       globals.regionSelected = this.value;
       if (globals.regionSelected == 'All regions') {
@@ -294,8 +309,7 @@ require([
     $(".datepicker").datepicker("setDate", defaultDate);
     globals.selectedDate = defaultDate;
     console.log(defaultDate)
-  //  globals.renderFile = "data_ro/nssac_ncov_ro_03-26-2020.csv"
-    globals.renderFile = "data_ro/nssac_ncov_ro_03-31-2020.csv";
+    globals.renderFile = "data_ro/nssac_ncov_ro_03-31-2020.csv"
     initialSetup();
     getCSVDataAndRendering();
 
@@ -312,7 +326,7 @@ require([
         "Place : ${HRRCITY}",
         "${HRRCITY:globals.joinFunctionInfoWindow}"
       );
-//console.log('infoTemplate',infoTemplate);
+
       var layer = new FeatureLayer(globals.mapServiceUrls.HRR, {
         id: "state_layer",
         mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
@@ -352,7 +366,6 @@ require([
 
     function getCSVDataAndRendering() {
       fileURL = globals.renderFile;
-      console.log('fileURL=',fileURL);
       var csvStore = new CsvStore({
         url: fileURL
       });
@@ -540,18 +553,18 @@ require([
         colors.push(new Color([253, 187, 132]));
         colors.push(new Color([253, 212, 158]));
         colors.push(new Color([254, 240, 217]));
-        var breakMins = [1, 6, 16, 51, 100, 200];
-        var breakMaxs = [5, 15, 50, 99, 199, 29999];
+        var breakMins = [1, 101, 501, 1001, 1501, 2501];
+        var breakMaxs = [100, 500, 1000, 1500, 2500, 29999];
       } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Vent. Avail') {
         //for deaths
         //PuBu
-        colors.push(new Color([241, 238, 246]));
-        colors.push(new Color([189, 201, 225]));
-        colors.push(new Color([116, 169, 207]));
-        colors.push(new Color([43, 140, 190]));
         colors.push(new Color([4, 90, 141]));
-        var breakMins = [1, 2, 6, 11, 21];
-        var breakMaxs = [1, 5, 10, 20, 9999];
+        colors.push(new Color([43, 140, 190]));
+        colors.push(new Color([116, 169, 207]));
+        colors.push(new Color([189, 201, 225]));
+        colors.push(new Color([241, 238, 246]));
+        var breakMins = [1, 401, 901, 1401, 2101];
+        var breakMaxs = [400, 900, 1400, 2100, 29999];
       } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Staff Avail') {
         //for recovered
         //YlGn
@@ -671,7 +684,7 @@ require([
             new Color([102, 255, 255]),
             2
           ),
-          new Color([255, 0, 0, ])
+          new Color([255, 0, 0,])
         );
 
         var fips;
@@ -798,10 +811,12 @@ require([
         if (globals.csvData[i][1] == featureID) {
           //hard coded for now, DX 02/03/2020
           returnValue += "<b>Place Name:</b> " + globals.csvData[i][1];
-          //  returnValue += "<br><b>bedsAvail:</b> " + globals.csvData[i][3];
+
           // HARD CODED added 03/22 DX
-          for (var j = 3; j < 6; j++)
+          for (var j = 3; j < 5; j++)
             returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
+
+          returnValue += "<br><b>Cases:</b> " + globals.csvData[i][9];
           returnValue += "<br><b>Last Update:</b> " + globals.csvData[i][2];
           break;
         }
@@ -875,7 +890,7 @@ require([
                 new Color([102, 255, 255]),
                 2
               ),
-              new Color([255, 0, 0, ])
+              new Color([255, 0, 0,])
             );
             var names = [];
             queryTask.execute(query, function (fset) {
@@ -922,19 +937,15 @@ require([
         if (inputStr.length == 0)
           alert("Already showing all data.");
         else {
-          if (inputStr.trim().toLowerCase() == "usa" || inputStr.trim().toLowerCase() == "us" || inputStr.trim().toLowerCase() == "united states")
-            where = "ISO_3 = 'USA'";
-          else if (inputStr.trim().toLowerCase() == "china" || inputStr.trim().toLowerCase() == "mainland china")
-            where = "ISO_3 = 'CHN' OR ISO_3 = 'MAC' OR ISO_3 = 'HKG' OR ISO_3 = 'TWN' ";
-          else {
-            for (var i = 0; i < inputStrSplit.length; i++) {
-              var temp = inputStrSplit[i].trim();
-              if (where == '')
-                where += "NAME = '" + temp.toString() + "'";
-              else
-                where += " OR NAME = '" + temp.toString() + "'";
-            }
+
+          for (var i = 0; i < inputStrSplit.length; i++) {
+            var temp = inputStrSplit[i].trim();
+            if (where == '')
+              where += "NAME = '" + temp.toString() + "'";
+            else
+              where += " OR NAME = '" + temp.toString() + "'";
           }
+
           if (!errorFlag) { //update data table and perform query ONLY when the input does not have error
             //now query correspding layer
             query = new Query();
@@ -1001,28 +1012,21 @@ require([
       //    tableHTML += "<th>Last Update</th>";
 
       tableHTML += "</tr></thead><tbody>";
-      var showUSAFlag = false;
-      var showMainlandChinaFlag = false;
       for (var i = 0; i < globals.csvData.length; i++) {
         var name = globals.csvData[i][1];
-        // if (names.indexOf('HRR City') == -1)
-        //   continue;
-        // else {
-        tableHTML += "<tr>";
-        //customized order: move 3rd column to the end
-        //   tableHTML += "<td>" + name + "</td>";
-        //   tableHTML += "<td>" + globals.csvData[i][1] + "</td>";
-        for (var j = 1; j < globals.csvDataHeader.length; j++) {
-          tableHTML += "<td>" + globals.csvData[i][j].toLocaleString() + "</td>";
+        if (names.indexOf(name) == -1)
+          continue;
+        else {
+          tableHTML += "<tr>";
+          //customized order: move 3rd column to the end
+          //   tableHTML += "<td>" + name + "</td>";
+          //   tableHTML += "<td>" + globals.csvData[i][1] + "</td>";
+          for (var j = 1; j < globals.csvDataHeader.length; j++) {
+            tableHTML += "<td>" + globals.csvData[i][j].toLocaleString() + "</td>";
+          }
+          //  tableHTML += "<td>" + globals.csvData[i][2] + "</td>";
+          tableHTML += "</tr>\n";
         }
-        //  tableHTML += "<td>" + globals.csvData[i][2] + "</td>";
-        tableHTML += "</tr>\n";
-        //showUSAFlag = true;
-        // if (globals.csvData[i][1] == 'USA' || globals.csvData[i][1] == 'United States')
-        //   showUSAFlag = true;
-        // if (globals.csvData[i][1] == 'Mainland China')
-        //   showMainlandChinaFlag = true;
-        //    }
       }
       //add usaRowForSeledtedDate and mainlandChinaRowForSelectedDate
       // if (showMainlandChinaFlag)
@@ -1050,14 +1054,13 @@ require([
         "order": [
           [2, "desc"]
         ],
-        scrollY: '60vh',
         scrollX: true,
         scrollCollapse: true,
-        "language": {
-          search: '',
-          searchPlaceholder: "Filter data by",
-          lengthMenu: lengthMenuOptions
-        },
+        "searching": false,
+        // "language": {
+        //   search: '',
+        //   lengthMenu: lengthMenuOptions
+        // },
         oLanguage: {
           "oPaginate": {
             "sNext": '<i title="Next" class="fa fa-chevron-right" ></i>',
@@ -1110,7 +1113,7 @@ require([
           //bindChart();
         },
         dataType: "text",
-        complete: function () {}
+        complete: function () { }
       });
     }
 
@@ -1124,62 +1127,8 @@ require([
           globals.globalChartDataSummary = JSON.parse(jsonobject);
         },
         dataType: "text",
-        complete: function () {}
+        complete: function () { }
       });
-    }
-
-    // function getSummaryInfoOnMap() {
-    //   var html = "<div class='summaryInfoHeader'><i>Cumulative number from <b><span class='numCountry'>" + globals.numberCountryForSelectedDate + "</span></b> countries. </i>";
-    //   html += "<i>Last Update : " + globals.csvDataStats[2][1].split('*')[0].trim() + " (UTC).</i>";
-    //   html += "</div>";
-    //   return html;
-    // }
-    //for a given attribute, return (daily) new cases number
-    //globals.dailySummary was set by the summary CSV files with below dateFormat
-    //date,totalConfirmed,totalDeaths,totalRecovered,newConfirmed,newDeaths,newRecovered
-    function getNewCases(attribute) {
-      for (var i = 0; i < globals.dailySummary.length; i++) {
-        if (globals.dailySummary[i][0] == globals.selectedDate) {
-          switch (attribute) {
-            case 'Confirmed':
-              return globals.dailySummary[i][4];
-            case 'Deaths':
-              return globals.dailySummary[i][5];
-            case 'Recovered':
-              return globals.dailySummary[i][6];
-            default:
-              // code block
-          } //end of switch
-        } //end of if
-      } //end of for
-      return 0;
-    }
-
-    //////////////////////////////////////
-    // Functions related to action button
-    //////////////////////////////////////
-    function activateTool() {
-      console.log('activateTool');
-      var tool = this.label.toUpperCase().replace(/ /g, "_");
-      if (tool == "RESET") {
-        globals.map.graphics.clear();
-        globals.map.infoWindow.hide();
-        globals.selectedRegions = [];
-        dojo.byId("info").innerHTML = "";
-        dojo.byId("infoGraph").innerHTML = "";
-        dojo.byId("queryByName").value = "";
-        globals.map.setExtent(globals.defaultExtents.default);
-        var names = [];
-        for (var i = 0; i < globals.csvData.length; i++) {
-          names.push(globals.csvData[i][0]);
-        }
-        showCSVDataInTable(names);
-      } else if (tool == "QUERY")
-        queryByName();
-      else { //set default zoom by name
-        globals.map.infoWindow.hide();
-        globals.map.setExtent(globals.defaultExtents[tool]);
-      }
     }
 
   });
@@ -1253,17 +1202,6 @@ $('#graphView').addClass('active');
 
   $('.graphToggle').click();
 
-  // $('#chartToggle').on('change', function (e) {
-  //   $('#chartdiv').html('');
-  //   if (this.checked) {
-  //     cumulative_data();
-  //   } else {
-  //     $('.logarithmicDiv').css("visibility", "hidden");
-  //     daily_data();
-  //   }
-  // });
-  // $('#chartToggle').change();
-
 }
 
 function toggleChart() {
@@ -1310,16 +1248,6 @@ function resetToDefault(timeSlider, changeDate, startDateString, endDateString) 
   $('#regionSelect').val('All regions');
   $('#regionMobileSelect').val('All regions');
   globals.regionSelected = 'All regions';
-}
-
-function resetMapToDefault() {
-  globals.map.graphics.clear();
-  globals.map.infoWindow.hide();
-  globals.selectedRegions = [];
-  dojo.byId("info").innerHTML = "";
-  dojo.byId("infoGraph").innerHTML = "";
-  dojo.byId("queryByName").value = "";
-  globals.map.setExtent(globals.defaultExtents.default);
 }
 
 function updateSummaryInfo(selectedDate) {
@@ -1391,4 +1319,14 @@ function updateSummaryInfo(selectedDate) {
   $('.totalCases').html(Number(filteredData[7]).toLocaleString());
 
   $('[data-toggle="tooltip"]').tooltip();
+}
+
+function resetMapToDefault() {
+  globals.map.graphics.clear();
+  globals.map.infoWindow.hide();
+  globals.selectedRegions = [];
+
+  $('#queryByName')[0].value = "";
+  globals.map.setExtent(globals.defaultExtents.default);
+  globals.map.setZoom(4);
 }

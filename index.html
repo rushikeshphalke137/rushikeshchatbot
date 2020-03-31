@@ -37,8 +37,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.8/jquery.csv.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-html5-1.6.1/datatables.min.js"></script>
   <script defer src="https://js.arcgis.com/3.31/"></script>
@@ -171,9 +171,9 @@
         </div>
 
         <div class="w-100">
-          <input name="queryByName" class="pl-1" style="min-width: 340px;"
-            placeholder="Query by comma separated names" id="queryByName" size="35">
-          <button class="queryButtons">Query</button>
+          <input name="queryByName" class="pl-1" style="min-width: 340px;" placeholder="Query by comma separated names"
+            id="queryByName" size="35">
+          <button class="queryButtons queryFilter">Query</button>
           <button class="queryButtons resetDefault">Reset</button>
         </div>
 
@@ -184,14 +184,12 @@
   </div>
 
   <!-- Space for Map and Data-->
-  <div class="row" style="height: calc(100% - 135px);">
+  <div class="row" style="height: calc(100% - 121px);">
 
-    <div class="col-12 col-lg-7 pl-0 pr-0 mapContainer">
-      <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'">
+    <div class="col-12 col-lg-7 h-100 pl-0 pr-0 mapContainer">
+      <div class="h-100" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'">
         <!--Map Section-->
-        <div id="mapCanvas" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
-
-          <!-- <div id="summaryInfoOnMap" class="mt-2"></div> -->
+        <div class="h-100" id="mapCanvas" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         </div>
 
         <div id="displayOptionWrapper">
@@ -237,6 +235,7 @@
           <span>/ 8,500</span>
           <span style="font-size: 1.2rem;"> total</span>
         </div>
+        <div class="dataFilter col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter"> Data</div>
       </div>
 
     </div>
