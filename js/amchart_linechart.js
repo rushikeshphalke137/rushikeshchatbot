@@ -13,7 +13,7 @@ function cumulative_data() {
     chart.dataSource.parser.options.useColumnNames = true;
     chart.dataSource.parser.options.skipEmpty = false;
     //chart.dataSource.parser.options.numberFields = ["totalConfirmed", "totalDeaths", "totalRecovered"];
-    chart.dataSource.parser.options.numberFields = ["Total Beds Avail","Total Vent. Avail","Total Beds Needed"];
+    chart.dataSource.parser.options.numberFields = ["Total Beds Avail", "Total Vent. Avail", "Total Cases"];
     chart.colors.step = 2;
 
     // Create axes
@@ -24,6 +24,7 @@ function cumulative_data() {
 
     // Create series
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
     function createAxisAndSeries(field, name, color) {
       var series = chart.series.push(new am4charts.LineSeries());
       series.dataFields.valueY = field;
@@ -34,7 +35,10 @@ function cumulative_data() {
       series.name = name;
       series.tooltipText = "{name}: [bold]{valueY}[/]";
       series.tensionX = 0.8;
+
       series.showOnInit = true;
+      if (field == 'Total Cases')
+        series.hidden = true;
 
       var bullet = series.bullets.push(new am4charts.CircleBullet());
       bullet.circle.stroke = color;
@@ -45,7 +49,7 @@ function cumulative_data() {
 
     createAxisAndSeries("Total Beds Avail", "Beds Avail", am4core.color("rgb(227, 74, 51)"));
     createAxisAndSeries("Total Vent. Avail", "Vent Available", am4core.color("rgb(43, 140, 190)"));
-    createAxisAndSeries("Total Beds Needed", "Beds Needed", am4core.color("rgb(49, 163, 8)"));
+    createAxisAndSeries("Total Cases", "Total Cases", am4core.color("rgb(49, 163, 8)"));
 
     // Add legend
     chart.legend = new am4charts.Legend();
@@ -56,7 +60,7 @@ function cumulative_data() {
 }
 
 function daily_data() {
-  
+
   // Themes begin
   am4core.useTheme(am4themes_animated);
   am4core.useTheme(am4themes_dark);
