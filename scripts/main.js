@@ -161,21 +161,6 @@ require([
 
     globals.map.infoWindow.resize(280, 210);
 
-    //connect onClick event listeners for buttons:
-    //"Query" to search by name; "Clear" to clear graphics
-    registry.forEach(function (d) {
-      if (d.declaredClass === "dijit.form.Button") {
-        d.on("click", activateTool);
-      }
-    });
-
-    //add response to enter key on query input box
-    dojo.byId("queryByName").addEventListener('keypress', function (event) {
-      if (event.keyCode == 13) {
-        queryByName();
-      }
-    });
-
     $('.moreOptionDropDown').on("click", function (e) {
       e.stopPropagation();
       $('#optionMenu').removeClass('displayNone');
@@ -193,22 +178,19 @@ require([
       }
     });
 
-    $('#timeline').on('click', function (e) {
-      $('#timelinediv').html('');
-      timeline_data();
-    });
-
-    $('.chartFilter').on('click', function (e) {
-      $('.dataFilter').removeClass('selectedFilter');
-      $('.chartFilter').addClass('selectedFilter');
+    $('.charts').on('click', function (e) {
+      $('.data').removeClass('selectedFilter');
+      $('.charts').addClass('selectedFilter');
       $('#dataTable').addClass('d-none');
-      $('#graphWrapper').removeClass('d-none');
+      $('#chartdiv').removeClass('d-none');
+
+      cumulative_data();
     });
 
-    $('.dataFilter').on('click', function (e) {
-      $('.chartFilter').removeClass('selectedFilter');
-      $('.dataFilter').addClass('selectedFilter');
-      $('#graphWrapper').addClass('d-none');
+    $('.data').on('click', function (e) {
+      $('.charts').removeClass('selectedFilter');
+      $('.data').addClass('selectedFilter');
+      $('#chartdiv').addClass('d-none');
       $('#dataTable').removeClass('d-none');
     });
 
@@ -218,6 +200,13 @@ require([
 
     $('.queryFilter').on('click', function (e) {
       queryByName();
+    });
+
+    //add response to enter key on query input box
+    $("#queryByName").keypress(function (event) {
+      if (event.keyCode == 13) {
+        queryByName();
+      }
     });
 
     $('#regionSelect').on('change', function (e) {
@@ -231,7 +220,6 @@ require([
       getDataFromCSVFile(globals.regionSummaryFile);
 
       $('.logarithmicDiv').css("visibility", "hidden");
-      toggleChart();
       setRendererSingle();
     });
 
@@ -239,7 +227,7 @@ require([
       globals.regionSelected = this.value;
       if (globals.regionSelected == 'All regions') {
         globals.filteredRegion = [];
-      //  globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
+        //  globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
         globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
         getDataFromCSVFile(globals.regionSummaryFile);
         resetMapToDefault();
@@ -250,12 +238,9 @@ require([
         //  globals.regionSummaryFile = "./data/regions/nssac-ncov-sd-summary-" + globals.regionSelected.toLowerCase() + ".csv";
         globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
         getDataFromCSVFile(globals.regionSummaryFile);
-        toggleChart();
       }
       setRendererSingle();
     });
-
-    bindChart();
 
     var $videoSrc;
     $('.video-btn').click(function () {
@@ -281,16 +266,23 @@ require([
       $('.newFeatures').hide();
     }
 
-    //Setup Date Picker
-    min = new Date();
-    max = new Date('2020-05-06');
+    //set globals.dailySummary which is to set calendar default date as well
 
+    var defaultDate =  $.datepicker.formatDate('mm-dd-yy', new Date());
+
+    //var defaultDate = globals.dailySummary[globals.dailySummary.length - 1][0];
+    var maxDate = globals.dailySummary[globals.dailySummary.length - 1][0];
+   
+    globals.selectedDate = defaultDate;
+    globals.renderFile = "data_ro/nssac_ncov_ro_" + defaultDate + ".csv";
+    
+    //Setup Date Picker
     $('[data-toggle=datepicker]').each(function () {
       var target = $(this).data('target-name');
       var t = $('input[name=' + target + ']');
       t.datepicker({
-        minDate: min,
-        maxDate: max,
+        minDate: defaultDate,
+        maxDate: maxDate,
         dateFormat: "mm-dd-yy",
         autoclose: true,
         onSelect: function (selected, evnt) {
@@ -302,16 +294,17 @@ require([
         t.datepicker("show");
       });
     });
-
-    //set globals.dailySummary which is to set calendar default date as well
-
-    var defaultDate = globals.dailySummary[globals.dailySummary.length - 1][0];
+    
     $(".datepicker").datepicker("setDate", defaultDate);
-    globals.selectedDate = defaultDate;
-    console.log(defaultDate)
-    globals.renderFile = "data_ro/nssac_ncov_ro_03-31-2020.csv"
+
     initialSetup();
     getCSVDataAndRendering();
+
+    // Select default option as Charts
+    $('.charts').click();
+
+    // Update summary info to default date
+    updateSummaryInfo(defaultDate);
 
     /////////////////////////////////////////////////
     //
@@ -553,6 +546,7 @@ require([
         colors.push(new Color([253, 187, 132]));
         colors.push(new Color([253, 212, 158]));
         colors.push(new Color([254, 240, 217]));
+
         var breakMins = [1, 101, 501, 1001, 1501, 2501];
         var breakMaxs = [100, 500, 1000, 1500, 2500, 29999];
       } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Vent. Avail') {
@@ -563,6 +557,7 @@ require([
         colors.push(new Color([116, 169, 207]));
         colors.push(new Color([189, 201, 225]));
         colors.push(new Color([241, 238, 246]));
+
         var breakMins = [1, 401, 901, 1401, 2101];
         var breakMaxs = [400, 900, 1400, 2100, 29999];
       } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Staff Avail') {
@@ -573,6 +568,7 @@ require([
         colors.push(new Color([120, 198, 121]));
         colors.push(new Color([49, 163, 84]));
         colors.push(new Color([0, 104, 55]));
+
         var breakMins = [1, 10, 50, 100, 500];
         var breakMaxs = [9, 49, 99, 499, 99999];
       } else {
@@ -584,6 +580,7 @@ require([
         colors.push(new Color([252, 141, 89]));
         colors.push(new Color([227, 74, 51]));
         colors.push(new Color([179, 0, 0]));
+
         var breakMins = [1, 10, 100, 500, 1000, 10000];
         var breakMaxs = [9, 99, 499, 999, 9999, 299999];
       }
@@ -833,7 +830,6 @@ require([
     }
 
     function clearDisplayOptionWrapper() {
-      clearDIV("displayOption");
       clearDIV("legend");
     }
 
@@ -847,79 +843,69 @@ require([
     //query corresonding layer and show results in GraphicLayer and data table
     function queryByName() {
       //testing string: Hubei, Hunan
-      var inputStr = dojo.byId("queryByName").value;
+      var inputStr = $("#queryByName").val();
       if (inputStr.length == 0)
-        alert("Query string cannot be empty.");
+        alert("Already showing all data.");
       else {
-        var errorFlag = false;
         inputStr = inputStr.replace(/%/g, '');
         var inputStrSplit = inputStr.split(",");
         var where = '';
-        if (inputStr.length == 0)
-          alert("Already showing all data.");
-        else {
-          if (inputStr.trim().toLowerCase() == "usa" || inputStr.trim().toLowerCase() == "us" || inputStr.trim().toLowerCase() == "united states")
-            where = "ISO_3 = 'USA'";
-          else if (inputStr.trim().toLowerCase() == "china" || inputStr.trim().toLowerCase() == "mainland china")
-            where = "ISO_3 = 'CHN' OR ISO_3 = 'MAC' OR ISO_3 = 'HKG' OR ISO_3 = 'TWN' ";
-          else {
-            for (var i = 0; i < inputStrSplit.length; i++) {
-              var temp = inputStrSplit[i].trim();
-              if (where == '')
-                where += "HRRCITY LIKE '%" + temp.toString() + "%'";
-              else
-                where += " OR HRRCITY LIKE '%" + temp.toString() + "%'";
+
+        for (var i = 0; i < inputStrSplit.length; i++) {
+          var temp = inputStrSplit[i].trim();
+          if (where == '')
+            where += "HRRCITY LIKE '%" + temp.toString() + "%'";
+          else
+            where += " OR HRRCITY LIKE '%" + temp.toString() + "%'";
+        }
+
+        //now query correspding layer
+        query = new Query();
+        query.outSpatialReference = {
+          "wkid": 102100
+        };
+        query.returnGeometry = true;
+        //setup QueryTask (for display Level selection)
+        var queryTask = new QueryTask(globals.mapServiceUrls.HRR);
+        query.outFields = ["HRRNUM", "HRRCITY", "DHS_Beds", "Total_Pop"];
+
+        query.where = where;
+        var symbol = new SimpleFillSymbol(
+          SimpleFillSymbol.STYLE_BACKWARD_DIAGONAL,
+          new SimpleLineSymbol(
+            SimpleLineSymbol.STYLE_SOLID,
+            new Color([102, 255, 255]),
+            2
+          ),
+          new Color([255, 0, 0,])
+        );
+        var names = [];
+        queryTask.execute(query, function (fset) {
+          globals.map.graphics.clear();
+          if (fset.features.length > 0) {
+            for (var i = 0; i < fset.features.length; i++) {
+              //symbol for selected county
+              var graphic = new Graphic(fset.features[i].geometry, symbol);
+              globals.map.graphics.add(graphic);
+              //check whether it has number for selected attribute
+              // if(  DX stops here 02/04
+              //add name to names (for table display)
+              var temp = fset.features[i].attributes.HRRCITY;
+
+              if (names.indexOf(temp) == -1)
+                names.push(temp);
             }
+            //names = remove(names, inputStr);
+            showCSVDataInTable(names);
+            var extent = esri.graphicsExtent(fset.features);
+            globals.map.setExtent(extent, true);
+          } else {
+            dojo.byId("info").innerHTML = "No match found. Only used name column for query.";
+            dojo.byId("infoGraph").innerHTML = "No match found. Only used name column for query.";
           }
-          if (!errorFlag) { //update data table and perform query ONLY when the input does not have error
-            //now query correspding layer
-            query = new Query();
-            query.outSpatialReference = {
-              "wkid": 102100
-            };
-            query.returnGeometry = true;
-            //setup QueryTask (for display Level selection)
-            var queryTask = new QueryTask(globals.mapServiceUrls.HRR);
-            query.outFields = ["HRRNUM", "HRRCITY", "DHS_Beds", "Total_Pop"];
+        });
 
-            query.where = where;
-            var symbol = new SimpleFillSymbol(
-              SimpleFillSymbol.STYLE_BACKWARD_DIAGONAL,
-              new SimpleLineSymbol(
-                SimpleLineSymbol.STYLE_SOLID,
-                new Color([102, 255, 255]),
-                2
-              ),
-              new Color([255, 0, 0,])
-            );
-            var names = [];
-            queryTask.execute(query, function (fset) {
-              globals.map.graphics.clear();
-              if (fset.features.length > 0) {
-                for (var i = 0; i < fset.features.length; i++) {
-                  //symbol for selected county
-                  var graphic = new Graphic(fset.features[i].geometry, symbol);
-                  globals.map.graphics.add(graphic);
-                  //check whether it has number for selected attribute
-                  // if(  DX stops here 02/04
-                  //add name to names (for table display)
-                  var temp = fset.features[i].attributes.HRRCITY;
-
-                  if (names.indexOf(temp) == -1)
-                    names.push(temp);
-                }
-                //names = remove(names, inputStr);
-                showCSVDataInTable(names);
-                var extent = esri.graphicsExtent(fset.features);
-                globals.map.setExtent(extent, true);
-              } else {
-                dojo.byId("info").innerHTML = "No match found. Only used name column for query.";
-                dojo.byId("infoGraph").innerHTML = "No match found. Only used name column for query.";
-              }
-            });
-          } //if (!errorFlag )
-        } //check for hacking
-      } //else if (inputStr.length == 0)
+      } //check for hacking
     }
 
     function queryByRegionName() {
@@ -1110,7 +1096,6 @@ require([
           var jsonobject = JSON.stringify(items);
           globals.chartDataFile = JSON.parse(jsonobject);
           globals.dailySummary = $.csv.toArrays(csv);
-          //bindChart();
         },
         dataType: "text",
         complete: function () { }
@@ -1131,85 +1116,20 @@ require([
       });
     }
 
-  });
+    function resetMapToDefault() {
+      globals.map.graphics.clear();
+      globals.map.infoWindow.hide();
+      globals.selectedRegions = [];
 
-function bindChart() {
-  console.log('bindChart');
-  // $('.toggleView').on("click", function (event) {
-  //   $('.toggleView').addClass('disabled');
-  //   $(event.target).removeClass('disabled');
-  //   if (event.target.value == 'data') {
-  //     $('.mapContainer').hide();
-  //     $('.graphContainer').hide();
-  //     $('.dataContainer').show();
-  //     if ($($.fn.dataTable.tables(true)))
-  //       $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-  //   } else if (event.target.value == 'charts') {
-  //     $('.mapContainer').hide();
-  //     $('.graphContainer').show();
+      $('#queryByName')[0].value = "";
+      globals.map.setExtent(globals.defaultExtents.default);
+      globals.map.setZoom(4);
 
-  //     cumulative_data();
-  //     $('.logarithmicDiv').css("visibility", "visible");
-  //     $('.dataContainer').hide();
-  //   } else {
-  //     $('.dataContainer').hide();
-  //     $('.mapContainer').show();
-  //     $('.graphContainer').hide();
-  //   }
-  // });
-
-  // $('.toggleGraphView').on("click", function (event) {
-  //   $('.toggleGraphView').addClass('disabled');
-  //   $(event.target).removeClass('disabled');
-  //   if (event.target.value == 'dataView') {
-  //     $('.graphContainer').hide();
-  //     $('.dataContainer').show();
-  //     if ($($.fn.dataTable.tables(true)))
-  //       $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-  //   } else {
-  //     $('.dataContainer').hide();
-  //     $('.graphContainer').show();
-
-  //     cumulative_data();
-  //   }
-  // });
-  $('.graphToggle').on("click", function (event) {
-    console.log('event',event,'event.target-',event.target,'event.target.value',event.target.id);
-  //  $('.toggleGraphView').addClass('disabled');
-    $(event.target).removeClass('active');
-    if (event.target.id == 'dataDashboardView') {
-      console.log('data clicked');
-      $('#dataDashboardView').addClass('active');
-      $('#graphView').removeClass('active');
-      $('.dataContainer').show();
-      $('.graphContainer').hide();
-
-
-
-    } else {
-console.log('default-clicked');
-$('#dataDashboardView').removeClass('active');
-$('#graphView').addClass('active');
-  
-  $('.dataContainer').hide();      
-      $('.graphContainer').show();
-      
-
-      cumulative_data();
-      console.log('cumulative_data()=',cumulative_data());
+      getCSVDataAndRendering();
     }
+
   });
 
-  $('.graphToggle').click();
-
-}
-
-function toggleChart() {
-  if ($('#chartToggle').is(':checked'))
-    cumulative_data();
-  else
-    daily_data();
-}
 
 function filteredRegion(regionValue) {
   var filtered = [];
@@ -1233,8 +1153,7 @@ function resetToDefault(timeSlider, changeDate, startDateString, endDateString) 
   timeSlider.pause();
   var defaultDate = new Date(timeSlider.timeStops[timeSlider.timeStops.length - 1].toString());
   var dateToSet = new Date(parseInt(defaultDate.getFullYear()), parseInt(defaultDate.getMonth()), parseInt(defaultDate.getDate()));
-  $(".datepicker1").datepicker("setDate", dateToSet);
-  $(".datepicker2").datepicker("setDate", dateToSet);
+
   var formattedDate = ("0" + parseInt(dateToSet.getMonth() + 1)).slice(-2) + "-" + ("0" + dateToSet.getDate()).slice(-2) + "-" + dateToSet.getFullYear();
   changeDate(formattedDate);
   $('#legend').show();
@@ -1319,14 +1238,4 @@ function updateSummaryInfo(selectedDate) {
   $('.totalCases').html(Number(filteredData[7]).toLocaleString());
 
   $('[data-toggle="tooltip"]').tooltip();
-}
-
-function resetMapToDefault() {
-  globals.map.graphics.clear();
-  globals.map.infoWindow.hide();
-  globals.selectedRegions = [];
-
-  $('#queryByName')[0].value = "";
-  globals.map.setExtent(globals.defaultExtents.default);
-  globals.map.setZoom(4);
 }

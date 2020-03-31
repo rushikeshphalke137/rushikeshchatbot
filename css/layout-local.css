@@ -1179,11 +1179,6 @@ button, input, select, textarea {
   z-index: 99;
 }
 
-#chartdiv {
-  height: 400px;
-  width: 100%; 
-}
-
 #daterange, #selectedDate{
   color: orange !important;
 }
