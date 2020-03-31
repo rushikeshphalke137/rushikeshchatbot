@@ -224,7 +224,8 @@ require([
       globals.regionSelected = this.value;
       if (globals.regionSelected == 'All regions') {
         globals.filteredRegion = [];
-        globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
+      //  globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
+        globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
         getDataFromCSVFile(globals.regionSummaryFile);
         resetMapToDefault();
         $('.resetDefault').click();
@@ -1184,46 +1185,73 @@ require([
   });
 
 function bindChart() {
-  $('.toggleView').on("click", function (event) {
-    $('.toggleView').addClass('disabled');
-    $(event.target).removeClass('disabled');
-    if (event.target.value == 'data') {
-      $('.mapContainer').hide();
-      $('.graphContainer').hide();
+  console.log('bindChart');
+  // $('.toggleView').on("click", function (event) {
+  //   $('.toggleView').addClass('disabled');
+  //   $(event.target).removeClass('disabled');
+  //   if (event.target.value == 'data') {
+  //     $('.mapContainer').hide();
+  //     $('.graphContainer').hide();
+  //     $('.dataContainer').show();
+  //     if ($($.fn.dataTable.tables(true)))
+  //       $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+  //   } else if (event.target.value == 'charts') {
+  //     $('.mapContainer').hide();
+  //     $('.graphContainer').show();
+
+  //     cumulative_data();
+  //     $('.logarithmicDiv').css("visibility", "visible");
+  //     $('.dataContainer').hide();
+  //   } else {
+  //     $('.dataContainer').hide();
+  //     $('.mapContainer').show();
+  //     $('.graphContainer').hide();
+  //   }
+  // });
+
+  // $('.toggleGraphView').on("click", function (event) {
+  //   $('.toggleGraphView').addClass('disabled');
+  //   $(event.target).removeClass('disabled');
+  //   if (event.target.value == 'dataView') {
+  //     $('.graphContainer').hide();
+  //     $('.dataContainer').show();
+  //     if ($($.fn.dataTable.tables(true)))
+  //       $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+  //   } else {
+  //     $('.dataContainer').hide();
+  //     $('.graphContainer').show();
+
+  //     cumulative_data();
+  //   }
+  // });
+  $('.graphToggle').on("click", function (event) {
+    console.log('event',event,'event.target-',event.target,'event.target.value',event.target.id);
+  //  $('.toggleGraphView').addClass('disabled');
+    $(event.target).removeClass('active');
+    if (event.target.id == 'dataDashboardView') {
+      console.log('data clicked');
+      $('#dataDashboardView').addClass('active');
+      $('#graphView').removeClass('active');
       $('.dataContainer').show();
-      if ($($.fn.dataTable.tables(true)))
-        $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-    } else if (event.target.value == 'charts') {
-      $('.mapContainer').hide();
+      $('.graphContainer').hide();
+
+
+
+    } else {
+console.log('default-clicked');
+$('#dataDashboardView').removeClass('active');
+$('#graphView').addClass('active');
+  
+  $('.dataContainer').hide();      
       $('.graphContainer').show();
+      
 
       cumulative_data();
-      $('.logarithmicDiv').css("visibility", "visible");
-      $('.dataContainer').hide();
-    } else {
-      $('.dataContainer').hide();
-      $('.mapContainer').show();
-      $('.graphContainer').hide();
+      console.log('cumulative_data()=',cumulative_data());
     }
   });
 
-  $('.toggleGraphView').on("click", function (event) {
-    $('.toggleGraphView').addClass('disabled');
-    $(event.target).removeClass('disabled');
-    if (event.target.value == 'dataView') {
-      $('.graphContainer').hide();
-      $('.dataContainer').show();
-      if ($($.fn.dataTable.tables(true)))
-        $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-    } else {
-      $('.dataContainer').hide();
-      $('.graphContainer').show();
-
-      cumulative_data();
-    }
-  });
-
-  $('#graphView').click();
+  $('.graphToggle').click();
 
   // $('#chartToggle').on('change', function (e) {
   //   $('#chartdiv').html('');
@@ -1260,7 +1288,7 @@ function filteredRegion(regionValue) {
 
 function resetToDefault(timeSlider, changeDate, startDateString, endDateString) {
   $('.logarithmicDiv').css("visibility", "visible");
-  globals.regionSummaryFile = "./data/nssac-ncov-sd-summary.csv";
+  globals.regionSummaryFile = "./data_ro/nssac_ncov_ro-summary.csv";
   globals.chartDataFile = globals.globalChartDataSummary;
   $("#chartToggle").bootstrapToggle("on");
   timeSlider.setThumbIndexes([0]);
