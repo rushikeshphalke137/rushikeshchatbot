@@ -725,6 +725,7 @@ require([
     }
 
     function changeDate(selectedDate) {
+      console.log('selectedDate',selectedDate);
       globals.selectedDate = selectedDate;
       globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
       //check whether file exists
@@ -1125,11 +1126,11 @@ require([
 
 
         if (loopCounter === 0) {
-          loopingSliderHtml += '<div class="carousel-item active" id="date-' + formattedDate + '">' +
-            '<div class="d-flex content-selected">';
+          loopingSliderHtml += '<div class="carousel-item active">' +
+            '<div class="d-flex content content-selected" id="date-' + formattedDate + '">';
         } else {
-          loopingSliderHtml += '<div class="carousel-item" id="date-' + formattedDate + '">' +
-            '<div class="d-flex content">';
+          loopingSliderHtml += '<div class="carousel-item" >' +
+            '<div class="d-flex content" id="date-' + formattedDate + '">';
         }
 
         loopingSliderHtml += '<div class="d-flex date">' + representationDate + '</div>' +
@@ -1142,23 +1143,20 @@ require([
           '<div class="beds">' + bedsAvailable + '</div></div>' +
           '</div></div></div>';
 
+
+
+
         let dd = "#date-" + formattedDate;
 
-        $('.carousel-item .content').on({ // look for the #button somewhere in body
+        $('.carousel-inner').on({ // look for the #button somewhere in body
           click: function (ev) {
             let selectedDateCarosel;
-            $(".selected").each(function (i, item) {
-              $(item).removeClass('selected');
-            });
-            if (ev.target.previousElementSibling) {
-              selectedDateCarosel = ev.target.previousElementSibling.innerHTML;
-
-              $(ev.target.previousElementSibling).parent('.content').addClass('selected');
-            } else {
-              selectedDateCarosel = ev.target.innerHTML;
-              $(ev.target).parent('.content').addClass('selected');
-            }
-
+            selectedDateCarosel  = ev.currentTarget.id.substring(5);
+// console.log('ev',ev,'ev.target',ev.target,'ev.currentTarget',ev.currentTarget);
+          $(".content-selected").each(function (i, item) {
+            $(item).removeClass('content-selected');
+          });
+          $(ev.currentTarget).addClass('content-selected');
             changeDate(selectedDateCarosel);
           }
         }, dd);
