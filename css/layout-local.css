@@ -1169,7 +1169,146 @@ button, input, select, textarea {
   padding-right: 5px !important;
   width: 99.59% !important;
 }
+/* code start for carosel */
+/*********************************************************************/
+/* Bootstrap 4 Multiple Item Carousel */
+/*********************************************************************/
+/* medium - display 2  */
 
+
+ /* .carousel-item .item-inner-text {
+    color:red;
+  } */
+  .carousel-item .w-10.selected {
+    font-weight: bold;
+    color: #286B95 !important;
+    background-color: #B1B5BF !important;
+  }
+
+  .carousel-item  .content {
+    background-color: white;
+    border: 2px solid rgb(255, 140, 0);
+    color: rgb(255, 140, 0);
+    border-radius: 5px;
+    margin-left: 10px;
+    max-width: 33%;
+    min-width: 12%;
+  }
+
+  /* .carousel-item  .content-selected {
+    background-color: #232d4b;
+    border: 2px solid rgb(255, 140, 0);
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    margin-left: 10px;
+  } */
+
+  /* .content:hover {
+    background-color: #232d4b;
+    cursor: pointer;
+  } */
+
+  /* .content:hover .content-data .content-data-icon, .content-selected .content-data .content-data-icon {
+    color: white;
+  } */
+
+  .content:hover {
+    background-color: rgb(255, 140, 0);
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+  }
+
+  .carousel-item  .content-selected {
+    background-color: rgb(255, 140, 0);
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    max-width: 33%;
+    min-width: 12%;
+  }
+
+  .carousel-item .content .date, .carousel-item .content-selected .date {
+    align-items: center;
+    background-color: aqua;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: 2px solid aqua;
+    color: black;
+    padding: 0px 5px;
+    width: 40px;
+  }
+
+  .content-data .beds, .content-data .cases{
+    flex: 1;
+    text-align: left;
+    padding-left: 5px;
+    font-size: 1.2em;
+    font-weight: 500;
+    /* color: rgb(255, 140, 0); */
+  }
+
+  .content-data .content-data-icon {
+    color: #232d4b;
+    font-size: 1.1em;
+    padding: 0px 5px 0px 7px;
+  }
+
+  .carousel-inner .carousel-item  {
+    text-align: center;
+    margin-left: 10px;
+}
+
+@media (min-width: 768px) {
+
+  .carousel-inner .carousel-item-right.active,
+  .carousel-inner .carousel-item-next {
+      transform: translateX(50%);
+  }
+
+  .carousel-inner .carousel-item-left.active,
+  .carousel-inner .carousel-item-prev {
+      transform: translateX(-50%);
+  }
+}
+
+/* large - display 3 */
+@media (min-width: 992px) {
+
+  .carousel-inner .carousel-item-right.active,
+  .carousel-inner .carousel-item-next {
+      transform: translateX(33%);
+  }
+
+  .carousel-inner .carousel-item-left.active,
+  .carousel-inner .carousel-item-prev {
+      transform: translateX(-33%);
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-inner .carousel-item>div {
+      display: none;
+  }
+
+  .carousel-inner .carousel-item>div:first-child {
+      display: block;
+  }
+}
+
+.carousel-inner .carousel-item.active,
+.carousel-inner .carousel-item-next,
+.carousel-inner .carousel-item-prev {
+  display: flex;
+}
+
+.carousel-inner .carousel-item-right,
+.carousel-inner .carousel-item-left {
+  transform: translateX(0);
+}
+/* code end for carosel */
 #timeInfo{
   background-color: #3d3d3d;
   display: block;

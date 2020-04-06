@@ -98,35 +98,35 @@ globals.chartDataFile = [];
 globals.globalDataSummary = [];
 
 require([
-  "esri/Color",
-  "esri/geometry/Extent",
-  "esri/graphic",
-  "esri/dijit/Legend",
-  "esri/InfoTemplate",
-  "esri/layers/FeatureLayer",
-  "esri/layers/GraphicsLayer",
-  "esri/map",
-  "esri/renderers/ClassBreaksRenderer",
-  "esri/symbols/SimpleFillSymbol",
-  "esri/symbols/SimpleLineSymbol",
-  "esri/renderers/SimpleRenderer",
-  "esri/TimeExtent",
-  "esri/dijit/TimeSlider",
-  "esri/tasks/query",
-  "esri/tasks/QueryTask",
-  "esri/toolbars/draw",
-  "esri/urlUtils",
-  "dojo/on",
-  "dojo/parser",
-  "dojo/_base/array",
-  "dojo/_base/lang",
-  "dijit/registry",
-  "dijit/Tooltip",
-  "dojox/data/CsvStore",
-  "dijit/layout/BorderContainer",
-  "dijit/layout/ContentPane",
-  "dojo/domReady!"
-],
+    "esri/Color",
+    "esri/geometry/Extent",
+    "esri/graphic",
+    "esri/dijit/Legend",
+    "esri/InfoTemplate",
+    "esri/layers/FeatureLayer",
+    "esri/layers/GraphicsLayer",
+    "esri/map",
+    "esri/renderers/ClassBreaksRenderer",
+    "esri/symbols/SimpleFillSymbol",
+    "esri/symbols/SimpleLineSymbol",
+    "esri/renderers/SimpleRenderer",
+    "esri/TimeExtent",
+    "esri/dijit/TimeSlider",
+    "esri/tasks/query",
+    "esri/tasks/QueryTask",
+    "esri/toolbars/draw",
+    "esri/urlUtils",
+    "dojo/on",
+    "dojo/parser",
+    "dojo/_base/array",
+    "dojo/_base/lang",
+    "dijit/registry",
+    "dijit/Tooltip",
+    "dojox/data/CsvStore",
+    "dijit/layout/BorderContainer",
+    "dijit/layout/ContentPane",
+    "dojo/domReady!"
+  ],
   function (
     Color, Extent, Graphic, Legend, InfoTemplate,
     FeatureLayer, GraphicsLayer, Map, ClassBreaksRenderer,
@@ -140,6 +140,7 @@ require([
     parser.parse();
     getGlobalDataFromCSVFile(globals.dailySummaryFile);
     getDataFromCSVFile(globals.dailySummaryFile);
+
     //keep track of value for each drop down menu
     globals.displayLevel = 'State';
 
@@ -268,14 +269,14 @@ require([
 
     //set globals.dailySummary which is to set calendar default date as well
 
-    var defaultDate =  $.datepicker.formatDate('mm-dd-yy', new Date());
+    var defaultDate = $.datepicker.formatDate('mm-dd-yy', new Date());
 
     //var defaultDate = globals.dailySummary[globals.dailySummary.length - 1][0];
     var maxDate = globals.dailySummary[globals.dailySummary.length - 1][0];
-   
+
     globals.selectedDate = defaultDate;
     globals.renderFile = "data_ro/nssac_ncov_ro_" + defaultDate + ".csv";
-    
+
     //Setup Date Picker
     $('[data-toggle=datepicker]').each(function () {
       var target = $(this).data('target-name');
@@ -294,12 +295,12 @@ require([
         t.datepicker("show");
       });
     });
-    
+
     $(".datepicker").datepicker("setDate", defaultDate);
 
     initialSetup();
     getCSVDataAndRendering();
-
+    InitialSlider();
     // Select default option as Charts
     $('.charts').click();
 
@@ -681,7 +682,7 @@ require([
             new Color([102, 255, 255]),
             2
           ),
-          new Color([255, 0, 0,])
+          new Color([255, 0, 0])
         );
 
         var fips;
@@ -877,7 +878,7 @@ require([
             new Color([102, 255, 255]),
             2
           ),
-          new Color([255, 0, 0,])
+          new Color([255, 0, 0])
         );
         var names = [];
         queryTask.execute(query, function (fset) {
@@ -1098,8 +1099,100 @@ require([
           globals.dailySummary = $.csv.toArrays(csv);
         },
         dataType: "text",
-        complete: function () { }
+        complete: function () {}
       });
+    }
+
+    function InitialSlider() {
+      let loopCounter = 0;
+      let loopingSliderHtml;
+
+      let filteredData = globals.dailySummary;
+
+      for (var d = new Date(defaultDate); d <= new Date(maxDate); d.setDate(d.getDate() + 1)) {
+        let totalCasses = 0;
+        let bedsAvailable = 0;
+
+        var formattedDate = ("0" + parseInt(d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + "-" + d.getFullYear();
+        for (index = 0; index < filteredData.length; index++) {
+          if (filteredData[index][0] === formattedDate) {
+            totalCasses = Number(filteredData[index][10]).toLocaleString();
+            bedsAvailable = Number(filteredData[index][1]).toLocaleString();
+            break;
+          }
+        }
+        const representationDate = d.toDateString().slice(4).substring(0, 6);
+
+
+        if (loopCounter === 0) {
+          loopingSliderHtml += '<div class="carousel-item active" id="date-' + formattedDate + '">' +
+            '<div class="d-flex content-selected">';
+        } else {
+          loopingSliderHtml += '<div class="carousel-item" id="date-' + formattedDate + '">' +
+            '<div class="d-flex content">';
+        }
+
+        loopingSliderHtml += '<div class="d-flex date">' + representationDate + '</div>' +
+          '<div class="content-data" style="flex:1;">' +
+          '<div class="d-flex justify-content-center">' +
+          '<div class="content-data-icon"><i class="fa fa-users"></i></div>' +
+          '<div class="cases">' + totalCasses + '</div></div>' +
+          '<div class="d-flex justify-content-center">' +
+          '<div class="content-data-icon"><i class="fa fa-bed"></i></div>' +
+          '<div class="beds">' + bedsAvailable + '</div></div>' +
+          '</div></div></div>';
+
+        let dd = "#date-" + formattedDate;
+
+        $('.carousel-item .content').on({ // look for the #button somewhere in body
+          click: function (ev) {
+            let selectedDateCarosel;
+            $(".selected").each(function (i, item) {
+              $(item).removeClass('selected');
+            });
+            if (ev.target.previousElementSibling) {
+              selectedDateCarosel = ev.target.previousElementSibling.innerHTML;
+
+              $(ev.target.previousElementSibling).parent('.content').addClass('selected');
+            } else {
+              selectedDateCarosel = ev.target.innerHTML;
+              $(ev.target).parent('.content').addClass('selected');
+            }
+
+            changeDate(selectedDateCarosel);
+          }
+        }, dd);
+        loopCounter++;
+
+      }
+
+      $("#dateLooping").html(function (n) {
+        return loopingSliderHtml;
+      });
+
+      // code start for carosel 
+      $('#myCarousel').carousel({
+        interval: false
+      })
+
+      $('.carousel .carousel-item').each(function () {
+        var minPerSlide = 12;
+        var next = $(this).next();
+        if (!next.length) {
+          next = $(this).siblings(':first');
+        }
+        next.children(':first-child').clone().appendTo($(this));
+
+        for (var i = 0; i < minPerSlide; i++) {
+          next = next.next();
+          if (!next.length) {
+            next = $(this).siblings(':first');
+          }
+
+          next.children(':first-child').clone().appendTo($(this));
+        }
+      });
+      // code end for carosel
     }
 
     function getGlobalDataFromCSVFile(file) {
@@ -1112,7 +1205,7 @@ require([
           globals.globalChartDataSummary = JSON.parse(jsonobject);
         },
         dataType: "text",
-        complete: function () { }
+        complete: function () {}
       });
     }
 
@@ -1236,6 +1329,11 @@ function updateSummaryInfo(selectedDate) {
   $(".ventilator-tooltip").attr('title', tooltip);
 
   $('.totalCases').html(Number(filteredData[7]).toLocaleString());
+  console.log('filteredData[7]', filteredData[7]);
 
   $('[data-toggle="tooltip"]').tooltip();
+
+
+
+
 }
