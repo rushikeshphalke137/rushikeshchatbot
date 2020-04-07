@@ -111,16 +111,39 @@
       </div>
 
       <!-- Mobile/iPad Portrait View -->
-      <div class="w-100 mt-3 mb-2 d-flex d-lg-none justify-content-between" style="border-bottom: 2px solid #595959;">
-        <div class="d-flex" style="margin-bottom: 0.2rem;">
+      <div class="w-100 pt-2 pb-2 d-flex d-lg-none justify-content-between">
+
+        <div class="d-flex mr-auto align-items-center" style="margin-bottom: 0.2rem;">
           <a href="https://biocomplexity.virginia.edu/" target="_blank">
             <img src="images/favicon.ico" sizes="16x16 32x32" class="img-fluid" style="height: 2rem;" alt="BII@UVA">
           </a>
-          <div class="title" style="color:white; font-size: 1rem !important; margin-left: 0.3rem;">
+          <div class="title" style="color:white; margin-left: 1rem;">
             COVID-19 Resource Optimization Dashboard
           </div>
         </div>
-        <div class="mr-1">
+
+        <div class="d-none d-md-flex align-items-center mr-2">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F&amp;src=sdkpreparse"
+            target="_blank" class="icon-link round-corner facebook fill mr-2"><i class="fa fa-facebook"></i>
+            <!-- <span style="color: white;padding-left: 6px;">Share</span> -->
+          </a>
+          <a class="icon-link round-corner twitter fill mr-2"
+            href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2Fmaster%2Findex.html&ref_src=twsrc%5Etfw&text=Check%20out%20this%20%23covid19%20dashboard%20by%20%40UVA_BI%20which%20has%20a%20time%20slider.%20Search%20is%20easy%3A%20click%20on%20Data%20icon%20and%20type%20something.&tw_p=tweetbutton&url=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F"
+            data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" data-show-count="false"
+            data-text="Check out this #covid19 dashboard by @UVA_BI which has a time slider. Search is easy: click on Data icon and type something."
+            target="_blank">
+            <i class="fa fa-twitter"></i>
+            <!-- <span style="color: white;padding-left: 6px;">Tweet</span> -->
+          </a>
+          <a class="icon-link round-corner linkedin fill mr-2"
+            href="https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin"
+            data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" target="_blank">
+            <i class="fa fa-linkedin"></i>
+            <!-- <span style="color: white;padding-left: 6px;">Share</span> -->
+          </a>
+        </div>
+
+        <div class="d-flex align-items-center mr-1">
           <i class="fa fa-bars hamburgerIcon hamburgerIconMobile" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false"></i>
         </div>
@@ -131,11 +154,16 @@
   </header>
 
   <div class="row">
-    <div class="col-12 pt-2 pb-1 d-none d-lg-flex btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="col-12 pt-2 pb-1 d-none d-md-flex btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
       <div id="renderField" class="btn-group mr-auto d-block" role="group" aria-label="First group">
-        <button type="button" value="12" class="btn btn-outline-* activeBtn renderField">Cases</button>
+        <button type="button" value="2" class="btn btn-primary confirmBtn renderField pr-2" title="Available Beds">
+          <span class="fa fa-bed pr-2" aria-hidden="true"></span>Beds
+        </button>
+
+        <button type="button" value="4" class="btn btn-danger activeBtn disabled renderField" title="Projected Cases">
+          <span class="fa fa-users pr-2" aria-hidden="true"></span>Cases
+        </button>
         <!-- <span class="arrow-down"></span> -->
-        <button type="button" value="3" class="btn btn-outline-* confirmBtn disabled renderField"> Beds</button>
         <!-- <button type="button" value="4" class="btn btn-outline-* deathBtn disabled renderField">Ventilators</button> -->
       </div>
 
@@ -206,12 +234,8 @@
   <!-- Space for Map and Data-->
   <!-- <div class="row" style="height: calc(100% - 121px);"> -->
   <div class="row" style="height: calc(100% - 183px);">
-    <div class="col-lg-7 col-l2 pl-0 pr-0">
-    </div>
 
-
-    <div class="col-12 col-lg-5 pl-0 pr-0"></div>
-    <div class="col-12 col-lg-7 h-100 pl-0 pr-0 mapContainer">
+    <div class="col-12 col-lg-6 col-xl-7 h-100 pl-0 pr-0 mapContainer">
       <div class="h-100" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'">
         <!--Map Section-->
         <div class="h-100" id="mapCanvas" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
@@ -224,7 +248,7 @@
     </div>
 
 
-    <div class="col-12 col-lg-5 h-100 dataContainer" style="background-color: #232d4b !important;">
+    <div class="col-12 col-lg-6 col-xl-5 h-100 dataContainer" style="background-color: #232d4b !important;">
 
       <!-- <div class="col-12 pl-0 pr-0 mb-2 d-flex" style="border: 2px solid grey;">
 
@@ -275,8 +299,7 @@
 
       </div> -->
 
-      <div class="col-12 d-flex align-items-center pl-0 pr-0 mt-3"
-        style="border-bottom: 5px solid rgb(255, 140, 0) !important;">
+      <div class="w-100 d-flex align-items-center mt-3" style="border-bottom: 5px solid rgb(255, 140, 0) !important;">
         <div class="charts col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter selectedFilter">Chart
         </div>
         <div class="data col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter"> Data</div>
@@ -285,7 +308,7 @@
       <!-- <div id="dataTable" class="mt-3 d-none" style="max-height: calc(100% - 165px); height: 100%;"></div>
 
       <div id="chartdiv" class="w-100 mt-3" style="max-height: calc(100% - 165px); height: 100%;"></div> -->
-      <div id="dataTable" class="mt-3 d-none" style="max-height: calc(100% - 65px); height: 100%;"></div>
+      <div id="dataTable" class="d-none w-100 mt-3" style="max-height: calc(100% - 65px); height: 100%;"></div>
 
       <div id="chartdiv" class="w-100 mt-3" style="max-height: calc(100% - 65px); height: 100%;"></div>
 

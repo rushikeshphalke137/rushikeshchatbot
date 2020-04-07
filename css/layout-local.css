@@ -1,5 +1,6 @@
 /* GENERAL STYLE */
-html, body {
+html,
+body {
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   height: 100%;
@@ -26,7 +27,8 @@ body {
   -ms-transform: translatez(0);
   -o-transform: translatez(0);
   -webkit-transform: translateZ(0);
-  -webkit-font-smoothing: antialiased; /* seems to do the same in Safari */
+  -webkit-font-smoothing: antialiased;
+  /* seems to do the same in Safari */
   padding-left: 10px;
   padding-right: 10px;
   border-bottom: 1px solid #595959;
@@ -102,14 +104,14 @@ body {
 
 /* Transparent Overlay */
 .loading1:before {
-    content: '';
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 41%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 41%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 /* :not(:required) hides these rules from IE9 and below */
@@ -296,7 +298,8 @@ body {
 }
 
 /* warning color */
-.leftPane #info, #infoGraph {
+.leftPane #info,
+#infoGraph {
   color: #D8000C;
   background-color: #FFD2D2;
 }
@@ -338,12 +341,12 @@ body {
   z-index: 9999;
 }
 
-#legend{
+#legend {
   width: 100%;
   font-weight: bold;
 }
 
-.headerTitle{
+.headerTitle {
   background-color: #343434 !important;
   padding-left: 2px;
 }
@@ -370,12 +373,12 @@ h5 {
   left: 15px;
 }
 
-.queryButtons{
+.queryButtons {
   margin: 0 !important;
   margin-bottom: 4px !important;
 }
 
-.queryButtons>span{
+.queryButtons>span {
   font-size: 0.9rem !important;
 
 }
@@ -410,7 +413,8 @@ img.tooltip-img {
   height: auto;
 }
 
-p.tooltip-txt, li.tooltip-txt {
+p.tooltip-txt,
+li.tooltip-txt {
   color: #336699;
   font-size: 1em;
   margin: 0;
@@ -527,61 +531,71 @@ p.tooltip-txt, li.tooltip-txt {
   text-align: left;
 }
 
-.confirmedCount, .deathsCount, .recoveredCount, .activeCount {
+.confirmedCount,
+.deathsCount,
+.recoveredCount,
+.activeCount {
   font-weight: bold;
   font-size: 1.4rem;
   text-align: left;
 }
 
-.dailyConfirmedCount,.dailyDeathCount,.dailyRecoveredCount,.dailyActiveCount{
+.dailyConfirmedCount,
+.dailyDeathCount,
+.dailyRecoveredCount,
+.dailyActiveCount {
   font-weight: bold;
   font-size: 1rem;
 }
 
-.activeCount , .dailyActiveCount {
-  color : rgb(255,140,0);
+.activeCount,
+.dailyActiveCount {
+  color: rgb(255, 140, 0);
 }
 
-.confirmedCount , .dailyConfirmedCount {
-  color : rgb(227, 74, 51);
+.confirmedCount,
+.dailyConfirmedCount {
+  color: rgb(227, 74, 51);
 }
 
-.deathsCount , .dailyDeathCount {
+.deathsCount,
+.dailyDeathCount {
   color: rgb(43, 140, 190);
 }
 
-.recoveredCount, .dailyRecoveredCount {
-  color:rgb(255, 140, 0);
+.recoveredCount,
+.dailyRecoveredCount {
+  color: rgb(255, 140, 0);
 }
 
-.uparrow{
+.uparrow {
   margin-top: 3px;
   margin-right: 3px;
   font-size: 1.2rem !important;
 }
 
-.activeBtn {
-  background-color: white !important;
+/* .activeBtn {
+  background-color: white;
   border-color: rgb(255, 140, 0) !important;
   color: rgb(255, 140, 0) !important;
   width: 90px !important;
 }
 
 .confirmBtn {
-  background-color: white !important;
+  background-color: white;
   border-color: rgb(227, 74, 51) !important;
   color: rgb(227, 74, 51) !important;
   width: 90px !important;
-}
+} */
 
 .deathBtn {
   background-color: white !important;
-  border-color:rgb(43, 140, 190) !important;
+  border-color: rgb(43, 140, 190) !important;
   color: rgb(43, 140, 190) !important;
   width: 90px !important;
 }
 
-.recoveredBtn{
+.recoveredBtn {
   background-color: white !important;
   border-color: rgb(49, 163, 8) !important;
   color: rgb(49, 163, 8) !important;
@@ -661,14 +675,16 @@ p.tooltip-txt, li.tooltip-txt {
 }
 
 /* RIGHT PANE SLIDER */
-.claro .dijitSplitterV, .claro .dijitGutterV {
+.claro .dijitSplitterV,
+.claro .dijitGutterV {
   background: #595959 none repeat scroll 0 0;
   border: 0 none;
   margin: 0;
   width: 6px;
 }
 
-.claro .dijitSplitterV:hover, .claro .dijitGutterV:hover {
+.claro .dijitSplitterV:hover,
+.claro .dijitGutterV:hover {
   background: #A3A3A3 none repeat scroll 0 0;
 }
 
@@ -691,7 +707,7 @@ p.tooltip-txt, li.tooltip-txt {
   /* margin: 0; */
   padding: 0.5rem 0.5rem;
   width: 28%;
-  margin-bottom :30px;
+  margin-bottom: 30px;
 }
 
 #rightPane #mapNavigation ul.map-instruction {
@@ -754,6 +770,7 @@ p.tooltip-txt, li.tooltip-txt {
   color: #000;
   font-size: 1rem;
   font-weight: normal !important;
+  width: 100% !important;
 }
 
 .display.dataTable.no-footer thead {
@@ -806,19 +823,20 @@ div.dt-buttons {
   float: left !important;
 }
 
-.dataTables_length{
+.dataTables_length {
   margin-top: 5px;
   margin-left: 5px;
   float: left !important;
 }
 
-#example_filter{
+#example_filter {
   float: right !important;
   margin-top: 5px;
   margin-right: 3px;
 }
 
-table.dataTable tbody th, table.dataTable tbody td {
+table.dataTable tbody th,
+table.dataTable tbody td {
   padding: 5px 10px !important;
 }
 
@@ -828,7 +846,9 @@ table.dataTable div.dataTables_scrollHeadInner thead {
 
 /* gradient for CSV button across browsers */
 /* Button gradient for all browsers. */
-button.dt-button, div.dt-button, a.dt-button {
+button.dt-button,
+div.dt-button,
+a.dt-button {
   -moz-user-select: none !important;
   background-color: #00396F !important;
   /* alt colors c86a00 056f00 00396F 0089BF */
@@ -856,7 +876,9 @@ button.dt-button, div.dt-button, a.dt-button {
   margin-top: 3px !important;
 }
 
-button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-button:hover:not(.disabled) {
+button.dt-button:hover:not(.disabled),
+div.dt-button:hover:not(.disabled),
+a.dt-button:hover:not(.disabled) {
   background-color: #0062BC !important;
   background-image: -moz-linear-gradient(center top, #00396f 0%, #0068C8 100%) !important;
   background-image: -webkit-linear-gradient(top, #00396f 0%, #0068C8 100%) !important;
@@ -906,7 +928,11 @@ button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-
   border-top: 0.2rem solid #000000;
   color: white;
   z-index: 1000;
-  position: sticky; position: -webkit-sticky; position: -moz-sticky; position: -o-sticky; position: -ms-sticky;
+  position: sticky;
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -o-sticky;
+  position: -ms-sticky;
 }
 
 /* Float four columns side by side */
@@ -914,11 +940,13 @@ button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-
   width: auto;
   margin-top: 5px;
   padding: 0 2px;
-  flex:1
+  flex: 1
 }
 
 /* Remove extra left and right margins, due to padding */
-.row {margin: 0 -5px;}
+.row {
+  margin: 0 -5px;
+}
 
 /* Clear floats after the columns */
 .row:after {
@@ -938,17 +966,18 @@ button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-
 
 
 .dataContainer {
-    border-width:2px;
-    border-color:#000;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-    align-items: center;
+  border-width: 2px;
+  border-color: #000;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  align-items: center;
 
 }
+
 .mapContainer {
   border-width: 2px;
 }
 
-#ui-datepicker-div{
+#ui-datepicker-div {
   display: none;
   z-index: 1000 !important;
 }
@@ -962,7 +991,10 @@ button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-
   background-color: transparent;
 }
 
-.claro .dijitButton .dijitButtonNode, .claro .dijitDropDownButton .dijitButtonNode, .claro .dijitComboButton .dijitButtonNode, .claro .dijitToggleButton .dijitButtonNode {
+.claro .dijitButton .dijitButtonNode,
+.claro .dijitDropDownButton .dijitButtonNode,
+.claro .dijitComboButton .dijitButtonNode,
+.claro .dijitToggleButton .dijitButtonNode {
   background-color: #b2d9ff !important;
 }
 
@@ -970,19 +1002,22 @@ button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-
   background-color: #fff !important;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font-size: 100% !important;
   margin: 0 !important;
   vertical-align: baseline !important;
   *vertical-align: middle !important;
 }
 
-#dataWrapper{
+#dataWrapper {
   box-shadow: 0 0 5px black;
   padding: 5px;
 }
 
-#queryWrapper{
+#queryWrapper {
   padding: 5px;
   /* -moz-box-shadow: 0 0 5px #888;
   -webkit-box-shadow: 0 0 5px #888;
@@ -996,15 +1031,16 @@ button, input, select, textarea {
 
 
 
-.row:before, .row:after {
+.row:before,
+.row:after {
   display: none !important;
 }
 
-.claro .dijitContentPane{
+.claro .dijitContentPane {
   padding: 2px !important;
 }
 
-.queryLabel{
+.queryLabel {
   text-transform: uppercase;
   color: #ffbc3e;
   font-size: 1.17em !important;
@@ -1013,19 +1049,19 @@ button, input, select, textarea {
 }
 
 .modal-body {
-  position:relative;
+  position: relative;
   padding: 0.4rem !important;
 }
 
 .close {
-  position:absolute;
-  right:-30px;
+  position: absolute;
+  right: -30px;
   top: 50 !important;
-  z-index:999;
-  font-size:2rem !important;
+  z-index: 999;
+  font-size: 2rem !important;
   font-weight: normal;
-  color:#fff;
-  opacity:1;
+  color: #fff;
+  opacity: 1;
 }
 
 .closeVideo {
@@ -1036,10 +1072,13 @@ button, input, select, textarea {
   height: 32px;
   opacity: 0.3;
 }
+
 .closeVideo:hover {
   opacity: 1;
 }
-.closeVideo:before, .closeVideo:after {
+
+.closeVideo:before,
+.closeVideo:after {
   position: absolute;
   left: 15px;
   content: ' ';
@@ -1047,37 +1086,41 @@ button, input, select, textarea {
   width: 2px;
   background-color: #333;
 }
+
 .round-button {
-  width:2%;
-}
-.round-button-circle {
-  width: 100%;
-  height:0;
-  padding-bottom: 100%;
-  border-radius: 50%;
-  overflow:hidden;
-  background: #4679BD;
-}
-.round-button-circle:hover {
-  background:#30588e;
-}
-.round-button a {
-  display:block;
-  float:left;
-  width:100%;
-  padding-top:50%;
-  padding-bottom:50%;
-  line-height:1em;
-  margin-top:-0.5em;
-  text-align:center;
-  color:#e2eaf3;
-  font-family:Verdana;
-  font-size:1.2em;
-  font-weight:bold;
-  text-decoration:none;
+  width: 2%;
 }
 
-.closeButton{
+.round-button-circle {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #4679BD;
+}
+
+.round-button-circle:hover {
+  background: #30588e;
+}
+
+.round-button a {
+  display: block;
+  float: left;
+  width: 100%;
+  padding-top: 50%;
+  padding-bottom: 50%;
+  line-height: 1em;
+  margin-top: -0.5em;
+  text-align: center;
+  color: #e2eaf3;
+  font-family: Verdana;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.closeButton {
   background-color: white !important;
   border-radius: 50% !important;
   font-weight: 800 !important;
@@ -1101,59 +1144,103 @@ button, input, select, textarea {
   margin-bottom: 0.3rem !important;
 }
 
-.dijitBorders{
-  margin:5px 5px 5px 5px;
-  border:solid thin #9CAA9C;
- -moz-border-radius: 4px;
+.dijitBorders {
+  margin: 5px 5px 5px 5px;
+  border: solid thin #9CAA9C;
+  -moz-border-radius: 4px;
 }
 
-.labelText{
-  color:#9CAA9C;
-  font-family:"Tahoma";
+.labelText {
+  color: #9CAA9C;
+  font-family: "Tahoma";
 }
 
-.headerText{
-  color:#9CAA9C;
-  font-size:16pt;
-  font-weight:bold;
+.headerText {
+  color: #9CAA9C;
+  font-size: 16pt;
+  font-weight: bold;
   font-family: "Tahoma";
 }
 
 /*** Styles added to fix the issue with zoom in on iphone ***/
 /* iPhone < 5: */
 @media screen and (device-aspect-ratio: 2/3) {
-  select, textarea, input[type="text"], input[type="password"],
-  input[type="datetime"], input[type="datetime-local"],
-  input[type="date"], input[type="month"], input[type="time"],
-  input[type="week"], input[type="number"], input[type="email"],
-  input[type="url"]{ font-size: 16px; }
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  }
 }
 
 /* iPhone 5, 5C, 5S, iPod Touch 5g */
 @media screen and (device-aspect-ratio: 40/71) {
-  select, textarea, input[type="text"], input[type="password"],
-  input[type="datetime"], input[type="datetime-local"],
-  input[type="date"], input[type="month"], input[type="time"],
-  input[type="week"], input[type="number"], input[type="email"],
-  input[type="url"]{ font-size: 16px; }
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  }
 }
 
 /* iPhone 6, iPhone 6s, iPhone 7 portrait/landscape */
 @media screen and (device-aspect-ratio: 375/667) {
-  select, textarea, input[type="text"], input[type="password"],
-  input[type="datetime"], input[type="datetime-local"],
-  input[type="date"], input[type="month"], input[type="time"],
-  input[type="week"], input[type="number"], input[type="email"],
-  input[type="url"]{ font-size: 16px; }
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  }
 }
 
 /* iPhone 6 Plus, iPhone 6s Plus, iPhone 7 Plus portrait/landscape */
 @media screen and (device-aspect-ratio: 9/16) {
-  select, textarea, input[type="text"], input[type="password"],
-  input[type="datetime"], input[type="datetime-local"],
-  input[type="date"], input[type="month"], input[type="time"],
-  input[type="week"], input[type="number"], input[type="email"],
-  input[type="url"]{ font-size: 16px; }
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  }
 }
 
 #timeSlider {
@@ -1169,6 +1256,7 @@ button, input, select, textarea {
   padding-right: 5px !important;
   width: 99.59% !important;
 }
+
 /* code start for carosel */
 /*********************************************************************/
 /* Bootstrap 4 Multiple Item Carousel */
@@ -1176,26 +1264,26 @@ button, input, select, textarea {
 /* medium - display 2  */
 
 
- /* .carousel-item .item-inner-text {
+/* .carousel-item .item-inner-text {
     color:red;
   } */
-  .carousel-item .w-10.selected {
-    font-weight: bold;
-    color: #286B95 !important;
-    background-color: #B1B5BF !important;
-  }
+.carousel-item .w-10.selected {
+  font-weight: bold;
+  color: #286B95 !important;
+  background-color: #B1B5BF !important;
+}
 
-  .carousel-item  .content {
-    background-color: white;
-    border: 2px solid rgb(255, 140, 0);
-    color: rgb(255, 140, 0);
-    border-radius: 5px;
-    margin-left: 10px;
-    max-width: 33%;
-    min-width: 12%;
-  }
+.carousel-item .content {
+  background-color: white;
+  border: 2px solid rgb(255, 140, 0);
+  color: rgb(255, 140, 0);
+  border-radius: 5px;
+  margin-left: 10px;
+  max-width: 44%;
+  /* min-width: 12%; */
+}
 
-  /* .carousel-item  .content-selected {
+/* .carousel-item  .content-selected {
     background-color: #232d4b;
     border: 2px solid rgb(255, 140, 0);
     border-radius: 5px;
@@ -1204,73 +1292,75 @@ button, input, select, textarea {
     margin-left: 10px;
   } */
 
-  /* .content:hover {
+/* .content:hover {
     background-color: #232d4b;
     cursor: pointer;
   } */
 
-  /* .content:hover .content-data .content-data-icon, .content-selected .content-data .content-data-icon {
+/* .content:hover .content-data .content-data-icon, .content-selected .content-data .content-data-icon {
     color: white;
   } */
 
-  .content:hover {
-    background-color: rgb(255, 140, 0);
-    border: 2px solid white;
-    color: white;
-    cursor: pointer;
-  }
+.carousel-item .content:hover {
+  background-color: rgb(255, 140, 0);
+  border: 2px solid white;
+  color: white;
+  cursor: pointer;
+}
 
-  .carousel-item  .content-selected {
-    background-color: rgb(255, 140, 0);
-    border: 2px solid white;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    max-width: 33%;
-    min-width: 12%;
-  }
+.carousel-item .content-selected {
+  background-color: rgb(255, 140, 0);
+  border: 2px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  max-width: 44%;
+  /* min-width: 12%; */
+}
 
-  .carousel-item .content .date, .carousel-item .content-selected .date {
-    align-items: center;
-    background-color: aqua;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-right: 2px solid aqua;
-    color: black;
-    padding: 0px 5px;
-    width: 40px;
-  }
+.carousel-item .content .date,
+.carousel-item .content-selected .date {
+  align-items: center;
+  background-color: aqua;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-right: 2px solid aqua;
+  color: black;
+  padding: 0px 5px;
+  width: 40px;
+}
 
-  .content-data .beds, .content-data .cases{
-    flex: 1;
-    text-align: left;
-    padding-left: 5px;
-    font-size: 1.2em;
-    font-weight: 500;
-    /* color: rgb(255, 140, 0); */
-  }
+.content-data .beds,
+.content-data .cases {
+  flex: 1;
+  text-align: left;
+  padding-left: 5px;
+  font-size: 1.2em;
+  font-weight: 500;
+  /* color: rgb(255, 140, 0); */
+}
 
-  .content-data .content-data-icon {
-    color: #232d4b;
-    font-size: 1.1em;
-    padding: 0px 5px 0px 7px;
-  }
+.content-data .content-data-icon {
+  color: #232d4b;
+  font-size: 1.1em;
+  padding: 0px 5px 0px 7px;
+}
 
-  .carousel-inner .carousel-item  {
-    text-align: center;
-    margin-left: 10px;
+.carousel-inner .carousel-item {
+  text-align: center;
+  margin-left: 10px;
 }
 
 @media (min-width: 768px) {
 
   .carousel-inner .carousel-item-right.active,
   .carousel-inner .carousel-item-next {
-      transform: translateX(50%);
+    transform: translateX(50%);
   }
 
   .carousel-inner .carousel-item-left.active,
   .carousel-inner .carousel-item-prev {
-      transform: translateX(-50%);
+    transform: translateX(-50%);
   }
 }
 
@@ -1279,22 +1369,29 @@ button, input, select, textarea {
 
   .carousel-inner .carousel-item-right.active,
   .carousel-inner .carousel-item-next {
-      transform: translateX(33%);
+    transform: translateX(33%);
   }
 
   .carousel-inner .carousel-item-left.active,
   .carousel-inner .carousel-item-prev {
-      transform: translateX(-33%);
+    transform: translateX(-33%);
   }
 }
 
 @media (max-width: 768px) {
+  .icon-link {
+    height: 30px !important;
+    line-height: 32px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+
   .carousel-inner .carousel-item>div {
-      display: none;
+    display: none;
   }
 
   .carousel-inner .carousel-item>div:first-child {
-      display: block;
+    display: block;
   }
 }
 
@@ -1308,8 +1405,9 @@ button, input, select, textarea {
 .carousel-inner .carousel-item-left {
   transform: translateX(0);
 }
+
 /* code end for carosel */
-#timeInfo{
+#timeInfo {
   background-color: #3d3d3d;
   display: block;
   padding-bottom: 10px;
@@ -1318,7 +1416,8 @@ button, input, select, textarea {
   z-index: 99;
 }
 
-#daterange, #selectedDate{
+#daterange,
+#selectedDate {
   color: orange !important;
 }
 
@@ -1330,16 +1429,16 @@ button, input, select, textarea {
   color: orange !important;
 }
 
-.optionMenu{
+.optionMenu {
   position: fixed;
   top: 52px;
   right: 18px;
   z-index: 9999;
-  border:1px solid #ffc107;
+  border: 1px solid #ffc107;
   background: #4B4B4B;
 }
 
-.imageMenu{
+.imageMenu {
   height: 17px;
   width: 18px;
   margin-top: 3px;
@@ -1368,7 +1467,7 @@ button, input, select, textarea {
   cursor: pointer;
 }
 
-.socialMedia{
+.socialMedia {
   /* color: #ffc107;
   margin-top: 3px; */
   padding-right: 5px;
@@ -1379,7 +1478,7 @@ button, input, select, textarea {
   vertical-align: bottom;
 }
 
-.moreOptions{
+.moreOptions {
   color: #ffc107;
   cursor: pointer;
 }
@@ -1405,41 +1504,44 @@ button, input, select, textarea {
 #optionMenu ul li:hover {
   text-decoration: none;
   background-color: #ffc107;
-  color:black;
+  color: black;
 }
 
-.moreOptionDropDown{
+.moreOptionDropDown {
   color: #ffc107 !important;
   border-color: #ffc107 !important;
   cursor: pointer;
 }
 
 @media only screen and (device-width: 768px) {
-  /* For general iPad layouts */.
-  .moreOptions {
-    display:none !important;
+
+  /* For general iPad layouts */
+  . .moreOptions {
+    display: none !important;
   }
 
-  .optionMenu{
+  .optionMenu {
     right: 13px !important;
   }
 
-  .moreOptionDropDown{
-    background-color:unset !important;
+  .moreOptionDropDown {
+    background-color: unset !important;
   }
 }
 
 @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+
   /* For portrait layouts only */
-  .optionMenu{
+  .optionMenu {
     right: 10px !important;
   }
 
 }
 
 @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+
   /* For landscape layouts only */
-  .optionMenu{
+  .optionMenu {
     right: 10px !important;
   }
 }
@@ -1454,17 +1556,17 @@ button, input, select, textarea {
     height: calc(100vh - 145px) !important;
   }
 
-  #displayOptionWrapper{
+  #displayOptionWrapper {
     bottom: 80px !important;
   }
 
- .title{
-  font-size: 1.1rem !important;
-  margin-left: 0.5rem !important;
-  margin-top: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  .title {
+    font-size: 1rem !important;
+    margin-left: 0.5rem !important;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .numCountry {
@@ -1472,19 +1574,25 @@ button, input, select, textarea {
   }
 
   .claro .dijitTooltipContainer {
-      max-height: 30vh !important;
-      width: 98% !important;
+    max-height: 30vh !important;
+    width: 98% !important;
   }
 
-  #queryByName{
+  #queryByName {
     width: 52% !important;
   }
 
-  .confirmedCount, .deathsCount, .recoveredCount, .activeCount {
+  .confirmedCount,
+  .deathsCount,
+  .recoveredCount,
+  .activeCount {
     font-size: 1.2rem !important;
   }
 
-  .dailyConfirmedCount,.dailyDeathCount,.dailyRecoveredCount, .dailyActiveCount{
+  .dailyConfirmedCount,
+  .dailyDeathCount,
+  .dailyRecoveredCount,
+  .dailyActiveCount {
     font-size: 0.8rem !important;
   }
 
@@ -1527,7 +1635,7 @@ button, input, select, textarea {
     background-color: rgba(0, 0, 0, 0.3);
   }
 
-  .calenderIcon{
+  .calenderIcon {
     left: -24px !important;
     top: 7px !important;
   }
@@ -1537,39 +1645,41 @@ button, input, select, textarea {
     top: 37px !important;
   }
 
-  .dropdown{
-    background-color:unset !important;
+  .dropdown {
+    background-color: unset !important;
   }
 
-  .sticky-container{
+  .sticky-container {
     top: 280px !important;
   }
 
-  #summaryInfoOnMap{
-    bottom: 30px !important; 
+  #summaryInfoOnMap {
+    bottom: 30px !important;
   }
 
-  .map .logo-sm{
+  .map .logo-sm {
     display: none !important;
   }
 }
 
 /* Media Query for low resolution  Tablets, Ipads */
 @media (min-width: 481px) and (max-width: 767px) {
-   .summaryInfoTH {
-    font-size: 1.1rem !important;;
+  .summaryInfoTH {
+    font-size: 1.1rem !important;
+    ;
   }
 
-  .optionMenu{
+  .optionMenu {
     right: 10px !important;
-    top: 37px !important;;
+    top: 37px !important;
+    ;
   }
 
-  .title{
+  .title {
     font-size: 1.5rem !important;
   }
 
-  .map .logo-sm{
+  .map .logo-sm {
     display: none !important;
   }
 }
@@ -1582,82 +1692,86 @@ button, input, select, textarea {
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  .loading1 {
-   position: fixed;
-   z-index: 999;
-   height: 2em;
-   width: 2em;
-   overflow: visible;
-   margin-left: 25%;
-   margin-top: 60%;
-   top: 0;
-   left: 0;
-   bottom: 0;
-   right: 0;
- }
+  .title {
+    font-size: 1.5rem !important;
+  }
 
- /* Transparent Overlay */
- .loading1:before {
-     content: '';
-     display: block;
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 49%;
-     height: 100%;
-     background-color: rgba(0, 0, 0, 0.3);
+  .loading1 {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: visible;
+    margin-left: 25%;
+    margin-top: 60%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  /* Transparent Overlay */
+  .loading1:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 49%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
   }
 
   .moreOptions {
-    display:none !important;
-  }
-
-   .moreOptionDropDown{
-    background-color:unset !important;
-  }
-
-  .map .logo-md{
     display: none !important;
   }
- }
 
- @media (min-width: 768px) and (max-width: 1024px) and (orientation : landscape) {
-    .loading1 {
-   position: fixed;
-   z-index: 999;
-   height: 2em;
-   width: 2em;
-   overflow: visible;
-   margin-left: 21%;
-   margin-top: 42%;
-   top: 0;
-   left: 0;
-   bottom: 0;
-   right: 0;
- }
+  .moreOptionDropDown {
+    background-color: unset !important;
+  }
 
- /* Transparent Overlay */
- .loading1:before {
-     content: '';
-     display: block;
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 49%;
-     height: 100%;
-     background-color: rgba(0, 0, 0, 0.3);
+  .map .logo-md {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation : landscape) {
+  .loading1 {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: visible;
+    margin-left: 21%;
+    margin-top: 42%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  /* Transparent Overlay */
+  .loading1:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 49%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
   }
 
   .moreOptions {
-    display:none !important;
+    display: none !important;
   }
 
-   .moreOptionDropDown{
-    background-color:unset !important;
+  .moreOptionDropDown {
+    background-color: unset !important;
   }
- }
+}
 
- @media screen and (max-width: 350px) {
+@media screen and (max-width: 350px) {
   .summaryInfoTH {
     font-size: 0.7rem !important;
   }
@@ -1669,19 +1783,19 @@ button, input, select, textarea {
 
 
 @media screen and (min-width: 1400px) {
-  .optionMenu{
+  .optionMenu {
     right: 18px !important;
   }
 }
 
 @media screen and (min-width: 1600px) {
-  .optionMenu{
-    right: 18px  !important;
+  .optionMenu {
+    right: 18px !important;
   }
 }
 
 @media screen and (min-width: 1900px) {
-  .optionMenu{
+  .optionMenu {
     right: 18px !important;
   }
 }
@@ -1850,17 +1964,17 @@ div#socialSharing a span#linkedin:hover {
   margin-bottom: 0.3rem !important;
 }
 
-.text-wrap{
-  white-space:initial;
+.text-wrap {
+  white-space: initial;
 }
 
-.width-600{
-  width:max-content;
+.width-600 {
+  width: max-content;
   max-width: 600px;
   text-align: left;
 }
 
-.announcement{
+.announcement {
   font-size: 1.2rem;
   margin-left: 1rem;
   width: 30%;
@@ -1870,7 +1984,7 @@ div#socialSharing a span#linkedin:hover {
   font-weight: 500;
 }
 
-.newFeatures{
+.newFeatures {
   font-size: 1.2rem;
   color: aqua;
   box-shadow: 0 0 5px #a5a0a0;
