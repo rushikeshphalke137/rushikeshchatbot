@@ -98,35 +98,35 @@ globals.chartDataFile = [];
 globals.globalDataSummary = [];
 
 require([
-    "esri/Color",
-    "esri/geometry/Extent",
-    "esri/graphic",
-    "esri/dijit/Legend",
-    "esri/InfoTemplate",
-    "esri/layers/FeatureLayer",
-    "esri/layers/GraphicsLayer",
-    "esri/map",
-    "esri/renderers/ClassBreaksRenderer",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/renderers/SimpleRenderer",
-    "esri/TimeExtent",
-    "esri/dijit/TimeSlider",
-    "esri/tasks/query",
-    "esri/tasks/QueryTask",
-    "esri/toolbars/draw",
-    "esri/urlUtils",
-    "dojo/on",
-    "dojo/parser",
-    "dojo/_base/array",
-    "dojo/_base/lang",
-    "dijit/registry",
-    "dijit/Tooltip",
-    "dojox/data/CsvStore",
-    "dijit/layout/BorderContainer",
-    "dijit/layout/ContentPane",
-    "dojo/domReady!"
-  ],
+  "esri/Color",
+  "esri/geometry/Extent",
+  "esri/graphic",
+  "esri/dijit/Legend",
+  "esri/InfoTemplate",
+  "esri/layers/FeatureLayer",
+  "esri/layers/GraphicsLayer",
+  "esri/map",
+  "esri/renderers/ClassBreaksRenderer",
+  "esri/symbols/SimpleFillSymbol",
+  "esri/symbols/SimpleLineSymbol",
+  "esri/renderers/SimpleRenderer",
+  "esri/TimeExtent",
+  "esri/dijit/TimeSlider",
+  "esri/tasks/query",
+  "esri/tasks/QueryTask",
+  "esri/toolbars/draw",
+  "esri/urlUtils",
+  "dojo/on",
+  "dojo/parser",
+  "dojo/_base/array",
+  "dojo/_base/lang",
+  "dijit/registry",
+  "dijit/Tooltip",
+  "dojox/data/CsvStore",
+  "dijit/layout/BorderContainer",
+  "dijit/layout/ContentPane",
+  "dojo/domReady!"
+],
   function (
     Color, Extent, Graphic, Legend, InfoTemplate,
     FeatureLayer, GraphicsLayer, Map, ClassBreaksRenderer,
@@ -725,7 +725,7 @@ require([
     }
 
     function changeDate(selectedDate) {
-      console.log('selectedDate',selectedDate);
+      console.log('selectedDate', selectedDate);
       globals.selectedDate = selectedDate;
       globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
       //check whether file exists
@@ -1100,13 +1100,13 @@ require([
           globals.dailySummary = $.csv.toArrays(csv);
         },
         dataType: "text",
-        complete: function () {}
+        complete: function () { }
       });
     }
 
     function InitialSlider() {
       let loopCounter = 0;
-      let loopingSliderHtml;
+      let loopingSliderHtml = "";
 
       let filteredData = globals.dailySummary;
 
@@ -1151,12 +1151,12 @@ require([
         $('.carousel-inner').on({ // look for the #button somewhere in body
           click: function (ev) {
             let selectedDateCarosel;
-            selectedDateCarosel  = ev.currentTarget.id.substring(5);
-// console.log('ev',ev,'ev.target',ev.target,'ev.currentTarget',ev.currentTarget);
-          $(".content-selected").each(function (i, item) {
-            $(item).removeClass('content-selected');
-          });
-          $(ev.currentTarget).addClass('content-selected');
+            selectedDateCarosel = ev.currentTarget.id.substring(5);
+            // console.log('ev',ev,'ev.target',ev.target,'ev.currentTarget',ev.currentTarget);
+            $(".content-selected").each(function (i, item) {
+              $(item).removeClass('content-selected');
+            });
+            $(ev.currentTarget).addClass('content-selected');
             changeDate(selectedDateCarosel);
           }
         }, dd);
@@ -1168,13 +1168,67 @@ require([
         return loopingSliderHtml;
       });
 
+
+    //  $('.carousel-control-next').attr("data-slide-to", "8");
       // code start for carosel 
       $('#myCarousel').carousel({
         interval: false
       })
 
+      $('.carousel').on('slid.bs.carousel', function () {
+        let numItems = $('.carousel-item').length;
+        let currentIndex = $('div.active').index() + 8;
+        let CheckNextInterval ;
+        let selectedDate = $(".content-selected").attr('id');
+        selectedDate = ".active #" + selectedDate;
+        $('#dateLooping').removeClass('content-selected');
+
+        console.log('selectedDatesliderslide=', selectedDate);
+        let previousSlideItem = 0;
+        $('.carousel-control-prev').show();
+        $('.carousel-control-prev').css('display', 'flex');
+      //  $('.carousel-control-prev').attr("data-slide-to", "0");
+
+
+      // let nextSlideItem = $('.carousel-control-next').attr("data-slide-to");
+      // CheckNextInterval = parseInt(numItems) - parseInt(currentIndex);
+      // console.log('nextSlideItem=',nextSlideItem, 'CheckNextInterval=',CheckNextInterval,'currentIndex=',currentIndex,'numItems=',numItems);
+      // if(CheckNextInterval > 8) {
+      //   $('.carousel-control-prev').attr("data-slide-to", "" + parseInt((nextSlideItem) - (8))   + "");
+      //   nextSlideItem = parseInt(nextSlideItem) + 8 ;
+      // //  previousSlideItem = parseInt(nextSlideItem) - 8 ;
+      //   $('.carousel-control-next').attr("data-slide-to", "" + nextSlideItem + "");
+        
+      // } else {
+      //  // $('.carousel-control-next').attr("data-slide-to", "" + CheckNextInterval + "");
+      //  nextSlideItem = parseInt(nextSlideItem) + parseInt(CheckNextInterval) ;
+      //  previousSlideItem = parseInt(nextSlideItem) - 8 ;
+      //   $('.carousel-control-next').attr("data-slide-to", "" + nextSlideItem + "");
+      //   $('.carousel-control-prev').attr("data-slide-to", "" + previousSlideItem + "");
+      // }
+      //    nextSlideItem = parseInt(nextSlideItem) + parseInt(8);
+
+
+        if (currentIndex >= numItems) { //if this is the last item then
+          $('.carousel-control-next').hide();
+        //  previousSlideItem = parseInt(numItems) - parseInt(8) ;
+          // console.log('numItems=',numItems,"previousSlideItem=",previousSlideItem);
+        //  $('.carousel-control-prev').attr("data-slide-to", ""+previousSlideItem+"");
+        } else if (currentIndex === 8) { //if page load/refreshed and slider starts from 1st item by default or by sliding its the first item 
+          $('.carousel-control-prev').hide();
+        }
+        else { // if this is not last item
+          $('.carousel-control-next').show();
+    //      let nextSlideItem = $('.carousel-control-next').attr("data-slide-to");
+        //  nextSlideItem = parseInt(nextSlideItem) + parseInt(8);
+         // $('.carousel-control-next').attr("data-slide-to", "" + nextSlideItem + "");
+        }
+        $(selectedDate).addClass('content-selected');
+      });
+
+
       $('.carousel .carousel-item').each(function () {
-        var minPerSlide = 12;
+        var minPerSlide = 6;
         var next = $(this).next();
         if (!next.length) {
           next = $(this).siblings(':first');
@@ -1203,7 +1257,7 @@ require([
           globals.globalChartDataSummary = JSON.parse(jsonobject);
         },
         dataType: "text",
-        complete: function () {}
+        complete: function () { }
       });
     }
 

@@ -1184,13 +1184,15 @@ button, input, select, textarea {
     color: #286B95 !important;
     background-color: #B1B5BF !important;
   }
-
+#myCarousel .hide-default {
+  display: none;
+}
   .carousel-item  .content {
     background-color: white;
     border: 2px solid rgb(255, 140, 0);
     color: rgb(255, 140, 0);
     border-radius: 5px;
-    margin-left: 10px;
+    margin-left: 4px;
     max-width: 33%;
     min-width: 12%;
   }
