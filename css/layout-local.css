@@ -1285,7 +1285,7 @@ textarea {
   background-color: white;
   color: rgb(255, 140, 0);
   border-radius: 5px;
-  margin-left: 10px;
+  margin-left: 6px;
   max-width: 44%;
   /* min-width: 12%; */
 }
@@ -1352,7 +1352,7 @@ textarea {
 
 .carousel-inner .carousel-item {
   text-align: center;
-  margin-left: 10px;
+  /* margin-left: 10px; */
 }
 
 @media (min-width: 768px) {

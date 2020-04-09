@@ -1004,7 +1004,7 @@ require([
 
       $('.carousel').on('slid.bs.carousel', function () {
         let numItems = $('.carousel-item').length;
-        let currentIndex = $('div.active').index() + 8;
+        let currentIndex = $('div.active').index() + 9;
         let CheckNextInterval;
         let selectedDate = $(".content-selected").attr('id');
         selectedDate = ".active #" + selectedDate;
@@ -1015,7 +1015,7 @@ require([
 
         if (currentIndex >= numItems) { //if this is the last item then
           $('.carousel-control-next').hide();
-        } else if (currentIndex === 8) { //if page load/refreshed and slider starts from 1st item by default or by sliding its the first item 
+        } else if (currentIndex === 9) { //if page load/refreshed and slider starts from 1st item by default or by sliding its the first item 
           $('.carousel-control-prev').hide();
         } else { // if this is not last item
           $('.carousel-control-next').show();
@@ -1024,7 +1024,7 @@ require([
       });
 
       $('.carousel .carousel-item').each(function () {
-        var minPerSlide = 6;
+        var minPerSlide = 7;
         var next = $(this).next();
         if (!next.length) {
           next = $(this).siblings(':first');
