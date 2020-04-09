@@ -1257,6 +1257,13 @@ textarea {
   width: 99.59% !important;
 }
 
+
+.popover-header {
+  background-color: rgb(255, 140, 0) !important;
+  color: #232d4b;
+  width: 100%;
+}
+
 /* code start for carosel */
 /*********************************************************************/
 /* Bootstrap 4 Multiple Item Carousel */
@@ -1264,26 +1271,10 @@ textarea {
 /* medium - display 2  */
 
 
-/* .carousel-item .item-inner-text {
-    color:red;
-  } */
-  .carousel-item .w-10.selected {
-    font-weight: bold;
-    color: #286B95 !important;
-    background-color: #B1B5BF !important;
-  }
 #myCarousel .hide-default {
   display: none;
 }
-  .carousel-item  .content {
-    background-color: white;
-    border: 2px solid rgb(255, 140, 0);
-    color: rgb(255, 140, 0);
-    border-radius: 5px;
-    margin-left: 4px;
-    max-width: 33%;
-    min-width: 12%;
-  }
+
 .carousel-item .w-10.selected {
   font-weight: bold;
   color: #286B95 !important;
@@ -1292,10 +1283,9 @@ textarea {
 
 .carousel-item .content {
   background-color: white;
-  border: 2px solid rgb(255, 140, 0);
   color: rgb(255, 140, 0);
   border-radius: 5px;
-  margin-left: 4px;
+  margin-left: 10px;
   max-width: 44%;
   /* min-width: 12%; */
 }
@@ -1320,14 +1310,12 @@ textarea {
 
 .carousel-item .content:hover {
   background-color: rgb(255, 140, 0);
-  border: 2px solid white;
   color: white;
   cursor: pointer;
 }
 
 .carousel-item .content-selected {
   background-color: rgb(255, 140, 0);
-  border: 2px solid white;
   border-radius: 5px;
   cursor: pointer;
   color: white;
@@ -1341,7 +1329,6 @@ textarea {
   background-color: aqua;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  border-right: 2px solid aqua;
   color: black;
   padding: 0px 5px;
   width: 40px;
@@ -1379,6 +1366,7 @@ textarea {
   .carousel-inner .carousel-item-prev {
     transform: translateX(-50%);
   }
+
 }
 
 /* large - display 3 */
@@ -1409,6 +1397,27 @@ textarea {
 
   .carousel-inner .carousel-item>div:first-child {
     display: block;
+  }
+
+  .content-data {
+    display: none !important;
+  }
+
+  .carousel-item .content-selected .date {
+    background-color: rgb(255, 140, 0) !important;
+    width: 60px !important;
+    justify-content: center;
+  }
+
+  .carousel-item .content .date {
+    height: 25px;
+    justify-content: center;
+    width: 60px !important;
+  }
+
+  .carousel-item .content .date,
+  .carousel-item .content-selected .date {
+    border-radius: 5px !important;
   }
 }
 

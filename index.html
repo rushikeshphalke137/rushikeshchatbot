@@ -153,8 +153,8 @@
 
   </header>
 
-  <div class="row">
-    <div class="col-12 pt-2 pb-1 d-none d-md-flex btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+  <div class="row d-none d-md-flex" style="height: 45px;">
+    <div class="col-12 pt-2 pb-1 btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
       <div id="renderField" class="btn-group mr-auto d-block" role="group" aria-label="First group">
         <button type="button" value="2" class="btn btn-primary confirmBtn renderField pr-2" title="Available Beds">
           <span class="fa fa-bed pr-2" aria-hidden="true"></span>Beds
@@ -183,22 +183,12 @@
       </div> -->
 
       <div id="queryWrapper" class="d-flex">
-        <div class="queryLabel">Query</div> <span id="tooltipDataTable"><img class="tooltip-img"
-            src="images/info-help.png" alt="Help"></span>
-
-        <div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'tooltipDataTable',position:['below']">
-          <div class="tooltip-txt pb-2">You can query the data in two ways:
-            <div class="tooltip-txt">1. Fill in a list of comma-separated place name, click on "QUERY" button or press
-              <b>enter key</b>.
-              A place name can be a state name in the USA, a province-level name for China and the country name for
-              the other countries.
-              The query tool is case-insensitive and supports substring.</div>
-            <div class="tooltip-txt">2. Click on the map while holding down the <b>ctrl key</b> (<b>command key</b> in
-              Mac OS)
-              to manually select regions. Hold the <b>shift key</b> while clicking on a selected region to remove it
-              from the query.</div>
-            <div class="tooltip-txt">Click on "RESET" button to reset everything to the default display.</div>
-          </div>
+        <div class="queryLabel">Query</div>
+        <div style="cursor: pointer;">
+          <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true"
+            title="Query Info" data-content="Enter comma-separated names of HRR to search, click on 'QUERY' button or press
+            <b>enter key</b>"><img class="tooltip-img" src="images/info-help.png" alt="Help">
+          </a>
         </div>
 
         <div class="w-100">
@@ -214,7 +204,7 @@
 
   </div>
 
-  <div class="row pb-2">
+  <div class="row pt-2 pb-2">
     <div id="myCarousel" class="carousel slide col-12" data-ride="false" data-wrap="false" data-keyboard="true">
       <div class="carousel-inner w-100" role="listbox" id="dateLooping"></div>
 

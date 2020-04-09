@@ -91,35 +91,35 @@ globals.chartDataFile = [];
 globals.globalDataSummary = [];
 
 require([
-  "esri/Color",
-  "esri/geometry/Extent",
-  "esri/graphic",
-  "esri/dijit/Legend",
-  "esri/InfoTemplate",
-  "esri/layers/FeatureLayer",
-  "esri/layers/GraphicsLayer",
-  "esri/map",
-  "esri/renderers/ClassBreaksRenderer",
-  "esri/symbols/SimpleFillSymbol",
-  "esri/symbols/SimpleLineSymbol",
-  "esri/renderers/SimpleRenderer",
-  "esri/TimeExtent",
-  "esri/dijit/TimeSlider",
-  "esri/tasks/query",
-  "esri/tasks/QueryTask",
-  "esri/toolbars/draw",
-  "esri/urlUtils",
-  "dojo/on",
-  "dojo/parser",
-  "dojo/_base/array",
-  "dojo/_base/lang",
-  "dijit/registry",
-  "dijit/Tooltip",
-  "dojox/data/CsvStore",
-  "dijit/layout/BorderContainer",
-  "dijit/layout/ContentPane",
-  "dojo/domReady!"
-],
+    "esri/Color",
+    "esri/geometry/Extent",
+    "esri/graphic",
+    "esri/dijit/Legend",
+    "esri/InfoTemplate",
+    "esri/layers/FeatureLayer",
+    "esri/layers/GraphicsLayer",
+    "esri/map",
+    "esri/renderers/ClassBreaksRenderer",
+    "esri/symbols/SimpleFillSymbol",
+    "esri/symbols/SimpleLineSymbol",
+    "esri/renderers/SimpleRenderer",
+    "esri/TimeExtent",
+    "esri/dijit/TimeSlider",
+    "esri/tasks/query",
+    "esri/tasks/QueryTask",
+    "esri/toolbars/draw",
+    "esri/urlUtils",
+    "dojo/on",
+    "dojo/parser",
+    "dojo/_base/array",
+    "dojo/_base/lang",
+    "dijit/registry",
+    "dijit/Tooltip",
+    "dojox/data/CsvStore",
+    "dijit/layout/BorderContainer",
+    "dijit/layout/ContentPane",
+    "dojo/domReady!"
+  ],
   function (
     Color, Extent, Graphic, Legend, InfoTemplate,
     FeatureLayer, GraphicsLayer, Map, ClassBreaksRenderer,
@@ -252,11 +252,15 @@ require([
 
     // $(".datepicker").datepicker("setDate", defaultDate);
 
+    // Initialize Query Tooltip
+    $('[data-toggle="popover"]').popover();
+
+    // Select default option as Charts
+    $('.charts').click();
+
     initialSetup();
     getCSVDataAndRendering();
     InitialSlider();
-    // Select default option as Charts
-    $('.charts').click();
 
     // Update summary info to default date
     //updateSummaryInfo(defaultDate);
@@ -925,7 +929,7 @@ require([
           globals.dailySummary = $.csv.toArrays(csv);
         },
         dataType: "text",
-        complete: function () { }
+        complete: function () {}
       });
     }
 
@@ -956,10 +960,10 @@ require([
 
         if (loopCounter === 0) {
           loopingSliderHtml += '<div class="carousel-item active">' +
-            '<div class="d-flex content content-selected pr-2" id="date-' + formattedDate + '" data-toggle="tooltip" data-html="true" data-placement="auto" title="' + toolTipText + '">';
+            '<div class="d-flex content content-selected pr-lg-2" id="date-' + formattedDate + '" data-toggle="tooltip" data-html="true" data-placement="auto" title="' + toolTipText + '">';
         } else {
           loopingSliderHtml += '<div class="carousel-item" >' +
-            '<div class="d-flex content pr-2" data-toggle="tooltip" id="date-' + formattedDate + '" data-toggle="tooltip" data-html="true" data-placement="auto" title="' + toolTipText + '">';
+            '<div class="d-flex content pr-lg-2" data-toggle="tooltip" id="date-' + formattedDate + '" data-toggle="tooltip" data-html="true" data-placement="auto" title="' + toolTipText + '">';
         }
 
         loopingSliderHtml += '<div class="d-flex date">' + representationDate + '</div>' +
@@ -978,7 +982,6 @@ require([
           click: function (ev) {
             let selectedDateCarosel;
             selectedDateCarosel = ev.currentTarget.id.substring(5);
-            // console.log('ev',ev,'ev.target',ev.target,'ev.currentTarget',ev.currentTarget);
             $(".content-selected").each(function (i, item) {
               $(item).removeClass('content-selected');
             });
@@ -994,8 +997,6 @@ require([
         return loopingSliderHtml;
       });
 
-
-    //  $('.carousel-control-next').attr("data-slide-to", "8");
       // code start for carosel 
       $('#myCarousel').carousel({
         interval: false
@@ -1004,54 +1005,23 @@ require([
       $('.carousel').on('slid.bs.carousel', function () {
         let numItems = $('.carousel-item').length;
         let currentIndex = $('div.active').index() + 8;
-        let CheckNextInterval ;
+        let CheckNextInterval;
         let selectedDate = $(".content-selected").attr('id');
         selectedDate = ".active #" + selectedDate;
         $('#dateLooping').removeClass('content-selected');
 
-        console.log('selectedDatesliderslide=', selectedDate);
-        let previousSlideItem = 0;
         $('.carousel-control-prev').show();
         $('.carousel-control-prev').css('display', 'flex');
-      //  $('.carousel-control-prev').attr("data-slide-to", "0");
-
-
-      // let nextSlideItem = $('.carousel-control-next').attr("data-slide-to");
-      // CheckNextInterval = parseInt(numItems) - parseInt(currentIndex);
-      // console.log('nextSlideItem=',nextSlideItem, 'CheckNextInterval=',CheckNextInterval,'currentIndex=',currentIndex,'numItems=',numItems);
-      // if(CheckNextInterval > 8) {
-      //   $('.carousel-control-prev').attr("data-slide-to", "" + parseInt((nextSlideItem) - (8))   + "");
-      //   nextSlideItem = parseInt(nextSlideItem) + 8 ;
-      // //  previousSlideItem = parseInt(nextSlideItem) - 8 ;
-      //   $('.carousel-control-next').attr("data-slide-to", "" + nextSlideItem + "");
-        
-      // } else {
-      //  // $('.carousel-control-next').attr("data-slide-to", "" + CheckNextInterval + "");
-      //  nextSlideItem = parseInt(nextSlideItem) + parseInt(CheckNextInterval) ;
-      //  previousSlideItem = parseInt(nextSlideItem) - 8 ;
-      //   $('.carousel-control-next').attr("data-slide-to", "" + nextSlideItem + "");
-      //   $('.carousel-control-prev').attr("data-slide-to", "" + previousSlideItem + "");
-      // }
-      //    nextSlideItem = parseInt(nextSlideItem) + parseInt(8);
-
 
         if (currentIndex >= numItems) { //if this is the last item then
           $('.carousel-control-next').hide();
-        //  previousSlideItem = parseInt(numItems) - parseInt(8) ;
-          // console.log('numItems=',numItems,"previousSlideItem=",previousSlideItem);
-        //  $('.carousel-control-prev').attr("data-slide-to", ""+previousSlideItem+"");
         } else if (currentIndex === 8) { //if page load/refreshed and slider starts from 1st item by default or by sliding its the first item 
           $('.carousel-control-prev').hide();
-        }
-        else { // if this is not last item
+        } else { // if this is not last item
           $('.carousel-control-next').show();
-    //      let nextSlideItem = $('.carousel-control-next').attr("data-slide-to");
-        //  nextSlideItem = parseInt(nextSlideItem) + parseInt(8);
-         // $('.carousel-control-next').attr("data-slide-to", "" + nextSlideItem + "");
         }
         $(selectedDate).addClass('content-selected');
       });
-
 
       $('.carousel .carousel-item').each(function () {
         var minPerSlide = 6;
@@ -1085,7 +1055,7 @@ require([
           globals.globalChartDataSummary = JSON.parse(jsonobject);
         },
         dataType: "text",
-        complete: function () { }
+        complete: function () {}
       });
     }
 
@@ -1206,7 +1176,6 @@ function updateSummaryInfo(selectedDate) {
   $(".ventilator-tooltip").attr('title', tooltip);
 
   $('.totalCases').html(Number(filteredData[7]).toLocaleString());
-  console.log('filteredData[7]', filteredData[7]);
 
   $('[data-toggle="tooltip"]').tooltip();
 }
