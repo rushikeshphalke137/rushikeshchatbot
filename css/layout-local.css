@@ -1147,6 +1147,7 @@ textarea {
 .dijitBorders {
   margin: 5px 5px 5px 5px;
   border: solid thin #9CAA9C;
+  border-radius: 4px;
   -moz-border-radius: 4px;
 }
 
@@ -1352,7 +1353,11 @@ textarea {
 
 .carousel-inner .carousel-item {
   text-align: center;
-  /* margin-left: 10px; */
+}
+
+.not-supported {
+  height: calc(100% - 51px);
+  color: white;
 }
 
 @media (min-width: 768px) {
@@ -1458,9 +1463,9 @@ textarea {
 .optionMenu {
   position: fixed;
   top: 52px;
-  right: 18px;
+  right: 15px;
   z-index: 9999;
-  border: 1px solid #ffc107;
+  border: 1px solid rgb(255,140,0);
   background: #4B4B4B;
 }
 
@@ -1494,7 +1499,7 @@ textarea {
 }
 
 .socialMedia {
-  /* color: #ffc107;
+  /* color: rgb(255,140,0);
   margin-top: 3px; */
   padding-right: 5px;
   /* vertical-align: bottom; */
@@ -1505,13 +1510,13 @@ textarea {
 }
 
 .moreOptions {
-  color: #ffc107;
+  color: white;
   cursor: pointer;
 }
 
 
 #optionMenu li {
-  background: #4B4B4B;
+  background: #232d4b;
   padding: 5px 10px;
   cursor: pointer;
 }
@@ -1523,26 +1528,26 @@ textarea {
 }
 
 #optionMenu ul a {
-  color: #ffc107;
+  color: rgb(255,140,0);
   text-align: left;
 }
 
 #optionMenu ul li:hover {
   text-decoration: none;
-  background-color: #ffc107;
-  color: black;
+  background-color: rgb(255,140,0);
+  color: white;
 }
 
 .moreOptionDropDown {
-  color: #ffc107 !important;
-  border-color: #ffc107 !important;
+  color: rgb(255,140,0) !important;
+  border-color: rgb(255,140,0) !important;
   cursor: pointer;
 }
 
 @media only screen and (device-width: 768px) {
 
   /* For general iPad layouts */
-  . .moreOptions {
+  .moreOptions {
     display: none !important;
   }
 
