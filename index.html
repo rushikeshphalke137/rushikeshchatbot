@@ -208,6 +208,9 @@
             <button class="queryButtons queryFilter">Query</button>
             <button class="queryButtons resetDefault">Reset</button>
           </div>
+          <button id="noResultFoundButton" class="d-none" type="button" class="btn btn-primary" data-toggle="modal" data-target="#noResultFoundPopUp">
+            Trigger No result found Popup
+          </button>
 
         </div>
 
@@ -216,7 +219,8 @@
     </div>
 
     <div class="row pt-2 pb-2">
-      <div id="myCarousel" class="carousel carousel-fade col-12" data-ride="false" data-wrap="false" data-keyboard="true">
+      <div id="myCarousel" class="carousel carousel-fade col-12" data-ride="false" data-wrap="false"
+        data-keyboard="true">
         <div class="carousel-inner w-100" role="listbox" id="dateLooping"></div>
 
         <a class="carousel-control-prev bg-dark w-auto hide-default" href="#myCarousel" role="button" data-slide="prev">
@@ -357,6 +361,29 @@
 
     </ul>
   </div>
+
+  <!-- No Result Popup -->
+  <div class="modal fade" id="noResultFoundPopUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Query Result</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body queryResultPopUp">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </body>
 
 </html>

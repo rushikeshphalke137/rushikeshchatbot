@@ -646,16 +646,19 @@ li.tooltip-txt {
 .esriPopup .titleButton.prev {
   right: 68px;
   top: 7px;
+  display: none;
 }
 
 .esriPopup .titleButton.next {
   right: 50px;
   top: 7px;
+  display: none;
 }
 
 .esriPopup .titleButton.maximize {
   right: 30px;
   top: 10px;
+  display: none;
 }
 
 .esriPopup .titleButton.restore {
@@ -1046,11 +1049,6 @@ textarea {
   font-size: 1.17em !important;
   font-weight: bold;
   padding-top: 1px;
-}
-
-.modal-body {
-  position: relative;
-  padding: 0.4rem !important;
 }
 
 .close {
@@ -1714,13 +1712,6 @@ textarea {
 
   .map .logo-sm {
     display: none !important;
-  }
-}
-
-@media (min-width: 481px) {
-  .modal-dialog {
-    max-width: 65% !important;
-    top: 10% !important;
   }
 }
 

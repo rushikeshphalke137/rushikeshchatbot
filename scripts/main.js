@@ -841,8 +841,10 @@ require([
             var extent = esri.graphicsExtent(fset.features);
             globals.map.setExtent(extent, true);
           } else {
-            dojo.byId("info").innerHTML = "No match found. Only used name column for query.";
-            dojo.byId("infoGraph").innerHTML = "No match found. Only used name column for query.";
+            $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
+            $('#noResultFoundButton').click();
+            //dojo.byId("info").innerHTML = "No match found. Only used name column for query.";
+            //dojo.byId("infoGraph").innerHTML = "No match found. Only used name column for query.";
           }
         });
 
