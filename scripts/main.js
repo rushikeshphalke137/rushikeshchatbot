@@ -380,12 +380,15 @@ require([
         globals.renderFieldIndex = 2;
 
       //  show csv data in data table
-      var names = [];
-      for (var i = 0; i < globals.csvData.length; i++) {
-        names.push(globals.csvData[i][1]);
+      if (globals.selectedRegions.length == 0) {
+        var names = [];
+        for (var i = 0; i < globals.csvData.length; i++) {
+          names.push(globals.csvData[i][1]);
+        }
+        showCSVDataInTable(names);
+      } else {
+        showCSVDataInTable(globals.selectedRegions);
       }
-
-      showCSVDataInTable(names);
     }
 
     function csvOnError(error) {
@@ -659,7 +662,6 @@ require([
     }
 
     function changeDate(selectedDate) {
-      console.log('selectedDate', selectedDate);
       globals.selectedDate = selectedDate;
       globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
       //check whether file exists
@@ -672,7 +674,8 @@ require([
         }
       } else {
         renderByFile();
-        updateSummaryInfo(selectedDate);
+        //showCSVDataInTable(globals.selectedRegions);
+        //updateSummaryInfo(selectedDate);
       }
 
     }
@@ -688,7 +691,7 @@ require([
       }
       //clear display option
       clearDisplayOptionWrapper();
-      getCSVDataAndRendering(true);
+      getCSVDataAndRendering();
     }
 
     //Change rendering field, this is ONLY for single attribute mode
@@ -747,7 +750,11 @@ require([
 
           // HARD CODED added 03/22 DX
           for (var j = 2; j < globals.csvDataHeader.length; j++)
-            returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
+            if (globals.csvDataHeader[j] === 'Beds Avail') {
+              returnValue += "<br><b> Beds Available :</b> " + globals.csvData[i][j];
+            } else {
+              returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
+            }
 
           break;
         }
@@ -829,8 +836,8 @@ require([
               if (names.indexOf(temp) == -1)
                 names.push(temp);
             }
-            //names = remove(names, inputStr);
-            showCSVDataInTable(names);
+            globals.selectedRegions = names;
+            showCSVDataInTable(globals.selectedRegions);
             var extent = esri.graphicsExtent(fset.features);
             globals.map.setExtent(extent, true);
           } else {
@@ -941,28 +948,24 @@ require([
 
       let loopCounter = 0;
       let loopingSliderHtml = "";
-  
+
       $('[data-toggle="tooltip"]').tooltip('dispose');
-     
+
       let filteredData = globals.dailySummary;
-//console.log('maxDate-',maxDate,'defaultDate=',defaultDate);
+      //console.log('maxDate-',maxDate,'defaultDate=',defaultDate);
       defaultDate = defaultDate.replace(/\s+/g, '');
-       defaultDate = defaultDate.split("-");            
+      defaultDate = defaultDate.split("-");
       defaultDate = new Date(defaultDate[0] + " " + defaultDate[1] + ", " + defaultDate[2]);
 
       maxDate = maxDate.replace(/\s+/g, '');
-       maxDate = maxDate.split("-");            
+      maxDate = maxDate.split("-");
       maxDate = new Date(maxDate[0] + " " + maxDate[1] + ", " + maxDate[2]);
 
-// console.log('filteredData-',filteredData, 'defaultDate-',defaultDate);
-// console.log('new Date(defaultDate)-',new Date(defaultDate),'new Date(maxDate)-',new Date(maxDate));
-// console.log('d.setDate(d.getDate() + 1)',new Date(defaultDate).setDate(new Date(defaultDate).getDate() + 1));
       for (var d = new Date(defaultDate); d <= new Date(maxDate); d.setDate(d.getDate() + 1)) {
         let totalCasses = 0;
         let bedsAvailable = 0;
 
         var formattedDate = ("0" + parseInt(d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + "-" + d.getFullYear();
-      //  console.log('InitialSlider-loopingSliderHtml',loopingSliderHtml,'defaultDate-',defaultDate,'maxDate-',maxDate, 'formattedDate-',formattedDate,'filteredData-',filteredData,'filteredData[index][0]',filteredData[index][0]);
         for (index = 0; index < filteredData.length; index++) {
           if (filteredData[index][0] === formattedDate) {
             totalCasses = Number(filteredData[index][3]).toLocaleString();
@@ -1009,7 +1012,7 @@ require([
         loopCounter++;
 
       }
-//console.log('loopingSliderHtml-print',loopingSliderHtml);
+      //console.log('loopingSliderHtml-print',loopingSliderHtml);
       $("#dateLooping").html(function (n) {
         return loopingSliderHtml;
       });
@@ -1100,30 +1103,6 @@ function filteredRegion(regionValue) {
     }
   }
   globals.filteredRegion = filtered;
-}
-
-function resetToDefault(timeSlider, changeDate, startDateString, endDateString) {
-  $('.logarithmicDiv').css("visibility", "visible");
-  globals.chartDataFile = globals.globalChartDataSummary;
-  $("#chartToggle").bootstrapToggle("on");
-  timeSlider.setThumbIndexes([0]);
-  timeSlider.pause();
-  var defaultDate = new Date(timeSlider.timeStops[timeSlider.timeStops.length - 1].toString());
-  var dateToSet = new Date(parseInt(defaultDate.getFullYear()), parseInt(defaultDate.getMonth()), parseInt(defaultDate.getDate()));
-
-  var formattedDate = ("0" + parseInt(dateToSet.getMonth() + 1)).slice(-2) + "-" + ("0" + dateToSet.getDate()).slice(-2) + "-" + dateToSet.getFullYear();
-  changeDate(formattedDate);
-  $('#legend').show();
-  if (/Android|webOS|iPad|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    document.getElementById("selectedDate").innerHTML = "";
-    document.getElementById("daterange").innerHTML = "Time Slider from <strong><i> " + startDateString + "</strong> to <strong>" + endDateString + "</i></strong>";
-  } else {
-    document.getElementById("selectedDate").innerHTML = "Selected Date <strong><i> " + globals.endDateString + "</i></strong>";
-    document.getElementById("daterange").innerHTML = "Time Slider from <strong><i> " + startDateString + "</strong> to <strong>" + endDateString + "</i></strong>";
-  }
-  $('#regionSelect').val('All regions');
-  $('#regionMobileSelect').val('All regions');
-  globals.regionSelected = 'All regions';
 }
 
 function updateSummaryInfo(selectedDate) {
