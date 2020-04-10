@@ -7,7 +7,6 @@ function cumulative_data() {
   am4core.ready(function () {
     var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-    //chart.dataSource.url = "./data/nssac-ncov-sd-summary.csv";
     chart.dataSource.url = globals.dailySummaryFile;
     chart.dataSource.parser = new am4core.CSVParser();
     chart.dataSource.parser.options.useColumnNames = true;
