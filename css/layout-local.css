@@ -1350,7 +1350,9 @@ textarea {
   font-size: 1.1em;
   padding: 0px 5px 0px 7px;
 }
-
+/* .carousel-inner{
+  height: 100%;
+} */
 .carousel-inner .carousel-item {
   text-align: center;
 }
