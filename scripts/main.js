@@ -946,16 +946,18 @@ require([
      
       let filteredData = globals.dailySummary;
 //console.log('maxDate-',maxDate,'defaultDate=',defaultDate);
-      defaultDate = defaultDate.replace(/\s+/g, '');
-       defaultDate = defaultDate.split("-");            
-      defaultDate = new Date(defaultDate[0] + " " + defaultDate[1] + ", " + defaultDate[2]);
-
-      maxDate = maxDate.replace(/\s+/g, '');
-       maxDate = maxDate.split("-");            
-      maxDate = new Date(maxDate[0] + " " + maxDate[1] + ", " + maxDate[2]);
+defaultDate = new Date(defaultDate.replace(/-/g, "/"));
+   //   defaultDate = defaultDate.replace(/\s+/g, '');
+   //    defaultDate = defaultDate.split("-");            
+  //    defaultDate = new Date(defaultDate[2] + " " + defaultDate[1] + ", " + defaultDate[0]);
+console.log('defaultDate-',defaultDate);
+maxDate = new Date(maxDate.replace(/-/g, "/"));
+      // maxDate = maxDate.replace(/\s+/g, '');
+      //  maxDate = maxDate.split("-");            
+      // maxDate = new Date(maxDate[2] + " " + maxDate[1] + ", " + maxDate[0]);
 
 // console.log('filteredData-',filteredData, 'defaultDate-',defaultDate);
-// console.log('new Date(defaultDate)-',new Date(defaultDate),'new Date(maxDate)-',new Date(maxDate));
+console.log('new Date(defaultDate)-',new Date(defaultDate),'new Date(maxDate)-',new Date(maxDate));
 // console.log('d.setDate(d.getDate() + 1)',new Date(defaultDate).setDate(new Date(defaultDate).getDate() + 1));
       for (var d = new Date(defaultDate); d <= new Date(maxDate); d.setDate(d.getDate() + 1)) {
         let totalCasses = 0;
