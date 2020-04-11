@@ -26,7 +26,7 @@ for line in fin:
     modulo = count % 5
     if modulo == 0:  
         object_id = int(line.strip())
-        hrr_dict = {"hrrnum": hrrnum, "hrrcity": hrrcity, "hrr_beds": hrr_beds, "total_pop": total_pop, "objectid": objectid}
+        hrr_dict = {"hrrnum": hrrnum, "hrrcity": hrrcity.upper(), "hrr_beds": hrr_beds, "total_pop": total_pop, "objectid": objectid}
         hrr_list.append(hrr_dict)
         hrrnum=0
         hrrcity=""
@@ -71,8 +71,8 @@ print("Looping through dates")
 for single_date in daterange(start_date, end_date):
     temp_date = single_date.strftime("%m-%d-%Y")
     dateFile = open("nssac_ncov_ro_" + temp_date + ".csv", "w")
-    # dateFile.write("HRRNum,HRR City,Last Update,Beds Avail,Vent. Avail,Staff Avail,Beds Needed,Vents Needed,Staff Needed,Beds Count,Vent. Count,Staff Count,Cases\n")
-    dateFile.write("HRRNum,HRR City,Beds Avail,Beds Needed,Projected Cases,Last Update\n")
+    # dateFile.write("HRRNum,Hospital Referral Region,Last Update,Beds Avail,Vent. Avail,Staff Avail,Beds Needed,Vents Needed,Staff Needed,Beds Count,Vent. Count,Staff Count,Cases\n")
+    dateFile.write("HRRNum,Hospital Referral Region,Beds Avail,Beds Needed,Projected Cases,Last Update\n")
 
     totalBedsAvail = 0
     totalVentsAvail = 0

@@ -746,7 +746,7 @@ require([
       for (var i = 0; i < globals.csvData.length; i++) {
         if (globals.csvData[i][1] == featureID) {
           //hard coded for now, DX 02/03/2020
-          returnValue += "<b>Place Name:</b> " + globals.csvData[i][1];
+          returnValue += "<b>HRR:</b> " + globals.csvData[i][1];
 
           // HARD CODED added 03/22 DX
           for (var j = 2; j < globals.csvDataHeader.length; j++)
