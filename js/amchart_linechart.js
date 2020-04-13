@@ -1,150 +1,214 @@
 function cumulative_data() {
+
+  // Dispose all Charts and clear Browser memory/cache
+  am4core.disposeAllCharts();
+
   // Themes begin
   am4core.useTheme(am4themes_animated);
-  am4core.useTheme(am4themes_dark);
 
-  // Themes end
-  am4core.ready(function () {
-    var chart = am4core.create("chartdiv", am4charts.XYChart);
+  // Create chart instance
+  var chart = am4core.create("chartdiv", am4charts.XYChart);
+  chart.hiddenState.properties.opacity = 0;
+  // Converts Y axis values in K,M,B
+  chart.numberFormatter.numberFormat = "###a";
 
-    chart.dataSource.url = globals.dailySummaryFile;
-    chart.dataSource.parser = new am4core.CSVParser();
-    chart.dataSource.parser.options.useColumnNames = true;
-    chart.dataSource.parser.options.skipEmpty = false;
-    chart.dataSource.parser.options.numberFields = ["Total Hospitalizations", "Total Projected Demand (%)"];
-    chart.colors.step = 2;
-    // Converts Y axis values in K,M,B
-    chart.numberFormatter.numberFormat = "###a";
+  chart.dataSource.url = globals.dailySummaryFile;
+  chart.dataSource.parser = new am4core.CSVParser();
+  chart.dataSource.parser.options.useColumnNames = true;
+  chart.dataSource.parser.options.skipEmpty = false;
+  chart.dataSource.parser.options.numberFields = ["Total Hospitalizations", "Total Projected Demand (%)"];
 
-    // Create axes
-    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.renderer.minGridDistance = 50;
-    categoryAxis.dataFields.category = "date";
-    categoryAxis.renderer.labels.template.rotation = -45;
+  var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
 
-    // Create series
+  // Create axes
+  var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+  dateAxis.renderer.minGridDistance = 50;
+  dateAxis.renderer.labels.template.rotation = -45;
+  dateAxis.renderer.line.strokeOpacity = 1;
+  dateAxis.renderer.line.strokeWidth = 1;
+  dateAxis.renderer.labels.template.fill = am4core.color("#fff");
+  dateAxis.renderer.grid.template.fill = am4core.color("#fff");
 
-    function createAxisAndSeries(field, name, color, opposite, bullet) {
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  var datafile = "./data_ro/nssac_ncov_ro-summary.csv";
 
-      var series = chart.series.push(new am4charts.LineSeries());
-      series.dataFields.valueY = field;
-      series.dataFields.categoryX = "date";
-      series.stroke = color;
-      series.yAxis = valueAxis;
-      series.fill = color;
-      series.name = name;
-      series.tooltipText = "{name}: [bold]{valueY}[/]";
-      series.tensionX = 0.8;
+  // Create Hospitalization series
+  createHospitalizationSeries(chart, colors[0], datafile);
 
-      series.showOnInit = true;
+  // Create Demand series
+  createDemandSeries(chart, datafile);
 
-      switch (bullet) {
-        case "triangle":
-          var bullet = series.bullets.push(new am4charts.Bullet());
-          bullet.width = 12;
-          bullet.height = 12;
-          bullet.horizontalCenter = "middle";
-          bullet.verticalCenter = "middle";
+  // Add legend
+  chart.legend = new am4charts.Legend();
+  // Sets color of Legends to white
+  chart.legend.labels.template.fill = am4core.color("#fff");
+  chart.legend.valueLabels.template.fill = am4core.color("#fff");
 
-          var triangle = bullet.createChild(am4core.Triangle);
-          triangle.stroke = color;
-          triangle.strokeWidth = 2;
-          triangle.direction = "top";
-          triangle.width = 12;
-          triangle.height = 12;
-          break;
-        case "rectangle":
-          var bullet = series.bullets.push(new am4charts.Bullet());
-          bullet.width = 10;
-          bullet.height = 10;
-          bullet.horizontalCenter = "middle";
-          bullet.verticalCenter = "middle";
+  // Add cursor
+  chart.cursor = new am4charts.XYCursor();
 
-          var rectangle = bullet.createChild(am4core.Rectangle);
-          rectangle.stroke = color;
-          rectangle.strokeWidth = 2;
-          rectangle.width = 10;
-          rectangle.height = 10;
-          break;
-        default:
-          var bullet = series.bullets.push(new am4charts.CircleBullet());
-          bullet.circle.stroke = color;
-          bullet.circle.strokeWidth = 2;
-          break;
-      }
-
-      valueAxis.renderer.line.strokeOpacity = 1;
-      valueAxis.renderer.line.strokeWidth = 2;
-      valueAxis.renderer.line.stroke = series.stroke;
-      valueAxis.renderer.labels.template.fill = am4core.color("#fff");
-      valueAxis.renderer.opposite = opposite;
-    }
-
-    createAxisAndSeries("Total Hospitalizations", "Total Hospitalizations", am4core.color("rgb(227, 74, 51)"), false, "rectangle");
-    createAxisAndSeries("Total Projected Demand (%)", "Total Projected Demand (%)", am4core.color("rgb(49, 163, 8)"), true, "circle");
-
-    // Add legend
-    chart.legend = new am4charts.Legend();
-
-    // Add cursor
-    chart.cursor = new am4charts.XYCursor();
-  })
 }
 
-function daily_data() {
+function selectedRegionsChart() {
+
+  // Dispose all Charts and clear Browser memory/cache
+  am4core.disposeAllCharts();
 
   // Themes begin
   am4core.useTheme(am4themes_animated);
-  am4core.useTheme(am4themes_dark);
 
-  // Themes end
-  am4core.ready(function () {
-    var chart = am4core.create("chartdiv", am4charts.XYChart);
+  // Create chart instance
+  var chart = am4core.create("chartdiv", am4charts.XYChart);
+  chart.hiddenState.properties.opacity = 0;
 
-    chart.dataSource.url = "./data/nssac-ncov-sd-summary.csv";
-    chart.dataSource.parser = new am4core.CSVParser();
-    chart.dataSource.parser.options.useColumnNames = true;
-    chart.dataSource.parser.options.skipEmpty = false;
-    chart.dataSource.parser.options.numberFields = ["newConfirmed", "newDeaths", "newRecovered"];
-    chart.colors.step = 2;
+  var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
+
+  for (i = 0; i < globals.selectedHRRNumbers.length; i++) {
 
     // Create axes
-    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.renderer.minGridDistance = 50;
-    categoryAxis.dataFields.category = "date";
-    categoryAxis.renderer.labels.template.rotation = -45;
+    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.minGridDistance = 50;
+    dateAxis.renderer.labels.template.rotation = -45;
+    dateAxis.renderer.line.strokeOpacity = 1;
+    dateAxis.renderer.line.strokeWidth = 1;
+    dateAxis.renderer.labels.template.fill = am4core.color("#fff");
+    dateAxis.renderer.grid.template.fill = am4core.color("#fff");
 
-    // Create series
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    var datafile = "./data_ro/regions/nssac_ncov_ro_summary_hrr_" + globals.selectedHRRNumbers[i] + ".csv";
 
-    function createAxisAndSeries(field, name, color) {
-      var series = chart.series.push(new am4charts.LineSeries());
-      series.dataFields.valueY = field;
-      series.dataFields.categoryX = "date";
-      series.stroke = color;
-      series.yAxis = valueAxis;
-      series.fill = color;
-      series.name = name;
-      series.tooltipText = "{name}: [bold]{valueY}[/]";
-      series.tensionX = 0.8;
-      series.showOnInit = true;
+    // Create Hospitalization series
+    createHospitalizationSeries(chart, colors[i], datafile);
 
-      var bullet = series.bullets.push(new am4charts.CircleBullet());
-      bullet.circle.stroke = color;
+    // Create Demand series
+    createDemandSeries(chart, datafile);
+  }
 
-      valueAxis.renderer.labels.template.fill = am4core.color("#fff");
-      valueAxis.renderer.opposite = false;
-    }
+  // Add legend
+  chart.legend = new am4charts.Legend();
+  // Sets color of Legends to white
+  chart.legend.labels.template.fill = am4core.color("#fff");
+  chart.legend.valueLabels.template.fill = am4core.color("#fff");
 
-    createAxisAndSeries("newConfirmed", "Confirmed", am4core.color("rgb(227, 74, 51)"));
-    createAxisAndSeries("newDeaths", "Deaths", am4core.color("rgb(43, 140, 190)"));
-    createAxisAndSeries("newRecovered", "Recovered", am4core.color("rgb(49, 163, 8)"));
+  // Add cursor
+  chart.cursor = new am4charts.XYCursor();
 
-    // Add legend
-    chart.legend = new am4charts.Legend();
+}
 
-    // Add cursor
-    chart.cursor = new am4charts.XYCursor();
-  })
+function createDemandSeries(chart, datafile) {
+
+  // Create Demand Value axis
+  var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  demandValueAxis.renderer.opposite = true;
+  demandValueAxis.renderer.line.stroke = am4core.color("#5e3aba");
+  demandValueAxis.renderer.line.strokeOpacity = 1;
+  demandValueAxis.renderer.line.strokeWidth = 1;
+  demandValueAxis.renderer.labels.template.fill = am4core.color("#fff");
+  demandValueAxis.renderer.grid.template.fill = am4core.color("#fff");
+
+  // Create Demand series
+  var demandSeries = chart.series.push(new am4charts.LineSeries());
+  demandSeries.dataSource.url = datafile;
+  demandSeries.dataSource.parser = new am4core.CSVParser();
+  demandSeries.dataSource.parser.options.useColumnNames = true;
+
+  demandSeries.dataFields.dateX = "date";
+  demandSeries.dataFields.valueY = "Total Projected Demand (%)";
+  demandSeries.yAxis = demandValueAxis;
+
+  demandSeries.stroke = am4core.color("#5e3aba");
+  demandSeries.fill = am4core.color("#5e3aba");
+
+  demandSeries.strokeWidth = 2;
+  demandSeries.tensionX = 0.8;
+  demandSeries.sequencedInterpolation = true;
+  demandSeries.defaultState.transitionDuration = 1000;
+
+  demandSeries.name = "Projected Demand (%)";
+  demandSeries.tooltipText = "Projected Demand : [bold]{valueY}[/]";
+  demandSeries.tooltip.background.fill = am4core.color("#5e3aba");
+  demandSeries.showOnInit = true;
+
+  // Create data points
+  var bullet = demandSeries.bullets.push(new am4charts.CircleBullet());
+  bullet.circle.stroke = am4core.color("#5e3aba");
+  bullet.circle.strokeWidth = 2;
+}
+
+function createHospitalizationSeries(chart, color, datafile) {
+
+  // Create Hospitalization Value axis
+  var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  hospitalizationValueAxis.renderer.opposite = false;
+  hospitalizationValueAxis.renderer.line.stroke = am4core.color(color);
+  hospitalizationValueAxis.renderer.line.strokeOpacity = 1;
+  hospitalizationValueAxis.renderer.line.strokeWidth = 1;
+  hospitalizationValueAxis.renderer.labels.template.fill = am4core.color("#fff");
+  hospitalizationValueAxis.renderer.grid.template.fill = am4core.color("#fff");
+
+  // Create Uncertainity Bound Series
+  var uncertainitySeries = chart.series.push(new am4charts.LineSeries());
+  uncertainitySeries.dataSource.url = datafile;
+  uncertainitySeries.dataSource.parser = new am4core.CSVParser();
+  uncertainitySeries.dataSource.parser.options.useColumnNames = true;
+
+  uncertainitySeries.dataFields.dateX = "date";
+  uncertainitySeries.dataFields.openValueY = "Lower Hospitalization Bound";
+  uncertainitySeries.dataFields.valueY = "Upper Hospitalization Bound";
+  uncertainitySeries.yAxis = hospitalizationValueAxis;
+
+  uncertainitySeries.stroke = am4core.color(color);
+  uncertainitySeries.fill = am4core.color(color);
+  uncertainitySeries.hiddenInLegend = true;
+
+  uncertainitySeries.tensionX = 0.8;
+  uncertainitySeries.fillOpacity = 0.4;
+  uncertainitySeries.sequencedInterpolation = true;
+  uncertainitySeries.defaultState.transitionDuration = 1000;
+
+  // Create Hospitalization series
+  var hospitalizationSeries = chart.series.push(new am4charts.LineSeries());
+  hospitalizationSeries.dataSource.url = datafile;
+  hospitalizationSeries.dataSource.parser = new am4core.CSVParser();
+  hospitalizationSeries.dataSource.parser.options.useColumnNames = true;
+
+  hospitalizationSeries.dataFields.dateX = "date";
+  hospitalizationSeries.dataFields.valueY = "Total Hospitalizations";
+  hospitalizationSeries.yAxis = hospitalizationValueAxis;
+
+  hospitalizationSeries.stroke = am4core.color(color);
+  hospitalizationSeries.fill = am4core.color(color);
+
+  hospitalizationSeries.strokeWidth = 2;
+  hospitalizationSeries.tensionX = 0.8;
+  hospitalizationSeries.sequencedInterpolation = true;
+  hospitalizationSeries.defaultState.transitionDuration = 1000;
+
+  hospitalizationSeries.name = "Total Hospitalizations";
+  hospitalizationSeries.tooltipText = "Total Hospitalizations : [bold]{valueY}[/]";
+  hospitalizationSeries.tooltip.background.fill = am4core.color(color);
+  hospitalizationSeries.showOnInit = true;
+
+  // Create data points
+  var bullet = hospitalizationSeries.bullets.push(new am4charts.Bullet());
+  bullet.width = 5;
+  bullet.height = 5;
+  bullet.horizontalCenter = "middle";
+  bullet.verticalCenter = "middle";
+
+  // Create Rectangle shape data points
+  var rectangle = bullet.createChild(am4core.Rectangle);
+  rectangle.stroke = am4core.color(color);
+  rectangle.strokeWidth = 2;
+  rectangle.width = 5;
+  rectangle.height = 5;
+
+  // Hiding Uncertainity bounds when hiding the actual series
+  hospitalizationSeries.events.on("hidden", function () {
+    uncertainitySeries.hide();
+  });
+
+  // Displaying Uncertainity bounds when displaying the actual series
+  hospitalizationSeries.events.on("shown", function () {
+    uncertainitySeries.show();
+  });
+
 }

@@ -81,6 +81,7 @@ globals.query = null;
 
 //added for manually picking counties
 globals.selectedRegions = [];
+globals.selectedHRRNumbers = [];
 globals.startDateString = "";
 globals.endDateString = "";
 
@@ -177,8 +178,11 @@ require([
       $('.charts').addClass('selectedFilter');
       $('#dataTable').addClass('d-none');
       $('#chartdiv').removeClass('d-none');
-
-      cumulative_data();
+      if(globals.selectedRegions.length == 0) {
+        cumulative_data();
+      } else {
+        selectedRegionsChart();
+      }
     });
 
     $('.data').on('click', function (e) {
@@ -821,6 +825,7 @@ require([
           new Color([255, 0, 0])
         );
         var names = [];
+        var selectedHRRNum = [];
         queryTask.execute(query, function (fset) {
           globals.map.graphics.clear();
           if (fset.features.length > 0) {
@@ -832,19 +837,24 @@ require([
               // if(  DX stops here 02/04
               //add name to names (for table display)
               var temp = fset.features[i].attributes.HRRCITY;
+              var hrrNumber = fset.features[i].attributes.HRRNUM;
 
-              if (names.indexOf(temp) == -1)
+              if (names.indexOf(temp) == -1) {
                 names.push(temp);
+                selectedHRRNum.push(hrrNumber);
+              }
             }
             globals.selectedRegions = names;
+            globals.selectedHRRNumbers = selectedHRRNum;
+
+            // Display Chart 
+            selectedRegionsChart();
             showCSVDataInTable(globals.selectedRegions);
             var extent = esri.graphicsExtent(fset.features);
             globals.map.setExtent(extent, true);
           } else {
             $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
             $('#noResultFoundButton').click();
-            //dojo.byId("info").innerHTML = "No match found. Only used name column for query.";
-            //dojo.byId("infoGraph").innerHTML = "No match found. Only used name column for query.";
           }
         });
 
@@ -954,20 +964,9 @@ require([
       $('[data-toggle="tooltip"]').tooltip('dispose');
 
       let filteredData = globals.dailySummary;
-//console.log('maxDate-',maxDate,'defaultDate=',defaultDate);
-defaultDate = new Date(defaultDate.replace(/-/g, "/"));
-   //   defaultDate = defaultDate.replace(/\s+/g, '');
-   //    defaultDate = defaultDate.split("-");            
-  //    defaultDate = new Date(defaultDate[2] + " " + defaultDate[1] + ", " + defaultDate[0]);
-console.log('defaultDate-',defaultDate);
-maxDate = new Date(maxDate.replace(/-/g, "/"));
-      // maxDate = maxDate.replace(/\s+/g, '');
-      //  maxDate = maxDate.split("-");            
-      // maxDate = new Date(maxDate[2] + " " + maxDate[1] + ", " + maxDate[0]);
-
-// console.log('filteredData-',filteredData, 'defaultDate-',defaultDate);
-console.log('new Date(defaultDate)-',new Date(defaultDate),'new Date(maxDate)-',new Date(maxDate));
-// console.log('d.setDate(d.getDate() + 1)',new Date(defaultDate).setDate(new Date(defaultDate).getDate() + 1));
+      //console.log('maxDate-',maxDate,'defaultDate=',defaultDate);
+      defaultDate = new Date(defaultDate.replace(/-/g, "/"));
+      maxDate = new Date(maxDate.replace(/-/g, "/"));
       for (var d = new Date(defaultDate); d <= new Date(maxDate); d.setDate(d.getDate() + 1)) {
         let totalCasses = 0;
         let projectedNeed = 0;
@@ -1090,12 +1089,14 @@ console.log('new Date(defaultDate)-',new Date(defaultDate),'new Date(maxDate)-',
       globals.map.graphics.clear();
       globals.map.infoWindow.hide();
       globals.selectedRegions = [];
+      globals.selectedHRRNumbers = [];
 
       $('#queryByName')[0].value = "";
       globals.map.setExtent(globals.defaultExtents.default);
       globals.map.setZoom(4);
 
       getCSVDataAndRendering();
+      cumulative_data();
     }
 
   });
