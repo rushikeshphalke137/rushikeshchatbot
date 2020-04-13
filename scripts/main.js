@@ -487,17 +487,17 @@ require([
 
         var breakMins = [1, 101, 501, 1001, 1501, 2501];
         var breakMaxs = [100, 500, 1000, 1500, 2500, 29999];
-      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Beds Avail') {
+      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Projected Demand (%)') {
         //for deaths
         //PuBu
-        colors.push(new Color([4, 90, 141]));
-        colors.push(new Color([43, 140, 190]));
-        colors.push(new Color([116, 169, 207]));
-        colors.push(new Color([189, 201, 225]));
         colors.push(new Color([241, 238, 246]));
+        colors.push(new Color([189, 201, 225]));
+        colors.push(new Color([116, 169, 207]));
+        colors.push(new Color([43, 140, 190]));
+        colors.push(new Color([4, 90, 141]));
 
-        var breakMins = [1, 401, 901, 1401, 2101];
-        var breakMaxs = [400, 900, 1400, 2100, 29999];
+        var breakMins = [1, 81, 91, 101, 121];
+        var breakMaxs = [80, 90, 100, 120, 29999];
       } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Staff Avail') {
         //for recovered
         //YlGn
@@ -749,9 +749,9 @@ require([
           returnValue += "<b>HRR:</b> " + globals.csvData[i][1];
 
           // HARD CODED added 03/22 DX
-          for (var j = 2; j < globals.csvDataHeader.length; j++)
-            if (globals.csvDataHeader[j] === 'Beds Avail') {
-              returnValue += "<br><b> Beds Available :</b> " + globals.csvData[i][j];
+          for (var j = 2; j < globals.csvDataHeader.length - 1; j++)
+            if (globals.csvDataHeader[j] === 'Projected Demand (%)') {
+              returnValue += "<br><b> Projected Demand :</b> " + globals.csvData[i][j] + " %";
             } else {
               returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
             }
@@ -970,20 +970,20 @@ console.log('new Date(defaultDate)-',new Date(defaultDate),'new Date(maxDate)-',
 // console.log('d.setDate(d.getDate() + 1)',new Date(defaultDate).setDate(new Date(defaultDate).getDate() + 1));
       for (var d = new Date(defaultDate); d <= new Date(maxDate); d.setDate(d.getDate() + 1)) {
         let totalCasses = 0;
-        let bedsAvailable = 0;
+        let projectedNeed = 0;
 
         var formattedDate = ("0" + parseInt(d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + "-" + d.getFullYear();
         for (index = 0; index < filteredData.length; index++) {
           if (filteredData[index][0] === formattedDate) {
-            totalCasses = Number(filteredData[index][3]).toLocaleString();
-            bedsAvailable = Number(filteredData[index][1]).toLocaleString();
+            totalCasses = Number(filteredData[index][2]).toLocaleString();
+            projectedNeed = Number(filteredData[index][1]).toLocaleString();
             break;
           }
         }
         const representationDate = d.toDateString().slice(4).substring(0, 6);
 
-        var toolTipText = 'Projected Cases : <b>' + totalCasses + '</b> <br>' +
-          'Beds Available : <b>' + bedsAvailable + '</b>';
+        var toolTipText = 'Hospitalizations : <b>' + totalCasses + '</b> <br>' +
+          'Projected Demand : <b>' + projectedNeed + ' %</b>';
 
         if (loopCounter === 0) {
           loopingSliderHtml += '<div class="carousel-item active">' +
@@ -1000,7 +1000,7 @@ console.log('new Date(defaultDate)-',new Date(defaultDate),'new Date(maxDate)-',
           '<div class="cases">' + totalCasses + '</div></div>' +
           '<div class="d-flex justify-content-center">' +
           '<div class="content-data-icon"><i class="fa fa-bed"></i></div>' +
-          '<div class="beds">' + bedsAvailable + '</div></div>' +
+          '<div class="beds">' + projectedNeed + ' %</div></div>' +
           '</div></div></div>';
 
         let dd = "#date-" + formattedDate;
@@ -1136,8 +1136,8 @@ function updateSummaryInfo(selectedDate) {
   var available = total - needed;
   var availablePercentage = Number((available / total) * 100);
 
-  var tooltip = "Beds Available : <b>" + available.toLocaleString() + "</b><br>";
-  tooltip = tooltip + "Beds Needed : <b>" + needed.toLocaleString() + "</b><br>";
+  var tooltip = "Projected Demand : <b>" + available.toLocaleString() + "</b><br>";
+  tooltip = tooltip + "Hospitalizations : <b>" + needed.toLocaleString() + "</b><br>";
   tooltip = tooltip + "Total Beds : <b>" + total.toLocaleString() + "</b><br>";
   tooltip = tooltip + "Percentage Available : <b>" + availablePercentage.toFixed(2) + " %</b>";
 

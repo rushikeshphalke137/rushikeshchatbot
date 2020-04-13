@@ -11,7 +11,7 @@ function cumulative_data() {
     chart.dataSource.parser = new am4core.CSVParser();
     chart.dataSource.parser.options.useColumnNames = true;
     chart.dataSource.parser.options.skipEmpty = false;
-    chart.dataSource.parser.options.numberFields = ["Total Beds Needed", "Total Projected Cases"];
+    chart.dataSource.parser.options.numberFields = ["Total Hospitalizations", "Total Projected Demand (%)"];
     chart.colors.step = 2;
     // Converts Y axis values in K,M,B
     chart.numberFormatter.numberFormat = "###a";
@@ -81,8 +81,8 @@ function cumulative_data() {
       valueAxis.renderer.opposite = opposite;
     }
 
-    createAxisAndSeries("Total Beds Needed", "Total Beds Needed", am4core.color("rgb(227, 74, 51)"), false, "rectangle");
-    createAxisAndSeries("Total Projected Cases", "Total Projected Cases", am4core.color("rgb(49, 163, 8)"), true, "circle");
+    createAxisAndSeries("Total Hospitalizations", "Total Hospitalizations", am4core.color("rgb(227, 74, 51)"), false, "rectangle");
+    createAxisAndSeries("Total Projected Demand (%)", "Total Projected Demand (%)", am4core.color("rgb(49, 163, 8)"), true, "circle");
 
     // Add legend
     chart.legend = new am4charts.Legend();
