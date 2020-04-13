@@ -48,7 +48,7 @@ print("Closed fin file")
 # Open nssac_ncov_ro_summary.csv
 full_summary_file = open("nssac_ncov_ro-summary.csv", "w")
 # full_summary_file.write("date,Total Beds Avail,Total Vent. Avail,Total Staff Avail,Total Hospitalized,Total Vents Demanded,Total Staff Demanded,Total Beds Count,Total Vent. Count,Total Staff Count,Total Cases\n")
-full_summary_file.write("date,Total Projected Demand (%),Total Hospitalizations\n")
+full_summary_file.write("date,Total Projected Demand (%),Total Hospitalizations,Lower Hospitalization Bound,Upper Hospitalization Bound\n")
 
 print("Creating and initializing HHR files")
 # Loop through the HRRs and create their region_summary files
@@ -59,7 +59,7 @@ for hrr in hrr_list:
     region_file.write(f"{hrr['hrrcity']}\n")
     hrr_file = open("regions/nssac_ncov_ro_summary_hrr_" + str(hrr["hrrnum"]) + ".csv", "w")
     # hrr_file.write("date,Total Beds Avail,Total Vent. Avail,Total Staff Avail,Total Hospitalized,Total Vent. Demanded,Total Staff Demanded,Total Beds Count,Total Vent. Count,Total Staff Count,Total Cases\n")
-    hrr_file.write("date,Total Projected Demand (%),Total Hospitalizations\n")
+    hrr_file.write("date,Total Projected Demand (%),Total Hospitalizations,Lower Hospitalization Bound,Upper Hospitalization Bound\n")
     hrr_file.close()
 region_file.close()
 
@@ -72,7 +72,7 @@ for single_date in daterange(start_date, end_date):
     temp_date = single_date.strftime("%m-%d-%Y")
     dateFile = open("nssac_ncov_ro_" + temp_date + ".csv", "w")
     # dateFile.write("HRRNum,Hospital Referral Region,Last Update,Beds Avail,Vent. Avail,Staff Avail,Hospitalized,Vents Demanded,Staff Demanded,Beds Count,Vent. Count,Staff Count,Cases\n")
-    dateFile.write("HRRNum,Hospital Referral Region,Projected Demand (%),Hospitalizations,Last Update\n")
+    dateFile.write("HRRNum,Hospital Referral Region,Projected Demand (%),Hospitalizations,Lower Hospitalization Bound,Upper Hospitalization Bound,Last Update\n")
 
     totalBedsAvail = 0
     totalVentsAvail = 0
@@ -108,14 +108,18 @@ for single_date in daterange(start_date, end_date):
         #    hrr_vents_avail = 0
         hrr_file = open("regions/nssac_ncov_ro_summary_hrr_" + str(hrr["hrrnum"]) + ".csv", "a")
         # hrr_file.write(f"{temp_date},{hrr_beds_avail},{hrr_vents_avail},NA,{str(hrr_beds)},{str(hrr_vents)},NA,{hrr['hrr_beds']},{int(hrr['hrr_beds']/2)},NA,{str(hrr_cases)}\n")
-        hrr_file.write(f"{temp_date},{hrr_proj_need},{str(hrr_beds)}\n")
+        lower_bound = int(hrr_beds - hrr_beds*0.03)
+        upper_bound = int(hrr_beds + hrr_beds*0.03)
+        hrr_file.write(f"{temp_date},{hrr_proj_need},{str(hrr_beds)},{str(lower_bound)},{str(upper_bound)}\n")
         hrr_file.close()
         # dateFile.write(f"{str(hrr['hrrnum'])},{hrr['hrrcity']},{temp_date},{str(hrr_beds_avail)},{str(hrr_vents_avail)},NA,{str(hrr_beds)},{str(hrr_vents)},NA,{str(hrr['hrr_beds'])},{str(int(hrr['hrr_beds'] / 2))},NA,{str(hrr_cases)}\n")
-        dateFile.write(f"{str(hrr['hrrnum'])},{hrr['hrrcity']},{str(hrr_proj_need)},{str(hrr_beds)},{temp_date}\n")
+        dateFile.write(f"{str(hrr['hrrnum'])},{hrr['hrrcity']},{str(hrr_proj_need)},{str(hrr_beds)},{str(lower_bound)},{str(upper_bound)},{temp_date}\n")
         
     # full_summary_file.write(f"{temp_date},{totalBedsAvail},{totalVentsAvail},{totalStaffAvail},{totalBedsNeeded},{totalVentsNeeded},{totalStaffNeeded},{totalBedsCount},{totalVentsCount},{totalStaffCount},{totalCases}\n")
     total_proj_need = int(((0.8 * totalBedsCount) + totalBedsNeeded)*100/totalBedsCount)
-    full_summary_file.write(f"{temp_date},{total_proj_need},{totalBedsNeeded}\n")
+    lower_bound = int(totalBedsNeeded - totalBedsNeeded*0.015)
+    upper_bound = int(totalBedsNeeded + totalBedsNeeded*0.015)
+    full_summary_file.write(f"{temp_date},{total_proj_need},{totalBedsNeeded},{lower_bound},{upper_bound}\n")
     dateFile.close()
     seed = seed + 2
 full_summary_file.close()

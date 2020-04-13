@@ -749,7 +749,7 @@ require([
           returnValue += "<b>HRR:</b> " + globals.csvData[i][1];
 
           // HARD CODED added 03/22 DX
-          for (var j = 2; j < globals.csvDataHeader.length - 1; j++)
+          for (var j = 2; j < globals.csvDataHeader.length - 3; j++)
             if (globals.csvDataHeader[j] === 'Projected Demand (%)') {
               returnValue += "<br><b> Projected Demand :</b> " + globals.csvData[i][j] + " %";
             } else {
@@ -860,7 +860,7 @@ require([
       var lengthMenuOptions = null;
       var downloadOptions = "";
       tableHTML = '<table id="example" class="display" cellspacing="0" width="100%">\n<thead><tr>';
-      for (var i = 1; i < globals.csvDataHeader.length - 1; i++)
+      for (var i = 1; i < globals.csvDataHeader.length - 3; i++)
         tableHTML += "<th>" + globals.csvDataHeader[i] + "</th>";
 
       tableHTML += "</tr></thead><tbody>";
@@ -870,7 +870,7 @@ require([
           continue;
         else {
           tableHTML += "<tr>";
-          for (var j = 1; j < globals.csvDataHeader.length - 1; j++) {
+          for (var j = 1; j < globals.csvDataHeader.length - 3; j++) {
             tableHTML += "<td>" + globals.csvData[i][j].toLocaleString() + "</td>";
           }
           tableHTML += "</tr>\n";
