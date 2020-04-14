@@ -233,7 +233,8 @@ require([
     }
 
 
-    var defaultDate = $.datepicker.formatDate('mm-dd-yy', new Date());
+   // var defaultDate = $.datepicker.formatDate('mm-dd-yy', new Date());
+   var defaultDate = globals.dailySummary[1][0];
     var maxDate = globals.dailySummary[globals.dailySummary.length - 1][0];
 
     globals.selectedDate = defaultDate;
@@ -667,6 +668,7 @@ require([
 
     function changeDate(selectedDate) {
       globals.selectedDate = selectedDate;
+      console.log('selectedDate',selectedDate,'globals.selectedDate',globals.selectedDate);
       globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
       //check whether file exists
       var http = new XMLHttpRequest();
@@ -963,46 +965,51 @@ require([
 
       $('[data-toggle="tooltip"]').tooltip('dispose');
 
-      let filteredData = globals.dailySummary;
-      //console.log('maxDate-',maxDate,'defaultDate=',defaultDate);
+      let filteredData = globals.dailySummary.slice(1); //remove heding row
+      
       defaultDate = new Date(defaultDate.replace(/-/g, "/"));
       maxDate = new Date(maxDate.replace(/-/g, "/"));
-      for (var d = new Date(defaultDate); d <= new Date(maxDate); d.setDate(d.getDate() + 1)) {
-        let totalCasses = 0;
-        let projectedNeed = 0;
+      console.log('maxDate-',maxDate,'defaultDate=',defaultDate,'filteredData=',filteredData);
+ //     for (var d = new Date(defaultDate); d <= new Date(maxDate); d.setDate(d.getDate() + 1)) {
+  for (index = 0; index < filteredData.length; index++) {
+        let totalHospitalizations = filteredData[index][2];
+        let totalProjectedDemand = filteredData[index][1];
 
-        var formattedDate = ("0" + parseInt(d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + "-" + d.getFullYear();
-        for (index = 0; index < filteredData.length; index++) {
-          if (filteredData[index][0] === formattedDate) {
-            totalCasses = Number(filteredData[index][2]).toLocaleString();
-            projectedNeed = Number(filteredData[index][1]).toLocaleString();
-            break;
-          }
-        }
-        const representationDate = d.toDateString().slice(4).substring(0, 6);
-
-        var toolTipText = 'Hospitalizations : <b>' + totalCasses + '</b> <br>' +
-          'Projected Demand : <b>' + projectedNeed + ' %</b>';
+        let formattedDate = new Date(filteredData[index][0].replace(/-/g, "/"));
+        let actualDateString = filteredData[index][0] ;
+  //       for (index = 0; index < filteredData.length; index++) {
+  //  //       if (filteredData[index][0] === formattedDate) {
+  //           totalCasses = Number(filteredData[index][2]).toLocaleString();
+  //           projectedNeed = Number(filteredData[index][1]).toLocaleString();
+  //           break;
+  //  //       }
+  //       }
+        const representationDate = new Date(formattedDate).toDateString().slice(4).substring(0, 6);
+        console.log('formattedDate=',formattedDate,'formattedDate-ds=',representationDate);
+const lowerBound = filteredData[index][3];
+const upperBound = filteredData[index][4];
+        var toolTipText = 'Lower Bound : <b>' + lowerBound + '</b> <br>' +
+          'Upper Bound : <b>' + upperBound + '</b>';
 
         if (loopCounter === 0) {
           loopingSliderHtml += '<div class="carousel-item active">' +
-            '<div class="d-flex content content-selected pr-md-2" id="date-' + formattedDate + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="' + toolTipText + '">';
+            '<div class="d-flex content content-selected pr-md-2" id="date-' + actualDateString + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="' + toolTipText + '">';
         } else {
           loopingSliderHtml += '<div class="carousel-item" >' +
-            '<div class="d-flex content pr-md-2" data-toggle="tooltip" id="date-' + formattedDate + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="' + toolTipText + '">';
+            '<div class="d-flex content pr-md-2" data-toggle="tooltip" id="date-' + actualDateString + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="' + toolTipText + '">';
         }
 
         loopingSliderHtml += '<div class="d-flex date">' + representationDate + '</div>' +
           '<div class="content-data" style="flex:1;">' +
           '<div class="d-flex justify-content-center">' +
           '<div class="content-data-icon"><i class="fa fa-users"></i></div>' +
-          '<div class="cases">' + totalCasses + '</div></div>' +
+          '<div class="cases">' + totalHospitalizations + '</div></div>' +
           '<div class="d-flex justify-content-center">' +
           '<div class="content-data-icon"><i class="fa fa-bed"></i></div>' +
-          '<div class="beds">' + projectedNeed + ' %</div></div>' +
+          '<div class="beds">' + totalProjectedDemand + ' %</div></div>' +
           '</div></div></div>';
 
-        let dd = "#date-" + formattedDate;
+        let dd = "#date-" + actualDateString;
 
         $('.carousel-inner').on({ // look for the #button somewhere in body
           click: function (ev) {
@@ -1031,6 +1038,7 @@ require([
       $('.carousel').on('slid.bs.carousel', function () {
         let numItems = $('.carousel-item').length;
         let currentIndex = $('div.active').index() + 9;
+        console.log('numItems=',numItems,'currentIndex=',$('div.active').index());
         let CheckNextInterval;
         let selectedDate = $(".content-selected").attr('id');
         selectedDate = ".active #" + selectedDate;
@@ -1050,7 +1058,7 @@ require([
       });
 
       $('.carousel .carousel-item').each(function () {
-        var minPerSlide = 7;
+        var minPerSlide = 4;
         var next = $(this).next();
         if (!next.length) {
           next = $(this).siblings(':first');
