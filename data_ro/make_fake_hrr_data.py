@@ -6,6 +6,14 @@ def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
+def getdatesarray(start_date, end_date):
+    date_array = []
+    curr_date = start_date
+    while curr_date <= end_date:
+        curr_date = curr_date + timedelta(7)
+        date_array.append(curr_date)
+    return date_array
+
 _, fake_hrr_file, start, end, root_dir=sys.argv
 
 # Read the fake HHR list into a list of dicts
@@ -21,12 +29,15 @@ count=0
 
 print("Reading HRR File")
 
+totalBedsCount = 0
+
 for line in fin:
     count += 1
     modulo = count % 5
     if modulo == 0:  
         object_id = int(line.strip())
-        hrr_dict = {"hrrnum": hrrnum, "hrrcity": hrrcity.upper(), "hrr_beds": hrr_beds, "total_pop": total_pop, "objectid": objectid}
+        totalBedsCount += hrr_beds
+        hrr_dict = {"hrrnum": hrrnum, "hrrcity": hrrcity.upper(), "hrr_beds": hrr_beds, "total_pop": total_pop, "objectid": objectid, "bedsNeeded": 0, "projDemand": 0}
         hrr_list.append(hrr_dict)
         hrrnum=0
         hrrcity=""
@@ -68,59 +79,46 @@ start_date = datetime.strptime(start,"%m-%d-%Y")
 end_date = datetime.strptime(end, "%m-%d-%Y")
 seed = 4
 print("Looping through dates")
-for single_date in daterange(start_date, end_date):
-    temp_date = single_date.strftime("%m-%d-%Y")
-    dateFile = open(root_dir + "/nssac_ncov_ro_" + temp_date + ".csv", "w")
-    # dateFile.write("HRRNum,Hospital Referral Region,Last Update,Beds Avail,Vent. Avail,Staff Avail,Hospitalized,Vents Demanded,Staff Demanded,Beds Count,Vent. Count,Staff Count,Cases\n")
-    dateFile.write("HRRNum,Hospital Referral Region,Projected Demand (%),Hospitalizations,Lower Hospitalization Bound,Upper Hospitalization Bound,Last Update\n")
+dates_array = getdatesarray(start_date, end_date)
 
-    totalBedsAvail = 0
-    totalVentsAvail = 0
-    totalStaffAvail = "NA"
-    totalBedsCount = 0
-    totalVentsCount = 0
-    totalStaffCount = "NA"
-    totalBedsNeeded = 0
-    totalVentsNeeded = 0
-    totalStaffNeeded = "NA"
-    totalCases = 0
+totalBedsNeeded = 0
+dateFileOpen = False
+
+for single_date in daterange(start_date, end_date):
+    # for writing files
+
+    if (single_date in dates_array):
+        # for writing files
+        temp_date = single_date.strftime("%m-%d-%Y")
+        dateFile = open(root_dir + "/nssac_ncov_ro_" + temp_date + ".csv", "w")
+        dateFile.write("HRRNum,Hospital Referral Region,Projected Demand (%),Hospitalizations,Lower Hospitalization Bound,Upper Hospitalization Bound,Last Update\n")
 
     for hrr in hrr_list:
-        hrr_bed_count = hrr["hrr_beds"]
-        totalBedsCount += hrr_bed_count
-        # totalVentsCount += int(hrr["hrr_beds"] / 2)
-        hrr_cases = seed*seed*random.randint(1,10)
-        hrr_beds = seed*random.randint(1,10)
-        hrr_vents = int(hrr_beds*random.randint(1,3)/ 10)
-        # hrr_beds_avail = hrr["hrr_beds"] - hrr_beds
-        print(f"hrr_bed_count {hrr_bed_count}")
-        hrr_proj_need = int(((0.8 * hrr_bed_count) + hrr_beds)*100/hrr_bed_count)
-        print(f"hrr_proj_need {hrr_proj_need}")
-        hrr_vents_avail = int(hrr["hrr_beds"] / 2) - hrr_vents
-        # totalBedsAvail += hrr_beds_avail
-        # totalVentsAvail += hrr_vents_avail
-        # totalCases += hrr_cases
+        hrr_beds = seed*random.randint(5,12)
+        hrr["bedsNeeded"] += hrr_beds
         totalBedsNeeded += hrr_beds
-        # totalVentsNeeded += hrr_vents
-        # if hrr_beds_avail < 0:
-        #    hrr_beds_avail = 0
-        # if hrr_vents_avail < 0:
-        #    hrr_vents_avail = 0
-        hrr_file = open("regions/nssac_ncov_ro_summary_hrr_" + str(hrr["hrrnum"]) + ".csv", "a")
-        # hrr_file.write(f"{temp_date},{hrr_beds_avail},{hrr_vents_avail},NA,{str(hrr_beds)},{str(hrr_vents)},NA,{hrr['hrr_beds']},{int(hrr['hrr_beds']/2)},NA,{str(hrr_cases)}\n")
-        lower_bound = int(hrr_beds - hrr_beds*0.05)
-        upper_bound = int(hrr_beds + hrr_beds*0.05)
-        hrr_file.write(f"{temp_date},{hrr_proj_need},{str(hrr_beds)},{str(lower_bound)},{str(upper_bound)}\n")
-        hrr_file.close()
-        # dateFile.write(f"{str(hrr['hrrnum'])},{hrr['hrrcity']},{temp_date},{str(hrr_beds_avail)},{str(hrr_vents_avail)},NA,{str(hrr_beds)},{str(hrr_vents)},NA,{str(hrr['hrr_beds'])},{str(int(hrr['hrr_beds'] / 2))},NA,{str(hrr_cases)}\n")
-        dateFile.write(f"{str(hrr['hrrnum'])},{hrr['hrrcity']},{str(hrr_proj_need)},{str(hrr_beds)},{str(lower_bound)},{str(upper_bound)},{temp_date}\n")
+        temp_hrr_proj_need = int(((0.8 * hrr["hrr_beds"]) + hrr_beds)*100/hrr["hrr_beds"])
+        hrr["projDemand"] = max(hrr["projDemand"], temp_hrr_proj_need)
+        if (single_date in dates_array):
+            lower_bound = int(hrr["bedsNeeded"] - hrr["bedsNeeded"]*0.05)
+            upper_bound = int(hrr["bedsNeeded"] + hrr["bedsNeeded"]*0.05)
         
-    # full_summary_file.write(f"{temp_date},{totalBedsAvail},{totalVentsAvail},{totalStaffAvail},{totalBedsNeeded},{totalVentsNeeded},{totalStaffNeeded},{totalBedsCount},{totalVentsCount},{totalStaffCount},{totalCases}\n")
-    total_proj_need = int(((0.8 * totalBedsCount) + totalBedsNeeded)*100/totalBedsCount)
-    lower_bound = int(totalBedsNeeded - totalBedsNeeded*0.05)
-    upper_bound = int(totalBedsNeeded + totalBedsNeeded*0.05)
-    full_summary_file.write(f"{temp_date},{total_proj_need},{totalBedsNeeded},{lower_bound},{upper_bound}\n")
-    dateFile.close()
-    seed = seed + 2
+            dateFile.write(f"{str(hrr['hrrnum'])},{hrr['hrrcity']},{str(hrr['projDemand'])},{str(hrr['bedsNeeded'])},{str(lower_bound)},{str(upper_bound)},{temp_date}\n")
+            
+            hrr_file = open(root_dir + "/regions/nssac_ncov_ro_summary_hrr_" + str(hrr["hrrnum"]) + ".csv", "a")
+            hrr_file.write(f"{temp_date},{hrr['projDemand']},{str(hrr['bedsNeeded'])},{str(lower_bound)},{str(upper_bound)}\n")
+            hrr_file.close()
+
+            hrr["bedsNeeded"] = 0
+            hrr["projDemand"] = 0
+
+    if single_date in dates_array:
+        dateFile.close()    
+        total_proj_need = int(((0.8 * totalBedsCount) + totalBedsNeeded)*100/totalBedsCount)
+        lower_bound = int(totalBedsNeeded - totalBedsNeeded*0.05)
+        upper_bound = int(totalBedsNeeded + totalBedsNeeded*0.05)
+        full_summary_file.write(f"{temp_date},{total_proj_need},{totalBedsNeeded},{lower_bound},{upper_bound}\n")
+        seed = seed + 2
+        totalBedsNeeded = 0
 full_summary_file.close()
 print("finished")
