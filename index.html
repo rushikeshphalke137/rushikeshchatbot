@@ -165,50 +165,68 @@
   <div class="supported-content w-100" style="height: calc(100% - 70px);">
 
     <div class="row d-none d-md-flex" style="height: 45px;">
-      <div class="col-12 pt-2 pb-1 btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      <!-- <div class="col-12 pt-2 pb-1 btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div id="renderField" class="btn-group mr-auto d-block" role="group" aria-label="First group">
-          <button type="button" value="2" class="btn btn-primary confirmBtn renderField pr-2" title="Projected Resource Demand (%)">
+          <button type="button" value="2" class="btn btn-primary confirmBtn renderField pr-2"
+            title="Projected Resource Demand (%)">
             <span class="fa fa-bed pr-2" aria-hidden="true"></span>Projected Demand
           </button>
 
-          <button type="button" value="3" class="btn btn-danger activeBtn disabled renderField" title="Projected Hospitalizations">
+          <button type="button" value="3" class="btn btn-danger activeBtn disabled renderField"
+            title="Projected Hospitalizations">
             <span class="fa fa-users pr-2" aria-hidden="true"></span>Hospitalizations
           </button>
-          <!-- <span class="arrow-down"></span> -->
-          <!-- <button type="button" value="4" class="btn btn-outline-* deathBtn disabled renderField">Ventilators</button> -->
         </div>
 
-        <!-- <div class="btn-group mr-auto d-block" role="group" aria-label="Second group">
-        <div class="form-inline form-group">
-          <div class="form-group" style="width: 145px;">
-            <div class="input-group">
-              <input type="text" placeholder="mm-dd-yyyy" style="border-radius: 5px !important;"
-                class="form-control datepicker" name="sample-date" />
-              <div class="text-center calenderIcon" title="Select date" data-toggle="datepicker"
-                data-target-name="sample-date">
-                <i class="fa fa-calendar fa-2x" style="font-size: 1.5em;"></i>
-              </div>
+      </div> -->
+      <div class="col-12 d-flex justify-content-center" style="align-items: center;">
+
+        <div class="mr-2" style="display: flex; color: white; background-color: rgb(255,140,0); padding: 7px; 
+        border-radius: 5px; text-align: center; justify-content: center; font-size: 1.1em; align-items: center;">
+
+          <div class="d-flex" style="align-items: center;">
+            <img class="mr-1" style="height: 25px; width: 25px;" src="images/scenario.png" alt="Scenario">
+          </div>
+          <div class="d-flex justify-content-center">Unmitigated</div>
+
+        </div>
+
+        <div style="display: flex; color: white; background-color: rgb(255,140,0); padding: 7px; 
+        border-radius: 5px; text-align: center; justify-content: center; font-size: 1.1em; align-items: center;">
+
+          <div class="d-flex" style="align-items: center;">
+            <img class="mr-1" style="height: 25px; width: 25px;" src="images/scenario.png" alt="Scenario">
+          </div>
+          <div class="d-flex justify-content-center">Pause-June10</div>
+
+        </div>
+
+        <div id="queryWrapper" class="ml-auto d-flex" style="align-items: center;">
+
+          <div class="input-group mr-1">
+            <div class="input-group-prepend">
+              <!-- <span class="input-group-text" id="inputGroup-sizing-sm">Query</span> -->
+              <!-- <span><a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true"
+                  title="Query Info" data-content="Enter comma-separated names of HRR to search, click on 'QUERY' button or press
+            <b>enter key</b>"><img class="tooltip-img" src="images/info-help.png" alt="Help">
+                </a>
+              </span> -->
+            </div>
+            <input name="queryByName" id="queryByName" type="text" class="form-control" aria-label="Small"
+              style="min-width: 250px;" placeholder="Search HRR. Comma separated names allowed"
+              aria-describedby="Search HRR. Comma separated names allowed">
+
+            <div class="input-group-append resetDefault" style="cursor: pointer;">
+              <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-times-circle"
+                  style="font-size: 1.4em;"></i></span>
             </div>
           </div>
-        </div>
-      </div> -->
 
-        <div id="queryWrapper" class="d-flex">
-          <div class="queryLabel">Query</div>
-          <div style="cursor: pointer;">
-            <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true"
-              title="Query Info" data-content="Enter comma-separated names of HRR to search, click on 'QUERY' button or press
-            <b>enter key</b>"><img class="tooltip-img" src="images/info-help.png" alt="Help">
-            </a>
-          </div>
+          <button class="btn btn-primary queryFilter mr-1">Query</button>
+          <!-- <button  class="btn btn-light resetDefault">Reset</button> -->
 
-          <div class="w-100">
-            <input name="queryByName" class="pl-1" style="min-width: 340px;"
-              placeholder="Query by comma separated names" id="queryByName" size="35">
-            <button class="queryButtons queryFilter">Query</button>
-            <button class="queryButtons resetDefault">Reset</button>
-          </div>
-          <button id="noResultFoundButton" class="d-none" type="button" class="btn btn-primary" data-toggle="modal" data-target="#noResultFoundPopUp">
+          <button id="noResultFoundButton" class="d-none" type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#noResultFoundPopUp">
             Trigger No result found Popup
           </button>
 
@@ -219,27 +237,12 @@
     </div>
 
     <div class="row pt-2 pb-2">
-      <div id="myCarousel" class="carousel carousel-fade col-12" data-ride="false" data-wrap="false"
-        data-keyboard="true">
-        <div class="carousel-inner w-100" role="listbox" id="dateLooping"></div>
 
-        <a class="carousel-control-prev bg-dark w-auto hide-default" href="#myCarousel" role="button" data-slide="prev">
-          <!-- <a class="carousel-control-prev bg-dark w-auto hide-default" href="#myCarousel" role="button" > -->
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
+      <div class="col-12 d-flex">
 
-        <a class="carousel-control-next bg-dark w-auto hide-default" href="#myCarousel" role="button" data-slide="next">
-          <!-- <a class="carousel-control-next bg-dark w-auto" href="#myCarousel" role="button" > -->
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
+        <div id="timeline" class="d-flex"></div>
 
       </div>
-
-    </div>
-
-    <div class="d-flex d-lg-none row">
 
     </div>
 
@@ -248,8 +251,26 @@
 
       <div class="col-12 col-lg-6 col-xl-7 h-100 pl-0 pr-0 mapContainer">
         <div class="h-100" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'">
+
           <!--Map Section-->
           <div class="h-100" id="mapCanvas" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+              <div id="renderField" class="btn-group mr-auto d-block toggleOptions" role="group"
+                aria-label="First group">
+                <button type="button" value="2" class="btn btn-primary confirmBtn renderField pr-2"
+                  title="Projected Resource Demand (%)">
+                  <span class="fa fa-bed pr-2" aria-hidden="true"></span>Projected Demand
+                </button>
+
+                <button type="button" value="3" class="btn btn-danger activeBtn disabled renderField"
+                  title="Projected Hospitalizations">
+                  <span class="fa fa-users pr-2" aria-hidden="true"></span>Hospitalizations
+                </button>
+              </div>
+
+            </div>
+
           </div>
 
           <div id="displayOptionWrapper">
@@ -261,64 +282,11 @@
 
       <div class="col-12 col-lg-6 col-xl-5 h-100 dataContainer" style="background-color: #232d4b !important;">
 
-        <!-- <div class="col-12 pl-0 pr-0 mb-2 d-flex" style="border: 2px solid grey;">
-
-        <div style="border-right: 4px  dotted grey;">
-          <div class="d-flex justify-content-center" style="color: white; font-size: 1.8em; padding: 0px 5px;">Projected
-            Cases</div>
-          <div class="totalCases activeCount d-flex justify-content-center" style="font-size: 2.5em; padding: 0px 5px;">
-          </div>
-        </div>
-
-        <div class="d-flex flex-column" style="justify-content: space-evenly; flex: 1;">
-
-          <div class="d-flex align-items-center">
-
-            <div class="d-flex justify-content-center ml-2 filterIcons"><i class="fa fa-bed mr-1"></i></div>
-            <div class="filterText">Beds</div>
-            <div class="d-flex flex-column pr-2 beds-tooltip" style="flex: 1; cursor: help;" data-toggle="tooltip"
-              data-html="true" data-placement="auto" title="">
-              <div class="recoveredCount d-flex justify-content-center">
-                <span class="bedsUsedCount pr-2"></span>
-                <span class="d-flex align-items-center pr-2" style="font-size: 0.8em;">Available</span>
-              </div>
-              <div class="progress" style="height: 5px;">
-                <div class="beds-progress-bar progress-bar" aria-valuenow=""></div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="d-flex align-items-center">
-            <div class="d-flex justify-content-center ml-2 filterIcons">
-              <img class="tooltip-img" src="images/ventilator.png" style="width: 30px;">
-            </div>
-            <div class="filterText pr-2">Ventilators</div>
-            <div class="d-flex flex-column pr-2 ventilator-tooltip" style="flex: 1; cursor: help;" data-toggle="tooltip"
-              data-html="true" data-placement="auto" title="">
-              <div class="recoveredCount d-flex justify-content-center">
-                <span class="ventUsedCount pr-2"></span>
-                <span class="d-flex align-items-center pr-2" style="font-size: 0.8em;">Available</span>
-              </div>
-              <div class="progress" style="height: 5px;">
-                <div class="ventilator-progress-bar progress-bar" aria-valuenow=""></div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div> -->
-
         <div class="w-100 d-flex align-items-center mt-3" style="border-bottom: 5px solid rgb(255, 140, 0) !important;">
-          <div class="charts col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter selectedFilter">Chart
-          </div>
-          <div class="data col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter"> Data</div>
+          <div class="charts col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter selectedFilter">Chart</div>
+          <div class="data col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter">Data</div>
         </div>
 
-        <!-- <div id="dataTable" class="mt-3 d-none" style="max-height: calc(100% - 165px); height: 100%;"></div>
-
-      <div id="chartdiv" class="w-100 mt-3" style="max-height: calc(100% - 165px); height: 100%;"></div> -->
         <div id="dataTable" class="d-none w-100 mt-3" style="max-height: calc(100% - 65px); height: 100%;"></div>
 
         <div id="chartdiv" class="w-100 mt-3" style="max-height: calc(100% - 65px); height: 100%;"></div>
@@ -337,13 +305,7 @@
 
       <a href="http://nssac.bii.virginia.edu/covid-19/dashboard/" target="_blank">
         <li style="border-top: 1px solid black;">
-          COVID-19 surveillance Dashboard
-        </li>
-      </a>
-
-      <a href="http://nssac.bii.virginia.edu/covid-19/cluster-dashboard" target="_blank">
-        <li id="covidLink" style="border-top: 1px solid black;">
-          COVID-19 Cases and Clusters Outside of Mainland China
+          COVID-19 Surveillance Dashboard
         </li>
       </a>
 
@@ -374,7 +336,7 @@
           </button>
         </div>
         <div class="modal-body queryResultPopUp">
-          
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

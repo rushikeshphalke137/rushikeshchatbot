@@ -12,11 +12,11 @@ function cumulative_data() {
   // Converts Y axis values in K,M,B
   chart.numberFormatter.numberFormat = "###a";
 
-  chart.dataSource.url = globals.dailySummaryFile;
-  chart.dataSource.parser = new am4core.CSVParser();
-  chart.dataSource.parser.options.useColumnNames = true;
-  chart.dataSource.parser.options.skipEmpty = false;
-  chart.dataSource.parser.options.numberFields = ["Total Hospitalizations", "Total Projected Demand (%)"];
+  // chart.dataSource.url = globals.dailySummaryFile;
+  // chart.dataSource.parser = new am4core.CSVParser();
+  // chart.dataSource.parser.options.useColumnNames = true;
+  // chart.dataSource.parser.options.skipEmpty = false;
+  // chart.dataSource.parser.options.numberFields = ["Total Hospitalizations", "Total Projected Demand (%)"];
 
   var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
 
@@ -29,7 +29,7 @@ function cumulative_data() {
   dateAxis.renderer.labels.template.fill = am4core.color("#fff");
   dateAxis.renderer.grid.template.fill = am4core.color("#fff");
 
-  var datafile = "./data_ro/nssac_ncov_ro-summary.csv";
+  var datafile = globals.dailySummaryFile;
 
   // Create Hospitalization series
   createHospitalizationSeries(chart, colors[0], datafile);

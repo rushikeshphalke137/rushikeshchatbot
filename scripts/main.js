@@ -82,14 +82,13 @@ globals.query = null;
 //added for manually picking counties
 globals.selectedRegions = [];
 globals.selectedHRRNumbers = [];
-globals.startDateString = "";
-globals.endDateString = "";
 
 globals.filteredRegion = [];
 globals.regionSelected = "All regions";
-globals.logScale = true;
+
 globals.chartDataFile = [];
 globals.globalDataSummary = [];
+
 
 require([
     "esri/Color",
@@ -178,7 +177,7 @@ require([
       $('.charts').addClass('selectedFilter');
       $('#dataTable').addClass('d-none');
       $('#chartdiv').removeClass('d-none');
-      if(globals.selectedRegions.length == 0) {
+      if (globals.selectedRegions.length == 0) {
         cumulative_data();
       } else {
         selectedRegionsChart();
@@ -233,55 +232,31 @@ require([
     }
 
 
-   // var defaultDate = $.datepicker.formatDate('mm-dd-yy', new Date());
-   var defaultDate = globals.dailySummary[1][0];
+    // var defaultDate = $.datepicker.formatDate('mm-dd-yy', new Date());
+    var defaultDate = globals.dailySummary[1][0];
     var maxDate = globals.dailySummary[globals.dailySummary.length - 1][0];
 
     globals.selectedDate = defaultDate;
     globals.renderFile = "data_ro/nssac_ncov_ro_" + defaultDate + ".csv";
 
-    //Setup Date Picker
-    // $('[data-toggle=datepicker]').each(function () {
-    //   var target = $(this).data('target-name');
-    //   var t = $('input[name=' + target + ']');
-    //   t.datepicker({
-    //     minDate: defaultDate,
-    //     maxDate: maxDate,
-    //     dateFormat: "mm-dd-yy",
-    //     autoclose: true,
-    //     onSelect: function (selected, evnt) {
-    //       $('#legend').show();
-    //       changeDate(selected);
-    //     }
-    //   });
-    //   $(this).on("click", function () {
-    //     t.datepicker("show");
-    //   });
-    // });
-
-    // $(".datepicker").datepicker("setDate", defaultDate);
-
     // Initialize Query Tooltip
     $('[data-toggle="popover"]').popover();
 
+    // Clear all Tooltips
+    $('[data-toggle="tooltip"]').tooltip('dispose');
+
+    setupMapLayer();
+    getCSVDataAndRendering();
+    renderTimeline();
+    
     // Select default option as Charts
     $('.charts').click();
 
-    initialSetup();
-    getCSVDataAndRendering();
-    InitialSlider();
-
-    // Update summary info to default date
-    //updateSummaryInfo(defaultDate);
-
-    /////////////////////////////////////////////////
-    //
-    // BELOWS ARE FUNCTIONS CALLED BY ABOVE INI
-    //
-    ////////////////////////////////////////////////
+    // Initialize all Tooltips
+    $('[data-toggle="tooltip"]').tooltip();
 
     //initial setup for the map, globals.query and globals.queryTask to query this level by NAME
-    function initialSetup() {
+    function setupMapLayer() {
       //display map and zoom to China
       var infoTemplate = new InfoTemplate(
         "Place : ${HRRCITY}",
@@ -406,8 +381,6 @@ require([
     function computeCSVStats() {
       var tempStats = [];
       var countries = [];
-      var tempChinaRow = ['Mainland China', 'Mainland China', '', 0, 0, 0, 0];
-      var tempUSARow = ['United States', 'United States', '', 0, 0, 0, 0];
       for (var j = 0; j < globals.csvDataHeader.length; j++) {
         tempStats.push([null, null, 0]); //the 3rd one is for total
         globals.csvDataRanges.push([null, null]);
@@ -447,8 +420,6 @@ require([
       globals.csvDataStats = tempStats;
       //decide to switch to # of countries (need to exclude Hong Kong, Macau and Taiwan)
       globals.numberCountryForSelectedDate = countries.length - 3;
-      globals.mainlandChinaRowForSelectedDate = tempChinaRow;
-      globals.usaRowForSelectedDate = tempUSARow;
 
       //set range for each attribute the same as csvDataStats
       //globals.csvDataRanges = tempStats.slice(0);;
@@ -462,7 +433,6 @@ require([
       dojo.connect(dojo.byId("renderField"), "onclick", changeRenderField);
       renderLegend();
     }
-
 
     function renderLegend() {
       //clear out the current legend
@@ -668,7 +638,7 @@ require([
 
     function changeDate(selectedDate) {
       globals.selectedDate = selectedDate;
-      console.log('selectedDate',selectedDate,'globals.selectedDate',globals.selectedDate);
+      console.log('selectedDate', selectedDate, 'globals.selectedDate', globals.selectedDate);
       globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
       //check whether file exists
       var http = new XMLHttpRequest();
@@ -680,8 +650,6 @@ require([
         }
       } else {
         renderByFile();
-        //showCSVDataInTable(globals.selectedRegions);
-        //updateSummaryInfo(selectedDate);
       }
 
     }
@@ -778,12 +746,6 @@ require([
 
     function clearDisplayOptionWrapper() {
       clearDIV("legend");
-    }
-
-    function remove(array, element) {
-      return array.filter(function (item) {
-        return item == element;
-      });
     }
 
     //for a list of name, separated by comma,
@@ -958,48 +920,38 @@ require([
       });
     }
 
-    function InitialSlider() {
-
-      let loopCounter = 0;
-      let loopingSliderHtml = "";
-
-      $('[data-toggle="tooltip"]').tooltip('dispose');
-
+    function renderTimeline() {
       let filteredData = globals.dailySummary.slice(1); //remove heding row
-      
-      defaultDate = new Date(defaultDate.replace(/-/g, "/"));
-      maxDate = new Date(maxDate.replace(/-/g, "/"));
-      console.log('maxDate-',maxDate,'defaultDate=',defaultDate,'filteredData=',filteredData);
- //     for (var d = new Date(defaultDate); d <= new Date(maxDate); d.setDate(d.getDate() + 1)) {
-  for (index = 0; index < filteredData.length; index++) {
-        let totalHospitalizations = filteredData[index][2];
-        let totalProjectedDemand = filteredData[index][1];
+
+      var timelineHTML = "";
+
+      // Iterate over Summary data and craete Timelines
+      for (index = 0; index < filteredData.length; index++) {
+        let totalHospitalizations = Number(filteredData[index][2]).toLocaleString();
+        let totalProjectedDemand = Number(filteredData[index][1]).toLocaleString();
+        let actualDateString = filteredData[index][0];
 
         let formattedDate = new Date(filteredData[index][0].replace(/-/g, "/"));
-        let actualDateString = filteredData[index][0] ;
-  //       for (index = 0; index < filteredData.length; index++) {
-  //  //       if (filteredData[index][0] === formattedDate) {
-  //           totalCasses = Number(filteredData[index][2]).toLocaleString();
-  //           projectedNeed = Number(filteredData[index][1]).toLocaleString();
-  //           break;
-  //  //       }
-  //       }
         const representationDate = new Date(formattedDate).toDateString().slice(4).substring(0, 6);
-        console.log('formattedDate=',formattedDate,'formattedDate-ds=',representationDate);
-const lowerBound = filteredData[index][3];
-const upperBound = filteredData[index][4];
-        var toolTipText = 'Lower Bound : <b>' + lowerBound + '</b> <br>' +
-          'Upper Bound : <b>' + upperBound + '</b>';
 
-        if (loopCounter === 0) {
-          loopingSliderHtml += '<div class="carousel-item active">' +
+        const lowerBound = Number(filteredData[index][3]).toLocaleString();
+        const upperBound = Number(filteredData[index][4]).toLocaleString();
+
+        var toolTipText = 'Projected Demand (%) : <b>' + totalProjectedDemand + '</b><br>' +
+          'Total Hospitalizations <br>' +
+          'Mean Value  : <b>' + totalHospitalizations + '</b><br>' +
+          'Lower Bound : <b>' + lowerBound + '</b><br>' +
+          'Upper Bound : <b>' + upperBound + '</b><br>';
+
+        if (index === 0) {
+          timelineHTML +=
             '<div class="d-flex content content-selected pr-md-2" id="date-' + actualDateString + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="' + toolTipText + '">';
         } else {
-          loopingSliderHtml += '<div class="carousel-item" >' +
+          timelineHTML +=
             '<div class="d-flex content pr-md-2" data-toggle="tooltip" id="date-' + actualDateString + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="' + toolTipText + '">';
         }
 
-        loopingSliderHtml += '<div class="d-flex date">' + representationDate + '</div>' +
+        timelineHTML += '<div class="d-flex date">' + representationDate + '</div>' +
           '<div class="content-data" style="flex:1;">' +
           '<div class="d-flex justify-content-center">' +
           '<div class="content-data-icon"><i class="fa fa-users"></i></div>' +
@@ -1007,76 +959,26 @@ const upperBound = filteredData[index][4];
           '<div class="d-flex justify-content-center">' +
           '<div class="content-data-icon"><i class="fa fa-bed"></i></div>' +
           '<div class="beds">' + totalProjectedDemand + ' %</div></div>' +
-          '</div></div></div>';
-
-        let dd = "#date-" + actualDateString;
-
-        $('.carousel-inner').on({ // look for the #button somewhere in body
-          click: function (ev) {
-            let selectedDateCarosel;
-            selectedDateCarosel = ev.currentTarget.id.substring(5);
-            $(".content-selected").each(function (i, item) {
-              $(item).removeClass('content-selected');
-            });
-            $(ev.currentTarget).addClass('content-selected');
-            changeDate(selectedDateCarosel);
-          }
-        }, dd);
-        loopCounter++;
+          '</div></div>';
 
       }
-      //console.log('loopingSliderHtml-print',loopingSliderHtml);
-      $("#dateLooping").html(function (n) {
-        return loopingSliderHtml;
+
+      $('#timeline').html(timelineHTML);
+
+      $('#timeline .content').off().on('click', function (event) {
+        const selectedDate = event.currentTarget.id.substring(5);
+
+        // Remove selection
+        $(".content-selected").each(function (i, item) {
+          $(item).removeClass('content-selected');
+        });
+
+        // Add selection class to current timeline
+        $(event.currentTarget).addClass('content-selected');
+
+        changeDate(selectedDate);
       });
 
-      // code start for carosel 
-      $('#myCarousel').carousel({
-        interval: false
-      })
-
-      $('.carousel').on('slid.bs.carousel', function () {
-        let numItems = $('.carousel-item').length;
-        let currentIndex = $('div.active').index() + 9;
-        console.log('numItems=',numItems,'currentIndex=',$('div.active').index());
-        let CheckNextInterval;
-        let selectedDate = $(".content-selected").attr('id');
-        selectedDate = ".active #" + selectedDate;
-        $('#dateLooping').removeClass('content-selected');
-
-        $('.carousel-control-prev').show();
-        $('.carousel-control-prev').css('display', 'flex');
-
-        if (currentIndex >= numItems) { //if this is the last item then
-          $('.carousel-control-next').hide();
-        } else if (currentIndex === 9) { //if page load/refreshed and slider starts from 1st item by default or by sliding its the first item 
-          $('.carousel-control-prev').hide();
-        } else { // if this is not last item
-          $('.carousel-control-next').show();
-        }
-        $(selectedDate).addClass('content-selected');
-      });
-
-      $('.carousel .carousel-item').each(function () {
-        var minPerSlide = 4;
-        var next = $(this).next();
-        if (!next.length) {
-          next = $(this).siblings(':first');
-        }
-        next.children(':first-child').clone().appendTo($(this));
-
-        for (var i = 0; i < minPerSlide; i++) {
-          next = next.next();
-          if (!next.length) {
-            next = $(this).siblings(':first');
-          }
-
-          next.children(':first-child').clone().appendTo($(this));
-        }
-      });
-      // code end for carosel
-
-      $('[data-toggle="tooltip"]').tooltip();
     }
 
     function getGlobalDataFromCSVFile(file) {

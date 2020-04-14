@@ -289,36 +289,12 @@ body {
   color: #6f6f6f;
 }
 
-/* LEFT PANE */
-.leftPane {
-  color: #c4c4c4;
-  margin: 0;
-  height: calc(100vh - 115px);
-  overflow-y: auto;
-}
-
-/* warning color */
-.leftPane #info,
-#infoGraph {
-  color: #D8000C;
-  background-color: #FFD2D2;
-}
-
-.leftPane #datepickerWrapper {
-  margin: 0 0 0.5rem;
-}
-
-.leftPane #datepickerWrapper #datepicker {
-  border-top: 0px dotted #A6A6A6;
-  margin: 0;
-  padding: 0;
-}
-
-.leftPane #datepickerWrapper #datepicker .ui-widget {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.2em;
-  width: auto;
-  text-transform: none;
+/* Adding Custom CSS for Bootstrap Tooltip */
+.custom-tooltip {
+  display: flex;
+  font-size: 4em;
+  padding: 5px;
+  text-align: left;
 }
 
 #displayOptionWrapper {
@@ -326,8 +302,8 @@ body {
   width: max-content;
   background-color: white;
   position: absolute;
-  bottom: 40px;
   opacity: 0.8;
+  bottom: 20px;
   left: 20px;
   padding-bottom: 0.5px;
   border: 1px solid gray;
@@ -1012,7 +988,8 @@ textarea {
   font-size: 100% !important;
   margin: 0 !important;
   vertical-align: baseline !important;
-  *vertical-align: middle !important;
+  vertical-align: middle !important;
+  color: black !important;
 }
 
 #dataWrapper {
@@ -1020,19 +997,10 @@ textarea {
   padding: 5px;
 }
 
-#queryWrapper {
-  padding: 5px;
-  /* -moz-box-shadow: 0 0 5px #888;
-  -webkit-box-shadow: 0 0 5px #888;
-  box-shadow: 0 0 5px #888; */
-}
-
 .esriSimpleSliderTL {
-  top: 30px !important;
+  top: 50px !important;
   left: 10px !important;
 }
-
-
 
 .row:before,
 .row:after {
@@ -1270,66 +1238,44 @@ textarea {
 /* medium - display 2  */
 
 
-#myCarousel .hide-default {
-  display: none;
+.toggleOptions {
+  position: absolute !important;
+  z-index: 1000;
+  background-color: whitesmoke;
+  padding: 5px;
 }
 
-.carousel-item .w-10.selected {
-  font-weight: bold;
-  color: #286B95 !important;
-  background-color: #B1B5BF !important;
-}
-
-.carousel-item .content {
+#timeline .content {
   background-color: white;
   color: rgb(255, 140, 0);
   border-radius: 5px;
-  margin-left: 4px;
+  margin-right: 10px;
   max-width: 44%;
-  /* min-width: 12%; */
 }
 
-/* .carousel-item  .content-selected {
-    background-color: #232d4b;
-    border: 2px solid rgb(255, 140, 0);
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    margin-left: 10px;
-  } */
-
-/* .content:hover {
-    background-color: #232d4b;
-    cursor: pointer;
-  } */
-
-/* .content:hover .content-data .content-data-icon, .content-selected .content-data .content-data-icon {
-    color: white;
-  } */
-
-.carousel-item .content:hover {
+#timeline .content:hover {
   background-color: rgb(255, 140, 0);
   color: white;
   cursor: pointer;
 }
 
-.carousel-item .content-selected {
+#timeline .content-selected {
   background-color: rgb(255, 140, 0);
   border-radius: 5px;
   cursor: pointer;
   color: white;
   max-width: 44%;
-  /* min-width: 12%; */
 }
 
-.carousel-item .content .date,
-.carousel-item .content-selected .date {
+#timeline .content .date,
+#timeline .content-selected .date {
   align-items: center;
   background-color: aqua;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   color: black;
   padding: 0px 5px;
+  text-align: center;
   width: 40px;
 }
 
@@ -1348,6 +1294,7 @@ textarea {
   font-size: 1.1em;
   padding: 0px 5px 0px 7px;
 }
+
 /* .carousel-inner{
   height: 100%;
 } */
@@ -1408,20 +1355,20 @@ textarea {
     display: none !important;
   }
 
-  .carousel-item .content-selected .date {
+  #timeline .content-selected .date {
     background-color: rgb(255, 140, 0) !important;
     width: 60px !important;
     justify-content: center;
   }
 
-  .carousel-item .content .date {
+  #timeline .content .date {
     height: 25px;
     justify-content: center;
     width: 60px !important;
   }
 
-  .carousel-item .content .date,
-  .carousel-item .content-selected .date {
+  #timeline .content .date,
+  #timeline .content-selected .date {
     border-radius: 5px !important;
   }
 }
@@ -1462,10 +1409,10 @@ textarea {
 
 .optionMenu {
   position: fixed;
-  top: 52px;
+  top: 54px;
   right: 15px;
   z-index: 9999;
-  border: 1px solid rgb(255,140,0);
+  border: 1px solid rgb(255, 140, 0);
   background: #4B4B4B;
 }
 
@@ -1528,19 +1475,19 @@ textarea {
 }
 
 #optionMenu ul a {
-  color: rgb(255,140,0);
+  color: rgb(255, 140, 0);
   text-align: left;
 }
 
 #optionMenu ul li:hover {
   text-decoration: none;
-  background-color: rgb(255,140,0);
+  background-color: rgb(255, 140, 0);
   color: white;
 }
 
 .moreOptionDropDown {
-  color: rgb(255,140,0) !important;
-  border-color: rgb(255,140,0) !important;
+  color: rgb(255, 140, 0) !important;
+  border-color: rgb(255, 140, 0) !important;
   cursor: pointer;
 }
 
