@@ -1231,8 +1231,7 @@ textarea {
   width: 100%;
 }
 
-#unmitigatedSchenario ,
-#pauseSchenario {
+.scenario {
   cursor: pointer;
 }
 /* code start for carosel */

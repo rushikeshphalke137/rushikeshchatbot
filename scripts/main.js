@@ -61,24 +61,9 @@ globals.numberCountryForSelectedDate = null;
 globals.mainlandChinaRowForSelectedDate = [];
 globals.usaRowForSelectedDate = [];
 
-//daily summary in csv format: date,totalConfirmed,totalDeaths,totalRecovered,newConfirmed,newDeaths,newRecovered
-//globals.dailySummaryFile = "data/nssac-ncov-sd-summary.csv";
-// globals.initialScenarios = {
-//   scenariosDirectory : "data_ro",
-//   summaryFileName:"/nssac_ncov_ro-summary.csv"
-//  };
-//  globals.dailySummaryFile = globals.initialScenarios.scenariosDirectory+globals.initialScenarios.summaryFileName;
-//  console.log('globals.dailySummaryFile',globals.dailySummaryFile);
-//  globals.initialScenarios.scenariosDirectory = "data_ro_testing";
-//  globals.dailySummaryFile = globals.initialScenarios.scenariosDirectory+globals.initialScenarios.summaryFileName;
-//  console.log('globals.dailySummaryFile',globals.dailySummaryFile);
 globals.scenariosDirectory = "data_ro";
 globals.dailySummaryFile = globals.scenariosDirectory +"/nssac_ncov_ro-summary.csv";
 
-// console.log('globals.scenariosDirectory',globals.scenariosDirectory,'globals.dailySummaryFile',globals.dailySummaryFile);
-// globals['scenariosDirectory'] = "data_rotesting";
-// globals.dailySummaryFile = globals['scenariosDirectory']+"/nssac_ncov_ro-summary.csv";
-// console.log('globals.scenariosDirectory',globals.scenariosDirectory,'globals.dailySummaryFile',globals.dailySummaryFile,"globals",globals);
 globals.dailySummary = [];
 
 //file used for rendering
@@ -264,44 +249,18 @@ require([
     setupMapLayer();
     getCSVDataAndRendering();
     renderTimeline();
-    
-    $('#pauseSchenario').click(function(){
-      console.log('sc cli');
-      globals.scenariosDirectory = "sc-pause-jun10";
+
+    $('div.scenario').click(function(e){
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      let scenarioDirectory = $(this).attr('id');
+      globals.scenariosDirectory = scenarioDirectory;
       loadInitialData();
-// globals.dailySummaryFile = globals.scenariosDirectory +"/nssac_ncov_ro-summary.csv";
-// globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate + ".csv";
-// //      globals.renderFile = "data_ro/nssac_ncov_ro_" + defaultDate + ".csv";
-// loadInitialData()
-
-//       setupMapLayer();
-//       getCSVDataAndRendering();
-//       renderTimeline();
-//       console.log('globals.dailySummaryFile-sc clkkk',globals.dailySummaryFile);
-  });
-
-
-  $('#unmitigatedSchenario').click(function(){
-    console.log('unmitigatedSchenario clk');
-    globals.scenariosDirectory = "data_ro";
-    loadInitialData();
-// globals.dailySummaryFile = globals.scenariosDirectory +"/nssac_ncov_ro-summary.csv";
-// globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate + ".csv";
-// //      globals.renderFile = "data_ro/nssac_ncov_ro_" + defaultDate + ".csv";
-
-
-//     setupMapLayer();
-//     getCSVDataAndRendering();
-//     renderTimeline();
-//     console.log('globals.dailySummaryFile-sc clkkk',globals.dailySummaryFile);
-});
+    });
 
 function loadInitialData() {
   globals.dailySummaryFile = globals.scenariosDirectory +"/nssac_ncov_ro-summary.csv";
 globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate + ".csv";
-//      globals.renderFile = "data_ro/nssac_ncov_ro_" + defaultDate + ".csv";
-
-
       setupMapLayer();
       getCSVDataAndRendering();
       renderTimeline();
@@ -361,6 +320,7 @@ globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate
 
     function getCSVDataAndRendering() {
       fileURL = globals.renderFile;
+      console.log('ren-called-','fileURL=',fileURL);
       var csvStore = new CsvStore({
         url: fileURL
       });
@@ -698,7 +658,8 @@ globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate
     function changeDate(selectedDate) {
       globals.selectedDate = selectedDate;
       console.log('selectedDate', selectedDate, 'globals.selectedDate', globals.selectedDate);
-      globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
+      globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + selectedDate + ".csv";
+     // globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
       //check whether file exists
       var http = new XMLHttpRequest();
       http.open('HEAD', globals.renderFile, false);
