@@ -179,8 +179,14 @@
         </div>
 
       </div> -->
-      <div class="col-12 d-flex justify-content-center" style="align-items: center;">
+      <div class="col-12 d-flex pt-1 justify-content-center" style="align-items: center;">
 
+<<<<<<< HEAD
+        <div class="scenario-heading">Scenarios</div>
+        <div class="arrow-right mr-2"></div>
+
+        <div id="scenarios" class="d-flex"> </div>
+=======
         <div class="mr-2 scenario" style="display: flex; color: white; background-color: rgb(255,140,0); padding: 7px; 
         border-radius: 5px; text-align: center; justify-content: center; font-size: 1.1em; align-items: center;" 
         id="data_ro"  >
@@ -202,6 +208,7 @@
           <div class="d-flex justify-content-center">Pause-June10</div>
 
         </div>
+>>>>>>> a53961f0265f1996bbc5ebe6453e9e8403ef7b87
 
         <div id="queryWrapper" class="ml-auto d-flex" style="align-items: center;">
 
@@ -215,7 +222,7 @@
               </span> -->
             </div>
             <input name="queryByName" id="queryByName" type="text" class="form-control" aria-label="Small"
-              style="min-width: 250px;" placeholder="Search HRR. Comma separated names allowed"
+              style="min-width: 310px;" placeholder="Search HRR. Comma separated names allowed"
               aria-describedby="Search HRR. Comma separated names allowed">
 
             <div class="input-group-append resetDefault" style="cursor: pointer;">
@@ -224,7 +231,7 @@
             </div>
           </div>
 
-          <button class="btn btn-primary queryFilter mr-1">Query</button>
+          <button class="btn btn-warning queryFilter">Query</button>
           <!-- <button  class="btn btn-light resetDefault">Reset</button> -->
 
           <button id="noResultFoundButton" class="d-none" type="button" class="btn btn-primary" data-toggle="modal"
@@ -240,7 +247,10 @@
 
     <div class="row pt-2 pb-2">
 
-      <div class="col-12 d-flex">
+      <div class="col-12 d-flex" style="align-items: center;">
+
+        <div class="scenario-heading">Timelines</div>
+        <div class="arrow-right mr-2"></div>
 
         <div id="timeline" class="d-flex"></div>
 
@@ -249,9 +259,9 @@
     </div>
 
     <!-- Space for Map and Data-->
-    <div class="row" style="height: calc(100% - 110px);">
+    <div class="row" style="height: calc(100% - 105px);">
 
-      <div class="col-12 col-lg-6 col-xl-7 h-100 pl-0 pr-0 mapContainer">
+      <div class="col-12 col-lg-6 col-xl-7 h-100 pr-lg-0 mapContainer">
         <div class="h-100" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'">
 
           <!--Map Section-->
@@ -284,7 +294,7 @@
 
       <div class="col-12 col-lg-6 col-xl-5 h-100 dataContainer" style="background-color: #232d4b !important;">
 
-        <div class="w-100 d-flex align-items-center mt-3" style="border-bottom: 5px solid rgb(255, 140, 0) !important;">
+        <div class="w-100 d-flex align-items-center" style="border-bottom: 3px solid rgb(255, 140, 0) !important;">
           <div class="charts col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter selectedFilter">Chart</div>
           <div class="data col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter">Data</div>
         </div>

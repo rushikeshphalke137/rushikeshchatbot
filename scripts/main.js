@@ -1,15 +1,3 @@
-/* Main script used in COVID-19 Surveillance Dashboard
- *
- * supported functionality:
- *   select a date from datepicker
- *   change attritube used for rendering
- *   support "filter by clicking or query
- *   a dynamic data table supports search, sort and export
- *   tool tip to show help information
- *
- * By Dawen Xie
- */
-
 //*******************
 // global variables
 //*******************
@@ -22,20 +10,13 @@ globals.defaultExtents = {};
 
 //supported data levels
 //to be cleaned up
-//globals.dataLevels = ["State"]; //state_fips, county_fips in the CSV header
 globals.dataLevels = ["State", "County"];
 
 //store REST API URL for corresponding polygon
 globals.mapServiceUrls = {
-  //ver 2
-  //"NCOV_World_Countries_States_Provinces" was created by Drew MacQueen, the Scholars’ Lab at UVA
-  //State: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/NCOV_World_Countries_States_Provinces/FeatureServer/0",
-  //County: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/NCOV_World_Countries_States_Provinces/FeatureServer/0"
-  //ver 3 add princess diamond, US unknown and missing countries, more simplied, etc
-  //"NCOV_World_Countries_States_Provinces_wUnknown" was created by Drew MacQueen, the Scholars’ Lab at UVA
-  HRR: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/0",
-  // County: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/NCOV_World_Countries_States_Provinces_wUnknown/FeatureServer/0"
+  HRR: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/0"
 }
+
 //flag used to indicate data level in the file, e.g., State, County
 globals.dataLevel = "State";
 
@@ -57,6 +38,12 @@ globals.joinFunctionInfoWindow = null;
 //selected date (from datepicker), '1-aug-09' is the default
 globals.selectedDate = null;
 globals.numberCountryForSelectedDate = null;
+<<<<<<< HEAD
+
+globals.selectedScenario;
+globals.scenariosDirectory;
+globals.dailySummaryFile;
+=======
 //confirmed, deaths, recovered
 globals.mainlandChinaRowForSelectedDate = [];
 globals.usaRowForSelectedDate = [];
@@ -64,10 +51,12 @@ globals.usaRowForSelectedDate = [];
 globals.scenariosDirectory = "data_ro";
 globals.dailySummaryFile = globals.scenariosDirectory +"/nssac_ncov_ro-summary.csv";
 
+>>>>>>> a53961f0265f1996bbc5ebe6453e9e8403ef7b87
 globals.dailySummary = [];
 
 //file used for rendering
 globals.renderFile = null;
+
 //display level, -1 is country level, otherwise, it's state's 2-digit FIPS
 globals.displayLevel = null;
 
@@ -131,8 +120,20 @@ require([
     CsvStore
   ) {
     parser.parse();
-    getGlobalDataFromCSVFile(globals.dailySummaryFile);
-    getDataFromCSVFile(globals.dailySummaryFile);
+
+    $.getJSON("supported_scenarios.json")
+      .done(function (json) {
+        globals.scenarios = json.scenarios;
+        globals.selectedScenario = globals.scenarios[0];
+        globals.scenariosDirectory = globals.selectedScenario.directory;
+
+        renderScenarios();
+        executeDefaultWorkflow();
+      })
+      .fail(function (jqxhr, textStatus, error) {
+        var err = textStatus + ", " + error;
+        console.log("Request Failed to load 'supported_scenarios.json' file. Reason :: " + err);
+      });
 
     //keep track of value for each drop down menu
     globals.displayLevel = 'State';
@@ -155,58 +156,6 @@ require([
 
     globals.map.infoWindow.resize(280, 210);
 
-    $('.moreOptionDropDown').on("click", function (e) {
-      e.stopPropagation();
-      $('#optionMenu').removeClass('displayNone');
-      $('#optionMenu').toggle();
-    });
-
-    $('.hamburgerIcon').click(function (e) {
-      e.stopPropagation();
-      $('.optionMenu').toggle();
-    });
-
-    $(document).click(function () {
-      if (this.id != 'optionMenu') {
-        $(".optionMenu").hide();
-      }
-    });
-
-    $('.charts').on('click', function (e) {
-      $('.data').removeClass('selectedFilter');
-      $('.charts').addClass('selectedFilter');
-      $('#dataTable').addClass('d-none');
-      $('#chartdiv').removeClass('d-none');
-      if (globals.selectedRegions.length == 0) {
-        cumulative_data();
-      } else {
-        selectedRegionsChart();
-      }
-    });
-
-    $('.data').on('click', function (e) {
-      $('.charts').removeClass('selectedFilter');
-      $('.data').addClass('selectedFilter');
-      $('#chartdiv').addClass('d-none');
-      $('#dataTable').removeClass('d-none');
-      $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-    });
-
-    $('.resetDefault').on('click', function (e) {
-      resetMapToDefault();
-    });
-
-    $('.queryFilter').on('click', function (e) {
-      queryByName();
-    });
-
-    //add response to enter key on query input box
-    $("#queryByName").keypress(function (event) {
-      if (event.keyCode == 13) {
-        queryByName();
-      }
-    });
-
     globals.mobileDevice = function () {
       var check = false;
       (function (a) {
@@ -226,6 +175,34 @@ require([
       $('.supported-content').removeClass('d-none');
     }
 
+<<<<<<< HEAD
+    bindMenuEvents();
+    bindChartAndDataTab();
+    bindSearchAndResetButton();
+
+    function executeDefaultWorkflow() {
+      // Initialize Query Tooltip
+      $('[data-toggle="popover"]').popover();
+
+      // Clear all Tooltips
+      $('[data-toggle="tooltip"]').tooltip('dispose');
+
+      // Clear everything
+      if (globals.map && globals.map.graphics) {
+        globals.map.graphics.clear();
+        globals.map.infoWindow.hide();
+      }
+
+      globals.selectedRegions = [];
+      globals.selectedHRRNumbers = [];
+
+      globals.dailySummaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
+      getGlobalDataFromCSVFile(globals.dailySummaryFile);
+
+      globals.selectedDate = globals.dailySummary[1][0];
+      globals.renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + globals.selectedDate + ".csv";
+
+=======
     if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       $('#chartView').click();
       $('#queryByName').attr('placeholder', 'Comma separated names');
@@ -261,17 +238,24 @@ require([
 function loadInitialData() {
   globals.dailySummaryFile = globals.scenariosDirectory +"/nssac_ncov_ro-summary.csv";
 globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate + ".csv";
+>>>>>>> a53961f0265f1996bbc5ebe6453e9e8403ef7b87
       setupMapLayer();
       getCSVDataAndRendering();
       renderTimeline();
-      console.log('inital===load==globals.dailySummaryFile-sc clkkk',globals.dailySummaryFile);
-}
 
-    // Select default option as Charts
-    $('.charts').click();
+      // Render Summary chart
+      summaryData();
 
-    // Initialize all Tooltips
-    $('[data-toggle="tooltip"]').tooltip();
+      $('#queryByName')[0].value = "";
+      globals.map.setExtent(globals.defaultExtents.default);
+      globals.map.setZoom(4);
+
+      // Select default option as Charts
+      $('.charts').click();
+
+      // Initialize all Tooltips
+      $('[data-toggle="tooltip"]').tooltip();
+    }
 
     //initial setup for the map, globals.query and globals.queryTask to query this level by NAME
     function setupMapLayer() {
@@ -924,22 +908,6 @@ globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate
       $.fn.DataTable.ext.pager.numbers_length = 5;
     }
 
-    //for a given csv file, fetch data and store it in data (an array)
-    function getDataFromCSVFile(file) {
-      $.ajax({
-        url: file,
-        async: false,
-        success: function (csv) {
-          var items = $.csv.toObjects(csv);
-          var jsonobject = JSON.stringify(items);
-          globals.chartDataFile = JSON.parse(jsonobject);
-          globals.dailySummary = $.csv.toArrays(csv);
-        },
-        dataType: "text",
-        complete: function () {}
-      });
-    }
-
     function renderTimeline() {
       let filteredData = globals.dailySummary.slice(1); //remove heding row
 
@@ -1001,6 +969,52 @@ globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate
 
     }
 
+    function renderScenarios() {
+
+      var scenarioHTML = "";
+      for (index = 0; index < globals.scenarios.length; index++) {
+
+        const scenarioName = globals.scenarios[index].scenario_display_name;
+
+        if (index == 0) {
+          scenarioHTML += '<div class="d-flex mr-2 selected-scenario scenario-content" data-scenario="' + scenarioName + '"' +
+            'data-toggle="tooltip" data-html="true" data-placement="right" title="' + globals.scenarios[index].description + '">';
+        } else {
+          scenarioHTML += '<div class="d-flex mr-2 scenario-content" data-scenario="' + scenarioName + '"' +
+            'data-toggle="tooltip" data-html="true" data-placement="right" title="' + globals.scenarios[index].description + '">';
+        }
+        scenarioHTML += '<div class="d-flex" style="align-items: center;">' +
+          '<img class="mr-1" style="height: 25px; width: 25px;" src="images/scenario.png" alt="Scenario"></div>' +
+          '<div class="d-flex justify-content-center" style="text-transform: capitalize;">' + scenarioName + '</div></div>';
+      }
+
+      $('#scenarios').html(scenarioHTML);
+
+      $('#scenarios .scenario-content').off().on('click', function (event) {
+        const selectedScenario = event.currentTarget.dataset.scenario;
+
+        // Remove selection
+        $(".selected-scenario").each(function (i, item) {
+          $(item).removeClass('selected-scenario');
+        });
+
+        // Add selection class to current timeline
+        $(event.currentTarget).addClass('selected-scenario');
+
+        for (index = 0; index < globals.scenarios.length; index++) {
+          const scenario = globals.scenarios[index];
+
+          if (scenario.scenario_display_name === selectedScenario) {
+            globals.selectedScenario = scenario;
+            globals.scenariosDirectory = scenario.directory;
+            break;
+          }
+        }
+        executeDefaultWorkflow();
+      });
+
+    }
+
     function getGlobalDataFromCSVFile(file) {
       $.ajax({
         url: file,
@@ -1008,7 +1022,10 @@ globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate
         success: function (csv) {
           var items = $.csv.toObjects(csv);
           var jsonobject = JSON.stringify(items);
+
           globals.globalChartDataSummary = JSON.parse(jsonobject);
+          globals.chartDataFile = JSON.parse(jsonobject);
+          globals.dailySummary = $.csv.toArrays(csv);
         },
         dataType: "text",
         complete: function () {}
@@ -1021,16 +1038,65 @@ globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate
       globals.selectedRegions = [];
       globals.selectedHRRNumbers = [];
 
-      $('#queryByName')[0].value = "";
-      globals.map.setExtent(globals.defaultExtents.default);
-      globals.map.setZoom(4);
+      // Reload Application as per selected Scenario
+      executeDefaultWorkflow();
+    }
 
-      getCSVDataAndRendering();
-      cumulative_data();
+    function bindSearchAndResetButton() {
+      $('.resetDefault').on('click', function (e) {
+        resetMapToDefault();
+      });
+
+      $('.queryFilter').on('click', function (e) {
+        queryByName();
+      });
+
+      //add response to enter key on query input box
+      $("#queryByName").keypress(function (event) {
+        if (event.keyCode == 13) {
+          queryByName();
+        }
+      });
     }
 
   });
 
+
+function bindMenuEvents() {
+  $('.moreOptionDropDown').off().on("click", function (e) {
+    e.stopPropagation();
+    $('#optionMenu').removeClass('displayNone');
+    $('#optionMenu').toggle();
+  });
+
+  $('.hamburgerIcon').click(function (e) {
+    e.stopPropagation();
+    $('.optionMenu').toggle();
+  });
+
+  $(document).click(function () {
+    if (this.id != 'optionMenu') {
+      $(".optionMenu").hide();
+    }
+  });
+}
+
+function bindChartAndDataTab() {
+  $('.charts').on('click', function (e) {
+    $('.data').removeClass('selectedFilter');
+    $('.charts').addClass('selectedFilter');
+    $('#dataTable').addClass('d-none');
+    $('#chartdiv').removeClass('d-none');
+  });
+
+  $('.data').on('click', function (e) {
+    $('.charts').removeClass('selectedFilter');
+    $('.data').addClass('selectedFilter');
+    $('#chartdiv').addClass('d-none');
+    $('#dataTable').removeClass('d-none');
+    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+  });
+}
 
 function filteredRegion(regionValue) {
   var filtered = [];
@@ -1041,75 +1107,4 @@ function filteredRegion(regionValue) {
     }
   }
   globals.filteredRegion = filtered;
-}
-
-function updateSummaryInfo(selectedDate) {
-
-  var filteredData = globals.dailySummary.filter(function (data) {
-    if (data[0] === selectedDate) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
-  if (filteredData.length === 0) {
-    console.log('No summary data available for ' + selectedDate);
-    return;
-  }
-  filteredData = filteredData[0];
-
-  $('[data-toggle="tooltip"]').tooltip('dispose');
-
-  // Calculate Beds statistics
-  var total = Number(filteredData[1]);
-  var needed = Number(filteredData[4]);
-  var available = total - needed;
-  var availablePercentage = Number((available / total) * 100);
-
-  var tooltip = "Projected Demand : <b>" + available.toLocaleString() + "</b><br>";
-  tooltip = tooltip + "Hospitalizations : <b>" + needed.toLocaleString() + "</b><br>";
-  tooltip = tooltip + "Total Beds : <b>" + total.toLocaleString() + "</b><br>";
-  tooltip = tooltip + "Percentage Available : <b>" + availablePercentage.toFixed(2) + " %</b>";
-
-  if (availablePercentage > 75) {
-    $('.beds-progress-bar').addClass('bg-success');
-  } else if (availablePercentage > 50 && availablePercentage < 75) {
-    $('.beds-progress-bar').addClass('bg-warning');
-  } else {
-    $('.beds-progress-bar').addClass('bg-danger');
-  }
-
-  $('.bedsUsedCount').html(available.toLocaleString());
-  $(".beds-progress-bar").attr('aria-valuenow', availablePercentage.toFixed(2));
-  $(".beds-progress-bar").width(availablePercentage.toFixed(2) + "%");
-  $(".beds-tooltip").attr('title', tooltip);
-
-  // Calculate Ventilator statistics
-  total = Number(filteredData[2]);
-  needed = Number(filteredData[5]);
-  available = total - needed;
-  availablePercentage = Number((available / total) * 100);
-
-  tooltip = "Ventilators Available : <b>" + available.toLocaleString() + "</b><br>";
-  tooltip = tooltip + "Ventilators Needed : <b>" + needed.toLocaleString() + "</b><br>";
-  tooltip = tooltip + "Total Ventilators : <b>" + total.toLocaleString() + "</b><br>";
-  tooltip = tooltip + "Percentage Available : <b>" + availablePercentage.toFixed(2) + " %</b>";
-
-  if (availablePercentage > 75) {
-    $('.ventilator-progress-bar').addClass('bg-success');
-  } else if (availablePercentage > 50 && availablePercentage < 75) {
-    $('.ventilator-progress-bar').addClass('bg-warning');
-  } else {
-    $('.ventilator-progress-bar').addClass('bg-danger');
-  }
-
-  $(".ventUsedCount").html(available.toLocaleString());
-  $(".ventilator-progress-bar").attr('aria-valuenow', availablePercentage.toFixed(2));
-  $(".ventilator-progress-bar").width(availablePercentage.toFixed(2) + "%");
-  $(".ventilator-tooltip").attr('title', tooltip);
-
-  $('.totalCases').html(Number(filteredData[7]).toLocaleString());
-
-  $('[data-toggle="tooltip"]').tooltip();
 }

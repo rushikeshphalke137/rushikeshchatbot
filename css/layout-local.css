@@ -1008,7 +1008,7 @@ textarea {
 }
 
 .claro .dijitContentPane {
-  padding: 2px !important;
+  padding: 0px !important;
 }
 
 .queryLabel {
@@ -1231,15 +1231,50 @@ textarea {
   width: 100%;
 }
 
+<<<<<<< HEAD
+=======
 .scenario {
   cursor: pointer;
 }
+>>>>>>> a53961f0265f1996bbc5ebe6453e9e8403ef7b87
 /* code start for carosel */
 /*********************************************************************/
 /* Bootstrap 4 Multiple Item Carousel */
 /*********************************************************************/
 /* medium - display 2  */
 
+.scenario-heading {
+  background-color: black;
+  color: rgb(255, 140, 0);
+  font-size: 1.2em;
+  padding: 5px 10px;
+}
+
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid black;
+}
+
+.selected-scenario,
+.scenario-content:hover {
+  color: white !important;
+  background-color: rgb(255, 140, 0) !important;
+}
+
+.scenario-content {
+  background-color: white;
+  color: rgb(255, 140, 0);
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  padding: 7px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
 .toggleOptions {
   position: absolute !important;
