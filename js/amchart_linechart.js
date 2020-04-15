@@ -53,6 +53,12 @@ function summaryData() {
 
 function selectedRegionsChart() {
 
+  // Don't render Charts for multiple results.
+  if (globals.selectedHRRNumbers.length != 1) {
+    summaryData();
+    return;
+  }
+
   // Dispose all Charts and clear Browser memory/cache
   am4core.disposeAllCharts();
 
@@ -76,7 +82,7 @@ function selectedRegionsChart() {
     dateAxis.renderer.labels.template.fill = am4core.color("#fff");
     dateAxis.renderer.grid.template.fill = am4core.color("#fff");
 
-    var datafile = globals.scenariosDirectory +  "/regions/nssac_ncov_ro_summary_hrr_" + globals.selectedHRRNumbers[i] + ".csv";
+    var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_hrr_" + globals.selectedHRRNumbers[i] + ".csv";
 
     // Create Hospitalization series
     createHospitalizationSeries(chart, colors[i], datafile);
