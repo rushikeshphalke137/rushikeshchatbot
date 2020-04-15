@@ -63,7 +63,22 @@ globals.usaRowForSelectedDate = [];
 
 //daily summary in csv format: date,totalConfirmed,totalDeaths,totalRecovered,newConfirmed,newDeaths,newRecovered
 //globals.dailySummaryFile = "data/nssac-ncov-sd-summary.csv";
-globals.dailySummaryFile = "data_ro/nssac_ncov_ro-summary.csv";
+// globals.initialScenarios = {
+//   scenariosDirectory : "data_ro",
+//   summaryFileName:"/nssac_ncov_ro-summary.csv"
+//  };
+//  globals.dailySummaryFile = globals.initialScenarios.scenariosDirectory+globals.initialScenarios.summaryFileName;
+//  console.log('globals.dailySummaryFile',globals.dailySummaryFile);
+//  globals.initialScenarios.scenariosDirectory = "data_ro_testing";
+//  globals.dailySummaryFile = globals.initialScenarios.scenariosDirectory+globals.initialScenarios.summaryFileName;
+//  console.log('globals.dailySummaryFile',globals.dailySummaryFile);
+globals.scenariosDirectory = "data_ro";
+globals.dailySummaryFile = globals.scenariosDirectory +"/nssac_ncov_ro-summary.csv";
+
+// console.log('globals.scenariosDirectory',globals.scenariosDirectory,'globals.dailySummaryFile',globals.dailySummaryFile);
+// globals['scenariosDirectory'] = "data_rotesting";
+// globals.dailySummaryFile = globals['scenariosDirectory']+"/nssac_ncov_ro-summary.csv";
+// console.log('globals.scenariosDirectory',globals.scenariosDirectory,'globals.dailySummaryFile',globals.dailySummaryFile,"globals",globals);
 globals.dailySummary = [];
 
 //file used for rendering
@@ -237,7 +252,8 @@ require([
     var maxDate = globals.dailySummary[globals.dailySummary.length - 1][0];
 
     globals.selectedDate = defaultDate;
-    globals.renderFile = "data_ro/nssac_ncov_ro_" + defaultDate + ".csv";
+    globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate + ".csv";
+ //   globals.renderFile = "data_ro/nssac_ncov_ro_" + defaultDate + ".csv";
 
     // Initialize Query Tooltip
     $('[data-toggle="popover"]').popover();
@@ -249,6 +265,35 @@ require([
     getCSVDataAndRendering();
     renderTimeline();
     
+    $('#pauseSchenario').click(function(){
+      console.log('sc cli');
+      globals.scenariosDirectory = "sc-pause-jun10";
+globals.dailySummaryFile = globals.scenariosDirectory +"/nssac_ncov_ro-summary.csv";
+globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate + ".csv";
+//      globals.renderFile = "data_ro/nssac_ncov_ro_" + defaultDate + ".csv";
+
+
+      setupMapLayer();
+      getCSVDataAndRendering();
+      renderTimeline();
+      console.log('globals.dailySummaryFile-sc clkkk',globals.dailySummaryFile);
+  });
+
+
+  $('#unmitigatedSchenario').click(function(){
+    console.log('unmitigatedSchenario clk');
+    globals.scenariosDirectory = "data_ro";
+globals.dailySummaryFile = globals.scenariosDirectory +"/nssac_ncov_ro-summary.csv";
+globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate + ".csv";
+//      globals.renderFile = "data_ro/nssac_ncov_ro_" + defaultDate + ".csv";
+
+
+    setupMapLayer();
+    getCSVDataAndRendering();
+    renderTimeline();
+    console.log('globals.dailySummaryFile-sc clkkk',globals.dailySummaryFile);
+});
+
     // Select default option as Charts
     $('.charts').click();
 
