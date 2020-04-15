@@ -1231,6 +1231,10 @@ textarea {
   width: 100%;
 }
 
+#unmitigatedSchenario ,
+#pauseSchenario {
+  cursor: pointer;
+}
 /* code start for carosel */
 /*********************************************************************/
 /* Bootstrap 4 Multiple Item Carousel */
