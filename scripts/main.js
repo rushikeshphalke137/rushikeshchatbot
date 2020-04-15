@@ -38,21 +38,10 @@ globals.joinFunctionInfoWindow = null;
 //selected date (from datepicker), '1-aug-09' is the default
 globals.selectedDate = null;
 globals.numberCountryForSelectedDate = null;
-<<<<<<< HEAD
 
 globals.selectedScenario;
 globals.scenariosDirectory;
 globals.dailySummaryFile;
-=======
-//confirmed, deaths, recovered
-globals.mainlandChinaRowForSelectedDate = [];
-globals.usaRowForSelectedDate = [];
-
-globals.scenariosDirectory = "data_ro";
-globals.dailySummaryFile = globals.scenariosDirectory +"/nssac_ncov_ro-summary.csv";
-
->>>>>>> a53961f0265f1996bbc5ebe6453e9e8403ef7b87
-globals.dailySummary = [];
 
 //file used for rendering
 globals.renderFile = null;
@@ -175,7 +164,6 @@ require([
       $('.supported-content').removeClass('d-none');
     }
 
-<<<<<<< HEAD
     bindMenuEvents();
     bindChartAndDataTab();
     bindSearchAndResetButton();
@@ -202,43 +190,6 @@ require([
       globals.selectedDate = globals.dailySummary[1][0];
       globals.renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + globals.selectedDate + ".csv";
 
-=======
-    if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      $('#chartView').click();
-      $('#queryByName').attr('placeholder', 'Comma separated names');
-    }
-
-
-    // var defaultDate = $.datepicker.formatDate('mm-dd-yy', new Date());
-    var defaultDate = globals.dailySummary[1][0];
-    var maxDate = globals.dailySummary[globals.dailySummary.length - 1][0];
-
-    globals.selectedDate = defaultDate;
-    globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate + ".csv";
- //   globals.renderFile = "data_ro/nssac_ncov_ro_" + defaultDate + ".csv";
-
-    // Initialize Query Tooltip
-    $('[data-toggle="popover"]').popover();
-
-    // Clear all Tooltips
-    $('[data-toggle="tooltip"]').tooltip('dispose');
-
-    setupMapLayer();
-    getCSVDataAndRendering();
-    renderTimeline();
-
-    $('div.scenario').click(function(e){
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      let scenarioDirectory = $(this).attr('id');
-      globals.scenariosDirectory = scenarioDirectory;
-      loadInitialData();
-    });
-
-function loadInitialData() {
-  globals.dailySummaryFile = globals.scenariosDirectory +"/nssac_ncov_ro-summary.csv";
-globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate + ".csv";
->>>>>>> a53961f0265f1996bbc5ebe6453e9e8403ef7b87
       setupMapLayer();
       getCSVDataAndRendering();
       renderTimeline();
@@ -304,7 +255,7 @@ globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate
 
     function getCSVDataAndRendering() {
       fileURL = globals.renderFile;
-      console.log('ren-called-','fileURL=',fileURL);
+      console.log('ren-called-', 'fileURL=', fileURL);
       var csvStore = new CsvStore({
         url: fileURL
       });
@@ -642,8 +593,8 @@ globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + defaultDate
     function changeDate(selectedDate) {
       globals.selectedDate = selectedDate;
       console.log('selectedDate', selectedDate, 'globals.selectedDate', globals.selectedDate);
-      globals.renderFile = globals.scenariosDirectory +"/nssac_ncov_ro_" + selectedDate + ".csv";
-     // globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
+      globals.renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + selectedDate + ".csv";
+      // globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
       //check whether file exists
       var http = new XMLHttpRequest();
       http.open('HEAD', globals.renderFile, false);
