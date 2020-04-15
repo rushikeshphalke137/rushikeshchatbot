@@ -176,30 +176,41 @@ require([
       $('[data-toggle="tooltip"]').tooltip('dispose');
 
       // Clear everything
-      if (globals.map && globals.map.graphics) {
-        globals.map.graphics.clear();
-        globals.map.infoWindow.hide();
-      }
+      // if (globals.map && globals.map.graphics) {
+      //   globals.map.graphics.clear();
+      //   globals.map.infoWindow.hide();
+      // }
 
-      globals.selectedRegions = [];
-      globals.selectedHRRNumbers = [];
+      //globals.selectedRegions = [];
+      //globals.selectedHRRNumbers = [];
+
+      let scenarioChanged = true;
 
       globals.dailySummaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
       getGlobalDataFromCSVFile(globals.dailySummaryFile);
 
-      globals.selectedDate = globals.dailySummary[1][0];
+      if (globals.selectedDate == undefined || globals.selectedDate == null) {
+        globals.selectedDate = globals.dailySummary[1][0];
+        scenarioChanged = false;
+      }
+
       globals.renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + globals.selectedDate + ".csv";
 
       setupMapLayer();
       getCSVDataAndRendering();
       renderTimeline();
 
+      if (scenarioChanged) {
+        $('#timeline .content').removeClass('content-selected');
+        $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
+      }
+
       // Render Summary chart
       summaryData();
 
-      $('#queryByName')[0].value = "";
-      globals.map.setExtent(globals.defaultExtents.default);
-      globals.map.setZoom(4);
+      //$('#queryByName')[0].value = "";
+      //globals.map.setExtent(globals.defaultExtents.default);
+      //globals.map.setZoom(4);
 
       // Select default option as Charts
       $('.charts').click();
@@ -255,7 +266,6 @@ require([
 
     function getCSVDataAndRendering() {
       fileURL = globals.renderFile;
-      console.log('ren-called-', 'fileURL=', fileURL);
       var csvStore = new CsvStore({
         url: fileURL
       });
@@ -592,7 +602,6 @@ require([
 
     function changeDate(selectedDate) {
       globals.selectedDate = selectedDate;
-      console.log('selectedDate', selectedDate, 'globals.selectedDate', globals.selectedDate);
       globals.renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + selectedDate + ".csv";
       // globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
       //check whether file exists
@@ -988,6 +997,10 @@ require([
       globals.map.infoWindow.hide();
       globals.selectedRegions = [];
       globals.selectedHRRNumbers = [];
+
+      $('#queryByName')[0].value = "";
+      globals.map.setExtent(globals.defaultExtents.default);
+      globals.map.setZoom(4);
 
       // Reload Application as per selected Scenario
       executeDefaultWorkflow();
