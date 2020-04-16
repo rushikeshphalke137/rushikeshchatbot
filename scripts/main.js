@@ -262,6 +262,14 @@ require([
       layer.on("update-end", function () {
         $('.loading').hide();
       });
+
+      globals.map.infoWindow.on('hide', function () {
+        if (globals.selectedRegions.length == 0) {
+          summaryData();
+        } else {
+          selectedRegionsChart();
+        }
+      })
     }
 
     function getCSVDataAndRendering() {
@@ -668,21 +676,23 @@ require([
     // test for presence to a property named "attributes" to
     // determine whether or the "value" argument is a graphic or number
     globals.joinFunctionInfoWindow = function (value) {
-      var featureID = null;
+      // var featureID = null;
 
-      for (var i = 0; i < globals.csvData.length; i++) {
-        if (globals.dataLevel == "State")
-          var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
-        var returnValue = '';
-        var csvFipsValue = globals.csvData[i][1];
-        if (fipsValue == csvFipsValue) {
-          featureID = fipsValue;
-          break;
-        }
-      }
+      // for (var i = 0; i < globals.csvData.length; i++) {
+      //   if (globals.dataLevel == "State")
+      //     var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
+      //   var returnValue = '';
+      //   var csvFipsValue = globals.csvData[i][1];
+      //   if (fipsValue == csvFipsValue) {
+      //     featureID = fipsValue;
+      //     break;
+      //   }
+      // }
+
       //now use all fields to set info window
+      var returnValue = '';
       for (var i = 0; i < globals.csvData.length; i++) {
-        if (globals.csvData[i][1] == featureID) {
+        if (globals.csvData[i][1] == value) {
           //hard coded for now, DX 02/03/2020
           returnValue += "<b>HRR:</b> " + globals.csvData[i][1];
 
@@ -693,7 +703,7 @@ require([
             } else {
               returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
             }
-
+          mapSelectedRegionsChart(globals.csvData[i][0]);
           break;
         }
       }

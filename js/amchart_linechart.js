@@ -102,6 +102,48 @@ function selectedRegionsChart() {
 
 }
 
+function mapSelectedRegionsChart(selectedHRRNumber) {
+
+  // Dispose all Charts and clear Browser memory/cache
+  am4core.disposeAllCharts();
+
+  // Themes begin
+  am4core.useTheme(am4themes_animated);
+
+  // Create chart instance
+  var chart = am4core.create("chartdiv", am4charts.XYChart);
+  chart.hiddenState.properties.opacity = 0;
+
+  var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
+
+  // Create axes
+  var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+  dateAxis.renderer.minGridDistance = 50;
+  dateAxis.renderer.labels.template.rotation = -45;
+  dateAxis.renderer.line.strokeOpacity = 1;
+  dateAxis.renderer.line.strokeWidth = 1;
+  dateAxis.renderer.labels.template.fill = am4core.color("#fff");
+  dateAxis.renderer.grid.template.fill = am4core.color("#fff");
+
+  var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_hrr_" + selectedHRRNumber + ".csv";
+
+  // Create Hospitalization series
+  createHospitalizationSeries(chart, colors[0], datafile);
+
+  // Create Demand series
+  createDemandSeries(chart, datafile);
+
+  // Add legend
+  chart.legend = new am4charts.Legend();
+  // Sets color of Legends to white
+  chart.legend.labels.template.fill = am4core.color("#fff");
+  chart.legend.valueLabels.template.fill = am4core.color("#fff");
+
+  // Add cursor
+  chart.cursor = new am4charts.XYCursor();
+
+}
+
 function createDemandSeries(chart, datafile) {
 
   // Create Demand Value axis
@@ -235,4 +277,21 @@ function createHospitalizationSeries(chart, color, datafile) {
     uncertainitySeries.show();
   });
 
+}
+
+function readCSVFile(file) {
+  $.ajax({
+    url: file,
+    async: false,
+    success: function (csv) {
+      var items = $.csv.toObjects(csv);
+      var jsonobject = JSON.stringify(items);
+
+      globals.globalChartDataSummary = JSON.parse(jsonobject);
+      globals.chartDataFile = JSON.parse(jsonobject);
+      globals.dailySummary = $.csv.toArrays(csv);
+    },
+    dataType: "text",
+    complete: function () {}
+  });
 }
