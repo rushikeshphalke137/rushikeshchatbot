@@ -1,1 +1,4 @@
-{"scenarios":[{"scenario_display_name":"unmitigated","position":0,"directory":"data_ro","description":"This is the baseline case with no interventions applied."},{"scenario_display_name":"Pause-June10","position":1,"directory":"sc-pause-jun10","description":"Stay at home order -- essential workers only -- until June 10, 2020"}]}
+{"scenarios":[{"scenario_display_name":"M1-duration7","position":0,"directory":"sc-M1-dur7","description":"This is the April 8th run of the M1 model with length of hospital stay set to 7 days."},
+{"scenario_display_name":"M1-duration14","position":1,"directory":"sc-M1-dur14","description":"This is the April 8th run of the M1 model with length of hospital stay set to 14 days."},
+{"scenario_display_name":"M3-duration7","position":4,"directory":"sc-M3-dur7","description":"This is the April 8th run of the M3 model with length of hospital stay set to 7 days."},
+{"scenario_display_name":"M3-duration14","position":5,"directory":"sc-M3-dur14","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."}]}
