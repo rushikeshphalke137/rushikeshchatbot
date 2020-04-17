@@ -175,15 +175,6 @@ require([
       // Clear all Tooltips
       $('[data-toggle="tooltip"]').tooltip('dispose');
 
-      // Clear everything
-      // if (globals.map && globals.map.graphics) {
-      //   globals.map.graphics.clear();
-      //   globals.map.infoWindow.hide();
-      // }
-
-      //globals.selectedRegions = [];
-      //globals.selectedHRRNumbers = [];
-
       let scenarioChanged = true;
 
       globals.dailySummaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
@@ -205,12 +196,13 @@ require([
         $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
       }
 
-      // Render Summary chart
-      summaryData();
 
-      //$('#queryByName')[0].value = "";
-      //globals.map.setExtent(globals.defaultExtents.default);
-      //globals.map.setZoom(4);
+      if (globals.selectedRegions.length == 0) {
+        // Render Summary chart
+        renderSummaryDataChart();
+      } else {
+        renderQueriedRegionsChart();
+      }
 
       // Select default option as Charts
       $('.charts').click();
@@ -265,9 +257,9 @@ require([
 
       globals.map.infoWindow.on('hide', function () {
         if (globals.selectedRegions.length == 0) {
-          summaryData();
+          renderSummaryDataChart();
         } else {
-          selectedRegionsChart();
+          renderQueriedRegionsChart();
         }
       })
     }
@@ -676,19 +668,6 @@ require([
     // test for presence to a property named "attributes" to
     // determine whether or the "value" argument is a graphic or number
     globals.joinFunctionInfoWindow = function (value) {
-      // var featureID = null;
-
-      // for (var i = 0; i < globals.csvData.length; i++) {
-      //   if (globals.dataLevel == "State")
-      //     var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
-      //   var returnValue = '';
-      //   var csvFipsValue = globals.csvData[i][1];
-      //   if (fipsValue == csvFipsValue) {
-      //     featureID = fipsValue;
-      //     break;
-      //   }
-      // }
-
       //now use all fields to set info window
       var returnValue = '';
       for (var i = 0; i < globals.csvData.length; i++) {
@@ -703,7 +682,7 @@ require([
             } else {
               returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
             }
-          mapSelectedRegionsChart(globals.csvData[i][0]);
+            renderSelectedRegionsChart(globals.csvData[i][0]);
           break;
         }
       }
@@ -786,7 +765,7 @@ require([
             globals.selectedHRRNumbers = selectedHRRNum;
 
             // Display Chart 
-            selectedRegionsChart();
+            renderQueriedRegionsChart();
             showCSVDataInTable(globals.selectedRegions);
             var extent = esri.graphicsExtent(fset.features);
             globals.map.setExtent(extent, true);

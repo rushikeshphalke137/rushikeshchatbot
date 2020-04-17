@@ -1,4 +1,4 @@
-function summaryData() {
+function renderSummaryDataChart() {
 
   // Dispose all Charts and clear Browser memory/cache
   am4core.disposeAllCharts();
@@ -12,11 +12,8 @@ function summaryData() {
   // Converts Y axis values in K,M,B
   chart.numberFormatter.numberFormat = "###a";
 
-  chart.dataSource.url = globals.dailySummaryFile;
-  chart.dataSource.parser = new am4core.CSVParser();
-  chart.dataSource.parser.options.useColumnNames = true;
-  chart.dataSource.parser.options.skipEmpty = false;
-  chart.dataSource.parser.options.numberFields = ["Total Hospitalizations", "Total Projected Demand (%)"];
+  // Assign global summary data to Chart
+  chart.data = globals.chartDataFile;
 
   var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
 
@@ -51,58 +48,7 @@ function summaryData() {
 
 }
 
-function selectedRegionsChart() {
-
-  // Don't render Charts for multiple results.
-  if (globals.selectedHRRNumbers.length != 1) {
-    summaryData();
-    return;
-  }
-
-  // Dispose all Charts and clear Browser memory/cache
-  am4core.disposeAllCharts();
-
-  // Themes begin
-  am4core.useTheme(am4themes_animated);
-
-  // Create chart instance
-  var chart = am4core.create("chartdiv", am4charts.XYChart);
-  chart.hiddenState.properties.opacity = 0;
-
-  var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
-
-  for (i = 0; i < globals.selectedHRRNumbers.length; i++) {
-
-    // Create axes
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.minGridDistance = 50;
-    dateAxis.renderer.labels.template.rotation = -45;
-    dateAxis.renderer.line.strokeOpacity = 1;
-    dateAxis.renderer.line.strokeWidth = 1;
-    dateAxis.renderer.labels.template.fill = am4core.color("#fff");
-    dateAxis.renderer.grid.template.fill = am4core.color("#fff");
-
-    var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_hrr_" + globals.selectedHRRNumbers[i] + ".csv";
-
-    // Create Hospitalization series
-    createHospitalizationSeries(chart, colors[i], datafile);
-
-    // Create Demand series
-    createDemandSeries(chart, datafile);
-  }
-
-  // Add legend
-  chart.legend = new am4charts.Legend();
-  // Sets color of Legends to white
-  chart.legend.labels.template.fill = am4core.color("#fff");
-  chart.legend.valueLabels.template.fill = am4core.color("#fff");
-
-  // Add cursor
-  chart.cursor = new am4charts.XYCursor();
-
-}
-
-function mapSelectedRegionsChart(selectedHRRNumber) {
+function renderQueriedRegionsChart() {
 
   // Dispose all Charts and clear Browser memory/cache
   am4core.disposeAllCharts();
@@ -125,13 +71,13 @@ function mapSelectedRegionsChart(selectedHRRNumber) {
   dateAxis.renderer.labels.template.fill = am4core.color("#fff");
   dateAxis.renderer.grid.template.fill = am4core.color("#fff");
 
-  var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_hrr_" + selectedHRRNumber + ".csv";
+  var mergedData = mergeDataAcrossRegions();
 
   // Create Hospitalization series
-  createHospitalizationSeries(chart, colors[0], datafile);
+  createHospitalizationSeries(chart, colors[0], mergedData);
 
   // Create Demand series
-  createDemandSeries(chart, datafile);
+  createDemandSeries(chart, mergedData);
 
   // Add legend
   chart.legend = new am4charts.Legend();
@@ -144,7 +90,52 @@ function mapSelectedRegionsChart(selectedHRRNumber) {
 
 }
 
-function createDemandSeries(chart, datafile) {
+function renderSelectedRegionsChart(selectedHRRNumber) {
+
+  // Dispose all Charts and clear Browser memory/cache
+  am4core.disposeAllCharts();
+
+  // Themes begin
+  am4core.useTheme(am4themes_animated);
+
+  // Create chart instance
+  var chart = am4core.create("chartdiv", am4charts.XYChart);
+  chart.hiddenState.properties.opacity = 0;
+
+  var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
+
+  // Create axes
+  var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+  dateAxis.renderer.minGridDistance = 50;
+  dateAxis.renderer.labels.template.rotation = -45;
+  dateAxis.renderer.line.strokeOpacity = 1;
+  dateAxis.renderer.line.strokeWidth = 1;
+  dateAxis.renderer.labels.template.fill = am4core.color("#fff");
+  dateAxis.renderer.grid.template.fill = am4core.color("#fff");
+  dateAxis.renderer.grid.template.location = 0;
+
+  var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_hrr_" + selectedHRRNumber + ".csv";
+
+  var chartData = getJSONData(datafile);
+
+  // Create Hospitalization series
+  createHospitalizationSeries(chart, colors[0], chartData);
+
+  // Create Demand series
+  createDemandSeries(chart, chartData);
+
+  // Add legend
+  chart.legend = new am4charts.Legend();
+  // Sets color of Legends to white
+  chart.legend.labels.template.fill = am4core.color("#fff");
+  chart.legend.valueLabels.template.fill = am4core.color("#fff");
+
+  // Add cursor
+  chart.cursor = new am4charts.XYCursor();
+
+}
+
+function createDemandSeries(chart, data) {
 
   // Create Demand Value axis
   var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -157,10 +148,8 @@ function createDemandSeries(chart, datafile) {
 
   // Create Demand series
   var demandSeries = chart.series.push(new am4charts.LineSeries());
-  if (datafile) {
-    demandSeries.dataSource.url = datafile;
-    demandSeries.dataSource.parser = new am4core.CSVParser();
-    demandSeries.dataSource.parser.options.useColumnNames = true;
+  if (data) {
+    demandSeries.data = data;
     demandSeries.dataFields.dateX = "date";
   } else {
     demandSeries.dataFields.categoryX = "date";
@@ -191,7 +180,7 @@ function createDemandSeries(chart, datafile) {
   bullet.circle.strokeWidth = 2;
 }
 
-function createHospitalizationSeries(chart, color, datafile) {
+function createHospitalizationSeries(chart, color, data) {
 
   // Create Hospitalization Value axis
   var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -204,10 +193,8 @@ function createHospitalizationSeries(chart, color, datafile) {
 
   // Create Uncertainity Bound Series
   var uncertainitySeries = chart.series.push(new am4charts.LineSeries());
-  if (datafile) {
-    uncertainitySeries.dataSource.url = datafile;
-    uncertainitySeries.dataSource.parser = new am4core.CSVParser();
-    uncertainitySeries.dataSource.parser.options.useColumnNames = true;
+  if (data) {
+    uncertainitySeries.data = data;
     uncertainitySeries.dataFields.dateX = "date";
   } else {
     uncertainitySeries.dataFields.categoryX = "date";
@@ -228,10 +215,8 @@ function createHospitalizationSeries(chart, color, datafile) {
 
   // Create Hospitalization series
   var hospitalizationSeries = chart.series.push(new am4charts.LineSeries());
-  if (datafile) {
-    hospitalizationSeries.dataSource.url = datafile;
-    hospitalizationSeries.dataSource.parser = new am4core.CSVParser();
-    hospitalizationSeries.dataSource.parser.options.useColumnNames = true;
+  if (data) {
+    hospitalizationSeries.data = data;
     hospitalizationSeries.dataFields.dateX = "date";
   } else {
     hospitalizationSeries.dataFields.categoryX = "date";
@@ -279,19 +264,60 @@ function createHospitalizationSeries(chart, color, datafile) {
 
 }
 
-function readCSVFile(file) {
+function mergeDataAcrossRegions() {
+  var mergedData = [];
+
+  for (i = 0; i < globals.selectedHRRNumbers.length; i++) {
+
+    var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_hrr_" + globals.selectedHRRNumbers[i] + ".csv";
+
+    $.ajax({
+      url: datafile,
+      async: false,
+      success: function (csv) {
+        var items = $.csv.toObjects(csv);
+        var jsonobject = JSON.stringify(items);
+        var currentData = JSON.parse(jsonobject);
+
+        if (mergedData.length > 0) {
+          for (loop = 0; loop < mergedData.length; loop++) {
+            var filteredData = currentData[loop];
+
+            mergedData[loop]["Lower Hospitalization Bound"] = parseInt(mergedData[loop]["Lower Hospitalization Bound"]) + parseInt(filteredData["Lower Hospitalization Bound"]);
+            mergedData[loop]["Upper Hospitalization Bound"] = parseInt(mergedData[loop]["Upper Hospitalization Bound"]) + parseInt(filteredData["Upper Hospitalization Bound"]);
+            mergedData[loop]["Total Projected Demand (%)"] = parseInt(mergedData[loop]["Total Projected Demand (%)"]) + parseInt(filteredData["Total Projected Demand (%)"]);
+            mergedData[loop]["Total Hospitalizations"] = parseInt(mergedData[loop]["Total Hospitalizations"]) + parseInt(filteredData["Total Hospitalizations"]);
+          }
+        } else {
+          mergedData = currentData;
+        }
+      },
+      dataType: "text",
+      complete: function () {}
+    });
+  }
+
+  // Average the Total Projected Demand
+  for (loop = 0; loop < mergedData.length; loop++)
+    mergedData[loop]["Total Projected Demand (%)"] = Math.round(parseInt(mergedData[loop]["Total Projected Demand (%)"]) / globals.selectedHRRNumbers.length);
+
+  return mergedData;
+}
+
+function getJSONData(datafile) {
+
+  var jsonData;
   $.ajax({
-    url: file,
+    url: datafile,
     async: false,
     success: function (csv) {
       var items = $.csv.toObjects(csv);
       var jsonobject = JSON.stringify(items);
-
-      globals.globalChartDataSummary = JSON.parse(jsonobject);
-      globals.chartDataFile = JSON.parse(jsonobject);
-      globals.dailySummary = $.csv.toArrays(csv);
+      jsonData = JSON.parse(jsonobject);
     },
     dataType: "text",
     complete: function () {}
   });
+
+  return jsonData;
 }
