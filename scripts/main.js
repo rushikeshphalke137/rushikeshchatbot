@@ -377,7 +377,7 @@ require([
         if (!countries.includes(country))
           countries.push(country);
 
-        filteredRegion(globals.regionSelected);
+        // filteredRegion(globals.regionSelected);
       }
 
       //at this point, we have updated stats on all fields
@@ -682,7 +682,7 @@ require([
             } else {
               returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
             }
-            renderSelectedRegionsChart(globals.csvData[i][0]);
+          renderSelectedRegionsChart(globals.csvData[i][0], globals.csvData[i][1]);
           break;
         }
       }
@@ -701,14 +701,9 @@ require([
       clearDIV("legend");
     }
 
-    //for a list of name, separated by comma,
-    //query corresonding layer and show results in GraphicLayer and data table
     function queryByName() {
-      //testing string: Hubei, Hunan
       var inputStr = $("#queryByName").val();
-      if (inputStr.length == 0)
-        alert("Already showing all data.");
-      else {
+      if (inputStr.length != 0) {
         inputStr = inputStr.replace(/%/g, '');
         var inputStrSplit = inputStr.split(",");
         var where = '';
@@ -982,6 +977,10 @@ require([
     }
 
     function resetMapToDefault() {
+      if ($('#queryByName')[0].value == '') {
+        return;
+      }
+
       globals.map.graphics.clear();
       globals.map.infoWindow.hide();
       globals.selectedRegions = [];
@@ -989,7 +988,6 @@ require([
 
       $('#queryByName')[0].value = "";
       globals.map.setExtent(globals.defaultExtents.default);
-      globals.map.setZoom(4);
 
       // Reload Application as per selected Scenario
       executeDefaultWorkflow();
@@ -1051,13 +1049,13 @@ function bindChartAndDataTab() {
   });
 }
 
-function filteredRegion(regionValue) {
-  var filtered = [];
-  for (var i = 0; i < globals.csvData.length; i++) {
+// function filteredRegion(regionValue) {
+//   var filtered = [];
+//   for (var i = 0; i < globals.csvData.length; i++) {
 
-    if (globals.csvData[i][1].startsWith(regionValue)) {
-      filtered.push(globals.csvData[i]);
-    }
-  }
-  globals.filteredRegion = filtered;
-}
+//     if (globals.csvData[i][1].startsWith(regionValue)) {
+//       filtered.push(globals.csvData[i]);
+//     }
+//   }
+//   globals.filteredRegion = filtered;
+// }

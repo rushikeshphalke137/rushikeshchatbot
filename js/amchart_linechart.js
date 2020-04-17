@@ -12,6 +12,13 @@ function renderSummaryDataChart() {
   // Converts Y axis values in K,M,B
   chart.numberFormatter.numberFormat = "###a";
 
+  let title = chart.titles.create();
+  title.text = "United States National Demand Forecast";
+  title.stroke = am4core.color("#fff");
+  title.fill = am4core.color("#fff");
+  title.fontSize = 20;
+  title.marginBottom = 15;
+
   // Assign global summary data to Chart
   chart.data = globals.chartDataFile;
 
@@ -60,6 +67,13 @@ function renderQueriedRegionsChart() {
   var chart = am4core.create("chartdiv", am4charts.XYChart);
   chart.hiddenState.properties.opacity = 0;
 
+  let title = chart.titles.create();
+  title.text = "Demand Forecast for Queried HRRs";
+  title.stroke = am4core.color("#fff");
+  title.fill = am4core.color("#fff");
+  title.fontSize = 20;
+  title.marginBottom = 15;
+
   var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
 
   // Create axes
@@ -90,7 +104,7 @@ function renderQueriedRegionsChart() {
 
 }
 
-function renderSelectedRegionsChart(selectedHRRNumber) {
+function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
 
   // Dispose all Charts and clear Browser memory/cache
   am4core.disposeAllCharts();
@@ -101,6 +115,13 @@ function renderSelectedRegionsChart(selectedHRRNumber) {
   // Create chart instance
   var chart = am4core.create("chartdiv", am4charts.XYChart);
   chart.hiddenState.properties.opacity = 0;
+
+  let title = chart.titles.create();
+  title.text = "Demand Forecast for " + selectedHRRName;
+  title.stroke = am4core.color("#fff");
+  title.fill = am4core.color("#fff");
+  title.fontSize = 20;
+  title.marginBottom = 15;
 
   var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
 
