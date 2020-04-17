@@ -14,7 +14,8 @@ globals.dataLevels = ["State", "County"];
 
 //store REST API URL for corresponding polygon
 globals.mapServiceUrls = {
-  HRR: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/0"
+  HRR: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/0",
+  State: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/NCOV_World_Countries_States_Provinces_wUnknown/FeatureServer/0"
 }
 
 //flag used to indicate data level in the file, e.g., State, County
@@ -213,18 +214,6 @@ require([
 
     //initial setup for the map, globals.query and globals.queryTask to query this level by NAME
     function setupMapLayer() {
-      //display map and zoom to China
-      var infoTemplate = new InfoTemplate(
-        "Place : ${HRRCITY}",
-        "${HRRCITY:globals.joinFunctionInfoWindow}"
-      );
-
-      var layer = new FeatureLayer(globals.mapServiceUrls.HRR, {
-        id: "state_layer",
-        mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
-        infoTemplate: infoTemplate,
-        outFields: ["HRRNUM", "HRRCITY", "DHS_Beds", "Total_Pop"]
-      });
 
       var symbol = new SimpleFillSymbol(
         SimpleFillSymbol.STYLE_SOLID,
@@ -233,6 +222,29 @@ require([
           new Color([128, 128, 128]), 1),
         new Color([255, 255, 255, 0.5])
       );
+
+      var outline_state_layer = new FeatureLayer(globals.mapServiceUrls.State, {
+        id: "outline_state_layer",
+        mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+        outFields: ["NAME", "ISO_3"]
+      });
+     
+      outline_state_layer.setRenderer(new SimpleRenderer(symbol));
+      globals.map.addLayers([outline_state_layer]);
+
+      var infoTemplate = new InfoTemplate(
+        "Place : ${HRRCITY}",
+        "${HRRCITY:globals.joinFunctionInfoWindow}"
+      );
+
+      var layer = new FeatureLayer(globals.mapServiceUrls.HRR, {
+        id: "hrr_layer",
+        mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+        infoTemplate: infoTemplate,
+        outFields: ["HRRNUM", "HRRCITY", "DHS_Beds", "Total_Pop"],
+        opacity: 0.8
+      });
+
       layer.setRenderer(new SimpleRenderer(symbol));
       globals.map.addLayers([layer]);
 
@@ -273,8 +285,8 @@ require([
         onComplete: function (items) {
           csvDataReady(csvStore, items);
 
-          globals.dataLevel = "State";
-          globals.map.getLayer("state_layer").show();
+         // globals.dataLevel = "State";
+          globals.map.getLayer("hrr_layer").show();
 
           if (globals.dataLevels.indexOf(globals.dataLevel) !== -1) {
             setRendererSingle();
@@ -536,7 +548,8 @@ require([
         ///////////
       }
 
-      var layer_name = globals.dataLevel.toLowerCase() + "_layer";
+      //var layer_name = globals.dataLevel.toLowerCase() + "_layer";
+      var layer_name = "hrr_layer";
       globals.map.getLayer(layer_name).setRenderer(renderer);
       globals.map.getLayer(layer_name).redraw();
 
