@@ -40,9 +40,9 @@ globals.joinFunctionInfoWindow = null;
 globals.selectedDate = null;
 globals.numberCountryForSelectedDate = null;
 
-globals.selectedScenario;
-globals.scenariosDirectory;
-globals.dailySummaryFile;
+globals.selectedScenario = null;
+globals.scenariosDirectory = null;
+globals.dailySummaryFile = null;
 
 //file used for rendering
 globals.renderFile = null;
@@ -176,7 +176,7 @@ require([
       // Clear all Tooltips
       $('[data-toggle="tooltip"]').tooltip('dispose');
 
-      let scenarioChanged = true;
+      scenarioChanged = true;
 
       globals.dailySummaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
       getGlobalDataFromCSVFile(globals.dailySummaryFile);
@@ -866,21 +866,21 @@ require([
     }
 
     function renderTimeline() {
-      let filteredData = globals.dailySummary.slice(1); //remove heding row
+      filteredData = globals.dailySummary.slice(1); //remove heding row
 
       var timelineHTML = "";
 
       // Iterate over Summary data and craete Timelines
       for (index = 0; index < filteredData.length; index++) {
-        let totalHospitalizations = Number(filteredData[index][2]).toLocaleString();
-        let totalProjectedDemand = Number(filteredData[index][1]).toLocaleString();
-        let actualDateString = filteredData[index][0];
+        totalHospitalizations = Number(filteredData[index][2]).toLocaleString();
+        totalProjectedDemand = Number(filteredData[index][1]).toLocaleString();
+        actualDateString = filteredData[index][0];
 
-        let formattedDate = new Date(filteredData[index][0].replace(/-/g, "/"));
-        const representationDate = new Date(formattedDate).toDateString().slice(4).substring(0, 6);
+        formattedDate = new Date(filteredData[index][0].replace(/-/g, "/"));
+        representationDate = new Date(formattedDate).toDateString().slice(4).substring(0, 6);
 
-        const lowerBound = Number(filteredData[index][3]).toLocaleString();
-        const upperBound = Number(filteredData[index][4]).toLocaleString();
+        lowerBound = Number(filteredData[index][3]).toLocaleString();
+        upperBound = Number(filteredData[index][4]).toLocaleString();
 
         var toolTipText = 'Projected Demand (%) : <b>' + totalProjectedDemand + '</b><br>' +
           'Total Hospitalizations <br>' +
@@ -911,7 +911,7 @@ require([
       $('#timeline').html(timelineHTML);
 
       $('#timeline .content').off().on('click', function (event) {
-        const selectedDate = event.currentTarget.id.substring(5);
+        selectedDate = event.currentTarget.id.substring(5);
 
         // Remove selection
         $(".content-selected").each(function (i, item) {
@@ -931,7 +931,7 @@ require([
       var scenarioHTML = "";
       for (index = 0; index < globals.scenarios.length; index++) {
 
-        const scenarioName = globals.scenarios[index].scenario_display_name;
+        scenarioName = globals.scenarios[index].scenario_display_name;
 
         if (index == 0) {
           scenarioHTML += '<div class="d-flex mr-2 selected-scenario scenario-content" data-scenario="' + scenarioName + '"' +
@@ -948,7 +948,7 @@ require([
       $('#scenarios').html(scenarioHTML);
 
       $('#scenarios .scenario-content').off().on('click', function (event) {
-        const selectedScenario = event.currentTarget.dataset.scenario;
+        selectedScenario = event.currentTarget.dataset.scenario;
 
         // Remove selection
         $(".selected-scenario").each(function (i, item) {
@@ -959,7 +959,7 @@ require([
         $(event.currentTarget).addClass('selected-scenario');
 
         for (index = 0; index < globals.scenarios.length; index++) {
-          const scenario = globals.scenarios[index];
+          scenario = globals.scenarios[index];
 
           if (scenario.scenario_display_name === selectedScenario) {
             globals.selectedScenario = scenario;
