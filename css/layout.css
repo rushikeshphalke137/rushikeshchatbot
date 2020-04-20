@@ -59,15 +59,7 @@ select {
     text-align: left;
 }
 
-#leftPane {
-    /* width: 220px; */
-    color: #004460;
-    /* margin: 0;
-    padding: 0; */
-}
-
 #mapCanvas {
-    border-bottom-left-radius: 4px;
     margin: 0;
     padding: 0;
     padding-top: 0px !important;
@@ -102,13 +94,6 @@ select {
  */
 
 /* the area where data table is placed */
-#rightPane {
-  border:solid thin #9CAA9C;
-  width:20%;
-  color: #004460;
-  margin:0px;
-  padding:0px;
-}
 
 /* for data table div */
 #dataTableWrapper {

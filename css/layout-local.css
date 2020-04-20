@@ -34,6 +34,14 @@ body {
   border-bottom: 1px solid #595959;
 }
 
+.footer-section {
+  color: lightgrey;
+  background-color: black;
+  font-size: 0.8em;
+  padding: 5px;
+  border-top: 2px solid rgb(255, 140, 0);
+}
+
 /* .loading is from https://codepen.io/MattIn4D/pen/LiKFC */
 /* Absolute Center Spinner */
 .loading {
