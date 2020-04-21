@@ -174,7 +174,6 @@ function createDemandSeries(chart) {
   demandSeries.fill = am4core.color("#5e3aba");
 
   demandSeries.strokeWidth = 2;
-  demandSeries.tensionX = 0.8;
   demandSeries.sequencedInterpolation = true;
   demandSeries.defaultState.transitionDuration = 1000;
 
@@ -215,7 +214,6 @@ function createHospitalizationSeries(chart, color) {
   uncertainitySeries.fill = am4core.color(color);
   uncertainitySeries.hiddenInLegend = true;
 
-  uncertainitySeries.tensionX = 0.8;
   uncertainitySeries.fillOpacity = 0.4;
   uncertainitySeries.sequencedInterpolation = true;
   uncertainitySeries.defaultState.transitionDuration = 1000;
@@ -231,7 +229,6 @@ function createHospitalizationSeries(chart, color) {
   hospitalizationSeries.fill = am4core.color(color);
 
   hospitalizationSeries.strokeWidth = 2;
-  hospitalizationSeries.tensionX = 0.8;
   hospitalizationSeries.sequencedInterpolation = true;
   hospitalizationSeries.defaultState.transitionDuration = 1000;
 
