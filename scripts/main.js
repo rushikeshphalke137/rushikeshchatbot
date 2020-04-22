@@ -941,15 +941,17 @@ require([
         responsiveClass: true,
         responsive: {
           0: {
-            items: 2,
-            nav: true
+            items: 4,
+            nav: true,
+            loop: false,
           },
           600: {
             items: 3,
-            nav: false
+            nav: true,
+            loop: false,
           },
           1000: {
-            items: 8,
+            items: 5,
             nav: true,
             loop: false,
           }
@@ -1011,11 +1013,13 @@ require([
         responsive: {
           0: {
             items: 2,
-            nav: true
+            nav: true,
+            loop: false,
           },
           600: {
             items: 3,
-            nav: false
+            nav: true,
+            loop: false,
           },
           1000: {
             items: 5,

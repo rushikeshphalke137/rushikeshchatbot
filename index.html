@@ -173,18 +173,19 @@
   <div class="supported-content w-100" style="height: calc(100% - 100px);">
 
     <div class="row mb-2 mt-2">
-      <div class="col-12 d-flex justify-content-center" style="align-items: center;">
+      <div class="col-12 d-flex" style="align-items: center;">
 
-        <div class="scenario-heading-section">
-          <div class="scenario-heading">Scenarios</div>
+        <div class="d-flex scenario-heading-section">
+          <div class="d-none d-lg-flex scenario-heading">Scenarios</div>
+          <div class="d-flex d-lg-none scenario-heading">S</div>
           <div class="arrow-right mr-2"></div>
         </div>
 
-        <div class="scenario-content-section">
+        <div class="mr-auto scenario-content-section">
           <div id="scenarios" class="d-flex owl-carousel" style="align-items: center;"> </div>
         </div>
 
-        <div class="query-content-section">
+        <div class="d-none d-lg-flex query-content-section">
           <div id="queryWrapper" class="d-flex" style="align-items: center;">
 
             <div class="input-group mr-1">
@@ -214,16 +215,21 @@
 
     <div class="row mb-2">
 
-      <div class="col-12 d-flex justify-content-center " style="align-items: center;">
-        <div class="scenario-heading-section">
-          <div class="scenario-heading">Timelines</div>
+      <div class="col-12 d-flex" style="align-items: center;">
+        <div class="d-flex timeline-heading-section">
+          <div class="d-none d-lg-flex scenario-heading">Timelines</div>
+          <div class="d-flex d-lg-none scenario-heading">T</div>
           <div class="arrow-right mr-2"></div>
         </div>
 
-        <div class="timeline-content-section">
+        <div class="mr-auto timeline-content-section">
           <div id="timeline" class="d-flex owl-carousel"></div>
         </div>
       </div>
+
+    </div>
+
+    <div class="row d-flex d-lg-none">
 
     </div>
 

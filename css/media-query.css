@@ -2,272 +2,292 @@
 /* iPhone < 5: */
 @media screen and (device-aspect-ratio: 2/3) {
 
-    select,
-    textarea,
-    input[type="text"],
-    input[type="password"],
-    input[type="datetime"],
-    input[type="datetime-local"],
-    input[type="date"],
-    input[type="month"],
-    input[type="time"],
-    input[type="week"],
-    input[type="number"],
-    input[type="email"],
-    input[type="url"] {
-      font-size: 16px;
-    }
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
   }
-  
-  /* iPhone 5, 5C, 5S, iPod Touch 5g */
-  @media screen and (device-aspect-ratio: 40/71) {
-  
-    select,
-    textarea,
-    input[type="text"],
-    input[type="password"],
-    input[type="datetime"],
-    input[type="datetime-local"],
-    input[type="date"],
-    input[type="month"],
-    input[type="time"],
-    input[type="week"],
-    input[type="number"],
-    input[type="email"],
-    input[type="url"] {
-      font-size: 16px;
-    }
+}
+
+/* iPhone 5, 5C, 5S, iPod Touch 5g */
+@media screen and (device-aspect-ratio: 40/71) {
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
   }
-  
-  /* iPhone 6, iPhone 6s, iPhone 7 portrait/landscape */
-  @media screen and (device-aspect-ratio: 375/667) {
-  
-    select,
-    textarea,
-    input[type="text"],
-    input[type="password"],
-    input[type="datetime"],
-    input[type="datetime-local"],
-    input[type="date"],
-    input[type="month"],
-    input[type="time"],
-    input[type="week"],
-    input[type="number"],
-    input[type="email"],
-    input[type="url"] {
-      font-size: 16px;
-    }
+}
+
+/* iPhone 6, iPhone 6s, iPhone 7 portrait/landscape */
+@media screen and (device-aspect-ratio: 375/667) {
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
   }
-  
-  /* iPhone 6 Plus, iPhone 6s Plus, iPhone 7 Plus portrait/landscape */
-  @media screen and (device-aspect-ratio: 9/16) {
-  
-    select,
-    textarea,
-    input[type="text"],
-    input[type="password"],
-    input[type="datetime"],
-    input[type="datetime-local"],
-    input[type="date"],
-    input[type="month"],
-    input[type="time"],
-    input[type="week"],
-    input[type="number"],
-    input[type="email"],
-    input[type="url"] {
-      font-size: 16px;
-    }
+}
+
+/* iPhone 6 Plus, iPhone 6s Plus, iPhone 7 Plus portrait/landscape */
+@media screen and (device-aspect-ratio: 9/16) {
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .icon-link {
+    height: 30px !important;
+    line-height: 32px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
   }
 
-  @media (max-width: 768px) {
-    .icon-link {
-      height: 30px !important;
-      line-height: 32px !important;
-      margin-top: 0px !important;
-      margin-bottom: 0px !important;
-    }
-  
-    .content-data {
-      display: none !important;
-    }
-  
-    #timeline .content-selected .date {
-      background-color: rgb(255, 140, 0) !important;
-      width: 60px !important;
-      justify-content: center;
-    }
-  
-    #timeline .content .date {
-      height: 25px;
-      justify-content: center;
-      width: 60px !important;
-    }
-  
-    #timeline .content .date,
-    #timeline .content-selected .date {
-      border-radius: 5px !important;
-    }
+  .content-data {
+    display: none !important;
   }
 
-  @media (min-width: 768px) and (max-width: 1024px) and (orientation : landscape) {
-    .moreOptions {
-      display: none !important;
-    }
-  
-    .moreOptionDropDown {
-      background-color: unset !important;
-    }
-  }
-  
-  @media screen and (min-width: 1400px) {
-    .optionMenu {
-      right: 30px !important;
-    }
-  }
-  
-  @media screen and (min-width: 1600px) {
-    .optionMenu {
-      right: 18px !important;
-    }
-  }
-  
-  @media screen and (min-width: 1900px) {
-    .optionMenu {
-      right: 18px !important;
-    }
+  #timeline .content-selected .date {
+    background-color: rgb(255, 140, 0) !important;
+    width: 60px !important;
+    justify-content: center;
   }
 
-  @media only screen and (device-width: 768px) {
+  #timeline .content .date {
+    height: 25px;
+    justify-content: center;
+    width: 60px !important;
+  }
 
-    /* For general iPad layouts */
-    .moreOptions {
-      display: none !important;
-    }
-  
-    .optionMenu {
-      right: 13px !important;
-    }
-  
-    .moreOptionDropDown {
-      background-color: unset !important;
-    }
+  #timeline .content .date,
+  #timeline .content-selected .date {
+    border-radius: 5px !important;
   }
-  
-  @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
-  
-    /* For portrait layouts only */
-    .optionMenu {
-      right: 10px !important;
-    }
-  
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation : landscape) {
+  .moreOptions {
+    display: none !important;
   }
-  
-  @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
-  
-    /* For landscape layouts only */
-    .optionMenu {
-      right: 10px !important;
-    }
+
+  .moreOptionDropDown {
+    background-color: unset !important;
   }
-  
-  /* Media Query for Mobile Devices */
-  @media (max-width: 480px) {
-    #mapCanvas {
-      height: calc(100vh - 145px) !important;
-    }
-  
-    #displayOptionWrapper {
-      bottom: 80px !important;
-    }
-  
-    .title {
-      font-size: 1rem !important;
-      margin-left: 0.5rem !important;
-      margin-top: 3px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
- 
-    .claro .dijitTooltipContainer {
-      max-height: 30vh !important;
-      width: 98% !important;
-    }
-  
-    #queryByName {
-      width: 52% !important;
-    }
-  
-    .modal-dialog {
-      max-width: 90% !important;
-      top: 35% !important;
-      left: 2%;
-    }
-  
-    .esriSimpleSliderTL {
-      left: 5px !important;
-    }
-  
-    .customZoom {
-      left: 16% !important;
-    }
-  
-    .calenderIcon {
-      left: -24px !important;
-      top: 7px !important;
-    }
-  
-    .optionMenu {
-      right: 9px !important;
-      top: 37px !important;
-    }
-  
-    .dropdown {
-      background-color: unset !important;
-    }
-  
-    .sticky-container {
-      top: 280px !important;
-    }
-  
-    .map .logo-sm {
-      display: none !important;
-    }
+}
+
+@media screen and (min-width: 1400px) {
+  .optionMenu {
+    right: 30px !important;
   }
-  
-  /* Media Query for low resolution  Tablets, Ipads */
-  @media (min-width: 481px) and (max-width: 767px) {
-    .optionMenu {
-      right: 10px !important;
-      top: 37px !important;
-      ;
-    }
-  
-    .title {
-      font-size: 1.5rem !important;
-    }
-  
-    .map .logo-sm {
-      display: none !important;
-    }
+}
+
+@media screen and (min-width: 1600px) {
+  .optionMenu {
+    right: 18px !important;
   }
-  
-  @media (min-width: 768px) and (max-width: 1024px) {
-    .title {
-      font-size: 1.5rem !important;
-    }
-    
-    .moreOptions {
-      display: none !important;
-    }
-  
-    .moreOptionDropDown {
-      background-color: unset !important;
-    }
-  
-    .map .logo-md {
-      display: none !important;
-    }
+}
+
+@media screen and (min-width: 1900px) {
+  .optionMenu {
+    right: 18px !important;
   }
-  
-  
+}
+
+@media only screen and (device-width: 768px) {
+
+  /* For general iPad layouts */
+  .moreOptions {
+    display: none !important;
+  }
+
+  .optionMenu {
+    right: 13px !important;
+  }
+
+  .moreOptionDropDown {
+    background-color: unset !important;
+  }
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+
+  /* For portrait layouts only */
+  .optionMenu {
+    right: 10px !important;
+  }
+
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+
+  /* For landscape layouts only */
+  .optionMenu {
+    right: 10px !important;
+  }
+}
+
+/* Media Query for Mobile Devices */
+@media (max-width: 480px) {
+  #mapCanvas {
+    height: calc(100vh - 145px) !important;
+  }
+
+  #displayOptionWrapper {
+    bottom: 80px !important;
+  }
+
+  .title {
+    font-size: 1rem !important;
+    margin-left: 0.5rem !important;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .scenario-content-section,
+  .timeline-content-section {
+    width: calc(100% - 65px);
+    padding-left: 15px;
+  }
+
+  .content-data {
+    display: none !important;
+  }
+
+  #timeline .content-selected .date {
+    background-color: rgb(255, 140, 0) !important;
+    width: 60px !important;
+    justify-content: center;
+  }
+
+  #timeline .content .date {
+    height: 25px;
+    justify-content: center;
+    width: 60px !important;
+  }
+
+  #timeline .content .date,
+  #timeline .content-selected .date {
+    border-radius: 5px !important;
+  }
+
+  .claro .dijitTooltipContainer {
+    max-height: 30vh !important;
+    width: 98% !important;
+  }
+
+  #queryByName {
+    width: 52% !important;
+  }
+
+  .modal-dialog {
+    max-width: 90% !important;
+    top: 35% !important;
+    left: 2%;
+  }
+
+  .esriSimpleSliderTL {
+    left: 5px !important;
+  }
+
+  .customZoom {
+    left: 16% !important;
+  }
+
+  .optionMenu {
+    right: 9px !important;
+    top: 37px !important;
+  }
+
+  .dropdown {
+    background-color: unset !important;
+  }
+
+  .sticky-container {
+    top: 280px !important;
+  }
+
+  .map .logo-sm {
+    display: none !important;
+  }
+}
+
+/* Media Query for low resolution  Tablets, Ipads */
+@media (min-width: 481px) and (max-width: 767px) {
+  .optionMenu {
+    right: 10px !important;
+    top: 37px !important;
+    ;
+  }
+
+  .title {
+    font-size: 1.5rem !important;
+  }
+
+  .map .logo-sm {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .title {
+    font-size: 1.5rem !important;
+  }
+
+  .moreOptions {
+    display: none !important;
+  }
+
+  .moreOptionDropDown {
+    background-color: unset !important;
+  }
+
+  .map .logo-md {
+    display: none !important;
+  }
+}
