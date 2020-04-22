@@ -17,6 +17,10 @@
   <meta property="og:image" content="https://nssac.bii.virginia.edu/covid-19/dashboard/uva_dashboard.jpg" />
   <title>COVID-19 Medical Resource Demand Dashboard</title>
   <link rel="icon" sizes="16x16 32x32" href="images/favicon.ico">
+
+    <!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+
   <link rel="stylesheet" href="https://js.arcgis.com/3.31/dijit/themes/claro/claro.css">
   <link rel="stylesheet" href="https://js.arcgis.com/3.31/dojox/form/resources/RangeSlider.css">
   <link rel="stylesheet" href="https://js.arcgis.com/3.31/esri/css/esri.css" />
@@ -53,6 +57,9 @@
   <!-- <script src="js/amchart_barchart.js"></script> -->
   <script src="js/amchart_linechart.js"></script>
 
+
+  <!-- carosel file -->
+  <script src="js/owl.carousel.js"></script>
   <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0">
   </script>
   <script src="https://platform.linkedin.com/in.js" type="text/javascript">
@@ -164,15 +171,18 @@
 
   <div class="supported-content w-100" style="height: calc(100% - 100px);">
 
-    <div class="row d-none d-md-flex" style="height: 45px;">
-      <div class="col-12 d-flex pt-1 justify-content-center" style="align-items: center;">
+    <div class="row mb-2 mt-2">
+      <div class="col-12 d-flex justify-content-center" style="align-items: center;">
 
-        <div class="scenario-heading">Scenarios</div>
+        <div class="scenario-heading-section">
+          <div class="scenario-heading">Scenarios</div>
         <div class="arrow-right mr-2"></div>
-
-        <div id="scenarios" class="d-flex"> </div>
-
-        <div id="queryWrapper" class="ml-auto d-flex" style="align-items: center;">
+        </div>
+        <div class="scenario-content-section">
+        <div id="scenarios" class="d-flex owl-carousel" style="align-items: center;"> </div>
+        </div>
+        <div class="query-content-section">
+        <div id="queryWrapper" class="d-flex" style="align-items: center;">
 
           <div class="input-group mr-1">
             <input name="queryByName" id="queryByName" type="text" class="form-control" aria-label="Small"
@@ -194,20 +204,22 @@
           </button>
 
         </div>
-
+</div>
       </div>
 
     </div>
 
-    <div class="row pt-2 pb-2">
+    <div class="row mb-2">
 
-      <div class="col-12 d-flex" style="align-items: center;">
-
+      <div class="col-12 d-flex justify-content-center " style="align-items: center;">
+        <div class="scenario-heading-section">
         <div class="scenario-heading">Timelines</div>
         <div class="arrow-right mr-2"></div>
+        </div>
 
+        <div class="timeline-content-section">
         <div id="timeline" class="d-flex"></div>
-
+</div>
       </div>
 
     </div>

@@ -934,10 +934,10 @@ require([
         scenarioName = globals.scenarios[index].scenario_display_name;
 
         if (index == 0) {
-          scenarioHTML += '<div class="d-flex mr-2 selected-scenario scenario-content" data-scenario="' + scenarioName + '"' +
+          scenarioHTML += '<div class="d-flex selected-scenario scenario-content" data-scenario="' + scenarioName + '"' +
             'data-toggle="tooltip" data-html="true" data-placement="right" title="' + globals.scenarios[index].description + '">';
         } else {
-          scenarioHTML += '<div class="d-flex mr-2 scenario-content" data-scenario="' + scenarioName + '"' +
+          scenarioHTML += '<div class="d-flex scenario-content" data-scenario="' + scenarioName + '"' +
             'data-toggle="tooltip" data-html="true" data-placement="right" title="' + globals.scenarios[index].description + '">';
         }
         scenarioHTML += '<div class="d-flex" style="align-items: center;">' +
@@ -970,6 +970,27 @@ require([
         executeDefaultWorkflow();
       });
 
+
+      $('#scenarios').owlCarousel({
+        loop: true,
+        margin: 5,
+        responsiveClass: true,
+        responsive: {
+          0: {
+            items: 1,
+            nav: true
+          },
+          600: {
+            items: 3,
+            nav: false
+          },
+          1000: {
+            items: 5,
+            nav: true,
+            loop: false,
+          }
+        }
+      })
     }
 
     function getGlobalDataFromCSVFile(file) {

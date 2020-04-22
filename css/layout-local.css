@@ -1232,19 +1232,73 @@ textarea {
   width: 99.59% !important;
 }
 
+button.owl-prev.disabled,
+button.owl-prev {
+  position: absolute;
+  left: -23px;
+  top: -34px;
+}
 
+button.owl-prev.disabled > span,
+button.owl-prev > span,
+button.owl-next.disabled > span,
+button.owl-next > span
+{
+  color: #007BFF;
+  font-size: 60px;
+  font-weight: bolder;
+}
+button.owl-next.disabled,
+button.owl-next {
+  position: absolute;
+  top: -34px;
+  right: -23px;
+}
+
+
+.owl-item,
+.owl-item.active { 
+  float: left !important;
+}
+.owl-dots {
+  display: none !important;
+}
 .popover-header {
   background-color: rgb(255, 140, 0) !important;
   color: #232d4b;
   width: 100%;
 }
-
+button.owl-next:focus,
+button.owl-prev:focus {
+  outline: 0px dotted;
+  outline: 0px auto -webkit-focus-ring-color;
+}
 /* code start for carosel */
 /*********************************************************************/
 /* Bootstrap 4 Multiple Item Carousel */
 /*********************************************************************/
 /* medium - display 2  */
 
+.scenario-content-section {
+  width: 57%;
+  float: left;
+  padding-left: 20px;
+}
+.scenario-heading-section {
+  width: 8%;
+  float: left;
+  display: flex;
+  align-items: center;
+}
+.query-content-section {
+  width: 35%;
+  float: left;
+  padding-left: 25px;
+}
+.timeline-content-section {
+  width: 92%;
+  float: left;
+}
 .scenario-heading {
   background-color: black;
   color: rgb(255, 140, 0);
@@ -1270,12 +1324,15 @@ textarea {
   background-color: white;
   color: rgb(255, 140, 0);
   border-radius: 5px;
-  font-size: 1.1em;
+  font-size: 0.9em;
   cursor: pointer;
   padding: 7px;
   align-items: center;
   justify-content: center;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .toggleOptions {
@@ -1347,7 +1404,7 @@ textarea {
   color: white;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
 
   .carousel-inner .carousel-item-right.active,
   .carousel-inner .carousel-item-next {
@@ -1359,10 +1416,10 @@ textarea {
     transform: translateX(-50%);
   }
 
-}
+} */
 
 /* large - display 3 */
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
 
   .carousel-inner .carousel-item-right.active,
   .carousel-inner .carousel-item-next {
@@ -1373,7 +1430,7 @@ textarea {
   .carousel-inner .carousel-item-prev {
     transform: translateX(-33%);
   }
-}
+} */
 
 @media (max-width: 768px) {
   .icon-link {
@@ -1413,7 +1470,7 @@ textarea {
   }
 }
 
-.carousel-inner .carousel-item.active,
+/* .carousel-inner .carousel-item.active,
 .carousel-inner .carousel-item-next,
 .carousel-inner .carousel-item-prev {
   display: flex;
@@ -1422,7 +1479,7 @@ textarea {
 .carousel-inner .carousel-item-right,
 .carousel-inner .carousel-item-left {
   transform: translateX(0);
-}
+} */
 
 /* code end for carosel */
 #timeInfo {
@@ -2014,11 +2071,11 @@ div#socialSharing a span#linkedin:hover {
   right: 86%;
 }
 
-.nav-link.active {
+/* .nav-link.active {
   background-color: transparent !important;
   color: white !important;
   border-color: transparent !important;
-}
+} */
 
 .filterIcons {
   color: white;
