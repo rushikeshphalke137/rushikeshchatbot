@@ -163,6 +163,22 @@ function createDemandSeries(chart) {
   demandValueAxis.renderer.labels.template.fill = am4core.color("#fff");
   demandValueAxis.renderer.grid.template.fill = am4core.color("#fff");
 
+  // Create Uncertainity Bound Series
+  var uncertainitySeries = chart.series.push(new am4charts.LineSeries());
+
+  uncertainitySeries.dataFields.categoryX = "date";
+  uncertainitySeries.dataFields.openValueY = "Lower Projected Demand Bound";
+  uncertainitySeries.dataFields.valueY = "Upper Projected Demand Bound";
+  uncertainitySeries.yAxis = demandValueAxis;
+
+  uncertainitySeries.stroke = am4core.color("#5e3aba");
+  uncertainitySeries.fill = am4core.color("#5e3aba");
+  uncertainitySeries.hiddenInLegend = true;
+
+  uncertainitySeries.fillOpacity = 0.4;
+  uncertainitySeries.sequencedInterpolation = true;
+  uncertainitySeries.defaultState.transitionDuration = 1000;
+
   // Create Demand series
   var demandSeries = chart.series.push(new am4charts.LineSeries());
 
@@ -222,7 +238,7 @@ function createHospitalizationSeries(chart, color) {
   var hospitalizationSeries = chart.series.push(new am4charts.LineSeries());
 
   hospitalizationSeries.dataFields.categoryX = "date";
-  hospitalizationSeries.dataFields.valueY = "Total Hospitalizations";
+  hospitalizationSeries.dataFields.valueY = "Total Hospitalizations (Median)";
   hospitalizationSeries.yAxis = hospitalizationValueAxis;
 
   hospitalizationSeries.stroke = am4core.color(color);
@@ -283,8 +299,10 @@ function mergeDataAcrossRegions() {
 
             mergedData[loop]["Lower Hospitalization Bound"] = parseInt(mergedData[loop]["Lower Hospitalization Bound"]) + parseInt(filteredData["Lower Hospitalization Bound"]);
             mergedData[loop]["Upper Hospitalization Bound"] = parseInt(mergedData[loop]["Upper Hospitalization Bound"]) + parseInt(filteredData["Upper Hospitalization Bound"]);
+            mergedData[loop]["Lower Projected Demand Bound"] = parseInt(mergedData[loop]["Lower Projected Demand Bound"]) + parseInt(filteredData["Lower Projected Demand Bound"]);
+            mergedData[loop]["Upper Projected Demand Bound"] = parseInt(mergedData[loop]["Upper Projected Demand Bound"]) + parseInt(filteredData["Upper Projected Demand Bound"]);
             mergedData[loop]["Total Projected Demand (%)"] = parseInt(mergedData[loop]["Total Projected Demand (%)"]) + parseInt(filteredData["Total Projected Demand (%)"]);
-            mergedData[loop]["Total Hospitalizations"] = parseInt(mergedData[loop]["Total Hospitalizations"]) + parseInt(filteredData["Total Hospitalizations"]);
+            mergedData[loop]["Total Hospitalizations (Median)"] = parseInt(mergedData[loop]["Total Hospitalizations (Median)"]) + parseInt(filteredData["Total Hospitalizations (Median)"]);
           }
         } else {
           mergedData = currentData;
@@ -296,8 +314,11 @@ function mergeDataAcrossRegions() {
   }
 
   // Average the Total Projected Demand
-  for (loop = 0; loop < mergedData.length; loop++)
+  for (loop = 0; loop < mergedData.length; loop++) {
     mergedData[loop]["Total Projected Demand (%)"] = Math.round(parseInt(mergedData[loop]["Total Projected Demand (%)"]) / globals.selectedHRRNumbers.length);
+    mergedData[loop]["Lower Projected Demand Bound"] = Math.round(parseInt(mergedData[loop]["Lower Projected Demand Bound"]) / globals.selectedHRRNumbers.length);
+    mergedData[loop]["Upper Projected Demand Bound"] = Math.round(parseInt(mergedData[loop]["Upper Projected Demand Bound"]) / globals.selectedHRRNumbers.length);
+  }
 
   return mergedData;
 }
