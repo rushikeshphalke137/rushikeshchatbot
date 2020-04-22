@@ -111,7 +111,7 @@ require([
   ) {
     parser.parse();
 
-    $.getJSON("supported_scenarios.json")
+    $.getJSON("supported_scenarios_projBounds.json")
       .done(function (json) {
         globals.scenarios = json.scenarios;
         globals.selectedScenario = globals.scenarios[0];
@@ -122,7 +122,7 @@ require([
       })
       .fail(function (jqxhr, textStatus, error) {
         var err = textStatus + ", " + error;
-        console.log("Request Failed to load 'supported_scenarios.json' file. Reason :: " + err);
+        console.log("Request Failed to load 'supported_scenarios_projBounds.json' file. Reason :: " + err);
       });
 
     //keep track of value for each drop down menu
@@ -690,7 +690,7 @@ require([
           returnValue += "<b>HRR:</b> " + globals.csvData[i][1];
 
           // HARD CODED added 03/22 DX
-          for (var j = 2; j < globals.csvDataHeader.length - 3; j++)
+          for (var j = 2; j < globals.csvDataHeader.length - 5; j++)
             if (globals.csvDataHeader[j] === 'Projected Demand (%)') {
               returnValue += "<br><b> Projected Demand :</b> " + globals.csvData[i][j] + " %";
             } else {
@@ -796,7 +796,7 @@ require([
       var lengthMenuOptions = null;
       var downloadOptions = "";
       tableHTML = '<table id="example" class="display" cellspacing="0" width="100%">\n<thead><tr>';
-      for (var i = 1; i < globals.csvDataHeader.length - 3; i++)
+      for (var i = 1; i < globals.csvDataHeader.length - 5; i++)
         tableHTML += "<th>" + globals.csvDataHeader[i] + "</th>";
 
       tableHTML += "</tr></thead><tbody>";
@@ -806,7 +806,7 @@ require([
           continue;
         else {
           tableHTML += "<tr>";
-          for (var j = 1; j < globals.csvDataHeader.length - 3; j++) {
+          for (var j = 1; j < globals.csvDataHeader.length - 5; j++) {
             tableHTML += "<td>" + globals.csvData[i][j].toLocaleString() + "</td>";
           }
           tableHTML += "</tr>\n";
@@ -880,14 +880,20 @@ require([
         formattedDate = new Date(filteredData[index][0].replace(/-/g, "/"));
         representationDate = new Date(formattedDate).toDateString().slice(4).substring(0, 6);
 
-        lowerBound = Number(filteredData[index][3]).toLocaleString();
-        upperBound = Number(filteredData[index][4]).toLocaleString();
+        hospitalizationsLowerBound = Number(filteredData[index][3]).toLocaleString();
+        hospitalizationsUpperBound = Number(filteredData[index][4]).toLocaleString();
 
-        var toolTipText = 'Projected Demand (%) : <b>' + totalProjectedDemand + '</b><br>' +
+        projectedDemandLowerBound = Number(filteredData[index][5]).toLocaleString();
+        projectedDemandUpperBound = Number(filteredData[index][6]).toLocaleString();
+
+        var toolTipText = 'Projected Demand (%) <br>' +
+          '&emsp;Median Value  : <b>' + totalProjectedDemand + '</b><br>' +
+          '&emsp;Lower Bound : <b>' + projectedDemandLowerBound + '</b><br>' +
+          '&emsp;Upper Bound : <b>' + projectedDemandUpperBound + '</b><br>'+
           'Total Hospitalizations <br>' +
-          '&emsp;Mean Value  : <b>' + totalHospitalizations + '</b><br>' +
-          '&emsp;Lower Bound : <b>' + lowerBound + '</b><br>' +
-          '&emsp;Upper Bound : <b>' + upperBound + '</b><br>';
+          '&emsp;Median Value  : <b>' + totalHospitalizations + '</b><br>' +
+          '&emsp;Lower Bound : <b>' + hospitalizationsLowerBound + '</b><br>' +
+          '&emsp;Upper Bound : <b>' + hospitalizationsUpperBound + '</b><br>';
 
         if (index === 0) {
           timelineHTML +=
