@@ -170,9 +170,6 @@ require([
     bindSearchAndResetButton();
 
     function executeDefaultWorkflow() {
-      // Initialize Query Tooltip
-      $('[data-toggle="popover"]').popover();
-
       // Clear all Tooltips
       $('[data-toggle="tooltip"]').tooltip('dispose');
 
@@ -210,6 +207,9 @@ require([
 
       // Initialize all Tooltips
       $('[data-toggle="tooltip"]').tooltip();
+
+      // Initialize Query Tooltip
+      $('[data-toggle="popover"]').popover();
     }
 
     //initial setup for the map, globals.query and globals.queryTask to query this level by NAME
@@ -228,7 +228,7 @@ require([
         mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
         outFields: ["NAME", "ISO_3"]
       });
-     
+
       outline_state_layer.setRenderer(new SimpleRenderer(symbol));
       globals.map.addLayers([outline_state_layer]);
 
@@ -285,7 +285,7 @@ require([
         onComplete: function (items) {
           csvDataReady(csvStore, items);
 
-         // globals.dataLevel = "State";
+          // globals.dataLevel = "State";
           globals.map.getLayer("hrr_layer").show();
 
           if (globals.dataLevels.indexOf(globals.dataLevel) !== -1) {
@@ -884,16 +884,20 @@ require([
 
         var toolTipText = 'Projected Demand (%) : <b>' + totalProjectedDemand + '</b><br>' +
           'Total Hospitalizations <br>' +
-          'Mean Value  : <b>' + totalHospitalizations + '</b><br>' +
-          'Lower Bound : <b>' + lowerBound + '</b><br>' +
-          'Upper Bound : <b>' + upperBound + '</b><br>';
+          '&emsp;Mean Value  : <b>' + totalHospitalizations + '</b><br>' +
+          '&emsp;Lower Bound : <b>' + lowerBound + '</b><br>' +
+          '&emsp;Upper Bound : <b>' + upperBound + '</b><br>';
 
         if (index === 0) {
           timelineHTML +=
-            '<div class="d-flex content content-selected pr-md-2" id="date-' + actualDateString + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="' + toolTipText + '">';
+            '<div class="d-flex content content-selected pr-md-2" id="date-' + actualDateString + '"' +
+            'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom"' +
+            'data-title="Week ending ' + representationDate + '" data-content="' + toolTipText + '">';
         } else {
           timelineHTML +=
-            '<div class="d-flex content pr-md-2" data-toggle="tooltip" id="date-' + actualDateString + '" data-toggle="tooltip" data-html="true" data-placement="bottom" title="' + toolTipText + '">';
+            '<div class="d-flex content pr-md-2" id="date-' + actualDateString + '"' +
+            'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom"' +
+            'data-title="Week ending ' + representationDate + '" data-content="' + toolTipText + '">';
         }
 
         timelineHTML += '<div class="d-flex date">' + representationDate + '</div>' +
@@ -935,14 +939,14 @@ require([
 
         if (index == 0) {
           scenarioHTML += '<div class="d-flex selected-scenario scenario-content" data-scenario="' + scenarioName + '"' +
-            'data-toggle="tooltip" data-html="true" data-placement="right" title="' + globals.scenarios[index].description + '">';
+            'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom" data-title="' + scenarioName + '" data-content="' + globals.scenarios[index].description + '">';
         } else {
           scenarioHTML += '<div class="d-flex scenario-content" data-scenario="' + scenarioName + '"' +
-            'data-toggle="tooltip" data-html="true" data-placement="right" title="' + globals.scenarios[index].description + '">';
+            'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom" data-title="' + scenarioName + '" data-content="' + globals.scenarios[index].description + '">';
         }
-        scenarioHTML += '<div class="d-flex" style="align-items: center;">' +
+        scenarioHTML += '<div class="d-flex mr-1" style="align-items: center;">' +
           '<img style="height: 25px; width: 25px;" src="images/scenario.png" alt="Scenario"></div>' +
-          '<div class="d-flex scenario-name" style="text-transform: capitalize;">' + scenarioName + '</div></div>';
+          '<div class="scenario-name">' + scenarioName + '</div></div>';
       }
 
       $('#scenarios').html(scenarioHTML);
@@ -977,7 +981,7 @@ require([
         responsiveClass: true,
         responsive: {
           0: {
-            items: 1,
+            items: 2,
             nav: true
           },
           600: {

@@ -18,8 +18,8 @@
   <title>COVID-19 Medical Resource Demand Dashboard</title>
   <link rel="icon" sizes="16x16 32x32" href="images/favicon.ico">
 
-    <!-- Owl Stylesheets -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
+  <!-- Owl Stylesheets -->
+  <link rel="stylesheet" href="css/owl.carousel.min.css">
 
   <link rel="stylesheet" href="https://js.arcgis.com/3.31/dijit/themes/claro/claro.css">
   <link rel="stylesheet" href="https://js.arcgis.com/3.31/dojox/form/resources/RangeSlider.css">
@@ -177,35 +177,37 @@
 
         <div class="scenario-heading-section">
           <div class="scenario-heading">Scenarios</div>
-        <div class="arrow-right mr-2"></div>
+          <div class="arrow-right mr-2"></div>
         </div>
+
         <div class="scenario-content-section">
-        <div id="scenarios" class="d-flex owl-carousel" style="align-items: center;"> </div>
+          <div id="scenarios" class="d-flex owl-carousel" style="align-items: center;"> </div>
         </div>
+
         <div class="query-content-section">
-        <div id="queryWrapper" class="d-flex" style="align-items: center;">
+          <div id="queryWrapper" class="d-flex" style="align-items: center;">
 
-          <div class="input-group mr-1">
-            <input name="queryByName" id="queryByName" type="text" class="form-control" aria-label="Small"
-              style="min-width: 250px;" placeholder="Search HRR. Comma separated names allowed"
-              aria-describedby="Search HRR. Comma separated names allowed">
+            <div class="input-group mr-1">
+              <input name="queryByName" id="queryByName" type="text" class="form-control" aria-label="Small"
+                style="min-width: 250px;" placeholder="Search HRR. Comma separated names allowed"
+                aria-describedby="Search HRR. Comma separated names allowed">
 
-            <div class="input-group-append resetDefault" style="cursor: pointer;">
-              <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-times-circle"
-                  style="font-size: 1.4em;"></i></span>
+              <div class="input-group-append resetDefault" style="cursor: pointer;">
+                <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-times-circle"
+                    style="font-size: 1.4em;"></i></span>
+              </div>
             </div>
+
+            <button class="btn btn-warning queryFilter">Query</button>
+            <!-- <button  class="btn btn-light resetDefault">Reset</button> -->
+
+            <button id="noResultFoundButton" class="d-none" type="button" class="btn btn-primary" data-toggle="modal"
+              data-target="#noResultFoundPopUp">
+              Trigger No result found Popup
+            </button>
+
           </div>
-
-          <button class="btn btn-warning queryFilter">Query</button>
-          <!-- <button  class="btn btn-light resetDefault">Reset</button> -->
-
-          <button id="noResultFoundButton" class="d-none" type="button" class="btn btn-primary" data-toggle="modal"
-            data-target="#noResultFoundPopUp">
-            Trigger No result found Popup
-          </button>
-
         </div>
-</div>
       </div>
 
     </div>
@@ -214,13 +216,13 @@
 
       <div class="col-12 d-flex justify-content-center " style="align-items: center;">
         <div class="scenario-heading-section">
-        <div class="scenario-heading">Timelines</div>
-        <div class="arrow-right mr-2"></div>
+          <div class="scenario-heading">Timelines</div>
+          <div class="arrow-right mr-2"></div>
         </div>
 
         <div class="timeline-content-section">
-        <div id="timeline" class="d-flex"></div>
-</div>
+          <div id="timeline" class="d-flex"></div>
+        </div>
       </div>
 
     </div>

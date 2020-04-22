@@ -736,15 +736,15 @@ button.owl-prev {
   top: -34px;
 }
 
-button.owl-prev.disabled > span,
-button.owl-prev > span,
-button.owl-next.disabled > span,
-button.owl-next > span
-{
+button.owl-prev.disabled>span,
+button.owl-prev>span,
+button.owl-next.disabled>span,
+button.owl-next>span {
   color: #007BFF;
   font-size: 60px;
   font-weight: bolder;
 }
+
 button.owl-next.disabled,
 button.owl-next {
   position: absolute;
@@ -754,22 +754,32 @@ button.owl-next {
 
 
 .owl-item,
-.owl-item.active { 
+.owl-item.active {
   float: left !important;
 }
+
 .owl-dots {
   display: none !important;
 }
+
 .popover-header {
   background-color: rgb(255, 140, 0) !important;
-  color: #232d4b;
+  /* background-color: aqua !important; */
+  color: black;
   width: 100%;
 }
+
+/* .popover-body {
+  background-color: rgb(255, 140, 0) !important;
+  color: white !important;
+} */
+
 button.owl-next:focus,
 button.owl-prev:focus {
   outline: 0px dotted;
   outline: 0px auto -webkit-focus-ring-color;
 }
+
 /* code start for carosel */
 /*********************************************************************/
 /* Bootstrap 4 Multiple Item Carousel */
@@ -777,27 +787,32 @@ button.owl-prev:focus {
 /* medium - display 2  */
 
 .scenario-name {
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  text-transform: capitalize;
 }
+
 .scenario-content-section {
   width: 57%;
   float: left;
   padding-left: 20px;
 }
+
 .scenario-heading-section {
   width: 8%;
   float: left;
   display: flex;
   align-items: center;
 }
+
 .query-content-section {
   width: 35%;
   float: left;
   padding-left: 25px;
 }
+
 .timeline-content-section {
   width: 92%;
   float: left;
@@ -828,12 +843,10 @@ button.owl-prev:focus {
   background-color: white;
   color: rgb(255, 140, 0);
   border-radius: 5px;
-  font-size: 0.9em;
+  font-size: 1em;
   cursor: pointer;
   padding: 7px;
-  padding-left: 1px;
   align-items: center;
-  justify-content: center;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
