@@ -897,12 +897,12 @@ require([
 
         if (index === 0) {
           timelineHTML +=
-            '<div class="d-flex content content-selected pr-md-2" id="date-' + actualDateString + '"' +
+            '<div class="d-flex content content-selected pr-md-2 item" id="date-' + actualDateString + '"' +
             'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom"' +
             'data-title="Week ending ' + representationDate + '" data-content="' + toolTipText + '">';
         } else {
           timelineHTML +=
-            '<div class="d-flex content pr-md-2" id="date-' + actualDateString + '"' +
+            '<div class="d-flex content pr-md-2 item" id="date-' + actualDateString + '"' +
             'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom"' +
             'data-title="Week ending ' + representationDate + '" data-content="' + toolTipText + '">';
         }
@@ -951,7 +951,7 @@ require([
             loop: false,
           },
           1000: {
-            items: 5,
+            items: 8,
             nav: true,
             loop: false,
           }
@@ -969,10 +969,10 @@ require([
         scenarioName = globals.scenarios[index].scenario_display_name;
 
         if (index == 0) {
-          scenarioHTML += '<div class="d-flex selected-scenario scenario-content" data-scenario="' + scenarioName + '"' +
+          scenarioHTML += '<div class="d-flex selected-scenario scenario-content item" data-scenario="' + scenarioName + '"' +
             'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom" data-title="' + scenarioName + '" data-content="' + globals.scenarios[index].description + '">';
         } else {
-          scenarioHTML += '<div class="d-flex scenario-content" data-scenario="' + scenarioName + '"' +
+          scenarioHTML += '<div class="d-flex scenario-content item" data-scenario="' + scenarioName + '"' +
             'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom" data-title="' + scenarioName + '" data-content="' + globals.scenarios[index].description + '">';
         }
         scenarioHTML += '<div class="d-flex mr-1" style="align-items: center;">' +

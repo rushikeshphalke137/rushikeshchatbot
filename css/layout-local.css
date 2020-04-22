@@ -786,7 +786,12 @@ button.owl-prev:focus {
   width: 810px;
   padding-left: 20px;
 }
-
+.timeline-content-section {
+  /* width: calc(97% - 450px); */
+  /* padding-right: 5px; */
+  width: 92%;
+  padding-left: 20px;
+}
 .scenario-heading-section, .timeline-heading-section {
   /* width: 8%; */
   align-items: center;
