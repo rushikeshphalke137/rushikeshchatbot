@@ -176,6 +176,7 @@ require([
       scenarioChanged = true;
 
       globals.dailySummaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
+      console.log('globals.dailySummaryFile',globals.dailySummaryFile);
       getGlobalDataFromCSVFile(globals.dailySummaryFile);
 
       if (globals.selectedDate == undefined || globals.selectedDate == null) {
@@ -927,6 +928,28 @@ require([
 
         changeDate(selectedDate);
       });
+
+      $('#timeline').owlCarousel({
+        loop: true,
+        margin: 5,
+        responsiveClass: true,
+        responsive: {
+          0: {
+            items: 2,
+            nav: true
+          },
+          600: {
+            items: 3,
+            nav: false
+          },
+          1000: {
+            items: 8,
+            nav: true,
+            loop: false,
+          }
+        }
+      })
+
 
     }
 
