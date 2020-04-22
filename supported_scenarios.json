@@ -1,16 +1,7 @@
-{"scenarios":[{"scenario_display_name":"M1-duration7","position":0,"directory":"sc-M1-dur7","description":"This is the April 8th run of the M1 model with length of hospital stay set to 7 days."},
-{"scenario_display_name":"M1-duration14","position":1,"directory":"sc-M1-dur14","description":"This is the April 8th run of the M1 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration7","position":4,"directory":"sc-M3-dur7","description":"This is the April 8th run of the M3 model with length of hospital stay set to 7 days."},
-{"scenario_display_name":"M3-duration14","position":5,"directory":"sc-M3-dur14","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration15","position":6,"directory":"sc-M3-dur14","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration16","position":7,"directory":"sc-M3-dur14","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration14","position":8,"directory":"sc-M3-dur14","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration14","position":9,"directory":"sc-M3-dur14","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration14","position":10,"directory":"sc-M3-dur14","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration14","position":11,"directory":"sc-M3-dur14","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration14","position":12,"directory":"sc-M3-dur14","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration14","position":13,"directory":"sc-M3-dur14","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration17","position":14,"directory":"sc-M3-dur17","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration18","position":15,"directory":"sc-M3-dur18","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration19","position":16,"directory":"sc-M3-dur19","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."},
-{"scenario_display_name":"M3-duration20","position":17,"directory":"sc-M3-dur20","description":"This is the April 8th run of the M3 model with length of hospital stay set to 14 days."}]}
+{"scenarios":[
+{"scenario_display_name":"Unmitigated-dur7","position":0,"directory":"sc-Unmitigated-dur7","description":"This is the April 15th run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 7 days."},
+{"scenario_display_name":"Unmitigated-dur14","position":1,"directory":"sc-Unmitigated-dur14","description":"This is the April 15th run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 14 days."},
+{"scenario_display_name":"Pause-Apr30-dur7","position":2,"directory":"sc-Pause-Apr30-dur7","description":"This is the April 15th run of the Pause-Apr30 model (social distancing until April 30th) with length of hospital stay set to 7 days."},
+{"scenario_display_name":"Pause-Apr30-dur14","position":3,"directory":"sc-Pause-Apr30-dur14","description":"This is the April 15th run of the Pause-Apr30 model (social distancing until April 30th) with length of hospital stay set to 14 days."},
+{"scenario_display_name":"Pause-indefinite-dur7","position":4,"directory":"sc-Pause-indefinite-dur7","description":"This is the April 15th run of the Pause-indefinite model (ie, social distancing for the foreseeable future) with length of hospital stay set to 7 days."},
+{"scenario_display_name":"Pause-indefinite-dur14","position":5,"directory":"sc-Pause-indefinite-dur14","description":"This is the April 15th run of the Pause-indefinite model (ie, social distancing for the foreseeable future) with length of hospital stay set to 14 days."}]}

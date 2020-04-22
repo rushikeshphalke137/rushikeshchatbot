@@ -941,8 +941,8 @@ require([
             'data-toggle="tooltip" data-html="true" data-placement="right" title="' + globals.scenarios[index].description + '">';
         }
         scenarioHTML += '<div class="d-flex" style="align-items: center;">' +
-          '<img class="mr-1" style="height: 25px; width: 25px;" src="images/scenario.png" alt="Scenario"></div>' +
-          '<div class="d-flex justify-content-center" style="text-transform: capitalize;">' + scenarioName + '</div></div>';
+          '<img style="height: 25px; width: 25px;" src="images/scenario.png" alt="Scenario"></div>' +
+          '<div class="d-flex scenario-name" style="text-transform: capitalize;">' + scenarioName + '</div></div>';
       }
 
       $('#scenarios').html(scenarioHTML);
@@ -1070,15 +1070,15 @@ function bindChartAndDataTab() {
   $('.charts').on('click', function (e) {
     $('.data').removeClass('selectedFilter');
     $('.charts').addClass('selectedFilter');
-    $('#dataTable').addClass('d-none');
-    $('#chartdiv').removeClass('d-none');
+    $('#dataTable').parent().addClass('d-none');
+    $('#chartdiv').parent().removeClass('d-none');
   });
 
   $('.data').on('click', function (e) {
     $('.charts').removeClass('selectedFilter');
     $('.data').addClass('selectedFilter');
-    $('#chartdiv').addClass('d-none');
-    $('#dataTable').removeClass('d-none');
+    $('#chartdiv').parent().addClass('d-none');
+    $('#dataTable').parent().removeClass('d-none');
     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
   });
 }
