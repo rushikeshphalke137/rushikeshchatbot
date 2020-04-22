@@ -29,7 +29,6 @@
   <!-- local css to layout -->
   <link rel="stylesheet" href="css/layout-local.css" />
   <link rel="stylesheet" href="css/media-query.css" />
-
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
@@ -174,11 +173,11 @@
 
         <div id="scenarios" class="d-flex"> </div>
 
-        <div id="queryWrapper" class="ml-auto d-flex" style="align-items: center;">
+        <div id="queryWrapper" class="ml-auto d-none d-lg-flex" style="align-items: center;">
 
           <div class="input-group mr-1">
             <input name="queryByName" id="queryByName" type="text" class="form-control" aria-label="Small"
-              style="min-width: 310px;" placeholder="Search HRR. Comma separated names allowed"
+              style="min-width: 250px;" placeholder="Search HRR. Comma separated names allowed"
               aria-describedby="Search HRR. Comma separated names allowed">
 
             <div class="input-group-append resetDefault" style="cursor: pointer;">
@@ -250,14 +249,24 @@
 
       <div class="col-12 col-lg-6 col-xl-5 h-100 dataContainer" style="background-color: #232d4b !important;">
 
-        <div class="w-100 d-flex align-items-center" style="border-bottom: 3px solid rgb(255, 140, 0) !important;">
-          <div class="charts col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter selectedFilter">Chart</div>
-          <div class="data col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter">Data</div>
+        <div class="row">
+
+          <div class="col-12 d-flex align-items-center">
+            <div class="charts col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter selectedFilter"
+              style="border-bottom: 2px solid rgb(255,140,0);">Chart</div>
+            <div class="data col-6 pt-2 pb-1 d-flex justify-content-center dataChartFilter"
+              style="border-bottom: 2px solid rgb(255,140,0);">Data</div>
+          </div>
+
         </div>
 
-        <div id="dataTable" class="d-none w-100" style="max-height: calc(100% - 35px); height: 100%;"></div>
+        <div class="row d-none" style="max-height: calc(100% - 35px); height: 100%;">
+          <div id="dataTable" class="col-12 h-100"></div>
+        </div>
 
-        <div id="chartdiv" class="w-100" style="max-height: calc(100% - 35px); height: 100%;"></div>
+        <div class="row" style="max-height: calc(100% - 35px); height: 100%;">
+          <div id="chartdiv" class="col-12 pl-0 pr-0 h-100"></div>
+        </div>
 
       </div>
     </div>

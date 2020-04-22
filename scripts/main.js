@@ -1049,15 +1049,15 @@ function bindChartAndDataTab() {
   $('.charts').on('click', function (e) {
     $('.data').removeClass('selectedFilter');
     $('.charts').addClass('selectedFilter');
-    $('#dataTable').addClass('d-none');
-    $('#chartdiv').removeClass('d-none');
+    $('#dataTable').parent().addClass('d-none');
+    $('#chartdiv').parent().removeClass('d-none');
   });
 
   $('.data').on('click', function (e) {
     $('.charts').removeClass('selectedFilter');
     $('.data').addClass('selectedFilter');
-    $('#chartdiv').addClass('d-none');
-    $('#dataTable').removeClass('d-none');
+    $('#chartdiv').parent().addClass('d-none');
+    $('#dataTable').parent().removeClass('d-none');
     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
   });
 }
