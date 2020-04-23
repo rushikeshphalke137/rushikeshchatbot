@@ -205,6 +205,16 @@ function createDemandSeries(chart) {
 
   bullet.circle.stroke = am4core.color("#5e3aba");
   bullet.circle.strokeWidth = 2;
+
+  // Hiding Uncertainity bounds when hiding the actual series
+  demandSeries.events.on("hidden", function () {
+    uncertainitySeries.hide();
+  });
+
+  // Displaying Uncertainity bounds when displaying the actual series
+  demandSeries.events.on("shown", function () {
+    uncertainitySeries.show();
+  });
 }
 
 function createHospitalizationSeries(chart, color) {
@@ -309,7 +319,7 @@ function mergeDataAcrossRegions() {
         }
       },
       dataType: "text",
-      complete: function () { }
+      complete: function () {}
     });
   }
 
@@ -335,7 +345,7 @@ function getJSONData(datafile) {
       jsonData = JSON.parse(jsonobject);
     },
     dataType: "text",
-    complete: function () { }
+    complete: function () {}
   });
 
   return jsonData;

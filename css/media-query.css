@@ -189,6 +189,20 @@
     text-overflow: ellipsis;
   }
 
+  .owl-carousel-timeline .owl-nav .owl-prev {
+    background-color: transparent;
+    border: none;
+    left: 47px;
+    top: -39px;
+  }
+
+  .owl-carousel-timeline .owl-nav .owl-next {
+    background-color: transparent;
+    border: none;
+    right: 5px;
+    top: -39px;
+  }
+
   .scenario-content-section,
   .timeline-content-section {
     width: calc(100% - 65px);

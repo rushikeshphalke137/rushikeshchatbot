@@ -111,7 +111,7 @@ require([
   ) {
     parser.parse();
 
-    $.getJSON("supported_scenarios_projBounds.json")
+    $.getJSON("supported_scenarios.json")
       .done(function (json) {
         globals.scenarios = json.scenarios;
         globals.selectedScenario = globals.scenarios[0];
@@ -122,7 +122,7 @@ require([
       })
       .fail(function (jqxhr, textStatus, error) {
         var err = textStatus + ", " + error;
-        console.log("Request Failed to load 'supported_scenarios_projBounds.json' file. Reason :: " + err);
+        console.log("Request Failed to load 'supported_scenarios.json' file. Reason :: " + err);
       });
 
     //keep track of value for each drop down menu
@@ -176,7 +176,6 @@ require([
       scenarioChanged = true;
 
       globals.dailySummaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
-      console.log('globals.dailySummaryFile',globals.dailySummaryFile);
       getGlobalDataFromCSVFile(globals.dailySummaryFile);
 
       if (globals.selectedDate == undefined || globals.selectedDate == null) {
@@ -193,6 +192,24 @@ require([
       if (scenarioChanged) {
         $('#timeline .content').removeClass('content-selected');
         $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
+
+        $('#timeline').owlCarousel({
+          loop: false,
+          margin: 5,
+          nav: true,
+          responsiveClass: true,
+          responsive: {
+            0: {
+              items: 4,
+            },
+            600: {
+              items: 3,
+            },
+            1000: {
+              items: 6,
+            }
+          }
+        });
       }
 
 
@@ -692,7 +709,7 @@ require([
           // HARD CODED added 03/22 DX
           for (var j = 2; j < globals.csvDataHeader.length - 5; j++)
             if (globals.csvDataHeader[j] === 'Projected Demand (%)') {
-              returnValue += "<br><b> Projected Demand :</b> " + globals.csvData[i][j] + " %";
+              returnValue += "<br><b> Projected Demand:</b> " + globals.csvData[i][j] + " %";
             } else {
               returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
             }
@@ -869,7 +886,7 @@ require([
     function renderTimeline() {
       filteredData = globals.dailySummary.slice(1); //remove heding row
 
-      var timelineHTML = "";
+      var timelineHTML = '<div id="timeline" class="d-flex owl-carousel" style="align-items: center;">';
 
       // Iterate over Summary data and craete Timelines
       for (index = 0; index < filteredData.length; index++) {
@@ -889,7 +906,7 @@ require([
         var toolTipText = 'Projected Demand (%) <br>' +
           '&emsp;Median Value  : <b>' + totalProjectedDemand + '</b><br>' +
           '&emsp;Lower Bound : <b>' + projectedDemandLowerBound + '</b><br>' +
-          '&emsp;Upper Bound : <b>' + projectedDemandUpperBound + '</b><br>'+
+          '&emsp;Upper Bound : <b>' + projectedDemandUpperBound + '</b><br>' +
           'Total Hospitalizations <br>' +
           '&emsp;Median Value  : <b>' + totalHospitalizations + '</b><br>' +
           '&emsp;Lower Bound : <b>' + hospitalizationsLowerBound + '</b><br>' +
@@ -919,7 +936,9 @@ require([
 
       }
 
-      $('#timeline').html(timelineHTML);
+      timelineHTML += '</div>';
+
+      $('.timeline-content-section').html(timelineHTML);
 
       $('#timeline .content').off().on('click', function (event) {
         selectedDate = event.currentTarget.id.substring(5);
@@ -936,28 +955,22 @@ require([
       });
 
       $('#timeline').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 5,
+        nav: true,
         responsiveClass: true,
         responsive: {
           0: {
             items: 4,
-            nav: true,
-            loop: false,
           },
           600: {
             items: 3,
-            nav: true,
-            loop: false,
           },
           1000: {
             items: 6,
-            nav: false,
-            loop: false,
           }
         }
-      })
-
+      });
 
     }
 
@@ -1007,24 +1020,19 @@ require([
 
 
       $('#scenarios').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 5,
+        nav: true,
         responsiveClass: true,
         responsive: {
           0: {
             items: 2,
-            nav: true,
-            loop: false,
           },
           600: {
             items: 3,
-            nav: true,
-            loop: false,
           },
           1000: {
             items: 5,
-            nav: true,
-            loop: false,
           }
         }
       })
