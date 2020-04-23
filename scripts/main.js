@@ -951,8 +951,8 @@ require([
             loop: false,
           },
           1000: {
-            items: 8,
-            nav: true,
+            items: 6,
+            nav: false,
             loop: false,
           }
         }
