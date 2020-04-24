@@ -716,26 +716,29 @@ textarea {
 }
 
 button.owl-prev.disabled,
+button.owl-next.disabled {
+display: none;
+}
+button.owl-prev.disabled,
 button.owl-prev {
   position: absolute;
-  left: -23px;
-  top: -37px;
+  left: -25px;
+  top: 4px;
+  height: 24px;
 }
 
-button.owl-prev.disabled>span,
-button.owl-prev>span,
-button.owl-next.disabled>span,
-button.owl-next>span {
-  color: #007BFF;
-  font-size: 60px;
-  font-weight: bolder;
+button.owl-prev i,
+button.owl-next i {
+  font-size: 30px;
+  color: blue;
 }
 
 button.owl-next.disabled,
 button.owl-next {
   position: absolute;
-  top: -37px;
+  top: 2px;
   right: -23px;
+  height: 10px;
 }
 
 
@@ -787,9 +790,13 @@ button.owl-prev:focus {
 
 .timeline-content-section {
   width: 1000px;
-  padding-left: 5px;
+  padding-left: 20px;
 }
-
+.timeline-prev-slide,
+.timeline-next-slide {
+  height: auto;
+  margin-top: 4px;
+}
 .scenario-heading-section, .timeline-heading-section {
   align-items: center;
 }
@@ -920,6 +927,11 @@ button.owl-prev:focus {
 } */
 
 @media (max-width: 768px) {
+  .timeline-prev-slide,
+.timeline-next-slide {
+  height: auto;
+  margin-top: -5px;
+}
   .icon-link {
     height: 30px !important;
     line-height: 32px !important;

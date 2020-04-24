@@ -886,8 +886,8 @@ require([
     function renderTimeline() {
       filteredData = globals.dailySummary.slice(1); //remove heding row
 
-      var timelineHTML = '<div id="timeline" class="d-flex owl-carousel" style="align-items: center;">';
-
+      var timelineHTML = "";
+      timelineHTML = '<div id="timeline" class="d-flex owl-carousel timeline-contener" style="align-items: center;">';
       // Iterate over Summary data and craete Timelines
       for (index = 0; index < filteredData.length; index++) {
         totalHospitalizations = Number(filteredData[index][2]).toLocaleString();
@@ -939,6 +939,25 @@ require([
       timelineHTML += '</div>';
 
       $('.timeline-content-section').html(timelineHTML);
+      timelineHTML = "" ;
+      $('#timeline').owlCarousel({
+        loop: true,
+        margin: 5,
+        nav: true,
+        responsiveClass: true,
+        navText:["<div class='nav-btn timeline-prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>","<div class='nav-btn timeline-next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
+        responsive: {
+          0: {
+            items: 1,
+          },
+          600: {
+            items: 3,
+          },
+          1000: {
+            items: 6,
+          }
+        }
+      });
 
       $('#timeline .content').off().on('click', function (event) {
         selectedDate = event.currentTarget.id.substring(5);
@@ -954,23 +973,7 @@ require([
         changeDate(selectedDate);
       });
 
-      $('#timeline').owlCarousel({
-        loop: false,
-        margin: 5,
-        nav: true,
-        responsiveClass: true,
-        responsive: {
-          0: {
-            items: 4,
-          },
-          600: {
-            items: 3,
-          },
-          1000: {
-            items: 6,
-          }
-        }
-      });
+   
 
     }
 
@@ -994,7 +997,24 @@ require([
       }
 
       $('#scenarios').html(scenarioHTML);
-
+      $('#scenarios').owlCarousel({
+        loop: false,
+        margin: 5,
+        nav: true,
+        responsiveClass: true,
+        navText:["<div class='nav-btn prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>","<div class='nav-btn next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
+        responsive: {
+          0: {
+            items: 1,
+          },
+          600: {
+            items: 3,
+          },
+          1000: {
+            items: 5,
+          }
+        }
+      });
       $('#scenarios .scenario-content').off().on('click', function (event) {
         selectedScenario = event.currentTarget.dataset.scenario;
 
@@ -1019,23 +1039,7 @@ require([
       });
 
 
-      $('#scenarios').owlCarousel({
-        loop: false,
-        margin: 5,
-        nav: true,
-        responsiveClass: true,
-        responsive: {
-          0: {
-            items: 2,
-          },
-          600: {
-            items: 3,
-          },
-          1000: {
-            items: 5,
-          }
-        }
-      })
+      
     }
 
     function getGlobalDataFromCSVFile(file) {
