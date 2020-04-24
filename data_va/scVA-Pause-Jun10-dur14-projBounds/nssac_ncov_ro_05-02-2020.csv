@@ -1,5 +1,7 @@
 VHASSNum,VHASS Region,Projected Demand (%),Hospitalizations (Median),Lower Hospitalization Bound,Upper Hospitalization Bound,Lower Projected Demand Bound,Upper Projected Demand Bound,Last Update
-Central,Central,84,1299,1155,1571,80.64,87.36,01-22-2020
-Eastern,Eastern,88,2051,1816,2338,84.48,91.52,01-22-2020
-Northern,Northern,96,4053,3622,4632,92.16,99.84,01-22-2020
-Northwest,Northwest,85,611,512,738,81.6,88.4,01-22-2020
+Central,Central,84,1299,1155,1571,80.64,87.36,04-21-2020
+Eastern,Eastern,88,2051,1816,2338,84.48,91.52,04-21-2020
+Far_SW,Far SW,80,0,0,0,76.8,83.2,04-21-2020
+Near_SW,Near SW,80,0,0,88,76.8,83.2,04-21-2020
+Northern,Northern,96,4053,3622,4632,92.16,99.84,04-21-2020
+Northwest,Northwest,85,611,512,738,81.6,88.4,04-21-2020
