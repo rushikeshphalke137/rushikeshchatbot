@@ -784,7 +784,7 @@ button.owl-prev:focus {
 }
 
 .scenario-content-section {
-  width: 810px;
+  width: calc(100% - 510px);
   padding-left: 20px;
 }
 

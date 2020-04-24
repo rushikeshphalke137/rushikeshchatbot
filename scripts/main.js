@@ -941,14 +941,14 @@ require([
       $('.timeline-content-section').html(timelineHTML);
       timelineHTML = "" ;
       $('#timeline').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 5,
         nav: true,
         responsiveClass: true,
         navText:["<div class='nav-btn timeline-prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>","<div class='nav-btn timeline-next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
         responsive: {
           0: {
-            items: 1,
+            items: 4,
           },
           600: {
             items: 3,
@@ -1005,7 +1005,7 @@ require([
         navText:["<div class='nav-btn prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>","<div class='nav-btn next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
         responsive: {
           0: {
-            items: 1,
+            items: 2,
           },
           600: {
             items: 3,
