@@ -14,7 +14,7 @@ function renderSummaryDataChart() {
   chart.numberFormatter.numberFormat = "###a";
 
   let title = chart.titles.create();
-  title.text = "United States National Demand Forecast";
+  title.text = globals.configuration.chart_title;
   title.stroke = am4core.color("#fff");
   title.fill = am4core.color("#fff");
   title.fontSize = 20;
@@ -102,7 +102,7 @@ function renderQueriedRegionsChart() {
 }
 
 function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
-  var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_hrr_" + selectedHRRNumber + ".csv";
+  var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + selectedHRRNumber + ".csv";
 
   // Dispose all Charts and clear Browser memory/cache
   am4core.disposeAllCharts();
@@ -293,7 +293,7 @@ function mergeDataAcrossRegions() {
 
   for (i = 0; i < globals.selectedHRRNumbers.length; i++) {
 
-    var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_hrr_" + globals.selectedHRRNumbers[i] + ".csv";
+    var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedHRRNumbers[i] + ".csv";
 
     $.ajax({
       url: datafile,

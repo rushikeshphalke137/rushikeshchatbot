@@ -5,21 +5,15 @@
 var globals = {};
 //map for the applicaiton
 globals.map = null;
-//default extents
-globals.defaultExtents = {};
-
-//supported data levels
-//to be cleaned up
-globals.dataLevels = ["State", "County"];
 
 //store REST API URL for corresponding polygon
 globals.mapServiceUrls = {
   HRR: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/0",
-  State: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/NCOV_World_Countries_States_Provinces_wUnknown/FeatureServer/0"
+  State: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/NCOV_World_Countries_States_Provinces_wUnknown/FeatureServer/0",
+  VirginiaHealth: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/1"
 }
 
-//flag used to indicate data level in the file, e.g., State, County
-globals.dataLevel = "State";
+globals.configuration = null;
 
 //array that holds data from csv file, only one csv file at a time
 globals.csvData = [];
@@ -38,7 +32,6 @@ globals.joinFunctionInfoWindow = null;
 
 //selected date (from datepicker), '1-aug-09' is the default
 globals.selectedDate = null;
-globals.numberCountryForSelectedDate = null;
 
 globals.selectedScenario = null;
 globals.scenariosDirectory = null;
@@ -46,9 +39,6 @@ globals.dailySummaryFile = null;
 
 //file used for rendering
 globals.renderFile = null;
-
-//display level, -1 is country level, otherwise, it's state's 2-digit FIPS
-globals.displayLevel = null;
 
 //render field index in the csv file's attribute list
 //update whenever a range slider is enabed (overlay mode) or a field is selected (single mode)
@@ -62,43 +52,40 @@ globals.query = null;
 globals.selectedRegions = [];
 globals.selectedHRRNumbers = [];
 
-globals.filteredRegion = [];
-globals.regionSelected = "All regions";
-
 globals.chartDataFile = [];
 globals.globalDataSummary = [];
 
 
 require([
-    "esri/Color",
-    "esri/geometry/Extent",
-    "esri/graphic",
-    "esri/dijit/Legend",
-    "esri/InfoTemplate",
-    "esri/layers/FeatureLayer",
-    "esri/layers/GraphicsLayer",
-    "esri/map",
-    "esri/renderers/ClassBreaksRenderer",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/renderers/SimpleRenderer",
-    "esri/TimeExtent",
-    "esri/dijit/TimeSlider",
-    "esri/tasks/query",
-    "esri/tasks/QueryTask",
-    "esri/toolbars/draw",
-    "esri/urlUtils",
-    "dojo/on",
-    "dojo/parser",
-    "dojo/_base/array",
-    "dojo/_base/lang",
-    "dijit/registry",
-    "dijit/Tooltip",
-    "dojox/data/CsvStore",
-    "dijit/layout/BorderContainer",
-    "dijit/layout/ContentPane",
-    "dojo/domReady!"
-  ],
+  "esri/Color",
+  "esri/geometry/Extent",
+  "esri/graphic",
+  "esri/dijit/Legend",
+  "esri/InfoTemplate",
+  "esri/layers/FeatureLayer",
+  "esri/layers/GraphicsLayer",
+  "esri/map",
+  "esri/renderers/ClassBreaksRenderer",
+  "esri/symbols/SimpleFillSymbol",
+  "esri/symbols/SimpleLineSymbol",
+  "esri/renderers/SimpleRenderer",
+  "esri/TimeExtent",
+  "esri/dijit/TimeSlider",
+  "esri/tasks/query",
+  "esri/tasks/QueryTask",
+  "esri/toolbars/draw",
+  "esri/urlUtils",
+  "dojo/on",
+  "dojo/parser",
+  "dojo/_base/array",
+  "dojo/_base/lang",
+  "dijit/registry",
+  "dijit/Tooltip",
+  "dojox/data/CsvStore",
+  "dijit/layout/BorderContainer",
+  "dijit/layout/ContentPane",
+  "dojo/domReady!"
+],
   function (
     Color, Extent, Graphic, Legend, InfoTemplate,
     FeatureLayer, GraphicsLayer, Map, ClassBreaksRenderer,
@@ -113,10 +100,12 @@ require([
 
     $.getJSON("supported_scenarios.json")
       .done(function (json) {
+        globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
         globals.selectedScenario = globals.scenarios[0];
         globals.scenariosDirectory = globals.selectedScenario.directory;
 
+        setupMapLayer();
         renderScenarios();
         executeDefaultWorkflow();
       })
@@ -125,26 +114,6 @@ require([
         console.log("Request Failed to load 'supported_scenarios.json' file. Reason :: " + err);
       });
 
-    //keep track of value for each drop down menu
-    globals.displayLevel = 'State';
-
-    globals.defaultExtents.default = new Extent({
-      "xmin": -124.730045456146,
-      "xmax": -66.9505093527641,
-      "ymin": 24.5439397696533,
-      "ymax": 49.3839397693269,
-      "spatialReference": {
-        "wkid": 4326
-      }
-    });
-
-    globals.map = new Map("mapCanvas", {
-      basemap: "gray",
-      extent: globals.defaultExtents.default,
-      zoom: 4
-    });
-
-    globals.map.infoWindow.resize(280, 210);
 
     globals.mobileDevice = function () {
       var check = false;
@@ -185,36 +154,15 @@ require([
 
       globals.renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + globals.selectedDate + ".csv";
 
-      setupMapLayer();
       getCSVDataAndRendering();
       renderTimeline();
 
       if (scenarioChanged) {
         $('#timeline .content').removeClass('content-selected');
         $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
-
-        $('#timeline').owlCarousel({
-          loop: false,
-          margin: 5,
-          nav: true,
-          responsiveClass: true,
-          responsive: {
-            0: {
-              items: 4,
-            },
-            600: {
-              items: 3,
-            },
-            1000: {
-              items: 6,
-            }
-          }
-        });
       }
 
-
       if (globals.selectedRegions.length == 0) {
-        // Render Summary chart
         renderSummaryDataChart();
       } else {
         renderQueriedRegionsChart();
@@ -232,6 +180,15 @@ require([
 
     //initial setup for the map, globals.query and globals.queryTask to query this level by NAME
     function setupMapLayer() {
+      globals.defaultExtent = new Extent(globals.configuration.extent);
+
+      globals.map = new Map("mapCanvas", {
+        basemap: "gray",
+        extent: globals.defaultExtent,
+        zoom: globals.configuration.zoom_level
+      });
+
+      globals.map.infoWindow.resize(280, 210);
 
       var symbol = new SimpleFillSymbol(
         SimpleFillSymbol.STYLE_SOLID,
@@ -251,39 +208,33 @@ require([
       globals.map.addLayers([outline_state_layer]);
 
       var infoTemplate = new InfoTemplate(
-        "Place : ${HRRCITY}",
-        "${HRRCITY:globals.joinFunctionInfoWindow}"
+        "Region : ${" + globals.configuration.layer_attribute + "}",
+        "${" + globals.configuration.layer_attribute + ":globals.joinFunctionInfoWindow}"
       );
 
-      var layer = new FeatureLayer(globals.mapServiceUrls.HRR, {
-        id: "hrr_layer",
+      var layer = new FeatureLayer(globals.configuration.layer_url, {
+        id: "data_layer",
         mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
         infoTemplate: infoTemplate,
-        outFields: ["HRRNUM", "HRRCITY", "DHS_Beds", "Total_Pop"],
+        outFields: globals.configuration.out_fields,
         opacity: 0.8
       });
 
       layer.setRenderer(new SimpleRenderer(symbol));
       globals.map.addLayers([layer]);
 
-      layer.on("click", monitorClick);
-
       //setup QueryTask (for filter by region)
-      globals.queryTask = new QueryTask(globals.mapServiceUrls.HRR);
+      setQueryTask();
+    }
+
+    function setQueryTask() {
+      globals.queryTask = new QueryTask(globals.configuration.layer_url);
       globals.query = new Query();
       globals.query.outSpatialReference = {
         "wkid": 4326
       };
       globals.query.returnGeometry = true;
-      globals.query.outFields = ["HRRCITY"];
-
-      globals.map.on("update-end", function () {
-        $('.loading').hide();
-      });
-
-      layer.on("update-end", function () {
-        $('.loading').hide();
-      });
+      globals.query.outFields = [globals.configuration.layer_attribute];
 
       globals.map.infoWindow.on('hide', function () {
         if (globals.selectedRegions.length == 0) {
@@ -302,13 +253,8 @@ require([
       csvStore.fetch({
         onComplete: function (items) {
           csvDataReady(csvStore, items);
-
-          // globals.dataLevel = "State";
-          globals.map.getLayer("hrr_layer").show();
-
-          if (globals.dataLevels.indexOf(globals.dataLevel) !== -1) {
-            setRendererSingle();
-          }
+          //globals.map.getLayer("data_layer").show();
+          setMapRenderer();
         }, //onComplete
         onError: csvOnError
       });
@@ -406,14 +352,10 @@ require([
 
         if (!countries.includes(country))
           countries.push(country);
-
-        // filteredRegion(globals.regionSelected);
       }
 
       //at this point, we have updated stats on all fields
       globals.csvDataStats = tempStats;
-      //decide to switch to # of countries (need to exclude Hong Kong, Macau and Taiwan)
-      globals.numberCountryForSelectedDate = countries.length - 3;
 
       //set range for each attribute the same as csvDataStats
       //globals.csvDataRanges = tempStats.slice(0);;
@@ -423,7 +365,7 @@ require([
       }
     }
 
-    function setRendererSingle() {
+    function setMapRenderer() {
       dojo.connect(dojo.byId("renderField"), "onclick", changeRenderField);
       renderLegend();
     }
@@ -443,20 +385,7 @@ require([
       var numClasses = 5;
       //different colors for different attribute
       var colors = [];
-      if (globals.csvDataHeader[globals.renderFieldIndex] == 'Vent. Avail') {
-        //for confirmed, suspected
-        numClasses = 6;
-        //OrRd
-        colors.push(new Color([179, 0, 0]));
-        colors.push(new Color([227, 74, 51]));
-        colors.push(new Color([252, 141, 89]));
-        colors.push(new Color([253, 187, 132]));
-        colors.push(new Color([253, 212, 158]));
-        colors.push(new Color([254, 240, 217]));
-
-        var breakMins = [1, 101, 501, 1001, 1501, 2501];
-        var breakMaxs = [100, 500, 1000, 1500, 2500, 29999];
-      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Projected Demand (%)') {
+      if (globals.csvDataHeader[globals.renderFieldIndex] == 'Projected Demand (%)') {
         //for deaths
         //PuBu
         colors.push(new Color([241, 238, 246]));
@@ -467,17 +396,6 @@ require([
 
         var breakMins = [1, 81, 91, 101, 121];
         var breakMaxs = [80, 90, 100, 120, 29999];
-      } else if (globals.csvDataHeader[globals.renderFieldIndex] == 'Staff Avail') {
-        //for recovered
-        //YlGn
-        colors.push(new Color([255, 255, 204]));
-        colors.push(new Color([194, 230, 153]));
-        colors.push(new Color([120, 198, 121]));
-        colors.push(new Color([49, 163, 84]));
-        colors.push(new Color([0, 104, 55]));
-
-        var breakMins = [1, 10, 50, 100, 500];
-        var breakMaxs = [9, 49, 99, 499, 99999];
       } else {
         numClasses = 6;
         //OrRd
@@ -512,13 +430,11 @@ require([
           maxValue: BreakMax,
           symbol: new SimpleFillSymbol(
             "solid",
-            //new SimpleLineSymbol("solid", colors[i], 1),
             new SimpleLineSymbol("solid", new Color([128, 128, 128]), 1),
             colors[i]
           )
         });
 
-        ///////////
         var tableRow = document.createElement("tr");
         var colorCell = document.createElement("td");
 
@@ -548,7 +464,6 @@ require([
         }
         hexcolor += colorpart;
 
-        //console.log("h: "+hexcolor + " l: " + hexcolor.length);
         colorCell.setAttribute("style", "background-color: #" + hexcolor + "; width: 15px");
 
         var labelCell = document.createElement("td");
@@ -563,84 +478,25 @@ require([
         tableRow.appendChild(colorCell);
         tableRow.appendChild(labelCell);
         table.appendChild(tableRow);
-        ///////////
       }
 
-      //var layer_name = globals.dataLevel.toLowerCase() + "_layer";
-      var layer_name = "hrr_layer";
-      globals.map.getLayer(layer_name).setRenderer(renderer);
-      globals.map.getLayer(layer_name).redraw();
+      globals.map.getLayer("data_layer").setRenderer(renderer);
+      globals.map.getLayer("data_layer").redraw();
 
       //add completed legend table
       legendDiv.appendChild(table);
     }
 
-    //when ctrl key is pressed on a click event, add feature to globals.selectedRegions
-    //when shift key is press on a click event, remove feature from globals.selectedRegions
-    function monitorClick(evt) {
-      if (evt.ctrlKey === true || evt.metaKey === true) { //ADD SELECTED FEATURE TO LIST
-        //turn off infoWindow
-        globals.map.setInfoWindowOnClick(false);
-        //symbol for selected county
-        var symbol = new SimpleFillSymbol(
-          SimpleFillSymbol.STYLE_BACKWARD_DIAGONAL,
-          new SimpleLineSymbol(
-            SimpleLineSymbol.STYLE_SOLID,
-            new Color([102, 255, 255]),
-            2
-          ),
-          new Color([255, 0, 0])
-        );
-
-        var fips;
-        if (globals.dataLevel == "County")
-          fips = evt.graphic.attributes["FIPS"];
-        else if (globals.dataLevel == "State")
-          fips = evt.graphic.attributes["NAME"];
-
-        var attr = {
-          "NAME": fips
-        };
-        var graphic = new Graphic(evt.graphic.geometry, symbol, attr);
-
-        var index = globals.selectedRegions.indexOf(fips);
-        if (index == -1) { //not in the list, need to add
-          //add graphic
-          globals.map.graphics.add(graphic);
-          //add FIPS for slection to global variable
-          globals.selectedRegions.push(fips);
-          //monitor map's GraphicsLayer (the layer we keep selected counties) for click event
-          globals.map.graphics.on("click", monitorClick);
-        }
-        //show selected counties in data table
-        showCSVDataInTable(globals.selectedRegions);
-      } else if (evt.shiftKey === true) {
-        //disable click & recenter as it is SHIFT key's default function
-        globals.map.disableClickRecenter();
-        globals.map.setInfoWindowOnClick(false);
-        var fips = evt.graphic.attributes["NAME"];
-        var index = globals.selectedRegions.indexOf(fips);
-        if (index != -1) { //in the list, need to remove
-          globals.map.graphics.remove(evt.graphic);
-          //globals.map.graphics.redraw();
-          //remove FIPS for selection from global variable
-          globals.selectedRegions.splice(index, 1);
-        }
-        //show selected counties in data table
-        showCSVDataInTable(globals.selectedRegions);
-      } else globals.map.setInfoWindowOnClick(true);
-    }
-
     function changeDate(selectedDate) {
       globals.selectedDate = selectedDate;
       globals.renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + selectedDate + ".csv";
-      // globals.renderFile = "data_ro/nssac_ncov_ro_" + selectedDate + ".csv"
+     
       //check whether file exists
       var http = new XMLHttpRequest();
       http.open('HEAD', globals.renderFile, false);
       http.send();
       if (http.status === 404) {
-        if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && $('#dataView').hasClass('disabled')) {
+        if (globals.mobileDevice() && $('#dataView').hasClass('disabled')) {
           alert("Data for " + selectedDate + " is not available yet.");
         }
       } else {
@@ -651,15 +507,8 @@ require([
 
     //Lots of clean up is required before reading the file
     function renderByFile() {
-      globals.displayLevel = -1;
-      $("#displayLevel").val("-1");
-      for (var i = 1; i < globals.csvDataHeader.length; i++) {
-        var c = globals.map.getLayer('county_layer' + i);
-        if (c)
-          globals.map.removeLayer(c);
-      }
       //clear display option
-      clearDisplayOptionWrapper();
+      clearDIV("legend");
       getCSVDataAndRendering();
     }
 
@@ -670,7 +519,7 @@ require([
       $(event.target).removeClass('disabled');
 
       //use new field to render
-      setRendererSingle(false);
+      setMapRenderer(false);
     }
 
     //Assumption: name for a place (state/province/country) is stored in a global variable called csvData
@@ -679,7 +528,7 @@ require([
     globals.joinFunction = function (value) {
       //  console.log('value-new', value);
       for (var i = 0; i < globals.csvData.length; i++) {
-        var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes.HRRCITY : value;
+        var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes[globals.configuration.layer_attribute] : value;
         var returnValue;
 
         var csvFipsValue = globals.csvData[i][1];
@@ -703,13 +552,9 @@ require([
       var returnValue = '';
       for (var i = 0; i < globals.csvData.length; i++) {
         if (globals.csvData[i][1] == value) {
-          //hard coded for now, DX 02/03/2020
-          returnValue += "<b>HRR:</b> " + globals.csvData[i][1];
-
-          // HARD CODED added 03/22 DX
           for (var j = 2; j < globals.csvDataHeader.length - 5; j++)
             if (globals.csvDataHeader[j] === 'Projected Demand (%)') {
-              returnValue += "<br><b> Projected Demand:</b> " + globals.csvData[i][j] + " %";
+              returnValue += "<b> Projected Demand:</b> " + globals.csvData[i][j] + " %";
             } else {
               returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
             }
@@ -728,10 +573,6 @@ require([
       }
     }
 
-    function clearDisplayOptionWrapper() {
-      clearDIV("legend");
-    }
-
     function queryByName() {
       var inputStr = $("#queryByName").val();
       if (inputStr.length != 0) {
@@ -742,9 +583,9 @@ require([
         for (var i = 0; i < inputStrSplit.length; i++) {
           var temp = inputStrSplit[i].trim();
           if (where == '')
-            where += "HRRCITY LIKE '%" + temp.toString() + "%'";
+            where += globals.configuration.layer_attribute + " LIKE '%" + temp.toString() + "%'";
           else
-            where += " OR HRRCITY LIKE '%" + temp.toString() + "%'";
+            where += " OR " + globals.configuration.layer_attribute + " LIKE '%" + temp.toString() + "%'";
         }
 
         //now query correspding layer
@@ -754,8 +595,8 @@ require([
         };
         query.returnGeometry = true;
         //setup QueryTask (for display Level selection)
-        var queryTask = new QueryTask(globals.mapServiceUrls.HRR);
-        query.outFields = ["HRRNUM", "HRRCITY", "DHS_Beds", "Total_Pop"];
+        var queryTask = new QueryTask(globals.configuration.layer_url);
+        query.outFields = globals.configuration.out_fields;
 
         query.where = where;
         var symbol = new SimpleFillSymbol(
@@ -769,6 +610,7 @@ require([
         );
         var names = [];
         var selectedHRRNum = [];
+
         queryTask.execute(query, function (fset) {
           globals.map.graphics.clear();
           if (fset.features.length > 0) {
@@ -779,9 +621,8 @@ require([
               //check whether it has number for selected attribute
               // if(  DX stops here 02/04
               //add name to names (for table display)
-              var temp = fset.features[i].attributes.HRRCITY;
-              var hrrNumber = fset.features[i].attributes.HRRNUM;
-
+              var temp = fset.features[i].attributes[globals.configuration.layer_attribute];
+              var hrrNumber = fset.features[i].attributes[globals.configuration.query_attribute];
               if (names.indexOf(temp) == -1) {
                 names.push(temp);
                 selectedHRRNum.push(hrrNumber);
@@ -817,7 +658,7 @@ require([
         tableHTML += "<th>" + globals.csvDataHeader[i] + "</th>";
 
       tableHTML += "</tr></thead><tbody>";
-      for (var i = 0; i < globals.csvData.length - 1; i++) {
+      for (var i = 0; i < globals.csvData.length; i++) {
         var name = globals.csvData[i][1];
         if (names.indexOf(name) == -1)
           continue;
@@ -939,13 +780,13 @@ require([
       timelineHTML += '</div>';
 
       $('.timeline-content-section').html(timelineHTML);
-      timelineHTML = "" ;
+      timelineHTML = "";
       $('#timeline').owlCarousel({
         loop: false,
         margin: 5,
         nav: true,
         responsiveClass: true,
-        navText:["<div class='nav-btn timeline-prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>","<div class='nav-btn timeline-next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
+        navText: ["<div class='nav-btn timeline-prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>", "<div class='nav-btn timeline-next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
         responsive: {
           0: {
             items: 4,
@@ -972,9 +813,6 @@ require([
 
         changeDate(selectedDate);
       });
-
-   
-
     }
 
     function renderScenarios() {
@@ -1002,7 +840,7 @@ require([
         margin: 5,
         nav: true,
         responsiveClass: true,
-        navText:["<div class='nav-btn prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>","<div class='nav-btn next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
+        navText: ["<div class='nav-btn prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>", "<div class='nav-btn next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
         responsive: {
           0: {
             items: 2,
@@ -1037,9 +875,6 @@ require([
         }
         executeDefaultWorkflow();
       });
-
-
-      
     }
 
     function getGlobalDataFromCSVFile(file) {
@@ -1055,7 +890,7 @@ require([
           globals.dailySummary = $.csv.toArrays(csv);
         },
         dataType: "text",
-        complete: function () {}
+        complete: function () { }
       });
     }
 
@@ -1070,7 +905,7 @@ require([
       globals.selectedHRRNumbers = [];
 
       $('#queryByName')[0].value = "";
-      globals.map.setExtent(globals.defaultExtents.default);
+      globals.map.setExtent(globals.defaultExtent);
 
       // Reload Application as per selected Scenario
       executeDefaultWorkflow();
@@ -1131,14 +966,3 @@ function bindChartAndDataTab() {
     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
   });
 }
-
-// function filteredRegion(regionValue) {
-//   var filtered = [];
-//   for (var i = 0; i < globals.csvData.length; i++) {
-
-//     if (globals.csvData[i][1].startsWith(regionValue)) {
-//       filtered.push(globals.csvData[i]);
-//     }
-//   }
-//   globals.filteredRegion = filtered;
-// }

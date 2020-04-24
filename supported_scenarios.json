@@ -1,7 +1,63 @@
-{"scenarios":[
-{"scenario_display_name":"Unmitigated-dur7","position":0,"directory":"sc-Unmitigated-dur7-projBounds","description":"This is the April 15th run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 7 days."},
-{"scenario_display_name":"Unmitigated-dur14","position":1,"directory":"sc-Unmitigated-dur14-projBounds","description":"This is the April 15th run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 14 days."},
-{"scenario_display_name":"Pause-Apr30-ImproveTest-dur7","position":2,"directory":"sc-Pause-Apr30-ImproveTest-dur7-projBounds","description":"This is the April 15th run of the Pause-Apr30-ImproveTest model (social distancing until April 30th) with length of hospital stay set to 7 days."},
-{"scenario_display_name":"Pause-Apr30-ImproveTest-dur14","position":3,"directory":"sc-Pause-Apr30-ImproveTest-dur14-projBounds","description":"This is the April 15th run of the Pause-Apr30-ImproveTest model (social distancing until April 30th) with length of hospital stay set to 14 days."},
-{"scenario_display_name":"Pause-indefinite-dur7","position":4,"directory":"sc-Pause-indefinite-dur7-projBounds","description":"This is the April 15th run of the Pause-indefinite model (ie, social distancing for the foreseeable future) with length of hospital stay set to 7 days."},
-{"scenario_display_name":"Pause-indefinite-dur14","position":5,"directory":"sc-Pause-indefinite-dur14-projBounds","description":"This is the April 15th run of the Pause-indefinite model (ie, social distancing for the foreseeable future) with length of hospital stay set to 14 days."}]}
+{
+    "configuration": {
+        "region": "hrr",
+        "chart_title": "United States National Demand Forecast",
+        "layer_url": "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/0",
+        "layer_attribute": "HRRCITY",
+        "query_attribute": "HRRNUM",
+        "zoom_level": 4,
+        "extent": {
+            "xmin": -124.730045456146,
+            "xmax": -66.9505093527641,
+            "ymin": 24.5439397696533,
+            "ymax": 49.3839397693269,
+            "spatialReference": {
+                "wkid": 4326
+            }
+        },
+        "out_fields": [
+            "HRRNUM",
+            "HRRCITY",
+            "DHS_Beds",
+            "Total_Pop"
+        ]
+    },
+    "scenarios": [
+        {
+            "scenario_display_name": "Unmitigated-dur7",
+            "position": 0,
+            "directory": "sc-Unmitigated-dur7-projBounds",
+            "description": "This is the April 15th run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 7 days."
+        },
+        {
+            "scenario_display_name": "Unmitigated-dur14",
+            "position": 1,
+            "directory": "sc-Unmitigated-dur14-projBounds",
+            "description": "This is the April 15th run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 14 days."
+        },
+        {
+            "scenario_display_name": "Pause-Apr30-ImproveTest-dur7",
+            "position": 2,
+            "directory": "sc-Pause-Apr30-ImproveTest-dur7-projBounds",
+            "description": "This is the April 15th run of the Pause-Apr30-ImproveTest model (social distancing until April 30th) with length of hospital stay set to 7 days."
+        },
+        {
+            "scenario_display_name": "Pause-Apr30-ImproveTest-dur14",
+            "position": 3,
+            "directory": "sc-Pause-Apr30-ImproveTest-dur14-projBounds",
+            "description": "This is the April 15th run of the Pause-Apr30-ImproveTest model (social distancing until April 30th) with length of hospital stay set to 14 days."
+        },
+        {
+            "scenario_display_name": "Pause-indefinite-dur7",
+            "position": 4,
+            "directory": "sc-Pause-indefinite-dur7-projBounds",
+            "description": "This is the April 15th run of the Pause-indefinite model (ie, social distancing for the foreseeable future) with length of hospital stay set to 7 days."
+        },
+        {
+            "scenario_display_name": "Pause-indefinite-dur14",
+            "position": 5,
+            "directory": "sc-Pause-indefinite-dur14-projBounds",
+            "description": "This is the April 15th run of the Pause-indefinite model (ie, social distancing for the foreseeable future) with length of hospital stay set to 14 days."
+        }
+    ]
+}

@@ -1,8 +1,61 @@
-scVA-Pause-Apr30-dur14-projBounds
-{"scenarios":[
-{"scenario_display_name":"Unmitigated-dur7","position":0,"directory":"scVA-Unmitigated-dur7-projBounds","description":"This is the April 21st run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 7 days."},
-{"scenario_display_name":"Unmitigated-dur14","position":1,"directory":"scVA-Unmitigated-dur14-projBounds","description":"This is the April 21st run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 14 days."},
-{"scenario_display_name":"Pause-Apr30-dur7","position":2,"directory":"scVA-Pause-Apr30-dur7-projBounds","description":"This is the April 21st run of the Pause-Apr30 model (social distancing until April 30th) with length of hospital stay set to 7 days."},
-{"scenario_display_name":"Pasue-Apr30-dur14","position":3,"directory":"scVA-Pause-Apr30-dur14-projBounds","description":"This is the April 21th run of the Pause-Apr30 model (social distancing until April 30th) with length of hospital stay set to 14 days."},
-{"scenario_display_name":"Pause-Jun10-dur7","position":4,"directory":"scVA-Pause-Jun10-dur7-projBounds","description":"This is the April 21st run of the Pause-Jun10 model (ie, social distancing for the foreseeable future) with length of hospital stay set to 7 days."},
-{"scenario_display_name":"Pause-Jun10-dur14","position":5,"directory":"scVA-Pause-Jun10-dur14-projBounds","description":"This is the April 21st run of the Pause-Jun10 model (ie, social distancing for the foreseeable future) with length of hospital stay set to 14 days."}]}
+{
+    "configuration": {
+        "region" : "vhass",
+        "chart_title": "Virgina Health Demand Forecast",
+        "layer_url": "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/1",
+        "layer_attribute": "VHASS_Reg",
+        "query_attribute": "VHASS_Reg",
+        "zoom_level": 7,
+        "extent": {
+            "xmin": -83.6753991625592,
+            "xmax": -75.2417293387953,
+            "ymin": 36.541660218841,
+            "ymax": 39.4660198481876,
+            "spatialReference": {
+                "wkid": 4326
+            }
+        },
+        "out_fields": [
+            "VHASS_Reg",
+            "InPoly_FID"
+        ]
+    },
+    "scenarios": [
+        {
+            "scenario_display_name": "Unmitigated-dur7",
+            "position": 0,
+            "directory": "data_va/scVA-Unmitigated-dur7-projBounds",
+            "description": "This is the April 21st run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 7 days."
+        },
+        {
+            "scenario_display_name": "Unmitigated-dur14",
+            "position": 1,
+            "directory": "data_va/scVA-Unmitigated-dur14-projBounds",
+            "description": "This is the April 21st run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 14 days."
+        },
+        {
+            "scenario_display_name": "Pause-Apr30-dur7",
+            "position": 2,
+            "directory": "data_va/scVA-Pause-Apr30-dur7-projBounds",
+            "description": "This is the April 21st run of the Pause-Apr30 model (social distancing until April 30th) with length of hospital stay set to 7 days."
+        },
+        {
+            "scenario_display_name": "Pasue-Apr30-dur14",
+            "position": 3,
+            "directory": "data_va/scVA-Pause-Apr30-dur14-projBounds",
+            "description": "This is the April 21th run of the Pause-Apr30 model (social distancing until April 30th) with length of hospital stay set to 14 days."
+        },
+        {
+            "scenario_display_name": "Pause-Jun10-dur7",
+            "position": 4,
+            "directory": "data_va/scVA-Pause-Jun10-dur7-projBounds",
+            "description": "This is the April 21st run of the Pause-Jun10 model (ie, social distancing for the foreseeable future) with length of hospital stay set to 7 days."
+        },
+        {
+            "scenario_display_name": "Pause-Jun10-dur14",
+            "position": 5,
+            "directory": "data_va/scVA-Pause-Jun10-dur14-projBounds",
+            "description": "This is the April 21st run of the Pause-Jun10 model (ie, social distancing for the foreseeable future) with length of hospital stay set to 14 days."
+        }
+    ]
+}
