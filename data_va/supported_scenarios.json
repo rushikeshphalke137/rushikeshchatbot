@@ -1,7 +1,7 @@
 {
     "configuration": {
         "region" : "vhass",
-        "chart_title": "Virgina Health Demand Forecast",
+        "chart_title": "Virginia Health Demand Forecast",
         "layer_url": "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/1",
         "layer_attribute": "VHASS_Reg",
         "query_attribute": "VHASS_Reg",
@@ -40,7 +40,7 @@
             "description": "This is the April 21st run of the Pause-Apr30 model (social distancing until April 30th) with length of hospital stay set to 7 days."
         },
         {
-            "scenario_display_name": "Pasue-Apr30-dur14",
+            "scenario_display_name": "Pause-Apr30-dur14",
             "position": 3,
             "directory": "data_va/scVA-Pause-Apr30-dur14-projBounds",
             "description": "This is the April 21th run of the Pause-Apr30 model (social distancing until April 30th) with length of hospital stay set to 14 days."
