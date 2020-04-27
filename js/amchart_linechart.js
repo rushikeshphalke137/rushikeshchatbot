@@ -102,7 +102,8 @@ function renderQueriedRegionsChart() {
 }
 
 function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
-  var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + selectedHRRNumber + ".csv";
+  var regionName = selectedHRRName.split(" ").join("_");
+  var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
 
   // Dispose all Charts and clear Browser memory/cache
   am4core.disposeAllCharts();
@@ -156,6 +157,10 @@ function createDemandSeries(chart) {
 
   // Create Demand Value axis
   var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  demandValueAxis.title.text = "Projected Demand Percentage";
+  demandValueAxis.title.fill = am4core.color("#fff");
+  demandValueAxis.title.fontSize = 14;
+
   demandValueAxis.renderer.opposite = true;
   demandValueAxis.renderer.line.stroke = am4core.color("#5e3aba");
   demandValueAxis.renderer.line.strokeOpacity = 1;
@@ -221,6 +226,10 @@ function createHospitalizationSeries(chart, color) {
 
   // Create Hospitalization Value axis
   var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  hospitalizationValueAxis.title.text = "Hospital Counts";
+  hospitalizationValueAxis.title.fill = am4core.color("#fff");
+  hospitalizationValueAxis.title.fontSize = 14;
+
   hospitalizationValueAxis.renderer.opposite = false;
   hospitalizationValueAxis.renderer.line.stroke = am4core.color(color);
   hospitalizationValueAxis.renderer.line.strokeOpacity = 1;
@@ -292,8 +301,8 @@ function mergeDataAcrossRegions() {
   var mergedData = [];
 
   for (i = 0; i < globals.selectedHRRNumbers.length; i++) {
-
-    var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedHRRNumbers[i] + ".csv";
+    var regionName = globals.selectedHRRNumbers[i].split(" ").join("_");
+    var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
 
     $.ajax({
       url: datafile,
@@ -319,7 +328,7 @@ function mergeDataAcrossRegions() {
         }
       },
       dataType: "text",
-      complete: function () {}
+      complete: function () { }
     });
   }
 
@@ -345,7 +354,7 @@ function getJSONData(datafile) {
       jsonData = JSON.parse(jsonobject);
     },
     dataType: "text",
-    complete: function () {}
+    complete: function () { }
   });
 
   return jsonData;
