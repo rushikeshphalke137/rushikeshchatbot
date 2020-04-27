@@ -102,7 +102,12 @@ function renderQueriedRegionsChart() {
 }
 
 function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
-  var regionName = selectedHRRName.split(" ").join("_");
+  var regionName = selectedHRRNumber + "";
+
+  // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
+  if (regionName.indexOf(' ') >= 0)
+    regionName = regionName.split(" ").join("_");
+
   var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
 
   // Dispose all Charts and clear Browser memory/cache
@@ -301,7 +306,11 @@ function mergeDataAcrossRegions() {
   var mergedData = [];
 
   for (i = 0; i < globals.selectedHRRNumbers.length; i++) {
-    var regionName = globals.selectedHRRNumbers[i].split(" ").join("_");
+    var regionName = globals.selectedHRRNumbers[i] + "";
+
+    // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
+    if (regionName.indexOf(' ') >= 0)
+      regionName = regionName.split(" ").join("_");
     var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
 
     $.ajax({
