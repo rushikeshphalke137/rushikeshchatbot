@@ -20,7 +20,7 @@ function renderSummaryDataChart() {
   title.fontSize = 20;
   title.marginBottom = 15;
 
-  var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
+  var colors = ["#bd1e2e", "#3479A1", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
 
   // Create axes
   var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
@@ -72,7 +72,7 @@ function renderQueriedRegionsChart() {
   title.fontSize = 20;
   title.marginBottom = 15;
 
-  var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
+  var colors = ["#bd1e2e", "#3479A1", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
 
   // Create axes
   var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
@@ -128,7 +128,7 @@ function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
   title.fontSize = 20;
   title.marginBottom = 15;
 
-  var colors = ["#bd1e2e", "#5e3aba", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
+  var colors = ["#bd1e2e", "#3479A1", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
 
   // Create axes
   var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
@@ -167,7 +167,7 @@ function createDemandSeries(chart) {
   demandValueAxis.title.fontSize = 14;
 
   demandValueAxis.renderer.opposite = true;
-  demandValueAxis.renderer.line.stroke = am4core.color("#5e3aba");
+  demandValueAxis.renderer.line.stroke = am4core.color("#3479A1");
   demandValueAxis.renderer.line.strokeOpacity = 1;
   demandValueAxis.renderer.line.strokeWidth = 1;
   demandValueAxis.renderer.labels.template.fill = am4core.color("#fff");
@@ -181,8 +181,8 @@ function createDemandSeries(chart) {
   uncertainitySeries.dataFields.valueY = "Upper Projected Demand Bound";
   uncertainitySeries.yAxis = demandValueAxis;
 
-  uncertainitySeries.stroke = am4core.color("#5e3aba");
-  uncertainitySeries.fill = am4core.color("#5e3aba");
+  uncertainitySeries.stroke = am4core.color("#3479A1");
+  uncertainitySeries.fill = am4core.color("#3479A1");
   uncertainitySeries.hiddenInLegend = true;
 
   uncertainitySeries.fillOpacity = 0.4;
@@ -196,8 +196,8 @@ function createDemandSeries(chart) {
   demandSeries.dataFields.valueY = "Total Projected Demand (%)";
   demandSeries.yAxis = demandValueAxis;
 
-  demandSeries.stroke = am4core.color("#5e3aba");
-  demandSeries.fill = am4core.color("#5e3aba");
+  demandSeries.stroke = am4core.color("#3479A1");
+  demandSeries.fill = am4core.color("#3479A1");
 
   demandSeries.strokeWidth = 2;
   demandSeries.sequencedInterpolation = true;
@@ -205,7 +205,7 @@ function createDemandSeries(chart) {
 
   demandSeries.name = "Projected Demand (%)";
   demandSeries.tooltipText = "Projected Demand : [bold]{valueY}[/]";
-  demandSeries.tooltip.background.fill = am4core.color("#5e3aba");
+  demandSeries.tooltip.background.fill = am4core.color("#3479A1");
   demandSeries.showOnInit = true;
 
   // Create data points
@@ -213,7 +213,7 @@ function createDemandSeries(chart) {
   bullet.width = 5;
   bullet.height = 5;
 
-  bullet.circle.stroke = am4core.color("#5e3aba");
+  bullet.circle.stroke = am4core.color("#3479A1");
   bullet.circle.strokeWidth = 2;
 
   // Hiding Uncertainity bounds when hiding the actual series
