@@ -105,6 +105,8 @@ require([
         globals.selectedScenario = globals.scenarios[0];
         globals.scenariosDirectory = globals.selectedScenario.directory;
 
+        $('.applicationTitle').html(globals.configuration.application_title);
+
         setupMapLayer();
         renderScenarios();
         executeDefaultWorkflow();
