@@ -4,7 +4,15 @@ function renderSummaryDataChart() {
   am4core.disposeAllCharts();
 
   // Themes begin
+
+  // function am4themes_myTheme(target) {
+  //   if (target instanceof am4charts.Axis) {
+  //     target.background.fill = am4core.color("#DCCCA3");
+  //   }
+  // }
+
   am4core.useTheme(am4themes_animated);
+ //am4core.useTheme(am4themes_myTheme);
 
   // Create chart instance
   var chart = am4core.create("chartdiv", am4charts.XYChart);
@@ -24,6 +32,14 @@ function renderSummaryDataChart() {
 
   // Create axes
   var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+  categoryAxis.renderer.grid.template.strokeOpacity = 1;
+  categoryAxis.renderer.grid.template.stroke = am4core.color("#ADDFFF");
+  categoryAxis.renderer.grid.template.strokeWidth = 1;
+
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.stroke = am4core.color("#ADDFFF");
+  categoryAxis.renderer.line.strokeWidth = 1;
+
   categoryAxis.dataFields.category = "date";
 
   categoryAxis.renderer.minGridDistance = 50;
@@ -76,6 +92,14 @@ function renderQueriedRegionsChart() {
 
   // Create axes
   var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+  categoryAxis.renderer.grid.template.strokeOpacity = 1;
+  categoryAxis.renderer.grid.template.stroke = am4core.color("#ADDFFF");
+  categoryAxis.renderer.grid.template.strokeWidth = 1;
+
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.stroke = am4core.color("#ADDFFF");
+  categoryAxis.renderer.line.strokeWidth = 1;
+
   categoryAxis.dataFields.category = "date";
 
   categoryAxis.renderer.minGridDistance = 50;
@@ -132,6 +156,14 @@ function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
 
   // Create axes
   var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+  categoryAxis.renderer.grid.template.strokeOpacity = 1;
+  categoryAxis.renderer.grid.template.stroke = am4core.color("#ADDFFF");
+  categoryAxis.renderer.grid.template.strokeWidth = 1;
+
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.stroke = am4core.color("#ADDFFF");
+  categoryAxis.renderer.line.strokeWidth = 1;
+
   categoryAxis.dataFields.category = "date";
 
   categoryAxis.renderer.minGridDistance = 50;
@@ -162,6 +194,15 @@ function createDemandSeries(chart) {
 
   // Create Demand Value axis
   var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  demandValueAxis.renderer.grid.template.strokeOpacity = 1;
+  demandValueAxis.renderer.grid.template.stroke = am4core.color("#ADDFFF");
+  demandValueAxis.renderer.grid.template.strokeWidth = 1;
+
+  demandValueAxis.renderer.line.strokeOpacity = 1;
+  demandValueAxis.renderer.line.stroke = am4core.color("#ADDFFF");
+  demandValueAxis.renderer.line.strokeWidth = 1;
+
+  // demandValueAxis.renderer.baseGrid.template.stroke = am4core.color("#ffffff");
   demandValueAxis.title.text = "Projected Demand Percentage";
   demandValueAxis.title.fill = am4core.color("#fff");
   demandValueAxis.title.fontSize = 14;
@@ -231,6 +272,14 @@ function createHospitalizationSeries(chart, color) {
 
   // Create Hospitalization Value axis
   var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  hospitalizationValueAxis.renderer.grid.template.strokeOpacity = 1;
+  hospitalizationValueAxis.renderer.grid.template.stroke = am4core.color("#ADDFFF");
+  hospitalizationValueAxis.renderer.grid.template.strokeWidth = 1;
+
+  hospitalizationValueAxis.renderer.line.strokeOpacity = 1;
+  hospitalizationValueAxis.renderer.line.stroke = am4core.color("#ADDFFF");
+  hospitalizationValueAxis.renderer.line.strokeWidth = 1;
+
   hospitalizationValueAxis.title.text = "Hospital Counts";
   hospitalizationValueAxis.title.fill = am4core.color("#fff");
   hospitalizationValueAxis.title.fontSize = 14;
