@@ -33,11 +33,11 @@ function renderSummaryDataChart() {
   // Create axes
   var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
   categoryAxis.renderer.grid.template.strokeOpacity = 1;
-  categoryAxis.renderer.grid.template.stroke = am4core.color("#ADDFFF");
+  categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff
   categoryAxis.renderer.grid.template.strokeWidth = 1;
 
   categoryAxis.renderer.line.strokeOpacity = 1;
-  categoryAxis.renderer.line.stroke = am4core.color("#ADDFFF");
+  categoryAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff
   categoryAxis.renderer.line.strokeWidth = 1;
 
   categoryAxis.dataFields.category = "date";
@@ -93,11 +93,11 @@ function renderQueriedRegionsChart() {
   // Create axes
   var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
   categoryAxis.renderer.grid.template.strokeOpacity = 1;
-  categoryAxis.renderer.grid.template.stroke = am4core.color("#ADDFFF");
-  categoryAxis.renderer.grid.template.strokeWidth = 1;
+  categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
+  categoryAxis.renderer.grid.template.strokeWidth = 1; 
 
   categoryAxis.renderer.line.strokeOpacity = 1;
-  categoryAxis.renderer.line.stroke = am4core.color("#ADDFFF");
+  categoryAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff 
   categoryAxis.renderer.line.strokeWidth = 1;
 
   categoryAxis.dataFields.category = "date";
@@ -157,11 +157,11 @@ function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
   // Create axes
   var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
   categoryAxis.renderer.grid.template.strokeOpacity = 1;
-  categoryAxis.renderer.grid.template.stroke = am4core.color("#ADDFFF");
+  categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff
   categoryAxis.renderer.grid.template.strokeWidth = 1;
 
   categoryAxis.renderer.line.strokeOpacity = 1;
-  categoryAxis.renderer.line.stroke = am4core.color("#ADDFFF");
+  categoryAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff
   categoryAxis.renderer.line.strokeWidth = 1;
 
   categoryAxis.dataFields.category = "date";
@@ -195,11 +195,11 @@ function createDemandSeries(chart) {
   // Create Demand Value axis
   var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   demandValueAxis.renderer.grid.template.strokeOpacity = 1;
-  demandValueAxis.renderer.grid.template.stroke = am4core.color("#ADDFFF");
+  demandValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
   demandValueAxis.renderer.grid.template.strokeWidth = 1;
 
   demandValueAxis.renderer.line.strokeOpacity = 1;
-  demandValueAxis.renderer.line.stroke = am4core.color("#ADDFFF");
+  demandValueAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
   demandValueAxis.renderer.line.strokeWidth = 1;
 
   // demandValueAxis.renderer.baseGrid.template.stroke = am4core.color("#ffffff");
@@ -273,11 +273,11 @@ function createHospitalizationSeries(chart, color) {
   // Create Hospitalization Value axis
   var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   hospitalizationValueAxis.renderer.grid.template.strokeOpacity = 1;
-  hospitalizationValueAxis.renderer.grid.template.stroke = am4core.color("#ADDFFF");
+  hospitalizationValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); //ffffff 8DB8D6
   hospitalizationValueAxis.renderer.grid.template.strokeWidth = 1;
 
   hospitalizationValueAxis.renderer.line.strokeOpacity = 1;
-  hospitalizationValueAxis.renderer.line.stroke = am4core.color("#ADDFFF");
+  hospitalizationValueAxis.renderer.line.stroke = am4core.color("#D3D3D3 "); //fffff 8DB8D6
   hospitalizationValueAxis.renderer.line.strokeWidth = 1;
 
   hospitalizationValueAxis.title.text = "Hospital Counts";

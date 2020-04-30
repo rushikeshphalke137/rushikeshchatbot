@@ -715,8 +715,9 @@ textarea {
   }
 }
 [role="region"] rect {
-  fill: #ADDFFF;
+  fill: #ffffff; /* ffffff ADDFFF D3D3D3 */
   fill-opacity: 1;
+  /* fill-opacity: .2; */
 }
 [role="region"] [role="group"]  rect {
   fill: #232D4B;
