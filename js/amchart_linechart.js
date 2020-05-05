@@ -245,7 +245,7 @@ function createDemandSeries(chart) {
   demandSeries.defaultState.transitionDuration = 1000;
 
   demandSeries.name = "Projected Demand (%)";
-  demandSeries.tooltipText = "Projected Demand : [bold]{valueY}[/]";
+  demandSeries.tooltipText = "Projected Demand : [bold]{valueY}%[/]";
   demandSeries.tooltip.background.fill = am4core.color("#3479A1");
   demandSeries.showOnInit = true;
 
@@ -272,6 +272,7 @@ function createHospitalizationSeries(chart, color) {
 
   // Create Hospitalization Value axis
   var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
   hospitalizationValueAxis.renderer.grid.template.strokeOpacity = 1;
   hospitalizationValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); //ffffff 8DB8D6
   hospitalizationValueAxis.renderer.grid.template.strokeWidth = 1;
@@ -298,6 +299,7 @@ function createHospitalizationSeries(chart, color) {
   uncertainitySeries.dataFields.openValueY = "Lower Hospitalization Bound";
   uncertainitySeries.dataFields.valueY = "Upper Hospitalization Bound";
   uncertainitySeries.yAxis = hospitalizationValueAxis;
+ // uncertainitySeries.numberFormatter.numberFormat = "#.";
 
   uncertainitySeries.stroke = am4core.color(color);
   uncertainitySeries.fill = am4core.color(color);
@@ -322,7 +324,9 @@ function createHospitalizationSeries(chart, color) {
   hospitalizationSeries.defaultState.transitionDuration = 1000;
 
   hospitalizationSeries.name = "Total Hospitalizations";
-  hospitalizationSeries.tooltipText = "Total Hospitalizations : [bold]{valueY}[/]";
+//  hospitalizationSeries.tooltipText = "Total Hospitalizations {valueY}: [bold]{valueY.formatNumber('#a')}[/]";
+  hospitalizationSeries.tooltipText = "Total Hospitalizations : [bold]{valueY.formatNumber('#,###.00')}[/]";
+ // hospitalizationSeries.tooltipText = "Total Hospitalizations : [bold]{valueY}[/]";
   hospitalizationSeries.tooltip.background.fill = am4core.color(color);
   hospitalizationSeries.showOnInit = true;
 
