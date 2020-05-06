@@ -348,8 +348,8 @@ require([
         colors.push(new Color([43, 140, 190]));
         colors.push(new Color([4, 90, 141]));
 
-        var breakMins = [1, 81, 91, 101, 121];
-        var breakMaxs = [80, 90, 100, 120, 29999];
+        var breakMins = [1, 80, 90, 100, 120];
+        var breakMaxs = [79.99, 89.99, 99.99, 119.99, 29999];
       } else {
         numClasses = 6;
         //OrRd
@@ -489,6 +489,7 @@ require([
           return globals.csvData[i][globals.renderFieldIndex];
         }
       }
+      console.log(value.attributes['HRRNUM']);
       return 0;
     }
 
