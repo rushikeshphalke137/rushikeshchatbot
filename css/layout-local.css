@@ -115,6 +115,30 @@ body {
   }
 }
 
+#overlay {
+  background: #ffffff;
+  color: #666666;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 5000;
+  top: 0;
+  left: 0;
+  float: left;
+  text-align: center;
+  padding-top: 25%;
+  opacity: .80;
+}
+.spinner {
+    margin: 0 auto;
+    height: 50px;
+    width: 50px;
+    animation: spinner 0.8s infinite linear;
+    border: 5px solid firebrick;
+    border-right-color: transparent;
+    border-radius: 50%;
+}
+
 /* HEADER (LOGO, TITLE, and SPONSORS) */
 #header {
   background: #3d3d3d none repeat scroll 0 0;

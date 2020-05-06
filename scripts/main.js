@@ -176,6 +176,8 @@ require([
 
       // Initialize Query Tooltip
       $('[data-toggle="popover"]').popover();
+
+      $('#overlay').hide();
     }
 
     //initial setup for the map, globals.query and globals.queryTask to query this level by NAME
@@ -799,6 +801,8 @@ require([
         }
       });
       $('#scenarios .scenario-content').off().on('click', function (event) {
+        $('#overlay').show();
+
         selectedScenario = event.currentTarget.dataset.scenario;
 
         // Remove selection
