@@ -21,8 +21,6 @@ globals.csvData = [];
 globals.csvDataHeader = [];
 //array that holds stats from csv file, min, max and total for each attribute
 globals.csvDataStats = [];
-//array that holds range for each attribute for display, this is the same as csvDataStats initially
-globals.csvDataRanges = [];
 
 //join function to retrieve data in CSV column for a given Name & render field index
 globals.joinFunction = null;
@@ -268,7 +266,6 @@ require([
       globals.csvData = [];
       globals.csvDataHeader = [];
       globals.csvDataStats = [];
-      globals.csvDataRanges = [];
 
       var csvHeader = null;
       for (var i = 0; i < items.length; i++) {
@@ -294,9 +291,6 @@ require([
       //set global variable csvDataHeader
       globals.csvDataHeader = csvHeader;
 
-      //compute stat for csvData
-      computeCSVStats();
-
       //default render field is the 4th column (skip name,region,last update)
       if (!globals.renderFieldIndex)
         globals.renderFieldIndex = 2;
@@ -317,54 +311,6 @@ require([
       //  dojo.byId("info").innerHTML = "Data reading error.";
       //dojo.byId("infoGraph").innerHTML = "Data reading error.";
       //console.log("csvOnError function called");
-    }
-
-    //compute stats for CSVData, store [min, max, total] for each attribute and store in csvDataStats
-    function computeCSVStats() {
-      var tempStats = [];
-      var countries = [];
-      for (var j = 0; j < globals.csvDataHeader.length; j++) {
-        tempStats.push([null, null, 0]); //the 3rd one is for total
-        globals.csvDataRanges.push([null, null]);
-      }
-
-      for (var i = 0; i < globals.csvData.length; i++) {
-        for (var j = 0; j < globals.csvDataHeader.length; j++) {
-          //check min
-          if (tempStats[j][0]) {
-            if (tempStats[j][0] > globals.csvData[i][j]) {
-              tempStats[j][0] = globals.csvData[i][j];
-            }
-          } else {
-            tempStats[j][0] = globals.csvData[i][j];
-          }
-
-          //check max
-          if (tempStats[j][1]) {
-            if (tempStats[j][1] < globals.csvData[i][j]) {
-              tempStats[j][1] = globals.csvData[i][j];
-            }
-          } else {
-            tempStats[j][1] = globals.csvData[i][j];
-          }
-          //set total
-          tempStats[j][2] += parseInt(globals.csvData[i][j]);
-        }
-        var country = globals.csvData[i][1].split('(')[0].trim();
-
-        if (!countries.includes(country))
-          countries.push(country);
-      }
-
-      //at this point, we have updated stats on all fields
-      globals.csvDataStats = tempStats;
-
-      //set range for each attribute the same as csvDataStats
-      //globals.csvDataRanges = tempStats.slice(0);;
-      for (var i = 0; i < globals.csvDataHeader.length; i++) {
-        globals.csvDataRanges[i][0] = tempStats[i][0];
-        globals.csvDataRanges[i][1] = tempStats[i][1];
-      }
     }
 
     function setMapRenderer() {
@@ -531,19 +477,13 @@ require([
       //  console.log('value-new', value);
       for (var i = 0; i < globals.csvData.length; i++) {
         var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes[globals.configuration.layer_attribute] : value;
-        var returnValue;
 
         var csvFipsValue = globals.csvData[i][1];
         if (fipsValue == csvFipsValue) {
-          var csvDataValue = globals.csvData[i][globals.renderFieldIndex];
-          //check to see whether the value is in display range
-          if (csvDataValue >= globals.csvDataRanges[globals.renderFieldIndex][0] && csvDataValue <= globals.csvDataRanges[globals.renderFieldIndex][1]) {
-            returnValue = csvDataValue;
-            break;
-          }
+          return globals.csvData[i][globals.renderFieldIndex];
         }
       }
-      return returnValue;
+      return 0;
     }
 
     // joint csv data by name, this funciton is ONLY used by feature layer's info window
