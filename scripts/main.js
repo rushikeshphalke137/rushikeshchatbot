@@ -176,8 +176,6 @@ require([
 
       // Initialize Query Tooltip
       $('[data-toggle="popover"]').popover();
-
-      $('#overlay').hide();
     }
 
     //initial setup for the map, globals.query and globals.queryTask to query this level by NAME
@@ -227,6 +225,14 @@ require([
 
       //setup QueryTask (for filter by region)
       setQueryTask();
+
+      globals.map.on("update-end", function () {
+        $('#overlay').hide();
+      });
+
+      layer.on("update-end", function() {
+        $('#overlay').hide();
+      });
     }
 
     function setQueryTask() {
@@ -433,6 +439,8 @@ require([
 
       //add completed legend table
       legendDiv.appendChild(table);
+
+      $('#overlay').hide();
     }
 
     function changeDate(selectedDate) {

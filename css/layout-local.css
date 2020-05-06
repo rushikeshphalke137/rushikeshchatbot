@@ -134,7 +134,7 @@ body {
     height: 50px;
     width: 50px;
     animation: spinner 0.8s infinite linear;
-    border: 5px solid firebrick;
+    border: 5px solid #232d4b;
     border-right-color: transparent;
     border-radius: 50%;
 }
