@@ -272,7 +272,12 @@ function createHospitalizationSeries(chart, color) {
 
   // Create Hospitalization Value axis
   var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
+  hospitalizationValueAxis.renderer.minGridDistance = 50; //used for steps in value axis
+  //hospitalizationValueAxis.adjustLabelPrecision = false;
+//  hospitalizationValueAxis.min = 1;
+ // hospitalizationValueAxis.strictMinMax = true; 
+//  hospitalizationValueAxis.numberFormatter.numberFormat = "#.00";
+//hospitalizationValueAxis.step = 1;
   hospitalizationValueAxis.renderer.grid.template.strokeOpacity = 1;
   hospitalizationValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); //ffffff 8DB8D6
   hospitalizationValueAxis.renderer.grid.template.strokeWidth = 1;

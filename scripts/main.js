@@ -852,7 +852,14 @@ require([
           },
           1000: {
             items: 5,
+            loop:false
           }
+          // ,
+          // 1441: { //code added for responsive in large desktop as "Wrapping" Scenario names #38 (git issue number)
+          //   items: 7,
+          //   nav:false,
+          //   loop:false
+          // }
         }
       });
       $('#scenarios .scenario-content').off().on('click', function (event) {
