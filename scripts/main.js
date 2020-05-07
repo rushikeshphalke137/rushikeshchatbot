@@ -185,9 +185,10 @@ require([
       globals.map = new Map("mapCanvas", {
         basemap: "gray",
         extent: globals.defaultExtent,
-        zoom: globals.configuration.zoom_level
+        zoom: globals.configuration.zoom_level,
+        minZoom:4
       });
-
+// globals.map.minZoom = 4;
       globals.map.infoWindow.resize(280, 210);
 
       var symbol = new SimpleFillSymbol(
