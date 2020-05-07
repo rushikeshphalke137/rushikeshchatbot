@@ -12,7 +12,7 @@ function renderSummaryDataChart() {
   // }
 
   am4core.useTheme(am4themes_animated);
- //am4core.useTheme(am4themes_myTheme);
+  //am4core.useTheme(am4themes_myTheme);
 
   // Create chart instance
   var chart = am4core.create("chartdiv", am4charts.XYChart);
@@ -96,7 +96,7 @@ function renderQueriedRegionsChart() {
   var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
   categoryAxis.renderer.grid.template.strokeOpacity = 1;
   categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
-  categoryAxis.renderer.grid.template.strokeWidth = 1; 
+  categoryAxis.renderer.grid.template.strokeWidth = 1;
   categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
 
   categoryAxis.renderer.line.strokeOpacity = 1;
@@ -240,6 +240,8 @@ function createDemandSeries(chart) {
 
   demandSeries.dataFields.categoryX = "date";
   demandSeries.dataFields.valueY = "Total Projected Demand (%)";
+  demandSeries.dataFields.rangeValueY = " Total Projected Demand (Range)";
+
   demandSeries.yAxis = demandValueAxis;
 
   demandSeries.stroke = am4core.color("#3479A1");
@@ -250,7 +252,10 @@ function createDemandSeries(chart) {
   demandSeries.defaultState.transitionDuration = 1000;
 
   demandSeries.name = "Projected Demand (%)";
-  demandSeries.tooltipText = "Projected Demand : [bold]{valueY}%[/]";
+
+  demandSeries.tooltip.label.ignoreFormatting = true;
+  demandSeries.tooltipText = "Projected Demand: {rangeValueY}";
+
   demandSeries.tooltip.background.fill = am4core.color("#3479A1");
   demandSeries.showOnInit = true;
 
@@ -279,11 +284,7 @@ function createHospitalizationSeries(chart, color) {
   var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   hospitalizationValueAxis.renderer.minGridDistance = 50; //used for steps in value axis
   hospitalizationValueAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
-  //hospitalizationValueAxis.adjustLabelPrecision = false;
-//  hospitalizationValueAxis.min = 1;
- // hospitalizationValueAxis.strictMinMax = true; 
-//  hospitalizationValueAxis.numberFormatter.numberFormat = "#.00";
-//hospitalizationValueAxis.step = 1;
+
   hospitalizationValueAxis.renderer.grid.template.strokeOpacity = 1;
   hospitalizationValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); //ffffff 8DB8D6
   hospitalizationValueAxis.renderer.grid.template.strokeWidth = 1;
@@ -310,7 +311,7 @@ function createHospitalizationSeries(chart, color) {
   uncertainitySeries.dataFields.openValueY = "Lower Hospitalization Bound";
   uncertainitySeries.dataFields.valueY = "Upper Hospitalization Bound";
   uncertainitySeries.yAxis = hospitalizationValueAxis;
- // uncertainitySeries.numberFormatter.numberFormat = "#.";
+  // uncertainitySeries.numberFormatter.numberFormat = "#.";
 
   uncertainitySeries.stroke = am4core.color(color);
   uncertainitySeries.fill = am4core.color(color);
@@ -325,6 +326,8 @@ function createHospitalizationSeries(chart, color) {
 
   hospitalizationSeries.dataFields.categoryX = "date";
   hospitalizationSeries.dataFields.valueY = "Total Hospitalizations (Median)";
+  hospitalizationSeries.dataFields.rangeValueY = "Total Hospitalizations (Range)";
+
   hospitalizationSeries.yAxis = hospitalizationValueAxis;
 
   hospitalizationSeries.stroke = am4core.color(color);
@@ -335,9 +338,11 @@ function createHospitalizationSeries(chart, color) {
   hospitalizationSeries.defaultState.transitionDuration = 1000;
 
   hospitalizationSeries.name = "Total Hospitalizations";
-//  hospitalizationSeries.tooltipText = "Total Hospitalizations {valueY}: [bold]{valueY.formatNumber('#a')}[/]";
-  hospitalizationSeries.tooltipText = "Total Hospitalizations : [bold]{valueY.formatNumber('#,###.00')}[/]";
- // hospitalizationSeries.tooltipText = "Total Hospitalizations : [bold]{valueY}[/]";
+
+  hospitalizationSeries.tooltip.label.ignoreFormatting = true;
+  hospitalizationSeries.tooltipText = "Hospitalizations: {rangeValueY}";
+
+
   hospitalizationSeries.tooltip.background.fill = am4core.color(color);
   hospitalizationSeries.showOnInit = true;
 
@@ -369,8 +374,8 @@ function createHospitalizationSeries(chart, color) {
 function mergeDataAcrossRegions() {
   var mergedData = [];
 
-  for (i = 0; i < globals.selectedHRRNumbers.length; i++) {
-    var regionName = globals.selectedHRRNumbers[i] + "";
+  for (i = 0; i < globals.queriedHRRNumbers.length; i++) {
+    var regionName = globals.queriedHRRNumbers[i] + "";
 
     // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
     if (regionName.indexOf(' ') >= 0)
@@ -407,9 +412,13 @@ function mergeDataAcrossRegions() {
 
   // Average the Total Projected Demand
   for (loop = 0; loop < mergedData.length; loop++) {
-    mergedData[loop]["Total Projected Demand (%)"] = Math.round(parseInt(mergedData[loop]["Total Projected Demand (%)"]) / globals.selectedHRRNumbers.length);
-    mergedData[loop]["Lower Projected Demand Bound"] = Math.round(parseInt(mergedData[loop]["Lower Projected Demand Bound"]) / globals.selectedHRRNumbers.length);
-    mergedData[loop]["Upper Projected Demand Bound"] = Math.round(parseInt(mergedData[loop]["Upper Projected Demand Bound"]) / globals.selectedHRRNumbers.length);
+    mergedData[loop]["Total Projected Demand (%)"] = Math.round(parseInt(mergedData[loop]["Total Projected Demand (%)"]) / globals.queriedHRRNumbers.length);
+    mergedData[loop]["Lower Projected Demand Bound"] = Math.round(parseInt(mergedData[loop]["Lower Projected Demand Bound"]) / globals.queriedHRRNumbers.length);
+    mergedData[loop]["Upper Projected Demand Bound"] = Math.round(parseInt(mergedData[loop]["Upper Projected Demand Bound"]) / globals.queriedHRRNumbers.length);
+    mergedData[loop]["Total Hospitalizations (Range)"] = mergedData[loop]["Total Hospitalizations (Median)"] +
+                                                   " [" + mergedData[loop]["Lower Hospitalization Bound"] + " - " + mergedData[loop]["Upper Hospitalization Bound"] + "]";
+    mergedData[loop][" Total Projected Demand (Range)"] = mergedData[loop]["Total Projected Demand (%)"] +
+                                                   "% [" + mergedData[loop]["Lower Projected Demand Bound"] + "% - " + mergedData[loop]["Upper Projected Demand Bound"] + "%]";                                                   
   }
 
   return mergedData;

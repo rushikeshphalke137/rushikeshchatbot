@@ -8,9 +8,7 @@ globals.map = null;
 
 //store REST API URL for corresponding polygon
 globals.mapServiceUrls = {
-  HRR: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/0",
   State: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/NCOV_World_Countries_States_Provinces_wUnknown/FeatureServer/0",
-  VirginiaHealth: "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/1"
 }
 
 globals.configuration = null;
@@ -47,8 +45,11 @@ globals.queryTask = null;
 globals.query = null;
 
 //added for manually picking counties
-globals.selectedRegions = [];
-globals.selectedHRRNumbers = [];
+globals.queriedRegions = [];
+globals.queriedHRRNumbers = [];
+
+globals.selectedRegionNum = 0;
+globals.selectedRegionName = "";
 
 globals.chartDataFile = [];
 globals.globalDataSummary = [];
@@ -162,7 +163,7 @@ require([
         $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
       }
 
-      if (globals.selectedRegions.length == 0) {
+      if (globals.queriedRegions.length == 0) {
         renderSummaryDataChart();
       } else {
         renderQueriedRegionsChart();
@@ -186,9 +187,9 @@ require([
         basemap: "gray",
         extent: globals.defaultExtent,
         zoom: globals.configuration.zoom_level,
-        minZoom:4
+        minZoom: 4
       });
-// globals.map.minZoom = 4;
+      // globals.map.minZoom = 4;
       globals.map.infoWindow.resize(280, 210);
 
       var symbol = new SimpleFillSymbol(
@@ -231,7 +232,7 @@ require([
         $('#overlay').hide();
       });
 
-      layer.on("update-end", function() {
+      layer.on("update-end", function () {
         $('#overlay').hide();
       });
     }
@@ -246,7 +247,7 @@ require([
       globals.query.outFields = [globals.configuration.layer_attribute];
 
       globals.map.infoWindow.on('hide', function () {
-        if (globals.selectedRegions.length == 0) {
+        if (globals.queriedRegions.length == 0) {
           renderSummaryDataChart();
         } else {
           renderQueriedRegionsChart();
@@ -262,7 +263,6 @@ require([
       csvStore.fetch({
         onComplete: function (items) {
           csvDataReady(csvStore, items);
-          //globals.map.getLayer("data_layer").show();
           setMapRenderer();
         }, //onComplete
         onError: csvOnError
@@ -283,16 +283,12 @@ require([
           csvHeader = currentItemAttributes;
         }
 
-        // console.log('csvHeader-new', csvHeader);
         var itemData = [];
         for (var j = 0; j < csvHeader.length; j++) {
-
-          if (j === 0 || j === 1 || j === 5) {
+          if (j == 0 || j == 1 || j == 8 || j == 9 || j == 10)
             itemData.push(csvStore.getValue(items[i], csvHeader[j])); //alway parse the first column as string
-            continue;
-          }
-
-          itemData.push(parseFloat(csvStore.getValue(items[i], csvHeader[j])));
+          else
+            itemData.push(parseFloat(csvStore.getValue(items[i], csvHeader[j])));
         }
         globals.csvData.push(itemData);
       }
@@ -305,19 +301,19 @@ require([
         globals.renderFieldIndex = 2;
 
       //  show csv data in data table
-      if (globals.selectedRegions.length == 0) {
+      if (globals.queriedRegions.length == 0) {
         var names = [];
         for (var i = 0; i < globals.csvData.length; i++) {
           names.push(globals.csvData[i][1]);
         }
         showCSVDataInTable(names);
       } else {
-        showCSVDataInTable(globals.selectedRegions);
+        showCSVDataInTable(globals.queriedRegions);
       }
     }
 
     function csvOnError(error) {
-      //console.log("csvOnError function called");
+      console.log("csvOnError function called");
     }
 
     function setMapRenderer() {
@@ -490,7 +486,6 @@ require([
           return globals.csvData[i][globals.renderFieldIndex];
         }
       }
-      console.log(value.attributes['HRRNUM']);
       return 0;
     }
 
@@ -502,13 +497,13 @@ require([
       var returnValue = '';
       for (var i = 0; i < globals.csvData.length; i++) {
         if (globals.csvData[i][1] == value) {
-          for (var j = 2; j < globals.csvDataHeader.length - 5; j++)
-            if (globals.csvDataHeader[j] === 'Projected Demand (%)') {
-              returnValue += "<b> Projected Demand:</b> " + globals.csvData[i][j] + " %";
-            } else {
-              returnValue += "<br><b>" + globals.csvDataHeader[j] + ":</b> " + globals.csvData[i][j];
-            }
-          renderSelectedRegionsChart(globals.csvData[i][0], globals.csvData[i][1]);
+          returnValue += "<b> Projected Demand:</b> " + globals.csvData[i][9];
+          returnValue += "<br><b>Hospitalizations:</b> " + globals.csvData[i][8];
+
+          globals.selectedRegionNum = globals.csvData[i][0];
+          globals.selectedRegionName = globals.csvData[i][1];
+          renderSelectedRegionsChart(globals.selectedRegionNum, globals.selectedRegionName);
+
           break;
         }
       }
@@ -578,12 +573,12 @@ require([
                 selectedHRRNum.push(hrrNumber);
               }
             }
-            globals.selectedRegions = names;
-            globals.selectedHRRNumbers = selectedHRRNum;
+            globals.queriedRegions = names;
+            globals.queriedHRRNumbers = selectedHRRNum;
 
             // Display Chart 
             renderQueriedRegionsChart();
-            showCSVDataInTable(globals.selectedRegions);
+            showCSVDataInTable(globals.queriedRegions);
             var extent = esri.graphicsExtent(fset.features);
             globals.map.setExtent(extent, true);
           } else {
@@ -604,7 +599,7 @@ require([
       var lengthMenuOptions = null;
       var downloadOptions = "";
       tableHTML = '<table id="example" class="display" cellspacing="0" width="100%">\n<thead><tr>';
-      for (var i = 1; i < globals.csvDataHeader.length - 5; i++)
+      for (var i = 1; i < globals.csvDataHeader.length - 7; i++)
         tableHTML += "<th>" + globals.csvDataHeader[i] + "</th>";
 
       tableHTML += "</tr></thead><tbody>";
@@ -614,9 +609,12 @@ require([
           continue;
         else {
           tableHTML += "<tr>";
-          for (var j = 1; j < globals.csvDataHeader.length - 5; j++) {
-            tableHTML += "<td>" + globals.csvData[i][j].toLocaleString() + "</td>";
-          }
+
+          // Region Name, Hospitalizations (Range), Projected Demand (Range)
+          tableHTML += "<td>" + globals.csvData[i][1].toLocaleString() + "</td>";
+          tableHTML += "<td>" + globals.csvData[i][9].toLocaleString() + "</td>";
+          tableHTML += "<td>" + globals.csvData[i][8].toLocaleString() + "</td>";
+
           tableHTML += "</tr>\n";
         }
       }
@@ -681,27 +679,22 @@ require([
       timelineHTML = '<div id="timeline" class="d-flex owl-carousel timeline-contener" style="align-items: center;">';
       // Iterate over Summary data and craete Timelines
       for (index = 0; index < filteredData.length; index++) {
-        totalHospitalizations = Number(filteredData[index][2]).toLocaleString();
-        totalProjectedDemand = Number(filteredData[index][1]).toLocaleString();
         actualDateString = filteredData[index][0];
 
         formattedDate = new Date(filteredData[index][0].replace(/-/g, "/"));
         representationDate = new Date(formattedDate).toDateString().slice(4).substring(0, 6);
 
-        hospitalizationsLowerBound = Number(filteredData[index][3]).toLocaleString();
-        hospitalizationsUpperBound = Number(filteredData[index][4]).toLocaleString();
+        totalProjectedDemand = Number(filteredData[index][1]).toLocaleString();
+        totalHospitalizations = Number(filteredData[index][2]).toLocaleString();
 
-        projectedDemandLowerBound = Number(filteredData[index][5]).toLocaleString();
-        projectedDemandUpperBound = Number(filteredData[index][6]).toLocaleString();
+        totalHospitalizationsRange = filteredData[index][7];
+        totalProjectedDemandRange = filteredData[index][8];
 
-        var toolTipText = 'Projected Demand (%) <br>' +
-          '&emsp;Median Value  : <b>' + totalProjectedDemand + '</b><br>' +
-          '&emsp;Lower Bound : <b>' + projectedDemandLowerBound + '</b><br>' +
-          '&emsp;Upper Bound : <b>' + projectedDemandUpperBound + '</b><br>' +
-          'Total Hospitalizations <br>' +
-          '&emsp;Median Value  : <b>' + totalHospitalizations + '</b><br>' +
-          '&emsp;Lower Bound : <b>' + hospitalizationsLowerBound + '</b><br>' +
-          '&emsp;Upper Bound : <b>' + hospitalizationsUpperBound + '</b><br>';
+        var toolTipText = 'Projected Demand [Range] <br>' +
+          '&emsp;<b>' + totalProjectedDemandRange + '</b><br>' +
+
+          'Total Hospitalizations [Range] <br>' +
+          '&emsp;<b>' + totalHospitalizationsRange + '</b><br>';
 
         if (index === 0) {
           timelineHTML +=
@@ -856,8 +849,8 @@ require([
 
       globals.map.graphics.clear();
       globals.map.infoWindow.hide();
-      globals.selectedRegions = [];
-      globals.selectedHRRNumbers = [];
+      globals.queriedRegions = [];
+      globals.queriedHRRNumbers = [];
 
       $('#queryByName')[0].value = "";
       globals.map.setExtent(globals.defaultExtent);
