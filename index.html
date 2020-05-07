@@ -43,7 +43,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script>
+  </script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-html5-1.6.1/datatables.min.js"></script>
   <script defer src="https://js.arcgis.com/3.31/"></script>
@@ -179,7 +179,14 @@
       <div class="col-12 d-flex" style="align-items: center;">
 
         <div class="d-flex scenario-heading-section" style="align-items: center;">
-          <div class="d-none d-lg-flex scenario-heading">Scenarios</div>
+          <div class="d-none d-lg-flex scenario-heading" style="padding: 5px !important;">
+            <i class="d-flex justify-content-center align-items-center fa fa-info-circle pr-1"
+              style="cursor: pointer; padding-top: 2px;" data-toggle="popover" data-html="true" data-trigger="hover focus"
+              data-placement="bottom" data-title="Whar are Scenarios?" data-content="Scenarios are calibrated simulation models used to calculate projected hospitalizations and resource demands.
+              These models depend on transmissibility parameters that indicate how contagious the disease is and the characteristics and number of people who are infected at the onset of the outbreak;
+               they may also include interventions, such as stay-at-home orders."></i>
+            <span>Scenarios</span>
+          </div>
           <div class="d-flex d-lg-none scenario-heading">S</div>
           <div class="arrow-right mr-2"></div>
         </div>
@@ -240,7 +247,7 @@
     <div class="row" style="height: calc(100% - 105px);">
 
       <div class="col-12 col-lg-6 col-xl-7 h-100 pr-lg-0 mapContainer">
-        <div class="h-100" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'">
+        <div class="h-100" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:' left'">
 
           <!--Map Section-->
           <div class="h-100" id="mapCanvas" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
@@ -300,11 +307,15 @@
     DATA, MAPS, AND PLOTS--IS PROVIDED TO THE PUBLIC SOLELY FOR RESEARCH AND ACADEMIC PURPOSES. UVA PROVIDES NO
     WARRANTIES, CLAIMS OR REPRESENTATIONS–WHETHER EXPRESS, IMPLIED, OR STATUTORY–WITH RESPECT TO THIS DASHBOARD,
     INCLUDING, WITHOUT LIMITATION, WARRANTIES OF QUALITY, PERFORMANCE, NON–INFRINGEMENT, MERCHANTABILITY, ACCURACY,
-    ADEQUACY, VALIDITY, RELIABILITY, COMPLETENESS, OR FITNESS FOR A PARTICULAR PURPOSE, AND DISAVOWS ANY REPRESENTATIONS
-    OR WARRANTIES CREATED BY COURSE OF DEALING, COURSE OF PERFORMANCE, TRADE USAGE OR OTHERWISE. UNDER NO CIRCUMSTANCES
-    WILL UVA HAVE ANY LIABILITY FOR ANY LOSS OR DAMAGE INCURRED AS A RESULT OF THE USE OF THIS DASHBOARD OR RELIANCE ON
+    ADEQUACY, VALIDITY, RELIABILITY, COMPLETENESS, OR FITNESS FOR A PARTICULAR PURPOSE, AND DISAVOWS ANY
+    REPRESENTATIONS
+    OR WARRANTIES CREATED BY COURSE OF DEALING, COURSE OF PERFORMANCE, TRADE USAGE OR OTHERWISE. UNDER NO
+    CIRCUMSTANCES
+    WILL UVA HAVE ANY LIABILITY FOR ANY LOSS OR DAMAGE INCURRED AS A RESULT OF THE USE OF THIS DASHBOARD OR RELIANCE
+    ON
     ANY INFORMATION PROVIDED HEREIN. THIS DASHBOARD MAY INCORPORATE DATA OR OTHER CONTENT BELONGING TO OR ORIGINATING
-    FROM THIRD PARTIES. WE DO NOT WARRANT, ENDORSE, GUARANTEE, OR ASSUME RESPONSIBILITY FOR THE ACCURACY OR RELIABILITY
+    FROM THIRD PARTIES. WE DO NOT WARRANT, ENDORSE, GUARANTEE, OR ASSUME RESPONSIBILITY FOR THE ACCURACY OR
+    RELIABILITY
     OF ANY THIRD-PARTY INFORMATION.</footer>
 
   <div id="optionMenu" class="optionMenu text-left" style="display: none;" aria-labelledby="navbarDropdown">
