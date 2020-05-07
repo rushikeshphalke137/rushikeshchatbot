@@ -35,6 +35,8 @@ function renderSummaryDataChart() {
   categoryAxis.renderer.grid.template.strokeOpacity = 1;
   categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff
   categoryAxis.renderer.grid.template.strokeWidth = 1;
+  categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
+
 
   categoryAxis.renderer.line.strokeOpacity = 1;
   categoryAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff
@@ -95,6 +97,7 @@ function renderQueriedRegionsChart() {
   categoryAxis.renderer.grid.template.strokeOpacity = 1;
   categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
   categoryAxis.renderer.grid.template.strokeWidth = 1; 
+  categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
 
   categoryAxis.renderer.line.strokeOpacity = 1;
   categoryAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff 
@@ -159,6 +162,7 @@ function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
   categoryAxis.renderer.grid.template.strokeOpacity = 1;
   categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff
   categoryAxis.renderer.grid.template.strokeWidth = 1;
+  categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
 
   categoryAxis.renderer.line.strokeOpacity = 1;
   categoryAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff
@@ -197,6 +201,7 @@ function createDemandSeries(chart) {
   demandValueAxis.renderer.grid.template.strokeOpacity = 1;
   demandValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
   demandValueAxis.renderer.grid.template.strokeWidth = 1;
+  demandValueAxis.tooltip.disabled = true;
 
   demandValueAxis.renderer.line.strokeOpacity = 1;
   demandValueAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
@@ -273,6 +278,7 @@ function createHospitalizationSeries(chart, color) {
   // Create Hospitalization Value axis
   var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   hospitalizationValueAxis.renderer.minGridDistance = 50; //used for steps in value axis
+  hospitalizationValueAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
   //hospitalizationValueAxis.adjustLabelPrecision = false;
 //  hospitalizationValueAxis.min = 1;
  // hospitalizationValueAxis.strictMinMax = true; 
