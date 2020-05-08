@@ -497,8 +497,8 @@ require([
       var returnValue = '';
       for (var i = 0; i < globals.csvData.length; i++) {
         if (globals.csvData[i][1] == value) {
-          returnValue += "<b> Projected Demand:</b> " + globals.csvData[i][9];
-          returnValue += "<br><b>Hospitalizations:</b> " + globals.csvData[i][8];
+          returnValue += "<b> Projected Demand:</b><br>&emsp;" + globals.csvData[i][9];
+          returnValue += "<br><b>Hospitalizations:</b><br>&emsp;" + globals.csvData[i][8];
 
           globals.selectedRegionNum = globals.csvData[i][0];
           globals.selectedRegionName = globals.csvData[i][1];
