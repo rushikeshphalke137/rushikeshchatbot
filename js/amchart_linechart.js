@@ -3,14 +3,6 @@ function renderSummaryDataChart() {
   // Dispose all Charts and clear Browser memory/cache
   am4core.disposeAllCharts();
 
-  // Themes begin
-
-  // function am4themes_myTheme(target) {
-  //   if (target instanceof am4charts.Axis) {
-  //     target.background.fill = am4core.color("#DCCCA3");
-  //   }
-  // }
-
   am4core.useTheme(am4themes_animated);
   //am4core.useTheme(am4themes_myTheme);
 
@@ -84,7 +76,7 @@ function renderQueriedRegionsChart() {
   chart.hiddenState.properties.opacity = 0;
 
   let title = chart.titles.create();
-  title.text = "Demand Forecast for Queried HRRs";
+  title.text = "Demand Forecast for Queried Regions";
   title.stroke = am4core.color("#fff");
   title.fill = am4core.color("#fff");
   title.fontSize = 20;
@@ -374,8 +366,8 @@ function createHospitalizationSeries(chart, color) {
 function mergeDataAcrossRegions() {
   var mergedData = [];
 
-  for (i = 0; i < globals.queriedHRRNumbers.length; i++) {
-    var regionName = globals.queriedHRRNumbers[i] + "";
+  for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
+    var regionName = globals.queriedRegionNumbers[i] + "";
 
     // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
     if (regionName.indexOf(' ') >= 0)
@@ -394,12 +386,12 @@ function mergeDataAcrossRegions() {
           for (loop = 0; loop < mergedData.length; loop++) {
             var filteredData = currentData[loop];
 
-            mergedData[loop]["Lower Hospitalization Bound"] = parseInt(mergedData[loop]["Lower Hospitalization Bound"]) + parseInt(filteredData["Lower Hospitalization Bound"]);
-            mergedData[loop]["Upper Hospitalization Bound"] = parseInt(mergedData[loop]["Upper Hospitalization Bound"]) + parseInt(filteredData["Upper Hospitalization Bound"]);
-            mergedData[loop]["Lower Projected Demand Bound"] = parseInt(mergedData[loop]["Lower Projected Demand Bound"]) + parseInt(filteredData["Lower Projected Demand Bound"]);
-            mergedData[loop]["Upper Projected Demand Bound"] = parseInt(mergedData[loop]["Upper Projected Demand Bound"]) + parseInt(filteredData["Upper Projected Demand Bound"]);
-            mergedData[loop]["Total Projected Demand (%)"] = parseInt(mergedData[loop]["Total Projected Demand (%)"]) + parseInt(filteredData["Total Projected Demand (%)"]);
-            mergedData[loop]["Total Hospitalizations (Median)"] = parseInt(mergedData[loop]["Total Hospitalizations (Median)"]) + parseInt(filteredData["Total Hospitalizations (Median)"]);
+            mergedData[loop]["Lower Hospitalization Bound"] = parseFloat(mergedData[loop]["Lower Hospitalization Bound"]) + parseFloat(filteredData["Lower Hospitalization Bound"]);
+            mergedData[loop]["Upper Hospitalization Bound"] = parseFloat(mergedData[loop]["Upper Hospitalization Bound"]) + parseFloat(filteredData["Upper Hospitalization Bound"]);
+            mergedData[loop]["Lower Projected Demand Bound"] = parseFloat(mergedData[loop]["Lower Projected Demand Bound"]) + parseFloat(filteredData["Lower Projected Demand Bound"]);
+            mergedData[loop]["Upper Projected Demand Bound"] = parseFloat(mergedData[loop]["Upper Projected Demand Bound"]) + parseFloat(filteredData["Upper Projected Demand Bound"]);
+            mergedData[loop]["Total Projected Demand (%)"] = parseFloat(mergedData[loop]["Total Projected Demand (%)"]) + parseFloat(filteredData["Total Projected Demand (%)"]);
+            mergedData[loop]["Total Hospitalizations (Median)"] = parseFloat(mergedData[loop]["Total Hospitalizations (Median)"]) + parseFloat(filteredData["Total Hospitalizations (Median)"]);
           }
         } else {
           mergedData = currentData;
@@ -412,9 +404,10 @@ function mergeDataAcrossRegions() {
 
   // Average the Total Projected Demand
   for (loop = 0; loop < mergedData.length; loop++) {
-    mergedData[loop]["Total Projected Demand (%)"] = Math.round(parseInt(mergedData[loop]["Total Projected Demand (%)"]) / globals.queriedHRRNumbers.length);
-    mergedData[loop]["Lower Projected Demand Bound"] = Math.round(parseInt(mergedData[loop]["Lower Projected Demand Bound"]) / globals.queriedHRRNumbers.length);
-    mergedData[loop]["Upper Projected Demand Bound"] = Math.round(parseInt(mergedData[loop]["Upper Projected Demand Bound"]) / globals.queriedHRRNumbers.length);
+    mergedData[loop]["Total Projected Demand (%)"] = Math.round(parseFloat(mergedData[loop]["Total Projected Demand (%)"]) / globals.queriedRegionNumbers.length);
+    mergedData[loop]["Lower Projected Demand Bound"] = Math.round(parseFloat(mergedData[loop]["Lower Projected Demand Bound"]) / globals.queriedRegionNumbers.length);
+    mergedData[loop]["Upper Projected Demand Bound"] = Math.round(parseFloat(mergedData[loop]["Upper Projected Demand Bound"]) / globals.queriedRegionNumbers.length);
+    
     mergedData[loop]["Total Hospitalizations (Range)"] = mergedData[loop]["Total Hospitalizations (Median)"] +
                                                    " [" + mergedData[loop]["Lower Hospitalization Bound"] + " - " + mergedData[loop]["Upper Hospitalization Bound"] + "]";
     mergedData[loop][" Total Projected Demand (Range)"] = mergedData[loop]["Total Projected Demand (%)"] +

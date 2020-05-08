@@ -45,8 +45,8 @@ globals.queryTask = null;
 globals.query = null;
 
 //added for manually picking counties
-globals.queriedRegions = [];
-globals.queriedHRRNumbers = [];
+globals.queriedRegionNames = [];
+globals.queriedRegionNumbers = [];
 
 globals.selectedRegionNum = 0;
 globals.selectedRegionName = "";
@@ -163,10 +163,12 @@ require([
         $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
       }
 
-      if (globals.queriedRegions.length == 0) {
-        renderSummaryDataChart();
-      } else {
+      if (globals.selectedRegionNum != 0) {
+        renderSelectedRegionsChart(globals.selectedRegionNum, globals.selectedRegionName);
+      } else if (globals.queriedRegionNames.length != 0) {
         renderQueriedRegionsChart();
+      } else {
+        renderSummaryDataChart();
       }
 
       // Select default option as Charts
@@ -246,13 +248,6 @@ require([
       globals.query.returnGeometry = true;
       globals.query.outFields = [globals.configuration.layer_attribute];
 
-      globals.map.infoWindow.on('hide', function () {
-        if (globals.queriedRegions.length == 0) {
-          renderSummaryDataChart();
-        } else {
-          renderQueriedRegionsChart();
-        }
-      })
     }
 
     function getCSVDataAndRendering() {
@@ -301,14 +296,14 @@ require([
         globals.renderFieldIndex = 2;
 
       //  show csv data in data table
-      if (globals.queriedRegions.length == 0) {
+      if (globals.queriedRegionNames.length == 0) {
         var names = [];
         for (var i = 0; i < globals.csvData.length; i++) {
           names.push(globals.csvData[i][1]);
         }
         showCSVDataInTable(names);
       } else {
-        showCSVDataInTable(globals.queriedRegions);
+        showCSVDataInTable(globals.queriedRegionNames);
       }
     }
 
@@ -502,8 +497,15 @@ require([
 
           globals.selectedRegionNum = globals.csvData[i][0];
           globals.selectedRegionName = globals.csvData[i][1];
-          renderSelectedRegionsChart(globals.selectedRegionNum, globals.selectedRegionName);
 
+          if (globals.queriedRegionNames.length != 0) {
+            $('.resetBtn').removeClass('d-flex');
+            $('.resetBtn').addClass('d-none');
+            $('.getQueryResultsBtn').removeClass('d-none');
+            $('.getQueryResultsBtn').addClass('d-flex');
+          }
+
+          renderSelectedRegion();
           break;
         }
       }
@@ -519,6 +521,9 @@ require([
     }
 
     function queryByName() {
+      globals.map.infoWindow.hide();
+      globals.selectedRegionNum = 0;
+
       var inputStr = $("#queryByName").val();
       if (inputStr.length != 0) {
         inputStr = inputStr.replace(/%/g, '');
@@ -563,9 +568,7 @@ require([
               //symbol for selected county
               var graphic = new Graphic(fset.features[i].geometry, symbol);
               globals.map.graphics.add(graphic);
-              //check whether it has number for selected attribute
-              // if(  DX stops here 02/04
-              //add name to names (for table display)
+
               var temp = fset.features[i].attributes[globals.configuration.layer_attribute];
               var hrrNumber = fset.features[i].attributes[globals.configuration.query_attribute];
               if (names.indexOf(temp) == -1) {
@@ -573,28 +576,80 @@ require([
                 selectedHRRNum.push(hrrNumber);
               }
             }
-            globals.queriedRegions = names;
-            globals.queriedHRRNumbers = selectedHRRNum;
+            globals.queriedRegionNames = names;
+            globals.queriedRegionNumbers = selectedHRRNum;
+
+            var extent = esri.graphicsExtent(fset.features);
+            globals.map.setExtent(extent, true);
 
             // Display Chart 
             renderQueriedRegionsChart();
-            showCSVDataInTable(globals.queriedRegions);
-            var extent = esri.graphicsExtent(fset.features);
-            globals.map.setExtent(extent, true);
+            showCSVDataInTable();
           } else {
             $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
             $('#noResultFoundButton').click();
           }
         });
-
       } //check for hacking
+
+      $('.getQueryResultsBtn').removeClass('d-flex');
+      $('.getQueryResultsBtn').addClass('d-none');
+      $('.resetBtn').removeClass('d-none');
+      $('.resetBtn').addClass('d-flex');
     }
 
-    //main function to prepare html for data table
-    //hard coded: move the 3rd column, i.e., Last Update, to the end DX 02/07/2020
-    //@param names an array that stores a list of place name
-    function showCSVDataInTable(names) {
-      globals.map.infoWindow.hide();
+    function renderSelectedRegion() {
+      var where = globals.configuration.layer_attribute + " = '" + globals.selectedRegionName + "'";
+
+      //now query correspding layer
+      query = new Query();
+      query.outSpatialReference = {
+        "wkid": 102100
+      };
+      query.returnGeometry = true;
+      //setup QueryTask (for display Level selection)
+      var queryTask = new QueryTask(globals.configuration.layer_url);
+      query.outFields = globals.configuration.out_fields;
+
+      query.where = where;
+      var symbol = new SimpleFillSymbol(
+        SimpleFillSymbol.STYLE_BACKWARD_DIAGONAL,
+        new SimpleLineSymbol(
+          SimpleLineSymbol.STYLE_SOLID,
+          new Color([102, 255, 255]),
+          2
+        ),
+        new Color([255, 0, 0])
+      );
+
+      queryTask.execute(query, function (fset) {
+        globals.map.graphics.clear();
+        if (fset.features.length > 0) {
+          for (var i = 0; i < fset.features.length; i++) {
+            var graphic = new Graphic(fset.features[i].geometry, symbol);
+            globals.map.graphics.add(graphic);
+          }
+
+          renderSelectedRegionsChart(globals.selectedRegionNum, globals.selectedRegionName);
+          showCSVDataInTable();
+          var extent = esri.graphicsExtent(fset.features);
+          globals.map.setExtent(extent, true);
+        } else {
+          $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
+          $('#noResultFoundButton').click();
+        }
+      });
+    }
+
+    function showCSVDataInTable() {
+      var filteredNames = [];
+
+      if (globals.selectedRegionNum != 0) {
+        filteredNames.push(globals.selectedRegionName);
+      } else if (globals.queriedRegionNames.length != 0) {
+        filteredNames = globals.queriedRegionNames;
+      }
+
       var tableHTML = null;
       var lengthMenuOptions = null;
       var downloadOptions = "";
@@ -605,7 +660,8 @@ require([
       tableHTML += "</tr></thead><tbody>";
       for (var i = 0; i < globals.csvData.length; i++) {
         var name = globals.csvData[i][1];
-        if (names.indexOf(name) == -1)
+
+        if (filteredNames.length > 0 && filteredNames.indexOf(name) == -1)
           continue;
         else {
           tableHTML += "<tr>";
@@ -754,6 +810,7 @@ require([
         // Add selection class to current timeline
         $(event.currentTarget).addClass('content-selected');
 
+        globals.map.infoWindow.hide();
         changeDate(selectedDate);
       });
     }
@@ -821,6 +878,8 @@ require([
             break;
           }
         }
+
+        globals.map.infoWindow.hide();
         executeDefaultWorkflow();
       });
     }
@@ -843,28 +902,31 @@ require([
     }
 
     function resetMapToDefault() {
-      if ($('#queryByName')[0].value == '') {
-        return;
-      }
-
       globals.map.graphics.clear();
       globals.map.infoWindow.hide();
-      globals.queriedRegions = [];
-      globals.queriedHRRNumbers = [];
+      globals.queriedRegionNames = [];
+      globals.queriedRegionNumbers = [];
+      globals.selectedRegionNum = 0;
 
       $('#queryByName')[0].value = "";
       globals.map.setExtent(globals.defaultExtent);
 
-      // Reload Application as per selected Scenario
-      executeDefaultWorkflow();
+      $('.getQueryResultsBtn').removeClass('d-flex');
+      $('.getQueryResultsBtn').addClass('d-none');
+      $('.resetBtn').removeClass('d-none');
+      $('.resetBtn').addClass('d-flex');
+
+      // Select first scenario.
+      globals.selectedDate = null;
+      $('#scenarios .scenario-content').first().click();
     }
 
     function bindSearchAndResetButton() {
-      $('.resetDefault').on('click', function (e) {
+      $('.resetDefault, .resetBtn').on('click', function (e) {
         resetMapToDefault();
       });
 
-      $('.queryFilter').on('click', function (e) {
+      $('.queryFilter, .getQueryResultsBtn').on('click', function (e) {
         queryByName();
       });
 
