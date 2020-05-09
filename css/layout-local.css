@@ -229,7 +229,7 @@ body {
   position: absolute;
   opacity: 0.8;
   bottom: 20px;
-  left: 20px;
+  left: 4px;
   padding-bottom: 0.5px;
   border: 1px solid gray;
 }
@@ -816,14 +816,21 @@ button.owl-prev:focus {
   text-transform: capitalize;
 }
 
-.scenario-content-section {
+.scenario-content-section,
+.projection-content-section {
   width: calc(100% - 510px);
   padding-left: 20px;
 }
+.projection-content-section {
+  padding-left: 26px;
+}
 
 .timeline-content-section {
-  width: 1000px;
+  /* width: 1000px; */
+  /* width: calc(100% - 21px); */
   padding-left: 20px;
+  width: calc(100% - 126px);
+  /* width: 100%; */
 }
 .timeline-prev-slide,
 .timeline-next-slide {
@@ -838,7 +845,7 @@ button.owl-prev:focus {
   background-color: black;
   color: rgb(255, 140, 0);
   font-size: 1.2em;
-  padding: 5px 10px;
+  padding: 2px 10px;
 }
 
 .arrow-right {
@@ -861,15 +868,35 @@ button.owl-prev:focus {
   border-radius: 5px;
   font-size: 1em;
   cursor: pointer;
-  padding: 5px;
   align-items: center;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: 2px 5px;
 }
 
 .toggleOptions {
+  background-color: whitesmoke;
+  padding: 2px 5px;
+}
+#renderField .renderField {
+  padding: .1rem .75rem;
+}
+#timeline .owl-item {
+  font-size: .9rem;
+}
+.demand-button-container,
+.hospital-button-container
+{
+  background-color: whitesmoke;
+  padding: 2px 5px;
+  border-radius: 10px;
+}
+.demand-button-container {
+  margin-right: 10px;
+}
+.resetOptions {
   position: absolute !important;
   z-index: 1000;
   background-color: whitesmoke;

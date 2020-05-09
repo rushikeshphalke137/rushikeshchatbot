@@ -98,6 +98,7 @@ require([
     parser.parse();
 
     $.getJSON("supported_scenarios.json")
+//$.getJSON("data_va_w_ranges/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -760,7 +761,7 @@ require([
         } else {
           timelineHTML +=
             '<div class="d-flex content pr-md-2 item" id="date-' + actualDateString + '"' +
-            'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom"' +
+            'data-toggle="popover" data-html="true" data-trigger="hover focus " data-placement="bottom"' +
             'data-title="Week ending ' + representationDate + '" data-content="' + toolTipText + '">';
         }
 
@@ -794,7 +795,7 @@ require([
             items: 3,
           },
           1000: {
-            items: 6,
+            items: 4,
           }
         }
       });
