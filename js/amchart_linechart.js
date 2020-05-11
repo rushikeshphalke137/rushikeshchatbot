@@ -200,7 +200,7 @@ function createDemandSeries(chart) {
   demandValueAxis.renderer.line.strokeWidth = 1;
 
   // demandValueAxis.renderer.baseGrid.template.stroke = am4core.color("#ffffff");
-  demandValueAxis.title.text = "Projected Demand Percentage";
+  demandValueAxis.title.text = "Percentage of Occupied Beds";
   demandValueAxis.title.fill = am4core.color("#fff");
   demandValueAxis.title.fontSize = 14;
 
@@ -243,7 +243,7 @@ function createDemandSeries(chart) {
   demandSeries.sequencedInterpolation = true;
   demandSeries.defaultState.transitionDuration = 1000;
 
-  demandSeries.name = "Projected Demand (%)";
+  demandSeries.name = "Percentage of Occupied Beds";
 
   demandSeries.tooltip.label.ignoreFormatting = true;
   demandSeries.tooltipText = "Projected Demand: {rangeValueY}";
@@ -285,7 +285,7 @@ function createHospitalizationSeries(chart, color) {
   hospitalizationValueAxis.renderer.line.stroke = am4core.color("#D3D3D3 "); //fffff 8DB8D6
   hospitalizationValueAxis.renderer.line.strokeWidth = 1;
 
-  hospitalizationValueAxis.title.text = "Hospital Counts";
+  hospitalizationValueAxis.title.text = "Weekly Hospitalizations";
   hospitalizationValueAxis.title.fill = am4core.color("#fff");
   hospitalizationValueAxis.title.fontSize = 14;
 
@@ -329,7 +329,7 @@ function createHospitalizationSeries(chart, color) {
   hospitalizationSeries.sequencedInterpolation = true;
   hospitalizationSeries.defaultState.transitionDuration = 1000;
 
-  hospitalizationSeries.name = "Total Hospitalizations";
+  hospitalizationSeries.name = "Weekly Hospitalizations";
 
   hospitalizationSeries.tooltip.label.ignoreFormatting = true;
   hospitalizationSeries.tooltipText = "Hospitalizations: {rangeValueY}";
