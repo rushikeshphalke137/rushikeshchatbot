@@ -603,6 +603,9 @@ require([
             // Initialize Query Tooltip
             $('[data-toggle="popover"]').popover();
 
+            $('#timeline .content').removeClass('content-selected');
+            $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
+
           } else {
             $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
             $('#noResultFoundButton').click();
