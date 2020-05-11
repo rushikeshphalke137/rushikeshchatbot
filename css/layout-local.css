@@ -762,8 +762,8 @@ button.owl-prev {
 
 button.owl-prev i,
 button.owl-next i {
-  font-size: 30px;
-  color: blue;
+  font-size: 25px;
+  color: rgb(255, 140, 0);
 }
 
 button.owl-next.disabled,
@@ -791,10 +791,9 @@ button.owl-next {
   width: 100%;
 }
 
-/* .popover-body {
-  background-color: rgb(255, 140, 0) !important;
-  color: white !important;
-} */
+.popover {
+  max-width: 350px !important;
+}
 
 button.owl-next:focus,
 button.owl-prev:focus {
@@ -816,26 +815,22 @@ button.owl-prev:focus {
   text-transform: capitalize;
 }
 
-.scenario-content-section,
-.projection-content-section {
-  width: calc(100% - 510px);
+.scenario-content-section {
   padding-left: 20px;
+  width: calc(100% - 510px);
 }
 .projection-content-section {
-  padding-left: 26px;
+  padding-left: 8px;
+  width: calc(100% - 140px);
 }
 
 .timeline-content-section {
-  /* width: 1000px; */
-  /* width: calc(100% - 21px); */
-  padding-left: 20px;
-  width: calc(100% - 126px);
-  /* width: 100%; */
+  padding: 0px 25px;
+  width: 100%;
 }
 .timeline-prev-slide,
 .timeline-next-slide {
-  height: auto;
-  margin-top: 4px;
+  margin-top: 8px;
 }
 .scenario-heading-section, .timeline-heading-section {
   align-items: center;
@@ -876,10 +871,6 @@ button.owl-prev:focus {
   padding: 2px 5px;
 }
 
-.toggleOptions {
-  background-color: whitesmoke;
-  padding: 2px 5px;
-}
 #renderField .renderField {
   padding: .1rem .75rem;
 }
