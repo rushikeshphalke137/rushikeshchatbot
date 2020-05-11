@@ -98,7 +98,6 @@ require([
     parser.parse();
 
     $.getJSON("supported_scenarios.json")
-//$.getJSON("data_va_w_ranges/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -106,6 +105,7 @@ require([
         globals.scenariosDirectory = globals.selectedScenario.directory;
 
         $('.applicationTitle').html(globals.configuration.application_title);
+        $('#queryByName')[0].value = "";
 
         setupMapLayer();
         renderScenarios();
@@ -146,8 +146,7 @@ require([
 
       scenarioChanged = true;
 
-      globals.dailySummaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
-      getGlobalDataFromCSVFile(globals.dailySummaryFile);
+      updateDataForTimeline();
 
       if (globals.selectedDate == undefined || globals.selectedDate == null) {
         globals.selectedDate = globals.dailySummary[1][0];
@@ -296,16 +295,7 @@ require([
       if (!globals.renderFieldIndex)
         globals.renderFieldIndex = 2;
 
-      //  show csv data in data table
-      if (globals.queriedRegionNames.length == 0) {
-        var names = [];
-        for (var i = 0; i < globals.csvData.length; i++) {
-          names.push(globals.csvData[i][1]);
-        }
-        showCSVDataInTable(names);
-      } else {
-        showCSVDataInTable(globals.queriedRegionNames);
-      }
+      showCSVDataInTable();
     }
 
     function csvOnError(error) {
@@ -493,8 +483,8 @@ require([
       var returnValue = '';
       for (var i = 0; i < globals.csvData.length; i++) {
         if (globals.csvData[i][1] == value) {
-          returnValue += "<b> Projected Demand:</b><br>&emsp;" + globals.csvData[i][9];
-          returnValue += "<br><b>Hospitalizations:</b><br>&emsp;" + globals.csvData[i][8];
+          returnValue += "<b> Percentage of Occupied Beds:</b><br>&emsp;" + globals.csvData[i][9];
+          returnValue += "<br><b>Weekly Hospitalizations:</b><br>&emsp;" + globals.csvData[i][8];
 
           globals.selectedRegionNum = globals.csvData[i][0];
           globals.selectedRegionName = globals.csvData[i][1];
@@ -506,7 +496,19 @@ require([
             $('.getQueryResultsBtn').addClass('d-flex');
           }
 
+          // Clear all Tooltips
+          $('[data-toggle="tooltip"]').tooltip('dispose');
+
           renderSelectedRegion();
+          updateDataForTimeline();
+          renderTimeline();
+
+          // Initialize all Tooltips
+          $('[data-toggle="tooltip"]').tooltip();
+
+          // Initialize Query Tooltip
+          $('[data-toggle="popover"]').popover();
+
           break;
         }
       }
@@ -586,6 +588,18 @@ require([
             // Display Chart 
             renderQueriedRegionsChart();
             showCSVDataInTable();
+
+            // Clear all Tooltips
+            $('[data-toggle="tooltip"]').tooltip('dispose');
+            globals.dailySummary = updateDataForTimeline();
+            renderTimeline();
+
+            // Initialize all Tooltips
+            $('[data-toggle="tooltip"]').tooltip();
+
+            // Initialize Query Tooltip
+            $('[data-toggle="popover"]').popover();
+
           } else {
             $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
             $('#noResultFoundButton').click();
@@ -655,8 +669,9 @@ require([
       var lengthMenuOptions = null;
       var downloadOptions = "";
       tableHTML = '<table id="example" class="display" cellspacing="0" width="100%">\n<thead><tr>';
-      for (var i = 1; i < globals.csvDataHeader.length - 7; i++)
-        tableHTML += "<th>" + globals.csvDataHeader[i] + "</th>";
+      tableHTML += "<th>" + globals.csvDataHeader[1] + "</th>";
+      tableHTML += "<th>" + "Percentage of Occupied Beds" + "</th>";
+      tableHTML += "<th>" + "Weekly Hospitalizations" + "</th>";
 
       tableHTML += "</tr></thead><tbody>";
       for (var i = 0; i < globals.csvData.length; i++) {
@@ -747,10 +762,10 @@ require([
         totalHospitalizationsRange = filteredData[index][7];
         totalProjectedDemandRange = filteredData[index][8];
 
-        var toolTipText = 'Projected Demand [Range] <br>' +
+        var toolTipText = 'Percentage of Occupied Beds [Range] <br>' +
           '&emsp;<b>' + totalProjectedDemandRange + '</b><br>' +
 
-          'Total Hospitalizations [Range] <br>' +
+          'Weekly Hospitalizations [Range] <br>' +
           '&emsp;<b>' + totalHospitalizationsRange + '</b><br>';
 
         if (index === 0) {
@@ -855,7 +870,7 @@ require([
           1000: {
             items: 4,
           },
-          1281 : {
+          1281: {
             items: 5,
           },
           1441: { //code added for responsive in large desktop as "Wrapping" Scenario names #38 (git issue number)
@@ -891,7 +906,7 @@ require([
       });
     }
 
-    function getGlobalDataFromCSVFile(file) {
+    function readDataFromCSVFile(file) {
       $.ajax({
         url: file,
         async: false,
@@ -899,7 +914,6 @@ require([
           var items = $.csv.toObjects(csv);
           var jsonobject = JSON.stringify(items);
 
-          globals.globalChartDataSummary = JSON.parse(jsonobject);
           globals.chartDataFile = JSON.parse(jsonobject);
           globals.dailySummary = $.csv.toArrays(csv);
         },
@@ -908,7 +922,80 @@ require([
       });
     }
 
+    function updateDataForTimeline() {
+      var mergedData = [];
+
+      // Condition to display selected region data.
+      if (globals.selectedRegionNum != 0) {
+        var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
+        readDataFromCSVFile(regionFile);
+        return;
+      }
+
+      // Condition to display summary data.
+      if (globals.queriedRegionNames.length == 0) {
+        var summaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
+        readDataFromCSVFile(summaryFile);
+        return;
+      }
+
+      for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
+        var regionName = globals.queriedRegionNumbers[i] + "";
+
+        // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
+        if (regionName.indexOf(' ') >= 0)
+          regionName = regionName.split(" ").join("_");
+        var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
+
+        $.ajax({
+          url: datafile,
+          async: false,
+          success: function (csv) {
+            var items = $.csv.toObjects(csv);
+            var jsonobject = JSON.stringify(items);
+            var currentData = $.csv.toArrays(csv);
+
+            if (mergedData.length > 0) {
+              for (loop = 1; loop < mergedData.length; loop++) {
+                var filteredData = currentData[loop];
+
+                mergedData[loop][3] = parseFloat(mergedData[loop][3]) + parseFloat(filteredData[3]);
+                mergedData[loop][4] = parseFloat(mergedData[loop][4]) + parseFloat(filteredData[4]);
+                mergedData[loop][5] = parseFloat(mergedData[loop][5]) + parseFloat(filteredData[5]);
+                mergedData[loop][6] = parseFloat(mergedData[loop][6]) + parseFloat(filteredData[6]);
+                mergedData[loop][1] = parseFloat(mergedData[loop][1]) + parseFloat(filteredData[1]);
+                mergedData[loop][2] = parseFloat(mergedData[loop][2]) + parseFloat(filteredData[2]);
+              }
+            } else {
+              mergedData = currentData;
+            }
+          },
+          dataType: "text",
+          complete: function () { }
+        });
+      }
+
+      // Average the Total Projected Demand
+      for (loop = 0; loop < mergedData.length; loop++) {
+        mergedData[loop][1] = Math.round(parseFloat(mergedData[loop][1]) / globals.queriedRegionNumbers.length);
+        mergedData[loop][5] = Math.round(parseFloat(mergedData[loop][5]) / globals.queriedRegionNumbers.length);
+        mergedData[loop][6] = Math.round(parseFloat(mergedData[loop][6]) / globals.queriedRegionNumbers.length);
+
+        mergedData[loop][8] = mergedData[loop][2] +
+          " [" + mergedData[loop][3] + " - " + mergedData[loop][4] + "]";
+        mergedData[loop][9] = mergedData[loop][1] +
+          "% [" + mergedData[loop][5] + "% - " + mergedData[loop][6] + "%]";
+      }
+
+      return mergedData;
+    }
+
     function resetMapToDefault() {
+      var queryString = $('#queryByName')[0].value;
+
+      if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0 && queryString.length == 0)
+        return;
+
       globals.map.graphics.clear();
       globals.map.infoWindow.hide();
       globals.queriedRegionNames = [];
