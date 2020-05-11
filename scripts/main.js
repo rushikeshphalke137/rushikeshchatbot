@@ -97,7 +97,7 @@ require([
   ) {
     parser.parse();
 
-    $.getJSON("supported_scenarios.json")
+    $.getJSON("data_va_w_ranges/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -508,6 +508,9 @@ require([
 
           // Initialize Query Tooltip
           $('[data-toggle="popover"]').popover();
+
+          $('#timeline .content').removeClass('content-selected');
+          $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
 
           break;
         }
@@ -959,12 +962,14 @@ require([
               for (loop = 1; loop < mergedData.length; loop++) {
                 var filteredData = currentData[loop];
 
-                mergedData[loop][3] = parseFloat(mergedData[loop][3]) + parseFloat(filteredData[3]);
-                mergedData[loop][4] = parseFloat(mergedData[loop][4]) + parseFloat(filteredData[4]);
-                mergedData[loop][5] = parseFloat(mergedData[loop][5]) + parseFloat(filteredData[5]);
-                mergedData[loop][6] = parseFloat(mergedData[loop][6]) + parseFloat(filteredData[6]);
-                mergedData[loop][1] = parseFloat(mergedData[loop][1]) + parseFloat(filteredData[1]);
-                mergedData[loop][2] = parseFloat(mergedData[loop][2]) + parseFloat(filteredData[2]);
+                mergedData[loop][3] = parseFloat(mergedData[loop][3]) + parseFloat(filteredData[3]); // Lower Hospitalization Bound
+                mergedData[loop][4] = parseFloat(mergedData[loop][4]) + parseFloat(filteredData[4]); // Upper Hospitalization Bound
+
+                mergedData[loop][5] = parseFloat(mergedData[loop][5]) + parseFloat(filteredData[5]); // Lower Projected Demand Bound
+                mergedData[loop][6] = parseFloat(mergedData[loop][6]) + parseFloat(filteredData[6]); // Upper Projected Demand Bound
+
+                mergedData[loop][1] = parseFloat(mergedData[loop][1]) + parseFloat(filteredData[1]); // Total Projected Demand (%)
+                mergedData[loop][2] = parseFloat(mergedData[loop][2]) + parseFloat(filteredData[2]); // Total Hospitalizations (Median)
               }
             } else {
               mergedData = currentData;
@@ -976,14 +981,16 @@ require([
       }
 
       // Average the Total Projected Demand
-      for (loop = 0; loop < mergedData.length; loop++) {
-        mergedData[loop][1] = Math.round(parseFloat(mergedData[loop][1]) / globals.queriedRegionNumbers.length);
-        mergedData[loop][5] = Math.round(parseFloat(mergedData[loop][5]) / globals.queriedRegionNumbers.length);
-        mergedData[loop][6] = Math.round(parseFloat(mergedData[loop][6]) / globals.queriedRegionNumbers.length);
+      for (loop = 1; loop < mergedData.length; loop++) {
+        mergedData[loop][1] = Math.round(parseFloat(mergedData[loop][1]) / globals.queriedRegionNumbers.length); // Total Projected Demand (%)
+        mergedData[loop][5] = Math.round(parseFloat(mergedData[loop][5]) / globals.queriedRegionNumbers.length); // Lower Projected Demand Bound
+        mergedData[loop][6] = Math.round(parseFloat(mergedData[loop][6]) / globals.queriedRegionNumbers.length); // Upper Projected Demand Bound
 
-        mergedData[loop][8] = mergedData[loop][2] +
+        // Total Hospitalizations (Range)
+        mergedData[loop][7] = mergedData[loop][2] +
           " [" + mergedData[loop][3] + " - " + mergedData[loop][4] + "]";
-        mergedData[loop][9] = mergedData[loop][1] +
+        //  Total Projected Demand (Range)
+        mergedData[loop][8] = mergedData[loop][1] +
           "% [" + mergedData[loop][5] + "% - " + mergedData[loop][6] + "%]";
       }
 
