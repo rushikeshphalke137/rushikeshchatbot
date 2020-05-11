@@ -1,7 +1,7 @@
-VHASSNum,VHASS Region,Projected Demand (%),Hospitalizations (Median),Lower Hospitalization Bound,Upper Hospitalization Bound,Lower Projected Demand Bound,Upper Projected Demand Bound,Hospitalizations (Range),Projected Demand (Range),Last Update
-Central,Central,85.23,190,164,229,81.82,88.64,190 [164 - 229],85.23% [81.82% - 88.64%],05-05-2020
-Eastern,Eastern,87.66,256,223,306,84.15,91.17,256 [223 - 306],87.66% [84.15% - 91.17%],05-05-2020
-Far_SW,Far SW,80.0,0,0,1,76.8,83.2,0 [0 - 1],80.0% [76.8% - 83.2%],05-05-2020
-Near_SW,Near SW,81.02,30,25,40,77.78,84.26,30 [25 - 40],81.02% [77.78% - 84.26%],05-05-2020
-Northern,Northern,96.4,507,441,588,92.54,100.26,507 [441 - 588],96.4% [92.54% - 100.26%],05-05-2020
-Northwest,Northwest,85.93,100,85,123,82.49,89.37,100 [85 - 123],85.93% [82.49% - 89.37%],05-05-2020
+VHASSNum,VHASS Region,Projected Demand (%),Hospitalizations (Median),Lower Hospitalization Bound,Upper Hospitalization Bound,Lower Projected Demand Bound,Upper Projected Demand Bound,Total Hospitalizations (Range), Total Projected Demand (Range),Last Update
+Central,Central,85.23,190,164,229,80.58,92.04,190 [164 - 229],85.23% [80.58% - 92.04%],05-05-2020
+Eastern,Eastern,87.66,256,223,306,80.92,96.72,256 [223 - 306],87.66% [80.92% - 96.72%],05-05-2020
+Far_SW,Far SW,80.0,0,0,1,80.0,80.42,0 [0 - 1],80.0% [80.0% - 80.42%],05-05-2020
+Near_SW,Near SW,81.02,30,25,40,80.0,82.93,30 [25 - 40],81.02% [80.0% - 82.93%],05-05-2020
+Northern,Northern,96.4,507,441,588,82.19,112.85,507 [441 - 588],96.4% [82.19% - 112.85%],05-05-2020
+Northwest,Northwest,85.93,100,85,123,80.0,94.6,100 [85 - 123],85.93% [80.0% - 94.6%],05-05-2020
