@@ -795,6 +795,9 @@ require([
             items: 3,
           },
           1000: {
+            items: 4,
+          },
+          1281: {
             items: 5,
           }
         }
@@ -850,6 +853,9 @@ require([
             items: 3,
           },
           1000: {
+            items: 4,
+          },
+          1281 : {
             items: 5,
           },
           1441: { //code added for responsive in large desktop as "Wrapping" Scenario names #38 (git issue number)
