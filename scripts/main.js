@@ -97,7 +97,7 @@ require([
   ) {
     parser.parse();
 
-    $.getJSON("data_va_w_ranges/supported_scenarios.json")
+    $.getJSON("supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
