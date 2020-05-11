@@ -97,7 +97,7 @@ require([
   ) {
     parser.parse();
 
-    $.getJSON("supported_scenarios.json")
+    $.getJSON("data_va_w_ranges/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -527,6 +527,7 @@ require([
     }
 
     function queryByName() {
+      $('#overlay').show();
       globals.map.infoWindow.hide();
       globals.selectedRegionNum = 0;
 
@@ -617,6 +618,8 @@ require([
       $('.getQueryResultsBtn').addClass('d-none');
       $('.resetBtn').removeClass('d-none');
       $('.resetBtn').addClass('d-flex');
+
+      $('#overlay').hide();
     }
 
     function renderSelectedRegion() {
@@ -985,9 +988,9 @@ require([
 
       // Average the Total Projected Demand
       for (loop = 1; loop < mergedData.length; loop++) {
-        mergedData[loop][1] = Math.round(parseFloat(mergedData[loop][1]) / globals.queriedRegionNumbers.length); // Total Projected Demand (%)
-        mergedData[loop][5] = Math.round(parseFloat(mergedData[loop][5]) / globals.queriedRegionNumbers.length); // Lower Projected Demand Bound
-        mergedData[loop][6] = Math.round(parseFloat(mergedData[loop][6]) / globals.queriedRegionNumbers.length); // Upper Projected Demand Bound
+        mergedData[loop][1] = parseFloat(mergedData[loop][1]) / globals.queriedRegionNumbers.length; // Total Projected Demand (%)
+        mergedData[loop][5] = parseFloat(mergedData[loop][5]) / globals.queriedRegionNumbers.length; // Lower Projected Demand Bound
+        mergedData[loop][6] = parseFloat(mergedData[loop][6]) / globals.queriedRegionNumbers.length; // Upper Projected Demand Bound
 
         // Total Hospitalizations (Range)
         mergedData[loop][7] = mergedData[loop][2] +
