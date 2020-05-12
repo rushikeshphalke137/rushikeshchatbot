@@ -97,7 +97,8 @@ require([
   ) {
     parser.parse();
 
-    $.getJSON("supported_scenarios.json")
+  //  $.getJSON("supported_scenarios.json")
+  $.getJSON("data_va_w_ranges/supported_scenarios.json") 
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -771,11 +772,11 @@ require([
         totalHospitalizationsRange = filteredData[index][7];
         totalProjectedDemandRange = filteredData[index][8];
 
-        var toolTipText = 'Percentage of Occupied Beds [Range] <br>' +
-          '&emsp;<b>' + totalProjectedDemandRange + '</b><br>' +
+        var toolTipText = 'Weekly Hospitalizations [Range] <br>' +
+        '&emsp;<b>' + totalHospitalizationsRange + '</b><br>' +
 
-          'Weekly Hospitalizations [Range] <br>' +
-          '&emsp;<b>' + totalHospitalizationsRange + '</b><br>';
+        'Percentage of Occupied Beds [Range] <br>' +
+        '&emsp;<b>' + totalProjectedDemandRange + '</b><br>';
 
         if (index === 0) {
           timelineHTML +=

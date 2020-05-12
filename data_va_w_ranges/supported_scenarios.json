@@ -1,0 +1,74 @@
+{
+    "configuration": {
+        "region" : "vhass",
+        "application_title": "COVID-19 Medical Resource Demand Dashboard - Virginia",
+        "chart_title": "Virginia Health Demand Forecast",
+        "layer_url": "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/1",
+        "layer_attribute": "VHASS_Reg",
+        "query_attribute": "VHASS_Reg",
+        "zoom_level": 7,
+        "extent": {
+            "xmin": -83.6753991625592,
+            "xmax": -75.2417293387953,
+            "ymin": 36.541660218841,
+            "ymax": 39.4660198481876,
+            "spatialReference": {
+                "wkid": 4326
+            }
+        },
+        "out_fields": [
+            "VHASS_Reg",
+            "InPoly_FID"
+        ]
+    },
+    "scenarios": [
+        {
+            "scenario_display_name": "Pause-StaggRelease-dur7",
+            "position": 0,
+            "directory": "data_va_w_ranges/scVA-Pause-Jun10-LightRebound-dur8-projBounds",
+            "description": "This is the April 28th run of the Pause-StaggRelease-ImproveTest model with length of hospital stay set to 7 days."
+        },
+        {
+            "scenario_display_name": "Pause-StaggRelease-dur14",
+            "position": 1,
+            "directory": "data_va_w_ranges/scVA-Pause-Jun10-LightRebound-dur14-projBounds",
+            "description": "This is the April 28th run of the Pause-StaggRelease-ImproveTest model with length of hospital stay set to 14 days."
+        },
+        {
+            "scenario_display_name": "Pause-Indefinite-dur7",
+            "position": 2,
+            "directory": "data_va_w_ranges/scVA-Pause-Jun10-StrongRebound-dur8-projBounds",
+            "description": "This is the April 28th run of the Pause-Indefinite model (ie, social distancing for the foreseeable future) with length of hospital stay set to 7 days."
+        },
+        {
+            "scenario_display_name": "Pause-Indefinite-dur14",
+            "position": 3,
+            "directory": "data_va_w_ranges/scVA-Pause-Jun10-StrongRebound-dur14-projBounds",
+            "description": "This is the April 28th run of the Pause-Indefinite model (ie, social distancing for the foreseeable future) with length of hospital stay set to 14 days."
+        },
+        {
+            "scenario_display_name": "scVA-Pause-May8-dur7",
+            "position": 4,
+            "directory": "data_va_w_ranges/scVA-Pause-May8-LightRebound-dur8-projBounds",
+            "description": "This is the April 28th run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 7 days."
+        },
+        {
+            "scenario_display_name": "scVA-Pause-May8-dur14",
+            "position": 5,
+            "directory": "data_va_w_ranges/scVA-Pause-May8-LightRebound-dur14-projBounds",
+            "description": "This is the April 28th run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 14 days."
+        },
+        {
+            "scenario_display_name": "scVA-Pause-May8-dur7",
+            "position": 6,
+            "directory": "data_va_w_ranges/scVA-Pause-May8-StrongRebound-dur8-projBounds",
+            "description": "This is the April 28th run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 7 days."
+        },
+        {
+            "scenario_display_name": "scVA-Pause-May8-dur14",
+            "position": 7,
+            "directory": "data_va_w_ranges/scVA-Pause-May8-StrongRebound-dur14-projBounds",
+            "description": "This is the April 28th run of the Unmitigated model (ie, no social distancing) with length of hospital stay set to 14 days."
+        }
+    ]
+}

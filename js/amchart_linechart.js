@@ -246,7 +246,7 @@ function createDemandSeries(chart) {
   demandSeries.name = "Percentage of Occupied Beds";
 
   demandSeries.tooltip.label.ignoreFormatting = true;
-  demandSeries.tooltipText = "Projected Demand: {rangeValueY}";
+  demandSeries.tooltipText = "Percentage of Occupied Beds: {rangeValueY}";
 
   demandSeries.tooltip.background.fill = am4core.color("#3479A1");
   demandSeries.showOnInit = true;
@@ -332,7 +332,7 @@ function createHospitalizationSeries(chart, color) {
   hospitalizationSeries.name = "Weekly Hospitalizations";
 
   hospitalizationSeries.tooltip.label.ignoreFormatting = true;
-  hospitalizationSeries.tooltipText = "Hospitalizations: {rangeValueY}";
+  hospitalizationSeries.tooltipText = "Weekly Hospitalizations: {rangeValueY}";
 
 
   hospitalizationSeries.tooltip.background.fill = am4core.color(color);
