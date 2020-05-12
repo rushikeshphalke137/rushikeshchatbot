@@ -826,12 +826,20 @@ button.owl-prev:focus {
   padding-left: 8px;
   width: calc(100% - 140px);
 }
-
+.foot-note-chart {
+  padding: 2px 0px;
+  color: white;
+  margin: 0px 15px;
+  border-top: 1px solid #E57200;
+  font-size: 0.8em;
+}
 .timeline-content-section {
   padding: 0px 25px;
   width: 100%;
 }
-
+#chartdiv {
+  font-size: .9rem;
+}
 .scenario-content-section .owl-carousel .owl-nav button.owl-next,
 .scenario-content-section .owl-carousel .owl-nav button.owl-prev {
   height: 30px;
