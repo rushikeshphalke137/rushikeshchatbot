@@ -23,52 +23,52 @@
     },
     "scenarios": [
         {
-            "scenario_display_name": "Pause-May8-LightRebound-dur8",
+            "scenario_display_name": "Pause-May15-LightRebound-dur8",
             "position": 0,
-            "directory": "data_va/scVA-Pause-May8-LightRebound-dur8-projBounds",
-            "description": "This model assumes that Virginia's social-distancing order is lifted on May 8th, that public social interactivity returns to 33% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-05."
+            "directory": "data_va/scVA-Pause-May15-LightRebound-dur8-projBounds",
+            "description": "This model assumes that Virginia's social-distancing order is lifted on May 15th, that public social interactivity returns to 33% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-11."
         },
         {
-            "scenario_display_name": "Pause-May8-LightRebound-dur14",
+            "scenario_display_name": "Pause-May15-LightRebound-dur14",
             "position": 1,
-            "directory": "data_va/scVA-Pause-May8-LightRebound-dur14-projBounds",
-            "description": "This model assumes that Virginia's social-distancing order is lifted on May 8th, that public social interactivity returns to 33% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-05."
+            "directory": "data_va/scVA-Pause-May15-LightRebound-dur14-projBounds",
+            "description": "This model assumes that Virginia's social-distancing order is lifted on May 15th, that public social interactivity returns to 33% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-11."
         },
         {
-            "scenario_display_name": "Pause-May8-StrongRebound-dur8",
+            "scenario_display_name": "Pause-May15-StrongRebound-dur8",
             "position": 2,
-            "directory": "data_va/scVA-Pause-May8-StrongRebound-dur8-projBounds",
-            "description": "This model assumes that Virginia's social-distancing order is lifted on May 8th, that public social interactivity returns to 66% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-05."
+            "directory": "data_va/scVA-Pause-May15-StrongRebound-dur8-projBounds",
+            "description": "This model assumes that Virginia's social-distancing order is lifted on May 15th, that public social interactivity returns to 66% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-11."
         },
         {
-            "scenario_display_name": "Pause-May8-StrongRebound-dur14",
+            "scenario_display_name": "Pause-May15-StrongRebound-dur14",
             "position": 3,
-            "directory": "data_va/scVA-Pause-May8-StrongRebound-dur14-projBounds",
-            "description": "This model assumes that Virginia's social-distancing order is lifted on May 8th, that public social interactivity returns to 66% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-05."
+            "directory": "data_va/scVA-Pause-May15-StrongRebound-dur14-projBounds",
+            "description": "This model assumes that Virginia's social-distancing order is lifted on May 15th, that public social interactivity returns to 66% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-11."
         },
         {
             "scenario_display_name": "Pause-Jun10-LightRebound-dur8",
             "position": 4,
             "directory": "data_va/scVA-Pause-Jun10-LightRebound-dur8-projBounds",
-            "description": "This model assumes that Virginia's social-distancing order is lifted on June 10th, that public social interactivity returns to 33% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-05."
+            "description": "This model assumes that Virginia's social-distancing order is lifted on June 10th, that public social interactivity returns to 33% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-11."
         },
         {
             "scenario_display_name": "Pause-Jun10-LightRebound-dur14",
             "position": 5,
             "directory": "data_va/scVA-Pause-Jun10-LightRebound-dur14-projBounds",
-            "description": "This model assumes that Virginia's social-distancing order is lifted on June 10th, that public social interactivity returns to 33% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-05."
+            "description": "This model assumes that Virginia's social-distancing order is lifted on June 10th, that public social interactivity returns to 33% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-11."
         },
         {
             "scenario_display_name": "Pause-Jun10-StrongRebound-dur8",
             "position": 6,
             "directory": "data_va/scVA-Pause-Jun10-StrongRebound-dur8-projBounds",
-            "description": "This model assumes that Virginia's social-distancing order is lifted on June 10th, that public social interactivity returns to 66% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-05."
+            "description": "This model assumes that Virginia's social-distancing order is lifted on June 10th, that public social interactivity returns to 66% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-11."
         },
         {
             "scenario_display_name": "Pause-Jun10-StrongRebound-dur14",
             "position": 7,
             "directory": "data_va/scVA-Pause-Jun10-StrongRebound-dur14-projBounds",
-            "description": "This model assumes that Virginia's social-distancing order is lifted on June 10th, that public social interactivity returns to 66% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-05."
+            "description": "This model assumes that Virginia's social-distancing order is lifted on June 10th, that public social interactivity returns to 66% of pre-pandemic levels, and that typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-11."
         }
     ]
 }
