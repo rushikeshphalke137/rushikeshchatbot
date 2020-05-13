@@ -1,7 +1,7 @@
-date,Total Projected Demand (%),Total Hospitalizations (Median),Lower Hospitalization Bound,Upper Hospitalization Bound,Lower Projected Demand Bound,Upper Projected Demand Bound
-05-09-2020,87.06,165,145,237,83.58,90.54
-05-16-2020,88.88,211,184,317,85.32,92.44
-05-23-2020,89.28,224,196,344,85.71,92.85
-05-30-2020,93.8,316,273,458,90.05,97.55
-06-06-2020,97.72,420,365,563,93.81,101.63
-06-13-2020,102.2,531,463,663,98.11,106.29
+date,Total Projected Demand (%),Total Hospitalizations (Median),Lower Hospitalization Bound,Upper Hospitalization Bound,Lower Projected Demand Bound,Upper Projected Demand Bound,Hospitalizations (Range), Projected Demand (Range)
+05-16-2020,81.64,39,35,48,80.36,84.15,39 [35 - 48],81.64% [80.36% - 84.15%]
+05-23-2020,81.32,30,26,39,80.24,83.55,30 [26 - 39],81.32% [80.24% - 83.55%]
+05-30-2020,81.25,28,25,35,80.24,83.23,28 [25 - 35],81.25% [80.24% - 83.23%]
+06-06-2020,81.29,29,25,39,80.24,83.79,29 [25 - 39],81.29% [80.24% - 83.79%]
+06-13-2020,81.5,35,31,47,80.24,84.48,35 [31 - 47],81.5% [80.24% - 84.48%]
+06-20-2020,81.5,35,31,50,80.24,85.4,35 [31 - 50],81.5% [80.24% - 85.4%]
