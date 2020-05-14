@@ -98,7 +98,7 @@ require([
     parser.parse();
 
     $.getJSON("supported_scenarios.json")
-//  $.getJSON("data_va_w_ranges/supported_scenarios.json") 
+      //  $.getJSON("data_va_w_ranges/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -491,8 +491,6 @@ require([
           globals.selectedRegionName = globals.csvData[i][1];
 
           if (globals.queriedRegionNames.length != 0) {
-            $('.resetBtn').removeClass('d-flex');
-            $('.resetBtn').addClass('d-none');
             $('.getQueryResultsBtn').removeClass('d-none');
             $('.getQueryResultsBtn').addClass('d-flex');
           }
@@ -617,8 +615,6 @@ require([
 
       $('.getQueryResultsBtn').removeClass('d-flex');
       $('.getQueryResultsBtn').addClass('d-none');
-      $('.resetBtn').removeClass('d-none');
-      $('.resetBtn').addClass('d-flex');
 
       $('#overlay').hide();
     }
@@ -773,20 +769,20 @@ require([
         totalProjectedDemandRange = filteredData[index][8];
 
         var toolTipText = 'Weekly Hospitalizations [Range] <br>' +
-        '&emsp;<b>' + totalHospitalizationsRange + '</b><br>' +
+          '&emsp;<b>' + totalHospitalizationsRange + '</b><br>' +
 
-        'Percentage of Occupied Beds [Range] <br>' +
-        '&emsp;<b>' + totalProjectedDemandRange + '</b><br>';
+          'Percentage of Occupied Beds [Range] <br>' +
+          '&emsp;<b>' + totalProjectedDemandRange + '</b><br>';
 
         if (index === 0) {
           timelineHTML +=
             '<div class="d-flex content content-selected pr-md-2 item" id="date-' + actualDateString + '"' +
-            'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom"' +
+            'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="auto"' +
             'data-title="Week ending ' + representationDate + '" data-content="' + toolTipText + '">';
         } else {
           timelineHTML +=
             '<div class="d-flex content pr-md-2 item" id="date-' + actualDateString + '"' +
-            'data-toggle="popover" data-html="true" data-trigger="hover focus " data-placement="bottom"' +
+            'data-toggle="popover" data-html="true" data-trigger="hover focus " data-placement="auto"' +
             'data-title="Week ending ' + representationDate + '" data-content="' + toolTipText + '">';
         }
 
@@ -1021,8 +1017,6 @@ require([
 
       $('.getQueryResultsBtn').removeClass('d-flex');
       $('.getQueryResultsBtn').addClass('d-none');
-      $('.resetBtn').removeClass('d-none');
-      $('.resetBtn').addClass('d-flex');
 
       // Select first scenario.
       globals.selectedDate = null;

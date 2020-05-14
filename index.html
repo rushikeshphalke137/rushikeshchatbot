@@ -43,7 +43,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-  </script>
+    </script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-html5-1.6.1/datatables.min.js"></script>
   <script defer src="https://js.arcgis.com/3.31/"></script>
@@ -278,20 +278,19 @@
             <div class="h-100" id="mapCanvas" data-dojo-type="dijit/layout/ContentPane"
               data-dojo-props="region:'center'">
 
-
-
               <div class="d-flex justify-content-end mr-2" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group ml-auto d-flex resetOptions" role="group" aria-label="First group">
+                  <button type="button" value="2" class="btn btn-secondary getQueryResultsBtn d-none align-items-center mr-2"
+                    title="Back to Query Results" style="color: white !important;">
+                    <i class="fa fa-long-arrow-left" style="font-size: 1.5em; padding-right: 5px;"></i>
+                    <span>Back to Query Results</span>
+                  </button>
+                  
                   <button type="button" value="2" class="btn btn-secondary resetBtn d-flex align-items-center"
                     title="Reset" style="color: white !important;">
                     <i class="fa fa-undo" style="font-size: 1.2em; padding-right: 7px;"></i> <span>Reset</span>
                   </button>
-                  <button type="button" value="2" class="btn btn-secondary getQueryResultsBtn d-none align-items-center"
-                    title="Back to Query Results" style="color: white !important;">
-                    <i class="fa fa-long-arrow-left" style="font-size: 1.5em; padding-right: 5px;"></i><span>Back to
-                      Query
-                      Results</span>
-                  </button>
+                  
                 </div>
               </div>
 
@@ -342,7 +341,9 @@
 
         <div class="row" style="max-height: calc(100% - 88px); height: 100%;">
           <div id="chartdiv" class="col-12 pl-0 pr-0 h-100"></div>
-          <div class="foot-note-chart">Weekly Hospitalizations and Percentage of Occupied Beds are projected values provided to convey relative trends for comparative purposes only, and should not be taken as actual values. They are subject to change as more information about COVID-19 becomes available.</div>
+          <div class="foot-note-chart">Weekly Hospitalizations and Percentage of Occupied Beds are projected values
+            provided to convey relative trends for comparative purposes only, and should not be taken as actual values.
+            They are subject to change as more information about COVID-19 becomes available.</div>
         </div>
 
       </div>
