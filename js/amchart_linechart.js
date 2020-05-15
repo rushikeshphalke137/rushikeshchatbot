@@ -190,6 +190,7 @@ function createDemandSeries(chart) {
 
   // Create Demand Value axis
   var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  demandValueAxis.renderer.minGridDistance = 20; //used for steps in right hand side y axis
   demandValueAxis.renderer.grid.template.strokeOpacity = 1;
   demandValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
   demandValueAxis.renderer.grid.template.strokeWidth = 1;
