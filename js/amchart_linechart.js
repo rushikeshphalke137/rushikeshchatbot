@@ -232,7 +232,7 @@ function createDemandSeries(chart) {
 
   demandSeries.dataFields.categoryX = "date";
   demandSeries.dataFields.valueY = "Total Projected Demand (%)";
-  demandSeries.dataFields.rangeValueY = " Total Projected Demand (Range)";
+  demandSeries.dataFields.rangeValueY = "Total Projected Demand (Range)";
 
   demandSeries.yAxis = demandValueAxis;
 
