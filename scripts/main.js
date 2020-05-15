@@ -527,91 +527,96 @@ require([
 
     function queryByName() {
       $('#overlay').show();
+
+      var inputStr = $("#queryByName").val();
+
+      if (inputStr.length == 0) {
+        $('#overlay').hide();
+        return;
+      }
+
       globals.map.infoWindow.hide();
       globals.selectedRegionNum = 0;
 
-      var inputStr = $("#queryByName").val();
-      if (inputStr.length != 0) {
-        inputStr = inputStr.replace(/%/g, '');
-        var inputStrSplit = inputStr.split(",");
-        var where = '';
+      inputStr = inputStr.replace(/%/g, '');
+      var inputStrSplit = inputStr.split(",");
+      var where = '';
 
-        for (var i = 0; i < inputStrSplit.length; i++) {
-          var temp = inputStrSplit[i].trim();
-          if (where == '')
-            where += globals.configuration.layer_attribute + " LIKE '%" + temp.toString() + "%'";
-          else
-            where += " OR " + globals.configuration.layer_attribute + " LIKE '%" + temp.toString() + "%'";
-        }
+      for (var i = 0; i < inputStrSplit.length; i++) {
+        var temp = inputStrSplit[i].trim();
+        if (where == '')
+          where += globals.configuration.layer_attribute + " LIKE '%" + temp.toString() + "%'";
+        else
+          where += " OR " + globals.configuration.layer_attribute + " LIKE '%" + temp.toString() + "%'";
+      }
 
-        //now query correspding layer
-        query = new Query();
-        query.outSpatialReference = {
-          "wkid": 102100
-        };
-        query.returnGeometry = true;
-        //setup QueryTask (for display Level selection)
-        var queryTask = new QueryTask(globals.configuration.layer_url);
-        query.outFields = globals.configuration.out_fields;
+      //now query correspding layer
+      query = new Query();
+      query.outSpatialReference = {
+        "wkid": 102100
+      };
+      query.returnGeometry = true;
+      //setup QueryTask (for display Level selection)
+      var queryTask = new QueryTask(globals.configuration.layer_url);
+      query.outFields = globals.configuration.out_fields;
 
-        query.where = where;
-        var symbol = new SimpleFillSymbol(
-          SimpleFillSymbol.STYLE_BACKWARD_DIAGONAL,
-          new SimpleLineSymbol(
-            SimpleLineSymbol.STYLE_SOLID,
-            new Color([102, 255, 255]),
-            2
-          ),
-          new Color([255, 0, 0])
-        );
-        var names = [];
-        var selectedHRRNum = [];
+      query.where = where;
+      var symbol = new SimpleFillSymbol(
+        SimpleFillSymbol.STYLE_BACKWARD_DIAGONAL,
+        new SimpleLineSymbol(
+          SimpleLineSymbol.STYLE_SOLID,
+          new Color([102, 255, 255]),
+          2
+        ),
+        new Color([255, 0, 0])
+      );
+      var names = [];
+      var selectedHRRNum = [];
 
-        queryTask.execute(query, function (fset) {
-          globals.map.graphics.clear();
-          if (fset.features.length > 0) {
-            for (var i = 0; i < fset.features.length; i++) {
-              //symbol for selected county
-              var graphic = new Graphic(fset.features[i].geometry, symbol);
-              globals.map.graphics.add(graphic);
+      queryTask.execute(query, function (fset) {
+        globals.map.graphics.clear();
+        if (fset.features.length > 0) {
+          for (var i = 0; i < fset.features.length; i++) {
+            //symbol for selected county
+            var graphic = new Graphic(fset.features[i].geometry, symbol);
+            globals.map.graphics.add(graphic);
 
-              var temp = fset.features[i].attributes[globals.configuration.layer_attribute];
-              var hrrNumber = fset.features[i].attributes[globals.configuration.query_attribute];
-              if (names.indexOf(temp) == -1) {
-                names.push(temp);
-                selectedHRRNum.push(hrrNumber);
-              }
+            var temp = fset.features[i].attributes[globals.configuration.layer_attribute];
+            var hrrNumber = fset.features[i].attributes[globals.configuration.query_attribute];
+            if (names.indexOf(temp) == -1) {
+              names.push(temp);
+              selectedHRRNum.push(hrrNumber);
             }
-            globals.queriedRegionNames = names;
-            globals.queriedRegionNumbers = selectedHRRNum;
-
-            var extent = esri.graphicsExtent(fset.features);
-            globals.map.setExtent(extent, true);
-
-            // Display Chart 
-            renderQueriedRegionsChart();
-            showCSVDataInTable();
-
-            // Clear all Tooltips
-            $('[data-toggle="tooltip"]').tooltip('dispose');
-            globals.dailySummary = updateDataForTimeline();
-            renderTimeline();
-
-            // Initialize all Tooltips
-            $('[data-toggle="tooltip"]').tooltip();
-
-            // Initialize Query Tooltip
-            $('[data-toggle="popover"]').popover();
-
-            $('#timeline .content').removeClass('content-selected');
-            $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
-
-          } else {
-            $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
-            $('#noResultFoundButton').click();
           }
-        });
-      } //check for hacking
+          globals.queriedRegionNames = names;
+          globals.queriedRegionNumbers = selectedHRRNum;
+
+          var extent = esri.graphicsExtent(fset.features);
+          globals.map.setExtent(extent, true);
+
+          // Display Chart 
+          renderQueriedRegionsChart();
+          showCSVDataInTable();
+
+          // Clear all Tooltips
+          $('[data-toggle="tooltip"]').tooltip('dispose');
+          globals.dailySummary = updateDataForTimeline();
+          renderTimeline();
+
+          // Initialize all Tooltips
+          $('[data-toggle="tooltip"]').tooltip();
+
+          // Initialize Query Tooltip
+          $('[data-toggle="popover"]').popover();
+
+          $('#timeline .content').removeClass('content-selected');
+          $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
+
+        } else {
+          $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
+          $('#noResultFoundButton').click();
+        }
+      });
 
       $('.getQueryResultsBtn').removeClass('d-flex');
       $('.getQueryResultsBtn').addClass('d-none');
