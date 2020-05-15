@@ -765,8 +765,8 @@ require([
         formattedDate = new Date(filteredData[index][0].replace(/-/g, "/"));
         representationDate = new Date(formattedDate).toDateString().slice(4).substring(0, 6);
 
-        totalProjectedDemand = Number(filteredData[index][1]).toLocaleString();
-        totalHospitalizations = Number(filteredData[index][2]).toLocaleString();
+        totalProjectedDemand = Number(filteredData[index][1]).toFixed(2);
+        totalHospitalizations = Number(filteredData[index][2]);
 
         totalHospitalizationsRange = filteredData[index][7];
         totalProjectedDemandRange = filteredData[index][8];
@@ -793,7 +793,7 @@ require([
           '<div class="content-data" style="flex:1;">' +
           '<div class="d-flex justify-content-center">' +
           '<div class="content-data-icon"><i class="fa fa-users"></i></div>' +
-          '<div class="cases">' + totalHospitalizations + '</div></div>' +
+          '<div class="cases">' + numFormatter(totalHospitalizations) + '</div></div>' +
           '<div class="d-flex justify-content-center">' +
           '<div class="content-data-icon"><i class="fa fa-bed"></i></div>' +
           '<div class="beds">' + totalProjectedDemand + ' %</div></div>' +
@@ -993,11 +993,11 @@ require([
         mergedData[loop][6] = parseFloat(mergedData[loop][6]) / globals.queriedRegionNumbers.length; // Upper Projected Demand Bound
 
         // Total Hospitalizations (Range)
-        mergedData[loop][7] = mergedData[loop][2] +
-          " [" + mergedData[loop][3] + " - " + mergedData[loop][4] + "]";
+        mergedData[loop][7] = numFormatter(mergedData[loop][2]) +
+          " [" + numFormatter(mergedData[loop][3]) + " - " + numFormatter(mergedData[loop][4]) + "]";
         //  Total Projected Demand (Range)
-        mergedData[loop][8] = mergedData[loop][1] +
-          "% [" + mergedData[loop][5] + "% - " + mergedData[loop][6] + "%]";
+        mergedData[loop][8] = (mergedData[loop][1]).toFixed(2) +
+          "% [" + (mergedData[loop][5]).toFixed(2) + "% - " + (mergedData[loop][6]).toFixed(2) + "%]";
       }
 
       return mergedData;

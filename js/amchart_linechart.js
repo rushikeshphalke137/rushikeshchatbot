@@ -27,7 +27,7 @@ function renderSummaryDataChart() {
   categoryAxis.renderer.grid.template.strokeOpacity = 1;
   categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff
   categoryAxis.renderer.grid.template.strokeWidth = 1;
-//  categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
+  //  categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
 
 
   categoryAxis.renderer.line.strokeOpacity = 1;
@@ -89,7 +89,7 @@ function renderQueriedRegionsChart() {
   categoryAxis.renderer.grid.template.strokeOpacity = 1;
   categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
   categoryAxis.renderer.grid.template.strokeWidth = 1;
-//  categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
+  //  categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
 
   categoryAxis.renderer.line.strokeOpacity = 1;
   categoryAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff 
@@ -190,7 +190,17 @@ function createDemandSeries(chart) {
 
   // Create Demand Value axis
   var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-  demandValueAxis.renderer.minGridDistance = 20; //used for steps in right hand side y axis
+
+  let maxUpperDemandValue = 0;
+
+  globals.chartDataFile.forEach(function (chartValue, index) {
+    if (maxUpperDemandValue < Number(chartValue['Upper Projected Demand Bound']))
+      maxUpperDemandValue = Number(chartValue['Upper Projected Demand Bound']);
+  });
+
+  demandValueAxis.max = maxUpperDemandValue + (maxUpperDemandValue * 0.5);
+
+  // demandValueAxis.renderer.minGridDistance = 50; //used for steps in right hand side y axis
   demandValueAxis.renderer.grid.template.strokeOpacity = 1;
   demandValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
   demandValueAxis.renderer.grid.template.strokeWidth = 1;
@@ -200,7 +210,6 @@ function createDemandSeries(chart) {
   demandValueAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
   demandValueAxis.renderer.line.strokeWidth = 1;
 
-  // demandValueAxis.renderer.baseGrid.template.stroke = am4core.color("#ffffff");
   demandValueAxis.title.text = "Percentage of Occupied Beds";
   demandValueAxis.title.fill = am4core.color("#fff");
   demandValueAxis.title.fontSize = 14;
@@ -276,7 +285,7 @@ function createHospitalizationSeries(chart, color) {
 
   // Create Hospitalization Value axis
   var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-  hospitalizationValueAxis.renderer.minGridDistance = 50; //used for steps in value axis
+  //hospitalizationValueAxis.renderer.minGridDistance = 50; //used for steps in value axis
   hospitalizationValueAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43 left side
 
   hospitalizationValueAxis.renderer.grid.template.strokeOpacity = 1;
@@ -410,14 +419,27 @@ function mergeDataAcrossRegions() {
     mergedData[loop]["Total Projected Demand (%)"] = Math.round(parseFloat(mergedData[loop]["Total Projected Demand (%)"]) / globals.queriedRegionNumbers.length);
     mergedData[loop]["Lower Projected Demand Bound"] = Math.round(parseFloat(mergedData[loop]["Lower Projected Demand Bound"]) / globals.queriedRegionNumbers.length);
     mergedData[loop]["Upper Projected Demand Bound"] = Math.round(parseFloat(mergedData[loop]["Upper Projected Demand Bound"]) / globals.queriedRegionNumbers.length);
-    
-    mergedData[loop]["Total Hospitalizations (Range)"] = mergedData[loop]["Total Hospitalizations (Median)"] +
-                                                   " [" + mergedData[loop]["Lower Hospitalization Bound"] + " - " + mergedData[loop]["Upper Hospitalization Bound"] + "]";
-    mergedData[loop][" Total Projected Demand (Range)"] = mergedData[loop]["Total Projected Demand (%)"] +
-                                                   "% [" + mergedData[loop]["Lower Projected Demand Bound"] + "% - " + mergedData[loop]["Upper Projected Demand Bound"] + "%]";                                                   
+
+    mergedData[loop]["Total Hospitalizations (Range)"] = numFormatter(mergedData[loop]["Total Hospitalizations (Median)"]) +
+      " [" + numFormatter(mergedData[loop]["Lower Hospitalization Bound"]) + " - " + numFormatter(mergedData[loop]["Upper Hospitalization Bound"]) + "]";
+    mergedData[loop][" Total Projected Demand (Range)"] = (mergedData[loop]["Total Projected Demand (%)"]).toFixed(2) +
+      "% [" + (mergedData[loop]["Lower Projected Demand Bound"]).toFixed(2) + "% - " + (mergedData[loop]["Upper Projected Demand Bound"]).toFixed(2) + "%]";
   }
 
   return mergedData;
+}
+
+function numFormatter(num) {
+  // Here we get number as string value.
+  num = Number(num);
+
+  if (num < 9999) return num.toLocaleString();
+
+  if (num >= 10000 && num <= 999999)
+    return (num / 1000).toFixed(3) + 'K';
+
+  if (num >= 1000000 && num <= 999999999)
+    return (num / 1000000).toFixed(3) + 'M';
 }
 
 function getJSONData(datafile) {
