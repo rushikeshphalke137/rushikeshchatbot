@@ -780,12 +780,12 @@ require([
         if (index === 0) {
           timelineHTML +=
             '<div class="d-flex content content-selected pr-md-2 item" id="date-' + actualDateString + '"' +
-            'data-toggle="popover" data-html="true" data-container="body" data-trigger="hover focus" data-placement="top"' +
+            'data-toggle="popover" data-html="true" data-container=".timeline-contener" data-trigger="hover focus" data-placement="top"' +
             'data-title="Week ending ' + representationDate + '" data-content="' + toolTipText + '">';
         } else {
           timelineHTML +=
             '<div class="d-flex content pr-md-2 item" id="date-' + actualDateString + '"' +
-            'data-toggle="popover" data-html="true" data-container="body" data-trigger="hover focus " data-placement="top"' +
+            'data-toggle="popover" data-html="true" data-container=".timeline-contener" data-trigger="hover focus " data-placement="top"' +
             'data-title="Week ending ' + representationDate + '" data-content="' + toolTipText + '">';
         }
 

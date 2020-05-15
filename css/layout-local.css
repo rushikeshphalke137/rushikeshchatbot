@@ -833,6 +833,9 @@ button.owl-prev:focus {
   border-top: 1px solid #E57200;
   font-size: 0.8em;
 }
+.timeline-contener {
+  z-index: 50 !important;
+}
 .timeline-content-section {
   padding: 0px 25px;
   width: 100%;
