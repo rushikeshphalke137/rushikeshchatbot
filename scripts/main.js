@@ -98,7 +98,7 @@ require([
     parser.parse();
 
     $.getJSON("supported_scenarios.json")
-      //  $.getJSON("data_va_w_ranges/supported_scenarios.json")
+      // $.getJSON("data_va/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -115,6 +115,7 @@ require([
       .fail(function (jqxhr, textStatus, error) {
         var err = textStatus + ", " + error;
         console.log("Request Failed to load 'supported_scenarios.json' file. Reason :: " + err);
+        $('#overlay').hide();
       });
 
 
@@ -157,7 +158,6 @@ require([
       globals.renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + globals.selectedDate + ".csv";
 
       getCSVDataAndRendering();
-      renderTimeline();
 
       if (scenarioChanged) {
         $('#timeline .content').removeClass('content-selected');
@@ -500,7 +500,6 @@ require([
 
           renderSelectedRegion();
           updateDataForTimeline();
-          renderTimeline();
 
           // Initialize all Tooltips
           $('[data-toggle="tooltip"]').tooltip();
@@ -600,8 +599,8 @@ require([
 
           // Clear all Tooltips
           $('[data-toggle="tooltip"]').tooltip('dispose');
-          globals.dailySummary = updateDataForTimeline();
-          renderTimeline();
+
+          updateDataForTimeline();
 
           // Initialize all Tooltips
           $('[data-toggle="tooltip"]').tooltip();
@@ -938,6 +937,7 @@ require([
       if (globals.selectedRegionNum != 0) {
         var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
         readDataFromCSVFile(regionFile);
+        renderTimeline();
         return;
       }
 
@@ -945,13 +945,14 @@ require([
       if (globals.queriedRegionNames.length == 0) {
         var summaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
         readDataFromCSVFile(summaryFile);
+        renderTimeline();
         return;
       }
 
       for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
         var regionName = globals.queriedRegionNumbers[i] + "";
 
-        // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
+        // Check if region name contains a space, bcoz in case of virginia health, it could be for ex. "Far SW/Near SW".
         if (regionName.indexOf(' ') >= 0)
           regionName = regionName.split(" ").join("_");
         var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
@@ -999,6 +1000,10 @@ require([
         mergedData[loop][8] = (mergedData[loop][1]).toFixed(2) +
           "% [" + (mergedData[loop][5]).toFixed(2) + "% - " + (mergedData[loop][6]).toFixed(2) + "%]";
       }
+
+
+      globals.dailySummary = mergedData;
+      renderTimeline();
 
       return mergedData;
     }
