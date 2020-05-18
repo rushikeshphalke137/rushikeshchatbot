@@ -192,15 +192,20 @@ function createDemandSeries(chart) {
   var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
   let maxUpperDemandValue = 0;
+  let minLowerDemandValue = 100;
 
   globals.chartDataFile.forEach(function (chartValue, index) {
     if (maxUpperDemandValue < Number(chartValue['Upper Projected Demand Bound']))
       maxUpperDemandValue = Number(chartValue['Upper Projected Demand Bound']);
+
+    if (minLowerDemandValue > Number(chartValue['Lower Projected Demand Bound']))
+      minLowerDemandValue = Number(chartValue['Lower Projected Demand Bound']);
   });
 
+  demandValueAxis.min = minLowerDemandValue - 10;
   demandValueAxis.max = maxUpperDemandValue + (maxUpperDemandValue * 0.5);
 
-  // demandValueAxis.renderer.minGridDistance = 50; //used for steps in right hand side y axis
+  //demandValueAxis.renderer.minGridDistance = 35; //used for steps in right hand side y axis
   demandValueAxis.renderer.grid.template.strokeOpacity = 1;
   demandValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
   demandValueAxis.renderer.grid.template.strokeWidth = 1;
