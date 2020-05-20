@@ -98,7 +98,7 @@ require([
     parser.parse();
 
     $.getJSON("supported_scenarios.json")
-      // $.getJSON("data_va/supported_scenarios.json")
+      //$.getJSON("data_va/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -530,7 +530,11 @@ require([
       var inputStr = $("#queryByName").val();
 
       if (inputStr.length == 0) {
-        $('#overlay').hide();
+        if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0) {
+          $('#overlay').hide();
+        } else {
+          resetMapToDefault();
+        }
         return;
       }
 
