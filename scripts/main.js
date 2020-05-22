@@ -816,7 +816,7 @@ require([
         navText: ["<div class='nav-btn timeline-prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>", "<div class='nav-btn timeline-next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
         responsive: {
           0: {
-            items: 4,
+            items: 5,
           },
           600: {
             items: 3,

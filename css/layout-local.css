@@ -818,12 +818,10 @@ button.owl-prev:focus {
 }
 
 .scenario-content-section {
-  padding-left: 20px;
   width: calc(100% - 510px);
 }
 
 .projection-content-section {
-  padding-left: 8px;
   width: calc(100% - 140px);
 }
 .foot-note-chart {
@@ -986,7 +984,7 @@ button.owl-prev:focus {
   .timeline-prev-slide,
   .timeline-next-slide {
     height: auto;
-    margin-top: -5px;
+    margin-top: -1px;
   }
 
   .icon-link {

@@ -175,8 +175,27 @@
 
   <div class="supported-content w-100" style="height: calc(100% - 95px);">
 
+    <div class="row mb-3 mt-2 d-flex d-lg-none">
+      <div class="col-12 d-flex" style="font-size: 1rem;">
+        <div class="input-group mr-1" style="box-shadow: lightgrey 0 0 7px; height: 40px;">
+          <!-- <input name="queryByName" id="queryByName" type="text" class="form-control" aria-label="Small"
+            style="height: 40px;" placeholder="Search Region. Comma separated names allowed"
+            aria-describedby="Search Region. Comma separated names allowed"> -->
+
+          <div class="input-group-append resetDefault" style="cursor: pointer;">
+            <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-search"
+                style="font-size: 1.3em;"></i></span>
+          </div>
+          <div class="input-group-append resetDefault" style="cursor: pointer;">
+            <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-times-circle"
+                style="font-size: 1.4em;"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row my-1">
-      <div class="col-12 d-flex" style="align-items: center;">
+      <div class="col-12 d-none d-lg-flex" style="align-items: center;">
 
         <div class="d-flex scenario-heading-section" style="align-items: center;">
           <div class="d-none d-lg-flex scenario-heading">
@@ -187,11 +206,11 @@
               These models depend on transmissibility parameters that indicate how contagious the disease is and the characteristics and number of people who are infected at the onset of the outbreak;
                they may also include interventions, such as stay-at-home orders."></i>
           </div>
-          <div class="d-flex d-lg-none scenario-heading">S</div>
-          <div class="arrow-right mr-2"></div>
+          <div class="d-flex d-lg-none" style="color: white; font-size: 1.2rem;">Scenarios</div>
+          <div class="arrow-right d-none d-lg-flex mr-2"></div>
         </div>
 
-        <div class="mr-auto scenario-content-section">
+        <div class="mr-auto scenario-content-section pl-3">
           <div id="scenarios" class="owl-carousel scenarios-contener" style="align-items: center;"> </div>
         </div>
 
@@ -223,7 +242,35 @@
 
     </div>
 
-    <div class="row mb-1">
+    <div class="row mb-1 d-flex d-lg-none mt-2">
+      <div class="col-12 mb-2" style="color: white;">
+
+        <div class="w-100" style="border: 1px solid #007bff;">
+          <div class="d-flex p-1"
+            style="background-color: #007bff;justify-content: flex-start;align-items: center;font-size: 1.2rem;">
+            <span class="fa fa-bed pr-2 pl-2" aria-hidden="true"></span><span> Projected Demand</span>
+          </div>
+          <div class="d-flex" style="color: cyan;align-items: center;padding: 5px;">
+            <span class="d-flex" style="color: white; padding-left: 7px; padding-right: 5px;">Value</span>
+            <span class="d-flex" style="font-size: 1.4rem;">134% (234% - 442%)</span>
+          </div>
+        </div>
+
+        <div class="w-100 mt-2" style="border: 1px solid #dc3545;">
+          <div class="d-flex p-1"
+            style="background-color: #dc3545;justify-content: flex-start;align-items: center;font-size: 1.2rem;">
+            <span class="fa fa-users pr-2 pl-2" aria-hidden="true"></span><span> Total Hospitalizations</span>
+          </div>
+          <div class="d-flex" style="color: cyan;align-items: center;padding: 5px;">
+            <span class="d-flex" style="color: white; padding-left: 7px; padding-right: 5px;">Value</span>
+            <span class="d-flex" style="font-size: 1.4rem;">134,244 (234,234 - 442,233)</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row mb-1 d-none d-lg-flex">
 
       <div class="col-12 d-flex" style="align-items: center;">
 
@@ -238,11 +285,11 @@
               The Percentage of Occupied Beds is calculated from projected weekly hospitalizations, the number of hospital beds in the selected regions (assuming that 80% of total occupancy is taken up by non-COVID-19 patients),
                and the duration of the typical hospital stay."></i>
           </div>
-          <div class="d-flex d-lg-none scenario-heading">P</div>
-          <div class="arrow-right mr-2"></div>
+          <!-- <div class="d-flex d-lg-none scenario-heading">P</div> -->
+          <div class="d-none d-lg-flex arrow-right mr-2"></div>
         </div>
 
-        <div class="projection-content-section mr-auto">
+        <div class="projection-content-section mr-auto d-none d-lg-flex">
 
           <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div id="renderField" class="btn-group mr-auto d-block toggleOptions" role="group" aria-label="First group">
@@ -262,11 +309,9 @@
       </div>
 
     </div>
-
     <div class="row mb-2 d-flex d-lg-none">
 
-    </div>
-
+    </div>    
     <!-- Space for Map and Data-->
     <div class="row" style="height: calc(100% - 65px);">
 
@@ -278,19 +323,36 @@
             <div class="h-100" id="mapCanvas" data-dojo-type="dijit/layout/ContentPane"
               data-dojo-props="region:'center'">
 
+              <div class="d-lg-none d-flex justify-content-start mr-2" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group ml-auto d-flex resetOptions" role="group" aria-label="First group">
+                  <button type="button" value="2" class="btn btn-primary d-flex align-items-center mr-2"
+                    title="Percentage of Occupied Beds" style="color: white !important;">
+                    <i class="fa fa-bed" style="font-size: 1.5em; padding-right: 5px;"></i>
+                  </button>
+
+                  <button type="button" value="2" class="btn btn-danger d-flex align-items-center"
+                    title="Weekly Hospitalizations" style="color: white !important;">
+                    <i class="fa fa-users" style="font-size: 1.2em; padding-right: 5px; padding-left: 5px;"></i>
+                  </button>
+
+                </div>
+              </div>
+
               <div class="d-flex justify-content-end mr-2" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group ml-auto d-flex resetOptions" role="group" aria-label="First group">
-                  <button type="button" value="2" class="btn btn-secondary getQueryResultsBtn d-none align-items-center mr-2"
+                  <button type="button" value="2"
+                    class="btn btn-secondary getQueryResultsBtn d-none align-items-center mr-2"
                     title="Back to Query Results" style="color: white !important;">
-                    <i class="fa fa-long-arrow-left" style="font-size: 1.5em; padding-right: 5px;"></i>
-                    <span>Back to Query Results</span>
+                    <i class="fa fa-long-arrow-left pr-lg-2" style="font-size: 1.5em;"></i>
+                    <span class="d-lg-flex d-none">Back to Query Results</span>
                   </button>
-                  
+
                   <button type="button" value="2" class="btn btn-secondary resetBtn d-flex align-items-center"
                     title="Reset" style="color: white !important;">
-                    <i class="fa fa-undo" style="font-size: 1.2em; padding-right: 7px;"></i> <span>Reset</span>
+                    <i class="fa fa-undo pr-lg-2" style="font-size: 1.2em;"></i>
+                    <span class="d-lg-flex d-none">Reset</span>
                   </button>
-                  
+
                 </div>
               </div>
 
@@ -322,7 +384,7 @@
       </div>
 
 
-      <div class="col-12 col-lg-6 col-xl-5 dataContainer h-100">
+      <div class="col-12 col-lg-6 col-xl-5 dataContainer d-none d-lg-block h-100">
 
         <div class="row">
 

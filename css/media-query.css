@@ -181,7 +181,7 @@
   }
 
   .title {
-    font-size: 1rem !important;
+    font-size: 0.7rem !important;
     margin-left: 0.5rem !important;
     margin-top: 3px;
     white-space: nowrap;
@@ -205,8 +205,7 @@
 
   .scenario-content-section,
   .timeline-content-section {
-    width: calc(100% - 65px);
-    padding-left: 15px;
+    width: calc(100% - 15px);
   }
 
   .content-data {
@@ -220,9 +219,9 @@
   }
 
   #timeline .content .date {
-    height: 25px;
+    height: 30px;
     justify-content: center;
-    width: 60px !important;
+    width: 80px !important;
   }
 
   #timeline .content .date,
