@@ -28,37 +28,37 @@
             "scenario_display_name": "Pause-StaggRelease-dur7",
             "position": 0,
             "directory": "sc-Pause-StaggRelease-dur7-projBounds",
-            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states and that typical hospital stays are set at 7 days. Updated 2020-05-12."
+            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states and that typical hospital stays are set at 7 days. Updated 2020-05-18."
         },
         {
             "scenario_display_name": "Pause-StaggRelease-dur14",
             "position": 1,
             "directory": "sc-Pause-StaggRelease-dur14-projBounds",
-            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states and that typical hospital stays are set at 14 days. Updated 2020-05-12."
+            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states and that typical hospital stays are set at 14 days. Updated 2020-05-18."
         },
         {
             "scenario_display_name": "Pause-StaggRelease-ImproveTest-dur7",
             "position": 2,
             "directory": "sc-Pause-StaggRelease-ImproveTest-dur7-projBounds",
-            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states, that there is improved access to testing, and that typical hospital stays are set at 7 days. Updated 2020-05-12."
+            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states, that there is improved access to testing, and that typical hospital stays are set at 7 days. Updated 2020-05-18."
         },
         {
             "scenario_display_name": "Pause-StaggRelease-ImproveTest-dur14",
             "position": 3,
             "directory": "sc-Pause-StaggRelease-ImproveTest-dur14-projBounds",
-            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states, that there is improved access to testing, and that typical hospital stays are set at 14 days. Updated 2020-05-12."
+            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states, that there is improved access to testing, and that typical hospital stays are set at 14 days. Updated 2020-05-18."
         },
         {
             "scenario_display_name": "Pause-Indefinite-dur7",
             "position": 4,
             "directory": "sc-Pause-Indefinite-dur7-projBounds",
-            "description": "This model assumes indefinite stay-at-home orders (ie, social distancing for the foreseeable future) with length of hospital stay set to 7 days. Updated 2020-05-12."
+            "description": "This model assumes indefinite stay-at-home orders (ie, social distancing for the foreseeable future) with length of hospital stay set to 7 days. Updated 2020-05-18."
         },
         {
             "scenario_display_name": "Pause-Indefinite-dur14",
             "position": 5,
             "directory": "sc-Pause-Indefinite-dur14-projBounds",
-            "description": "This model assumes indefinite stay-at-home orders (ie, social distancing for the foreseeable future) with length of hospital stay set to 14 days. Updated 2020-05-12."
+            "description": "This model assumes indefinite stay-at-home orders (ie, social distancing for the foreseeable future) with length of hospital stay set to 14 days. Updated 2020-05-18."
         }
     ]
 }
