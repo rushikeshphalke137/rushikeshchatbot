@@ -533,7 +533,7 @@ require([
         if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0) {
           $('#overlay').hide();
         } else {
-          resetMapToDefault();
+          resetApplication();
         }
         return;
       }
@@ -1012,7 +1012,7 @@ require([
       return mergedData;
     }
 
-    function resetMapToDefault() {
+    function resetApplication() {
       var queryString = $('#queryByName')[0].value;
 
       if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0 && queryString.length == 0)
@@ -1035,9 +1035,20 @@ require([
       $('#scenarios .scenario-content').first().click();
     }
 
+    function resetMap() {
+      globals.map.graphics.clear();
+      globals.map.infoWindow.hide();
+
+      globals.map.setExtent(globals.defaultExtent);
+    }
+
     function bindSearchAndResetButton() {
-      $('.resetDefault, .resetBtn').on('click', function (e) {
-        resetMapToDefault();
+      $('.resetBtn').on('click', function (e) {
+        resetMap();
+      });
+
+      $('.resetDefault').on('click', function (e) {
+        resetApplication();
       });
 
       $('.queryFilter, .getQueryResultsBtn').on('click', function (e) {
