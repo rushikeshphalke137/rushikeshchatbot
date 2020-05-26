@@ -332,8 +332,8 @@ require([
         colors.push(new Color([43, 140, 190]));
         colors.push(new Color([4, 90, 141]));
 
-        var breakMins = [1, 80, 90, 100, 120];
-        var breakMaxs = [79.99, 89.99, 99.99, 119.99, 29999];
+        var breakMins = [80, 90, 100, 120, 130];
+        var breakMaxs = [89.99, 99.99, 119.99, 129.99, 500];
       } else {
         numClasses = 6;
         //OrRd
@@ -344,7 +344,7 @@ require([
         colors.push(new Color([227, 74, 51]));
         colors.push(new Color([179, 0, 0]));
 
-        var breakMins = [1, 10, 100, 500, 1000, 10000];
+        var breakMins = [0, 10, 100, 500, 1000, 10000];
         var breakMaxs = [9, 99, 499, 999, 9999, 299999];
       }
 
