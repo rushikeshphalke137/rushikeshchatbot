@@ -441,10 +441,10 @@ function numFormatter(num) {
   if (num < 9999) return num.toLocaleString();
 
   if (num >= 10000 && num <= 999999)
-    return (num / 1000).toFixed(3) + 'K';
+    return (num / 1000).toFixed(2) + 'K';
 
   if (num >= 1000000 && num <= 999999999)
-    return (num / 1000000).toFixed(3) + 'M';
+    return (num / 1000000).toFixed(2) + 'M';
 }
 
 function getJSONData(datafile) {
