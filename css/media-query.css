@@ -86,27 +86,6 @@
     margin-top: 0px !important;
     margin-bottom: 0px !important;
   }
-
-  .content-data {
-    display: none !important;
-  }
-
-  #timeline .content-selected .date {
-    background-color: rgb(255, 140, 0) !important;
-    width: 60px !important;
-    justify-content: center;
-  }
-
-  #timeline .content .date {
-    height: 25px;
-    justify-content: center;
-    width: 60px !important;
-  }
-
-  #timeline .content .date,
-  #timeline .content-selected .date {
-    border-radius: 5px !important;
-  }
 }
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation : landscape) {
@@ -151,6 +130,14 @@
   .moreOptionDropDown {
     background-color: unset !important;
   }
+
+  .scenario-content-section {
+    width: calc(100% - 25px) !important;
+  }
+
+  .mapDataContainer {
+    height: calc(100% - 110px);
+  }
 }
 
 @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
@@ -172,19 +159,16 @@
 
 /* Media Query for Mobile Devices */
 @media (max-width: 480px) {
+  .mapDataContainer {
+    height: calc(100% - 110px);
+  }
+
   #mapCanvas {
     height: calc(100vh - 145px) !important;
   }
 
-  #displayOptionWrapper {
-    bottom: 80px !important;
-  }
-
   .title {
-    font-size: 0.7rem !important;
-    margin-left: 0.5rem !important;
-    margin-top: 3px;
-    white-space: nowrap;
+    font-size: 1.2rem !important;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -205,28 +189,8 @@
 
   .scenario-content-section,
   .timeline-content-section {
-    width: calc(100% - 15px);
-  }
-
-  .content-data {
-    display: none !important;
-  }
-
-  #timeline .content-selected .date {
-    background-color: rgb(255, 140, 0) !important;
-    width: 60px !important;
-    justify-content: center;
-  }
-
-  #timeline .content .date {
-    height: 30px;
-    justify-content: center;
-    width: 80px !important;
-  }
-
-  #timeline .content .date,
-  #timeline .content-selected .date {
-    border-radius: 5px !important;
+    width: calc(100% - 5px);
+    padding: 0px 20px;
   }
 
   .claro .dijitTooltipContainer {

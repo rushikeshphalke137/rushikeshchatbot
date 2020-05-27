@@ -761,7 +761,7 @@ require([
 
       var timelineHTML = "";
       timelineHTML = '<div id="timeline" class="d-flex owl-carousel timeline-contener" style="align-items: center;">';
-      // Iterate over Summary data and craete Timelines
+      // Iterate over Summary data and create Timelines
       for (index = 0; index < filteredData.length; index++) {
         actualDateString = filteredData[index][0];
 
@@ -816,13 +816,13 @@ require([
         navText: ["<div class='nav-btn timeline-prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>", "<div class='nav-btn timeline-next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
         responsive: {
           0: {
-            items: 5,
+            items: 2,
           },
           600: {
             items: 3,
           },
           1000: {
-            items: 4,
+            items: 3,
           },
           1281: {
             items: 5,
@@ -877,7 +877,7 @@ require([
             items: 2,
           },
           600: {
-            items: 3,
+            items: 4,
           },
           1000: {
             items: 4,

@@ -76,8 +76,8 @@
     <div class="col-12" style="border-bottom: 3px solid #e57200;">
 
       <!-- Desktop/IPad View -->
-      <div class="w-100 mt-2 d-none d-lg-flex justify-content-left">
-        <div class="d-flex mr-auto" style="margin-bottom: 0.2rem;">
+      <div class="w-100 d-none d-lg-flex align-items-center justify-content-left">
+        <div class="d-flex mr-auto align-items-center">
           <a href="https://biocomplexity.virginia.edu/" target="_blank">
             <img src="images/logos/bii_logo_v5-01.png" class="img-fluid" style="height: 4rem;" alt="BII@UVA">
           </a>
@@ -141,7 +141,7 @@
 
         <div class="d-flex mr-auto align-items-center" style="margin-bottom: 0.2rem;">
           <a href="https://biocomplexity.virginia.edu/" target="_blank">
-            <img src="images/favicon.ico" sizes="16x16 32x32" class="img-fluid" style="height: 2rem;" alt="BII@UVA">
+            <img src="images/favicon.ico" sizes="16x16 32x32" class="img-fluid" style="height: 30px; width: 40px;" alt="BII@UVA">
           </a>
           <div class="applicationTitle title" style="color:white; margin-left: 1rem;">
             COVID-19 Medical Resource Demand Dashboard
@@ -194,17 +194,20 @@
 
   <div class="supported-content w-100" style="height: calc(100% - 95px);">
 
-    <div class="row mb-3 mt-2 d-flex d-lg-none">
+    <div class="row mb-2 mt-2 d-flex d-lg-none">
       <div class="col-12 d-flex" style="font-size: 1rem;">
         <div class="input-group mr-1" style="box-shadow: lightgrey 0 0 7px; height: 40px;">
-          <!-- <input name="queryByName" id="queryByName" type="text" class="form-control" aria-label="Small"
-            style="height: 40px;" placeholder="Search Region. Comma separated names allowed"
-            aria-describedby="Search Region. Comma separated names allowed"> -->
-
+         
           <div class="input-group-append resetDefault" style="cursor: pointer;">
             <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-search"
                 style="font-size: 1.3em;"></i></span>
           </div>
+         
+          <input name="queryByName" id="queryByName" type="text" class="form-control" aria-label="Small"
+            style="height: 42px;" placeholder="Search Region. Comma separated names allowed"
+            aria-describedby="Search Region. Comma separated names allowed">
+
+          
           <div class="input-group-append resetDefault" style="cursor: pointer;">
             <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-times-circle"
                 style="font-size: 1.4em;"></i></span>
@@ -214,7 +217,7 @@
     </div>
 
     <div class="row my-1">
-      <div class="col-12 d-none d-lg-flex" style="align-items: center;">
+      <div class="col-12 d-lg-flex" style="align-items: center;">
 
         <div class="d-flex scenario-heading-section" style="align-items: center;">
           <div class="d-none d-lg-flex scenario-heading">
@@ -229,7 +232,7 @@
           <div class="arrow-right d-none d-lg-flex mr-2"></div>
         </div>
 
-        <div class="mr-auto scenario-content-section pl-3">
+        <div class="scenario-content-section pl-3 ml-2 ml-lg-0 mr-2 mr-lg-auto">
           <div id="scenarios" class="owl-carousel scenarios-contener" style="align-items: center;"> </div>
         </div>
 
@@ -259,34 +262,6 @@
         </div>
       </div>
 
-    </div>
-
-    <div class="row mb-1 d-flex d-lg-none mt-2">
-      <div class="col-12 mb-2" style="color: white;">
-
-        <div class="w-100" style="border: 1px solid #007bff;">
-          <div class="d-flex p-1"
-            style="background-color: #007bff;justify-content: flex-start;align-items: center;font-size: 1.2rem;">
-            <span class="fa fa-bed pr-2 pl-2" aria-hidden="true"></span><span> Projected Demand</span>
-          </div>
-          <div class="d-flex" style="color: cyan;align-items: center;padding: 5px;">
-            <span class="d-flex" style="color: white; padding-left: 7px; padding-right: 5px;">Value</span>
-            <span class="d-flex" style="font-size: 1.4rem;">134% (234% - 442%)</span>
-          </div>
-        </div>
-
-        <div class="w-100 mt-2" style="border: 1px solid #dc3545;">
-          <div class="d-flex p-1"
-            style="background-color: #dc3545;justify-content: flex-start;align-items: center;font-size: 1.2rem;">
-            <span class="fa fa-users pr-2 pl-2" aria-hidden="true"></span><span> Total Hospitalizations</span>
-          </div>
-          <div class="d-flex" style="color: cyan;align-items: center;padding: 5px;">
-            <span class="d-flex" style="color: white; padding-left: 7px; padding-right: 5px;">Value</span>
-            <span class="d-flex" style="font-size: 1.4rem;">134,244 (234,234 - 442,233)</span>
-          </div>
-        </div>
-
-      </div>
     </div>
 
     <div class="row mb-1 d-none d-lg-flex">
@@ -332,7 +307,7 @@
 
     </div>    
     <!-- Space for Map and Data-->
-    <div class="row" style="height: calc(100% - 65px);">
+    <div class="row mapDataContainer">
 
       <div class="col-12 col-lg-6 col-xl-7 pr-lg-0 h-100">
         <div class="col-12 p-0 mapContainer" style="height: calc(100% - 52px);">

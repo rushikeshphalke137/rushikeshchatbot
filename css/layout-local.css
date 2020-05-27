@@ -1002,40 +1002,10 @@ button.owl-prev:focus {
     display: block;
   }
 
-  .content-data {
-    display: none !important;
-  }
-
-  #timeline .content-selected .date {
-    background-color: rgb(255, 140, 0) !important;
-    width: 60px !important;
-    justify-content: center;
-  }
-
-  #timeline .content .date {
-    height: 25px;
-    justify-content: center;
-    width: 60px !important;
-  }
-
-  #timeline .content .date,
-  #timeline .content-selected .date {
-    border-radius: 5px !important;
-  }
 }
-
-/* .carousel-inner .carousel-item.active,
-.carousel-inner .carousel-item-next,
-.carousel-inner .carousel-item-prev {
-  display: flex;
-}
-
-.carousel-inner .carousel-item-right,
-.carousel-inner .carousel-item-left {
-  transform: translateX(0);
-} */
-
 /* code end for carosel */
+
+
 #timeInfo {
   background-color: #3d3d3d;
   display: block;
@@ -1384,4 +1354,8 @@ div#socialSharing a span#linkedin:hover {
 .dataChartFilter {
   color: white;
   cursor: pointer;
+}
+
+.mapDataContainer {
+  height: calc(100% - 65px);
 }
