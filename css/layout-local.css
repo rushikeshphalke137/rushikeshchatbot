@@ -1127,13 +1127,47 @@ button.owl-prev:focus {
   background-color: rgb(255, 140, 0);
   color: white;
 }
+.linksContainer,
+.linkContainer {
+  flex: 1 0 100%;
+}
+.icon-bar .dashboardButton {
+  margin-top: 0px !important;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-right: 0px !important;
+}
 
+.linksContainer .youtubeIcon {
+  background-color: #FF0000 !important;
+  background: #FF0000 !important;
+  border: 1px solid #FF0000 !important;
+}
+.linksContainer .youtubeIcon:hover {
+  border: 0px solid #FF0000 !important;
+}
+.linkContainer {
+  color: white;
+  font-weight: 400;
+  text-transform: capitalize;
+}
 .moreOptionDropDown {
   color: rgb(255, 140, 0) !important;
   border-color: rgb(255, 140, 0) !important;
+
+  /* border: 1px solid #2A66B3 !important;
+  background-color: #3B5998 !important; */
   cursor: pointer;
 }
 
+.icon-bar .icon-link {
+  width: 25px !important;
+  height: 25px !important;
+    line-height: 25px !important;
+}
+.icon-bar {
+  padding-right: 10px;
+}
 
 div#socialSharing a span.large {
   border-radius: 50%;
@@ -1168,7 +1202,12 @@ div#socialSharing a span#linkedin {
 div#socialSharing a span#linkedin:hover {
   background-color: #02689d;
 }
-
+.icon-bar .videoButton,
+.icon-bar .videoButton:hover,
+.icon-bar .videoButton:hover:not(.disabled) {
+  background-color: #FF0000 !important;
+  background-image: -webkit-linear-gradient(top, #FF0000 0%, #FF0000 100%) !important;
+}
 .icon-link {
   width: 35px;
   height: 33px;
@@ -1181,8 +1220,8 @@ div#socialSharing a span#linkedin:hover {
   outline: none;
   box-sizing: content-box;
   /*margin-right: 5px;*/
-  margin-top: 3px;
-  margin-bottom: 5px;
+  /* margin-top: 3px; */
+  /* margin-bottom: 2px; */
 }
 
 .icon-link.fill.facebook {
