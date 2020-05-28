@@ -1036,10 +1036,22 @@ require([
     }
 
     function resetMap() {
+      if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0 && queryString.length == 0)
+        return;
+
       globals.map.graphics.clear();
       globals.map.infoWindow.hide();
+      globals.queriedRegionNames = [];
+      globals.queriedRegionNumbers = [];
+      globals.selectedRegionNum = 0;
 
+      $('#queryByName')[0].value = "";
       globals.map.setExtent(globals.defaultExtent);
+
+      $('.getQueryResultsBtn').removeClass('d-flex');
+      $('.getQueryResultsBtn').addClass('d-none');
+
+      executeDefaultWorkflow();
     }
 
     function bindSearchAndResetButton() {
