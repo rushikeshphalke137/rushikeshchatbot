@@ -326,14 +326,14 @@ require([
       if (globals.csvDataHeader[globals.renderFieldIndex] == 'Projected Demand (%)') {
         //for deaths
         //PuBu
-        colors.push(new Color([241, 238, 246]));
         colors.push(new Color([189, 201, 225]));
         colors.push(new Color([116, 169, 207]));
         colors.push(new Color([43, 140, 190]));
         colors.push(new Color([4, 90, 141]));
+        colors.push(new Color([3, 72, 112]));
 
-        var breakMins = [80, 90, 100, 120, 130];
-        var breakMaxs = [89.99, 99.99, 119.99, 129.99, 500];
+        var breakMins = [80, 90, 100, 120,130];
+        var breakMaxs = [89.99, 99.99, 119.99, 129.99,200];
       } else {
         numClasses = 6;
         //OrRd
