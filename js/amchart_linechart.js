@@ -290,6 +290,21 @@ function createHospitalizationSeries(chart, color) {
 
   // Create Hospitalization Value axis
   var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+  let maxHospitalizationValue = 0;
+  let minHospitalizationValue = 100;
+
+  globals.chartDataFile.forEach(function (chartValue, index) {
+    if (maxHospitalizationValue < Number(chartValue['Upper Hospitalization Bound']))
+    maxHospitalizationValue = Number(chartValue['Upper Hospitalization Bound']);
+
+    if (minHospitalizationValue > Number(chartValue['Lower Hospitalization Bound']))
+    minHospitalizationValue = Number(chartValue['Lower Hospitalization Bound']);
+  });
+
+  hospitalizationValueAxis.min = minHospitalizationValue - 10;
+  hospitalizationValueAxis.max = maxHospitalizationValue + (maxHospitalizationValue * 0.5);
+
   //hospitalizationValueAxis.renderer.minGridDistance = 50; //used for steps in value axis
   hospitalizationValueAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43 left side
 
@@ -305,19 +320,7 @@ function createHospitalizationSeries(chart, color) {
   hospitalizationValueAxis.title.fill = am4core.color("#fff");
   hospitalizationValueAxis.title.fontSize = 14;
 
-  let maxWeeklyHospitalizationValue = 0;
-  let minWeeklyHospitalizationValue = 100;
 
-  globals.chartDataFile.forEach(function (chartValue, index) {
-    if (maxWeeklyHospitalizationValue < Number(chartValue['Upper Hospitalization Bound']))
-    maxWeeklyHospitalizationValue = Number(chartValue['Upper Hospitalization Bound']);
-
-    if (minWeeklyHospitalizationValue > Number(chartValue['Lower Hospitalization Bound']))
-    minWeeklyHospitalizationValue = Number(chartValue['Lower Hospitalization Bound']);
-  });
-
-  hospitalizationValueAxis.min = minWeeklyHospitalizationValue - 10;
-  hospitalizationValueAxis.max = maxWeeklyHospitalizationValue + (maxWeeklyHospitalizationValue * 0.5);
 
   hospitalizationValueAxis.renderer.opposite = false;
   hospitalizationValueAxis.renderer.line.stroke = am4core.color(color);
