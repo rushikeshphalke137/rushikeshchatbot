@@ -305,6 +305,20 @@ function createHospitalizationSeries(chart, color) {
   hospitalizationValueAxis.title.fill = am4core.color("#fff");
   hospitalizationValueAxis.title.fontSize = 14;
 
+  let maxWeeklyHospitalizationValue = 0;
+  let minWeeklyHospitalizationValue = 100;
+
+  globals.chartDataFile.forEach(function (chartValue, index) {
+    if (maxWeeklyHospitalizationValue < Number(chartValue['Upper Hospitalization Bound']))
+    maxWeeklyHospitalizationValue = Number(chartValue['Upper Hospitalization Bound']);
+
+    if (minWeeklyHospitalizationValue > Number(chartValue['Lower Hospitalization Bound']))
+    minWeeklyHospitalizationValue = Number(chartValue['Lower Hospitalization Bound']);
+  });
+
+  hospitalizationValueAxis.min = minWeeklyHospitalizationValue - 10;
+  hospitalizationValueAxis.max = maxWeeklyHospitalizationValue + (maxWeeklyHospitalizationValue * 0.5);
+
   hospitalizationValueAxis.renderer.opposite = false;
   hospitalizationValueAxis.renderer.line.stroke = am4core.color(color);
   hospitalizationValueAxis.renderer.line.strokeOpacity = 1;
@@ -319,6 +333,8 @@ function createHospitalizationSeries(chart, color) {
   uncertainitySeries.dataFields.openValueY = "Lower Hospitalization Bound";
   uncertainitySeries.dataFields.valueY = "Upper Hospitalization Bound";
   uncertainitySeries.yAxis = hospitalizationValueAxis;
+
+
   // uncertainitySeries.numberFormatter.numberFormat = "#.";
 
   uncertainitySeries.stroke = am4core.color(color);
