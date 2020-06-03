@@ -194,7 +194,7 @@ function createDemandSeries(chart) {
   let maxUpperDemandValue = 0;
   let minLowerDemandValue = 100;
 
-  globals.chartDataFile.forEach(function (chartValue, index) {
+  chart.data.forEach(function (chartValue, index) {
     if (maxUpperDemandValue < Number(chartValue['Upper Projected Demand Bound']))
       maxUpperDemandValue = Number(chartValue['Upper Projected Demand Bound']);
 
@@ -294,7 +294,7 @@ function createHospitalizationSeries(chart, color) {
   let maxHospitalizationValue = 0;
   let minHospitalizationValue = 100;
 
-  globals.chartDataFile.forEach(function (chartValue, index) {
+  chart.data.forEach(function (chartValue, index) {
     if (maxHospitalizationValue < Number(chartValue['Upper Hospitalization Bound']))
     maxHospitalizationValue = Number(chartValue['Upper Hospitalization Bound']);
 
