@@ -858,18 +858,19 @@ require([
       var scenarioHTML = "";
       for (index = 0; index < globals.scenarios.length; index++) {
 
-        scenarioName = globals.scenarios[index].scenario_display_name;
-
+        scenarioName = globals.scenarios[index].scenario_display_name_line1;
+        scenarioNameSecondLine = globals.scenarios[index].scenario_display_name_line2;
+        scenarioDisplayName = scenarioName + "</br>" + scenarioNameSecondLine;
         if (index == 0) {
           scenarioHTML += '<div class="d-flex selected-scenario scenario-content item" data-scenario="' + scenarioName + '"' +
-            'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom" data-title="' + scenarioName + '" data-content="' + globals.scenarios[index].description + '">';
+            'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom" data-title="' + scenarioDisplayName + '" data-content="' + globals.scenarios[index].description + '">';
         } else {
           scenarioHTML += '<div class="d-flex scenario-content item" data-scenario="' + scenarioName + '"' +
-            'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom" data-title="' + scenarioName + '" data-content="' + globals.scenarios[index].description + '">';
+            'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom" data-title="' + scenarioDisplayName + '" data-content="' + globals.scenarios[index].description + '">';
         }
         scenarioHTML += '<div class="d-flex mr-1" style="align-items: center;">' +
           '<img class="scenario-icon" src="images/scenario.png" alt="Scenario"></div>' +
-          '<div class="scenario-name">' + scenarioName + '</div></div>';
+          '<div class="scenario-name">' + scenarioDisplayName + '</div></div>';
       }
 
       $('#scenarios').html(scenarioHTML);
@@ -913,7 +914,7 @@ require([
         for (index = 0; index < globals.scenarios.length; index++) {
           scenario = globals.scenarios[index];
 
-          if (scenario.scenario_display_name === selectedScenario) {
+          if (scenario.scenario_display_name_line1 === selectedScenario) {
             globals.selectedScenario = scenario;
             globals.scenariosDirectory = scenario.directory;
             break;
