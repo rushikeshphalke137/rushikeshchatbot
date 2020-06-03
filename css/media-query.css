@@ -2,6 +2,21 @@
 /* iPhone < 5: */
 @media screen and (device-aspect-ratio: 2/3) {
 
+  /* select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  } */
   select,
   textarea,
   input[type="text"],
@@ -22,6 +37,21 @@
 /* iPhone 5, 5C, 5S, iPod Touch 5g */
 @media screen and (device-aspect-ratio: 40/71) {
 
+  /* select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  } */
   select,
   textarea,
   input[type="text"],
@@ -42,6 +72,21 @@
 /* iPhone 6, iPhone 6s, iPhone 7 portrait/landscape */
 @media screen and (device-aspect-ratio: 375/667) {
 
+  /* select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  } */
   select,
   textarea,
   input[type="text"],
@@ -62,6 +107,21 @@
 /* iPhone 6 Plus, iPhone 6s Plus, iPhone 7 Plus portrait/landscape */
 @media screen and (device-aspect-ratio: 9/16) {
 
+  /* select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  } */
   select,
   textarea,
   input[type="text"],
@@ -78,16 +138,21 @@
     font-size: 16px;
   }
 }
-
-@media (max-width: 768px) {
-  .icon-link {
-    height: 30px !important;
-    line-height: 32px !important;
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
+@media screen and (min-width: 1900px) {
+  .optionMenu {
+    right: 18px !important;
   }
 }
-
+@media screen and (min-width: 1600px) {
+  .optionMenu {
+    right: 18px !important;
+  }
+}
+@media screen and (min-width: 1400px) {
+  .optionMenu {
+    right: 30px !important;
+  }
+}
 @media (min-width: 768px) and (max-width: 1024px) and (orientation : landscape) {
   .moreOptions {
     display: none !important;
@@ -97,25 +162,39 @@
     background-color: unset !important;
   }
 }
+@media (min-width: 768px) and (max-width: 1024px) {
+  .title {
+    font-size: 1.5rem !important;
+  }
 
-@media screen and (min-width: 1400px) {
-  .optionMenu {
-    right: 30px !important;
+  .moreOptions {
+    display: none !important;
+  }
+
+  .moreOptionDropDown {
+    background-color: unset !important;
+  }
+
+  .map .logo-md {
+    display: none !important;
   }
 }
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
 
-@media screen and (min-width: 1600px) {
+  /* For portrait layouts only */
   .optionMenu {
-    right: 18px !important;
+    right: 10px !important;
   }
+
 }
 
-@media screen and (min-width: 1900px) {
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+
+  /* For landscape layouts only */
   .optionMenu {
-    right: 18px !important;
+    right: 10px !important;
   }
 }
-
 @media only screen and (device-width: 768px) {
 
   /* For general iPad layouts */
@@ -139,26 +218,56 @@
     height: calc(100% - 110px);
   }
 }
-
-@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
-
-  /* For portrait layouts only */
-  .optionMenu {
-    right: 10px !important;
+@media (max-width: 768px) {
+  .icon-link {
+    height: 30px !important;
+    line-height: 32px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+  .timeline-prev-slide,
+  .timeline-next-slide {
+    height: auto;
+    margin-top: -1px;
   }
 
-}
+  .icon-link {
+    height: 30px !important;
+    line-height: 32px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
 
-@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+  .carousel-inner .carousel-item>div {
+    display: none;
+  }
 
-  /* For landscape layouts only */
-  .optionMenu {
-    right: 10px !important;
+  .carousel-inner .carousel-item>div:first-child {
+    display: block;
   }
 }
+/* Media Query for low resolution  Tablets, Ipads */
+@media (min-width: 481px) and (max-width: 767px) {
+  .optionMenu {
+    right: 10px !important;
+    top: 37px !important;
+    ;
+  }
 
+  .title {
+    font-size: 1.5rem !important;
+  }
+
+  .map .logo-sm {
+    display: none !important;
+  }
+}
 /* Media Query for Mobile Devices */
 @media (max-width: 480px) {
+  body,
+  .scenario-name {
+    font-size: .9rem !important;
+  }
   .mapDataContainer {
     height: calc(100% - 110px);
   }
@@ -167,11 +276,11 @@
     height: calc(100vh - 145px) !important;
   }
 
-  .title {
+  /* .title {
     font-size: 1.2rem !important;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
+  } */
 
   .owl-carousel-timeline .owl-nav .owl-prev {
     background-color: transparent;
@@ -210,6 +319,7 @@
 
   .esriSimpleSliderTL {
     left: 5px !important;
+    top: 43px;
   }
 
   .customZoom {
@@ -232,39 +342,64 @@
   .map .logo-sm {
     display: none !important;
   }
+  body.container-fluid {
+    padding: 0px 5px;
+  }
+  .logo {
+    height: 10px;
+      width: 10px;
+  }
+  .mobileHeaderRow .applicationTitle{
+    color:white;
+    margin-left: .2rem;
+    font-size: .7rem !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mobileHeaderRow a {
+    display: flex;
+  }
+  .mobileHeaderRow  .icon-bar {
+    padding-right: 2px;
+  }
+  .mobileHeaderRow  .icon-bar .icon-link,
+  .mobileHeaderRow .icon-bar .dashboardButton {
+    width: 15px !important;
+    height: 15px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    margin-left: .15rem!important;
+    font-size: .8rem !important;
+  }
+  .mobileHeaderRow  .icon-link .fa
+   {
+    font-size: .8rem !important;
+  }
+  .mobileHeaderRow  .hamburgerIcon
+   {
+    font-size: 1rem !important;
+  }
+  .mobileQueryBoxRow .input-group,
+  .mobileQueryBoxRow .resetDefault{
+    height: 20px;
+  }
+  .mobileQueryBoxRow .resetDefault fa {
+font-size: 1em;
+  }
+.mobileQueryBoxRow #queryByName {
+  height: 100% ;
 }
-
-/* Media Query for low resolution  Tablets, Ipads */
-@media (min-width: 481px) and (max-width: 767px) {
-  .optionMenu {
-    right: 10px !important;
-    top: 37px !important;
-    ;
-  }
-
-  .title {
-    font-size: 1.5rem !important;
-  }
-
-  .map .logo-sm {
-    display: none !important;
-  }
+.scenario-content-section img.scenario-icon {
+  height: 15px; width: 15px;
 }
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  .title {
-    font-size: 1.5rem !important;
-  }
-
-  .moreOptions {
-    display: none !important;
-  }
-
-  .moreOptionDropDown {
-    background-color: unset !important;
-  }
-
-  .map .logo-md {
-    display: none !important;
-  }
+.scenario-content-section  button.owl-prev,
+.scenario-content-section  button.owl-next
+ {
+  top: 1px;
+}
+.scenario-content-section .owl-carousel .owl-nav button.owl-next,
+.scenario-content-section .owl-carousel .owl-nav button.owl-prev {
+  height: 15px;
+}
 }

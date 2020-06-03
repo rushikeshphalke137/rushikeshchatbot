@@ -128,6 +128,13 @@ require([
     };
 
     // This is to hide Application in Mobile's landscape mode
+    if(globals.mobileDevice()) { //if its a mobile device
+      $('.largedeviceQueryBoxRow').html("");
+    } else {
+      
+      $('.mobilemapChartDataRow').html("");
+      $('.mobileQueryBoxRow').html("");
+    }
     if (globals.mobileDevice() && (window.orientation == 90 || window.orientation == -90)) {
       $('.supported-content').addClass('d-none');
       $('.not-supported').addClass('d-flex');
@@ -861,7 +868,7 @@ require([
             'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom" data-title="' + scenarioName + '" data-content="' + globals.scenarios[index].description + '">';
         }
         scenarioHTML += '<div class="d-flex mr-1" style="align-items: center;">' +
-          '<img style="height: 25px; width: 25px;" src="images/scenario.png" alt="Scenario"></div>' +
+          '<img class="scenario-icon" src="images/scenario.png" alt="Scenario"></div>' +
           '<div class="scenario-name">' + scenarioName + '</div></div>';
       }
 

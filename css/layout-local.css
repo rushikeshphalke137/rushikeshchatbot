@@ -623,7 +623,7 @@ textarea {
 }
 
 .esriSimpleSliderTL {
-  top: 20px !important;
+  top: 20px ;
   left: 10px !important;
 }
 
@@ -657,87 +657,6 @@ textarea {
   font-size: 16pt;
   font-weight: bold;
   font-family: "Tahoma";
-}
-
-/*** Styles added to fix the issue with zoom in on iphone ***/
-/* iPhone < 5: */
-@media screen and (device-aspect-ratio: 2/3) {
-
-  select,
-  textarea,
-  input[type="text"],
-  input[type="password"],
-  input[type="datetime"],
-  input[type="datetime-local"],
-  input[type="date"],
-  input[type="month"],
-  input[type="time"],
-  input[type="week"],
-  input[type="number"],
-  input[type="email"],
-  input[type="url"] {
-    font-size: 16px;
-  }
-}
-
-/* iPhone 5, 5C, 5S, iPod Touch 5g */
-@media screen and (device-aspect-ratio: 40/71) {
-
-  select,
-  textarea,
-  input[type="text"],
-  input[type="password"],
-  input[type="datetime"],
-  input[type="datetime-local"],
-  input[type="date"],
-  input[type="month"],
-  input[type="time"],
-  input[type="week"],
-  input[type="number"],
-  input[type="email"],
-  input[type="url"] {
-    font-size: 16px;
-  }
-}
-
-/* iPhone 6, iPhone 6s, iPhone 7 portrait/landscape */
-@media screen and (device-aspect-ratio: 375/667) {
-
-  select,
-  textarea,
-  input[type="text"],
-  input[type="password"],
-  input[type="datetime"],
-  input[type="datetime-local"],
-  input[type="date"],
-  input[type="month"],
-  input[type="time"],
-  input[type="week"],
-  input[type="number"],
-  input[type="email"],
-  input[type="url"] {
-    font-size: 16px;
-  }
-}
-
-/* iPhone 6 Plus, iPhone 6s Plus, iPhone 7 Plus portrait/landscape */
-@media screen and (device-aspect-ratio: 9/16) {
-
-  select,
-  textarea,
-  input[type="text"],
-  input[type="password"],
-  input[type="datetime"],
-  input[type="datetime-local"],
-  input[type="date"],
-  input[type="month"],
-  input[type="time"],
-  input[type="week"],
-  input[type="number"],
-  input[type="email"],
-  input[type="url"] {
-    font-size: 16px;
-  }
 }
 
 [role="region"] rect {
@@ -976,33 +895,6 @@ button.owl-prev:focus {
   color: white;
 }
 
-
-
-
-@media (max-width: 768px) {
-
-  .timeline-prev-slide,
-  .timeline-next-slide {
-    height: auto;
-    margin-top: -1px;
-  }
-
-  .icon-link {
-    height: 30px !important;
-    line-height: 32px !important;
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-  }
-
-  .carousel-inner .carousel-item>div {
-    display: none;
-  }
-
-  .carousel-inner .carousel-item>div:first-child {
-    display: block;
-  }
-
-}
 /* code end for carosel */
 
 
@@ -1359,3 +1251,123 @@ div#socialSharing a span#linkedin:hover {
 .mapDataContainer {
   height: calc(100% - 65px);
 }
+
+.logo {
+  height: 30px;
+    width: 40px;
+}
+.scenario-content-section img.scenario-icon {
+  height: 25px; width: 25px;
+}
+
+
+
+
+
+
+/** code started for media query **/
+/* @media (max-width: 768px) {
+
+  .timeline-prev-slide,
+  .timeline-next-slide {
+    height: auto;
+    margin-top: -1px;
+  }
+
+  .icon-link {
+    height: 30px !important;
+    line-height: 32px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+
+  .carousel-inner .carousel-item>div {
+    display: none;
+  }
+
+  .carousel-inner .carousel-item>div:first-child {
+    display: block;
+  }
+
+} */
+/*** Styles added to fix the issue with zoom in on iphone ***/
+/* iPhone < 5: */
+/* @media screen and (device-aspect-ratio: 2/3) {
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  }
+} */
+
+/* iPhone 5, 5C, 5S, iPod Touch 5g */
+/* @media screen and (device-aspect-ratio: 40/71) {
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  }
+} */
+
+/* iPhone 6, iPhone 6s, iPhone 7 portrait/landscape */
+/* @media screen and (device-aspect-ratio: 375/667) {
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  }
+} */
+
+/* iPhone 6 Plus, iPhone 6s Plus, iPhone 7 Plus portrait/landscape */
+/* @media screen and (device-aspect-ratio: 9/16) {
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"] {
+    font-size: 16px;
+  }
+} */
+/** code ended for media query **/

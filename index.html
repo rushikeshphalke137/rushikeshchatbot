@@ -32,12 +32,12 @@
 
   <!-- local css to layout -->
   <link rel="stylesheet" href="css/layout-local.css" />
-  <link rel="stylesheet" href="css/media-query.css" />
+  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
     rel="stylesheet">
-
+    <link rel="stylesheet" href="css/media-query.css" />
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.8/jquery.csv.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -137,21 +137,20 @@
       </div>
 
       <!-- Mobile/iPad Portrait View -->
-      <div class="w-100 pt-2 pb-2 d-flex d-lg-none justify-content-between">
+      <div class="w-100 pt-2 pb-2 d-flex d-lg-none justify-content-between mobileHeaderRow">
 
-        <div class="d-flex mr-auto align-items-center" style="margin-bottom: 0.2rem;">
+        <div class="d-flex mr-auto align-items-center" >
           <a href="https://biocomplexity.virginia.edu/" target="_blank">
-            <img src="images/favicon.ico" sizes="16x16 32x32" class="img-fluid" style="height: 30px; width: 40px;" alt="BII@UVA">
+            <img src="images/favicon.ico" sizes="16x16 32x32" class="img-fluid logo"  alt="BII@UVA">
           </a>
-          <div class="applicationTitle title" style="color:white; margin-left: 1rem;">
+          <div class="applicationTitle title">
             COVID-19 Medical Resource Demand Dashboard
           </div>
         </div>
 
-        <div class="d-none d-md-flex align-items-center mr-2">
+        <!-- <div class="d-md-flex align-items-center mr-2">
           <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F&amp;src=sdkpreparse"
             target="_blank" class="icon-link round-corner facebook fill mr-2"><i class="fa fa-facebook"></i>
-            <!-- <span style="color: white;padding-left: 6px;">Share</span> -->
           </a>
           <a class="icon-link round-corner twitter fill mr-2"
             href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2Fmaster%2Findex.html&ref_src=twsrc%5Etfw&text=Check%20out%20this%20%23covid19%20dashboard%20by%20%40UVA_BI%20which%20has%20a%20time%20slider.%20Search%20is%20easy%3A%20click%20on%20Data%20icon%20and%20type%20something.&tw_p=tweetbutton&url=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F"
@@ -159,17 +158,50 @@
             data-text="Check out this #covid19 dashboard by @UVA_BI which has a time slider. Search is easy: click on Data icon and type something."
             target="_blank">
             <i class="fa fa-twitter"></i>
-            <!-- <span style="color: white;padding-left: 6px;">Tweet</span> -->
           </a>
           <a class="icon-link round-corner linkedin fill mr-2"
             href="https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin"
             data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" target="_blank">
             <i class="fa fa-linkedin"></i>
+          </a>
+        </div> -->
+        <div class="icon-bar d-flex">
+          <div class="d-flex linksContainer align-items-center justify-content-end">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F&amp;src=sdkpreparse"
+            target="_blank" class="icon-link round-corner facebook fill "><i class="fa fa-facebook"></i>
             <!-- <span style="color: white;padding-left: 6px;">Share</span> -->
           </a>
-        </div>
+          <a class="icon-link round-corner twitter fill "
+            href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2Fmaster%2Findex.html&ref_src=twsrc%5Etfw&text=Check%20out%20this%20%23covid19%20dashboard%20by%20%40UVA_BI%20which%20has%20a%20time%20slider.%20Search%20is%20easy%3A%20click%20on%20Data%20icon%20and%20type%20something.&tw_p=tweetbutton&url=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F"
+            data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" data-show-count="false"
+            data-text="Check out this #covid19 dashboard by @UVA_BI which has a time slider. Search is easy: click on Data icon and type something."
+            target="_blank">
+            <i class="fa fa-twitter"></i>
+            <!-- <span style="color: white;padding-left: 6px;">Tweet</span> -->
+          </a>
+          <a class="icon-link round-corner linkedin fill "
+            href="https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin"
+            data-url="https://nssac.bii.virginia.edu/covid-19/dashboard/" target="_blank">
+            <i class="fa fa-linkedin"></i>
+            <!-- <span style="color: white;padding-left: 6px;">Share</span> -->
+          </a>
+          <a href="https://youtu.be/9Hss4vP01IY"
+          target="_blank" class="dt-button dashboardButton videoButton ">
+          <i class="fa fa-youtube-play" aria-hidden="true"></i>
+        </a>
 
-        <div class="d-flex align-items-center mr-1">
+          
+          <a class="dt-button dashboardButton " href="http://nssac.bii.virginia.edu/covid-19/dashboard/"
+          target="_blank">SD
+        </a>
+        </div>
+          <!-- <div class="d-flex linkContainer align-items-center justify-content-end">
+            <a class="dt-button dashboardButton" href="http://nssac.bii.virginia.edu/covid-19/dashboard/"
+          target="_blank">Surveillance Dashboard
+        </a>
+      </div> -->
+        </div>
+        <div class="d-flex align-items-center ">
           <i class="fa fa-bars hamburgerIcon hamburgerIconMobile" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false"></i>
         </div>
@@ -194,22 +226,22 @@
 
   <div class="supported-content w-100" style="height: calc(100% - 95px);">
 
-    <div class="row mb-2 mt-2 d-flex d-lg-none">
+    <div class="row mt-1 d-flex d-lg-none mobileQueryBoxRow">
       <div class="col-12 d-flex" style="font-size: 1rem;">
-        <div class="input-group mr-1" style="box-shadow: lightgrey 0 0 7px; height: 40px;">
+        <div class="input-group mr-1" style="box-shadow: lightgrey 0 0 7px;">
          
-          <div class="input-group-append resetDefault" style="cursor: pointer;">
-            <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-search"
-                style="font-size: 1.3em;"></i></span>
-          </div>
+    
          
-          <!-- <input name="queryByName" id="queryByName" type="text" class="form-control" aria-label="Small"
-            style="height: 42px;" placeholder="Search Region. Comma separated names allowed"
-            aria-describedby="Search Region. Comma separated names allowed"> -->
-
+          <input name="queryByName" id="queryByName" type="text" class="form-control forMobile" aria-label="Small"
+            placeholder="Search Region. Comma separated names allowed"
+            aria-describedby="Search Region. Comma separated names allowed">
+            <div class="input-group-append resetDefault" style="cursor: pointer;">
+              <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-search"
+                  ></i></span>
+            </div>
           <div class="input-group-append resetDefault" style="cursor: pointer;">
             <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-times-circle"
-                style="font-size: 1.4em;"></i></span>
+                ></i></span>
           </div>
         </div>
       </div>
@@ -227,15 +259,17 @@
               These models depend on transmissibility parameters that indicate how contagious the disease is and the characteristics and number of people who are infected at the onset of the outbreak;
                they may also include interventions, such as stay-at-home orders."></i>
           </div>
-          <div class="d-flex d-lg-none" style="color: white; font-size: 1.2rem;">Scenarios</div>
+          <!-- only for mobile Scenarios start-->
+          <div class="d-flex d-lg-none" style="color: white;">Scenarios</div>
           <div class="arrow-right d-none d-lg-flex mr-2"></div>
+          <!-- only for mobile Scenarios end-->
         </div>
 
         <div class="scenario-content-section pl-3 ml-2 ml-lg-0 mr-2 mr-lg-auto">
           <div id="scenarios" class="owl-carousel scenarios-contener" style="align-items: center;"> </div>
         </div>
 
-        <div class="d-none d-lg-flex query-content-section">
+        <div class="d-none d-lg-flex query-content-section largedeviceQueryBoxRow">
           <div id="queryWrapper" class="d-flex" style="align-items: center;">
 
             <div class="input-group mr-1">
@@ -306,6 +340,29 @@
 
     </div>    
     <!-- Space for Map and Data-->
+
+    <div class="row mb-2 d-flex d-lg-none mobilemapChartDataRow">
+
+
+        <div class="col-12 d-flex align-items-center">
+          <div class="charts col-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter "
+          style="border-bottom: 2px solid rgb(255,140,0);">Map</div>
+          <div class="map col-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter"
+          style="border-bottom: 2px solid rgb(255,140,0);">Chart</div>
+          <div class="data col-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter"
+            style="border-bottom: 2px solid rgb(255,140,0);">Data</div>
+        </div>
+
+  
+      <div class="row" style="max-height: calc(100% - 35px); height: 100%;">
+        <div id="dataTable" class="col-12 h-100"></div>
+      </div>
+    </div>
+
+
+
+
+
     <div class="row mapDataContainer">
 
       <div class="col-12 col-lg-6 col-xl-7 pr-lg-0 h-100">
