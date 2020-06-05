@@ -346,13 +346,13 @@
     padding: 0px 5px;
   }
   .logo {
-    height: 10px;
-      width: 10px;
+    height: 15px;
+      width: 15px;
   }
   .mobileHeaderRow .applicationTitle{
     color:white;
     margin-left: .2rem;
-    font-size: .7rem !important;
+    font-size: 1rem !important;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -378,11 +378,11 @@
   }
   .mobileHeaderRow  .hamburgerIcon
    {
-    font-size: 1rem !important;
+    font-size: 1.2rem !important;
   }
   .mobileQueryBoxRow .input-group,
   .mobileQueryBoxRow .resetDefault{
-    height: 20px;
+    height: 30px;
   }
   .mobileQueryBoxRow .resetDefault fa {
 font-size: 1em;
@@ -391,15 +391,25 @@ font-size: 1em;
   height: 100% ;
 }
 .scenario-content-section img.scenario-icon {
-  height: 15px; width: 15px;
+  height: 20px; width: 20px;
 }
 .scenario-content-section  button.owl-prev,
 .scenario-content-section  button.owl-next
  {
-  top: 1px;
+  top: 8px;
 }
 .scenario-content-section .owl-carousel .owl-nav button.owl-next,
 .scenario-content-section .owl-carousel .owl-nav button.owl-prev {
   height: 15px;
 }
+.icon-link {
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+}
+ .footer-section {
+   padding: 5px 0px 0px 0px;
+ }
 }
