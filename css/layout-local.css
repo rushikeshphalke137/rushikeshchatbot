@@ -579,8 +579,11 @@ a.dt-button:hover:not(.disabled) {
 
 .mapContainer {
   border-width: 2px;
+  height: calc(100% - 69px);
 }
-
+.chartContainer {
+  max-height: calc(100% - 106px); height: 100%;
+}
 #ui-datepicker-div {
   display: none;
   z-index: 1000 !important;
@@ -1269,8 +1272,13 @@ div#socialSharing a span#linkedin:hover {
 .scenario-content-section img.scenario-icon {
   height: 25px; width: 25px;
 }
-
-
+.dataTableContainer {
+  max-height: calc(100% - 48px); height: 100%;
+}
+.invisibleHeight0 {
+  visibility: hidden!important;
+  height: 0px !important;
+}
 
 
 

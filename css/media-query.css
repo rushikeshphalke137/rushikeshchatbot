@@ -412,4 +412,34 @@ font-size: 1em;
  .footer-section {
    padding: 5px 0px 0px 0px;
  }
+#chartDataTableContainerRow {
+  order: 1;
+}
+#mapContainerRow {
+  order: 2;
+  height: 100%;
+}
+.mapContainer {
+  height: calc(100% - 74px);
+}
+.chartContainer {
+  max-height: calc(100% - 89px);
+}
+.dataTableContainer {
+  max-height: calc(100% - 52px);
+}
+#renderField button > span::after {
+  content: "";
+}
+/*.projection-content-section {
+  width: 100%;
+} 
+ #renderField {
+  position: absolute;
+  top: 49px;
+  z-index: 1;
+}
+#renderField .renderBtnText{ 
+display: none;
+} */
 }

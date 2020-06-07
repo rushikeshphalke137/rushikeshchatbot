@@ -130,10 +130,14 @@ require([
     // This is to hide Application in Mobile's landscape mode
     if(globals.mobileDevice()) { //if its a mobile device
       $('.largedeviceQueryBoxRow').html("");
+   //   $('.renderField').value="";
+      $('#renderField button:eq(0) ').html("&nbsp;<span class='fa fa-bed pr-2' aria-hidden='true'></span>&nbsp;");
+      $('#renderField button:eq(1) ').html("&nbsp;<span class='fa fa-users pr-2' aria-hidden='true'></span>&nbsp;");
     } else {
       
       $('.mobilemapChartDataRow').html("");
       $('.mobileQueryBoxRow').html("");
+      $('.mobileMapRenderOption').html("");
     }
     if (globals.mobileDevice() && (window.orientation == 90 || window.orientation == -90)) {
       $('.supported-content').addClass('d-none');
@@ -180,7 +184,12 @@ require([
       }
 
       // Select default option as Charts
-      $('.charts').click();
+      if(globals.mobileDevice()) { 
+        $('.map').click(); //for mobile default map selected
+      } else {
+        $('.charts').click(); //for except mobile chart by default selected
+      }
+
 
       // Initialize all Tooltips
       $('[data-toggle="tooltip"]').tooltip();
@@ -1106,18 +1115,40 @@ function bindMenuEvents() {
 }
 
 function bindChartAndDataTab() {
+  console.log('charts--1st');
   $('.charts').on('click', function (e) {
+    console.log('charts--2st');
     $('.data').removeClass('selectedFilter');
     $('.charts').addClass('selectedFilter');
     $('#dataTable').parent().addClass('d-none');
-    $('#chartdiv').parent().removeClass('d-none');
+    if(globals.mobileDevice()) {
+      $('.map').removeClass('selectedFilter');
+      $('#mapContainerRow').addClass('d-none');
+    }
+    $('#chartdiv').parent().removeClass('invisibleHeight0');
   });
 
   $('.data').on('click', function (e) {
+    console.log('charts--3st');
     $('.charts').removeClass('selectedFilter');
     $('.data').addClass('selectedFilter');
-    $('#chartdiv').parent().addClass('d-none');
+    $('#chartdiv').parent().addClass('invisibleHeight0');
+    if(globals.mobileDevice()) {
+      $('.map').removeClass('selectedFilter');
+      $('#mapContainerRow').addClass('d-none');
+    }
+    
     $('#dataTable').parent().removeClass('d-none');
     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+  });
+
+  $('.map').on('click', function (e) {
+    console.log('charts--4st');
+    $('.charts').removeClass('selectedFilter');
+    $('.data').removeClass('selectedFilter');
+    $('.map').addClass('selectedFilter');
+    $('#chartdiv').parent().addClass('invisibleHeight0');
+    $('#dataTable').parent().addClass('d-none');
+    $('#mapContainerRow').removeClass('d-none');
   });
 }
