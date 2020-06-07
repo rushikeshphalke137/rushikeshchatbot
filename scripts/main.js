@@ -13,32 +13,24 @@ globals.mapServiceUrls = {
 
 globals.configuration = null;
 
-//array that holds data from csv file, only one csv file at a time
-globals.csvData = [];
-//array that holds header from csv file
-globals.csvDataHeader = [];
-//array that holds stats from csv file, min, max and total for each attribute
-globals.csvDataStats = [];
-
 //join function to retrieve data in CSV column for a given Name & render field index
-globals.joinFunction = null;
+globals.getRegionMapValue = null;
 
 //join function for setting up infoWindow
-globals.joinFunctionInfoWindow = null;
+globals.getRegionInfo = null;
 
 //selected date (from datepicker), '1-aug-09' is the default
 globals.selectedDate = null;
 
 globals.selectedScenario = null;
 globals.scenariosDirectory = null;
-globals.dailySummaryFile = null;
 
 //file used for rendering
 globals.renderFile = null;
 
 //render field index in the csv file's attribute list
 //update whenever a range slider is enabed (overlay mode) or a field is selected (single mode)
-globals.renderFieldIndex = null;
+globals.renderFieldIndex = "Projected Demand (%)";
 
 //QueryTask and Query, used in display level selection, e.g., choose a state
 globals.queryTask = null;
@@ -51,9 +43,11 @@ globals.queriedRegionNumbers = [];
 globals.selectedRegionNum = 0;
 globals.selectedRegionName = "";
 
-globals.chartDataFile = [];
-globals.globalDataSummary = [];
+globals.jsonData = {};
+globals.timelineJsonData = {};
 
+globals.minHospitalCapacity = 0.8;
+globals.maxHospitalCapacity = 1.2;
 
 require([
   "esri/Color",
@@ -128,13 +122,13 @@ require([
     };
 
     // This is to hide Application in Mobile's landscape mode
-    if(globals.mobileDevice()) { //if its a mobile device
+    if (globals.mobileDevice()) { //if its a mobile device
       $('.largedeviceQueryBoxRow').html("");
    //   $('.renderField').value="";
       $('#renderField button:eq(0) ').html("&nbsp;<span class='fa fa-bed pr-2' aria-hidden='true'></span>&nbsp;");
       $('#renderField button:eq(1) ').html("&nbsp;<span class='fa fa-users pr-2' aria-hidden='true'></span>&nbsp;");
     } else {
-      
+
       $('.mobilemapChartDataRow').html("");
       $('.mobileQueryBoxRow').html("");
       $('.mobileMapRenderOption').html("");
@@ -162,7 +156,7 @@ require([
       updateDataForTimeline();
 
       if (globals.selectedDate == undefined || globals.selectedDate == null) {
-        globals.selectedDate = globals.dailySummary[1][0];
+        globals.selectedDate = globals.timelineJsonData[0]["date"];
         scenarioChanged = false;
       }
 
@@ -208,7 +202,6 @@ require([
         zoom: globals.configuration.zoom_level,
         minZoom: 4
       });
-      // globals.map.minZoom = 4;
       globals.map.infoWindow.resize(280, 210);
 
       var symbol = new SimpleFillSymbol(
@@ -230,7 +223,7 @@ require([
 
       var infoTemplate = new InfoTemplate(
         "Region : ${" + globals.configuration.layer_attribute + "}",
-        "${" + globals.configuration.layer_attribute + ":globals.joinFunctionInfoWindow}"
+        "${" + globals.configuration.layer_attribute + ":globals.getRegionInfo}"
       );
 
       var layer = new FeatureLayer(globals.configuration.layer_url, {
@@ -269,54 +262,23 @@ require([
 
     function getCSVDataAndRendering() {
       fileURL = globals.renderFile;
-      var csvStore = new CsvStore({
-        url: fileURL
-      });
-      csvStore.fetch({
-        onComplete: function (items) {
-          csvDataReady(csvStore, items);
+      $.ajax({
+        url: fileURL,
+        async: false,
+        success: function (csv) {
+          var items = $.csv.toObjects(csv);
+          var jsonobject = JSON.stringify(items);
+          globals.jsonData = JSON.parse(jsonobject);
+        },
+        dataType: "text",
+        complete: function () {
+          if (!globals.renderFieldIndex)
+            globals.renderFieldIndex = "Projected Demand (%)";
+
+          showCSVDataInTable();
           setMapRenderer();
-        }, //onComplete
-        onError: csvOnError
+        }
       });
-    }
-
-    //process data in csvStore and store them in a global variable called csvData
-    function csvDataReady(csvStore, items) {
-      //reset all global variables related to CSV data
-      globals.csvData = [];
-      globals.csvDataHeader = [];
-      globals.csvDataStats = [];
-
-      var csvHeader = null;
-      for (var i = 0; i < items.length; i++) {
-        var currentItemAttributes = csvStore.getAttributes(items[i]);
-        if (csvHeader == null) {
-          csvHeader = currentItemAttributes;
-        }
-
-        var itemData = [];
-        for (var j = 0; j < csvHeader.length; j++) {
-          if (j == 0 || j == 1 || j == 8 || j == 9 || j == 10)
-            itemData.push(csvStore.getValue(items[i], csvHeader[j])); //alway parse the first column as string
-          else
-            itemData.push(parseFloat(csvStore.getValue(items[i], csvHeader[j])));
-        }
-        globals.csvData.push(itemData);
-      }
-
-      //set global variable csvDataHeader
-      globals.csvDataHeader = csvHeader;
-
-      //default render field is the 4th column (skip name,region,last update)
-      if (!globals.renderFieldIndex)
-        globals.renderFieldIndex = 2;
-
-      showCSVDataInTable();
-    }
-
-    function csvOnError(error) {
-      console.log("csvOnError function called");
     }
 
     function setMapRenderer() {
@@ -334,25 +296,22 @@ require([
       var table = document.createElement("table");
       table.id = "legend_table0";
 
-      var renderer = new ClassBreaksRenderer(null, globals.joinFunction);
+      var renderer = new ClassBreaksRenderer(null, globals.getRegionMapValue);
 
       var numClasses = 5;
       //different colors for different attribute
       var colors = [];
-      if (globals.csvDataHeader[globals.renderFieldIndex] == 'Projected Demand (%)') {
-        //for deaths
-        //PuBu
+      if (globals.renderFieldIndex == 'Projected Demand (%)') {
         colors.push(new Color([189, 201, 225]));
         colors.push(new Color([116, 169, 207]));
         colors.push(new Color([43, 140, 190]));
         colors.push(new Color([4, 90, 141]));
         colors.push(new Color([3, 72, 112]));
 
-        var breakMins = [80, 90, 100, 120,130];
-        var breakMaxs = [89.99, 99.99, 119.99, 129.99,200];
+        var breakMins = [80, 90, 100, 120, 130];
+        var breakMaxs = [89.99, 99.99, 119.99, 129.99, 200];
       } else {
         numClasses = 6;
-        //OrRd
         colors.push(new Color([254, 240, 217]));
         colors.push(new Color([253, 212, 158]));
         colors.push(new Color([253, 187, 132]));
@@ -369,7 +328,7 @@ require([
       var fieldCell = document.createElement("td");
       fieldCell.setAttribute("colspan", 2);
       tableRow.style.borderBottom = '1px solid gray';
-      fieldCell.textContent = globals.csvDataHeader[globals.renderFieldIndex];
+      fieldCell.textContent = globals.renderFieldIndex;
       tableRow.appendChild(fieldCell);
       table.appendChild(tableRow);
 
@@ -470,7 +429,7 @@ require([
 
     //Change rendering field, this is ONLY for single attribute mode
     function changeRenderField(event) {
-      globals.renderFieldIndex = Number(event.target.value);
+      globals.renderFieldIndex = event.target.value;
       $('.renderField').addClass('disabled');
       $(event.target).removeClass('disabled');
 
@@ -478,33 +437,32 @@ require([
       setMapRenderer(false);
     }
 
-    //used for rendering function to join polygon and the data in csvData
-    //this function relies on 3 global variables: renderFieldIndex, csvDataRanges[renderFieldIndex][0], csvDataRanges[renderFieldIndex][1]
-    globals.joinFunction = function (value) {
-      for (var i = 0; i < globals.csvData.length; i++) {
+    globals.getRegionMapValue = function (value) {
+      for (var i = 0; i < globals.jsonData.length; i++) {
         var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes[globals.configuration.layer_attribute] : value;
-        var csvFipsValue = globals.csvData[i][1];
+        var key = Object.keys(globals.jsonData[i])[1];
+        var csvFipsValue = globals.jsonData[i][key];
 
         if (fipsValue == csvFipsValue) {
-          return globals.csvData[i][globals.renderFieldIndex];
+          return Number(globals.jsonData[i][globals.renderFieldIndex]);
         }
       }
       return 0;
     }
 
-    // joint csv data by name, this funciton is ONLY used by feature layer's info window
-    // test for presence to a property named "attributes" to
-    // determine whether or the "value" argument is a graphic or number
-    globals.joinFunctionInfoWindow = function (value) {
-      //now use all fields to set info window
+    globals.getRegionInfo = function (value) {
       var returnValue = '';
-      for (var i = 0; i < globals.csvData.length; i++) {
-        if (globals.csvData[i][1] == value) {
-          returnValue += "<b> Percentage of Occupied Beds:</b><br>&emsp;" + globals.csvData[i][9];
-          returnValue += "<br><b>Weekly Hospitalizations:</b><br>&emsp;" + globals.csvData[i][8];
+      for (var i = 0; i < globals.jsonData.length; i++) {
+        var key = Object.keys(globals.jsonData[i])[1];
+        if (globals.jsonData[i][key] == value) {
+          returnValue += "<b> Percentage of Occupied Beds:</b><br>&emsp;" + globals.jsonData[i]["Total Projected Demand (Range)"];
+          returnValue += "<br><b>Weekly Hospitalizations:</b><br>&emsp;" + globals.jsonData[i]["Total Hospitalizations (Range)"];
 
-          globals.selectedRegionNum = globals.csvData[i][0];
-          globals.selectedRegionName = globals.csvData[i][1];
+          var regionNumKey = Object.keys(globals.jsonData[i])[0];
+          globals.selectedRegionNum = globals.jsonData[i][regionNumKey];
+
+          var regionNameKey = Object.keys(globals.jsonData[i])[1];
+          globals.selectedRegionName = globals.jsonData[i][regionNameKey];
 
           if (globals.queriedRegionNames.length != 0) {
             $('.getQueryResultsBtn').removeClass('d-none');
@@ -696,14 +654,16 @@ require([
       var tableHTML = null;
       var lengthMenuOptions = null;
       var downloadOptions = "";
+
+      var regionNameColumn = Object.keys(globals.jsonData[0])[1];
       tableHTML = '<table id="example" class="display" cellspacing="0" width="100%">\n<thead><tr>';
-      tableHTML += "<th>" + globals.csvDataHeader[1] + "</th>";
+      tableHTML += "<th>" + regionNameColumn + "</th>";
       tableHTML += "<th>" + "Percentage of Occupied Beds" + "</th>";
       tableHTML += "<th>" + "Weekly Hospitalizations" + "</th>";
 
       tableHTML += "</tr></thead><tbody>";
-      for (var i = 0; i < globals.csvData.length; i++) {
-        var name = globals.csvData[i][1];
+      for (var i = 0; i < globals.jsonData.length; i++) {
+        var name = globals.jsonData[i][regionNameColumn];
 
         if (filteredNames.length > 0 && filteredNames.indexOf(name) == -1)
           continue;
@@ -711,9 +671,9 @@ require([
           tableHTML += "<tr>";
 
           // Region Name, Hospitalizations (Range), Projected Demand (Range)
-          tableHTML += "<td>" + globals.csvData[i][1].toLocaleString() + "</td>";
-          tableHTML += "<td>" + globals.csvData[i][9].toLocaleString() + "</td>";
-          tableHTML += "<td>" + globals.csvData[i][8].toLocaleString() + "</td>";
+          tableHTML += "<td>" + globals.jsonData[i][regionNameColumn] + "</td>";
+          tableHTML += "<td>" + globals.jsonData[i]["Total Projected Demand (Range)"] + "</td>";
+          tableHTML += "<td>" + globals.jsonData[i]["Total Hospitalizations (Range)"]; + "</td>";
 
           tableHTML += "</tr>\n";
         }
@@ -773,22 +733,20 @@ require([
     }
 
     function renderTimeline() {
-      filteredData = globals.dailySummary.slice(1); //remove heding row
-
       var timelineHTML = "";
       timelineHTML = '<div id="timeline" class="d-flex owl-carousel timeline-contener" style="align-items: center;">';
       // Iterate over Summary data and create Timelines
-      for (index = 0; index < filteredData.length; index++) {
-        actualDateString = filteredData[index][0];
+      for (index = 0; index < globals.timelineJsonData.length; index++) {
+        actualDateString = globals.timelineJsonData[index]["date"];
 
-        formattedDate = new Date(filteredData[index][0].replace(/-/g, "/"));
+        formattedDate = new Date(globals.timelineJsonData[index]["date"].replace(/-/g, "/"));
         representationDate = new Date(formattedDate).toDateString().slice(4).substring(0, 6);
 
-        totalProjectedDemand = Number(filteredData[index][1]).toFixed(2);
-        totalHospitalizations = Number(filteredData[index][2]);
+        totalProjectedDemand = Number(globals.timelineJsonData[index]["Total Projected Demand (%)"]).toFixed(2);
+        totalHospitalizations = Number(globals.timelineJsonData[index]["Total Hospitalizations (Median)"]);
 
-        totalHospitalizationsRange = filteredData[index][7];
-        totalProjectedDemandRange = filteredData[index][8];
+        totalHospitalizationsRange = globals.timelineJsonData[index]["Total Hospitalizations (Range)"];
+        totalProjectedDemandRange = globals.timelineJsonData[index]["Total Projected Demand (Range)"];
 
         var toolTipText = 'Weekly Hospitalizations [Range] <br>' +
           '&emsp;<b>' + totalHospitalizationsRange + '</b><br>' +
@@ -943,8 +901,7 @@ require([
           var items = $.csv.toObjects(csv);
           var jsonobject = JSON.stringify(items);
 
-          globals.chartDataFile = JSON.parse(jsonobject);
-          globals.dailySummary = $.csv.toArrays(csv);
+          globals.timelineJsonData = JSON.parse(jsonobject);
         },
         dataType: "text",
         complete: function () { }
@@ -952,7 +909,6 @@ require([
     }
 
     function updateDataForTimeline() {
-      var mergedData = [];
 
       // Condition to display selected region data.
       if (globals.selectedRegionNum != 0) {
@@ -970,63 +926,8 @@ require([
         return;
       }
 
-      for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
-        var regionName = globals.queriedRegionNumbers[i] + "";
-
-        // Check if region name contains a space, bcoz in case of virginia health, it could be for ex. "Far SW/Near SW".
-        if (regionName.indexOf(' ') >= 0)
-          regionName = regionName.split(" ").join("_");
-        var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
-
-        $.ajax({
-          url: datafile,
-          async: false,
-          success: function (csv) {
-            var items = $.csv.toObjects(csv);
-            var jsonobject = JSON.stringify(items);
-            var currentData = $.csv.toArrays(csv);
-
-            if (mergedData.length > 0) {
-              for (loop = 1; loop < mergedData.length; loop++) {
-                var filteredData = currentData[loop];
-
-                mergedData[loop][3] = parseFloat(mergedData[loop][3]) + parseFloat(filteredData[3]); // Lower Hospitalization Bound
-                mergedData[loop][4] = parseFloat(mergedData[loop][4]) + parseFloat(filteredData[4]); // Upper Hospitalization Bound
-
-                mergedData[loop][5] = parseFloat(mergedData[loop][5]) + parseFloat(filteredData[5]); // Lower Projected Demand Bound
-                mergedData[loop][6] = parseFloat(mergedData[loop][6]) + parseFloat(filteredData[6]); // Upper Projected Demand Bound
-
-                mergedData[loop][1] = parseFloat(mergedData[loop][1]) + parseFloat(filteredData[1]); // Total Projected Demand (%)
-                mergedData[loop][2] = parseFloat(mergedData[loop][2]) + parseFloat(filteredData[2]); // Total Hospitalizations (Median)
-              }
-            } else {
-              mergedData = currentData;
-            }
-          },
-          dataType: "text",
-          complete: function () { }
-        });
-      }
-
-      // Average the Total Projected Demand
-      for (loop = 1; loop < mergedData.length; loop++) {
-        mergedData[loop][1] = parseFloat(mergedData[loop][1]) / globals.queriedRegionNumbers.length; // Total Projected Demand (%)
-        mergedData[loop][5] = parseFloat(mergedData[loop][5]) / globals.queriedRegionNumbers.length; // Lower Projected Demand Bound
-        mergedData[loop][6] = parseFloat(mergedData[loop][6]) / globals.queriedRegionNumbers.length; // Upper Projected Demand Bound
-
-        // Total Hospitalizations (Range)
-        mergedData[loop][7] = numFormatter(mergedData[loop][2]) +
-          " [" + numFormatter(mergedData[loop][3]) + " - " + numFormatter(mergedData[loop][4]) + "]";
-        //  Total Projected Demand (Range)
-        mergedData[loop][8] = (mergedData[loop][1]).toFixed(2) +
-          "% [" + (mergedData[loop][5]).toFixed(2) + "% - " + (mergedData[loop][6]).toFixed(2) + "%]";
-      }
-
-
-      globals.dailySummary = mergedData;
+      globals.timelineJsonData = mergeDataAcrossRegions();
       renderTimeline();
-
-      return mergedData;
     }
 
     function resetApplication() {

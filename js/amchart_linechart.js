@@ -8,7 +8,7 @@ function renderSummaryDataChart() {
 
   // Create chart instance
   var chart = am4core.create("chartdiv", am4charts.XYChart);
-  chart.data = globals.chartDataFile;
+  chart.data = globals.timelineJsonData;
   chart.hiddenState.properties.opacity = 0;
   // Converts Y axis values in K,M,B
   chart.numberFormatter.numberFormat = "###a";
