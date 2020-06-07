@@ -832,7 +832,9 @@ button.owl-prev:focus {
   color: white !important;
   padding: .1rem .75rem;
 }
-
+.btn-group>.btn:hover {
+  z-index: 2;
+}
 #timeline .owl-item {
   font-size: .9rem;
 }

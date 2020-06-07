@@ -125,8 +125,8 @@ require([
     if (globals.mobileDevice()) { //if its a mobile device
       $('.largedeviceQueryBoxRow').html("");
    //   $('.renderField').value="";
- //     $('#renderField button:eq(0) ').html("&nbsp;<span class='fa fa-bed pr-2' aria-hidden='true'></span>&nbsp;");
-  //    $('#renderField button:eq(1) ').html("&nbsp;<span class='fa fa-users pr-2' aria-hidden='true'></span>&nbsp;");
+     $('#renderField button:eq(0) ').html("<span class='fa fa-bed' aria-hidden='true'></span>");
+     $('#renderField button:eq(1) ').html("<span class='fa fa-users' aria-hidden='true'></span>");
     } else {
 
       $('.mobilemapChartDataRow').html("");
@@ -429,10 +429,16 @@ require([
 
     //Change rendering field, this is ONLY for single attribute mode
     function changeRenderField(event) {
-      globals.renderFieldIndex = event.target.value ? event.target.value : event.target.parentElement.value;
+      let clickedButton = event.target;
+      globals.renderFieldIndex = event.target.value;
+      if(!event.target.value) {
+        globals.renderFieldIndex = event.target.parentElement.value;
+        clickedButton = event.target.parentElement;
+      }
+      
       console.log('event.target.value=',event.target.value,"event.target=",event);
       $('.renderField').addClass('disabled');
-      $(event.target).removeClass('disabled');
+      $(clickedButton).removeClass('disabled');
 
       //use new field to render
       setMapRenderer(false);
@@ -1026,9 +1032,10 @@ function bindChartAndDataTab() {
     if(globals.mobileDevice()) {
       $('.map').removeClass('selectedFilter');
       $('#mapContainerRow').addClass('d-none');
+      $('.projectionsRow').addClass('d-none');
     }
     $('#chartdiv').parent().removeClass('invisibleHeight0');
-    $('.projectionsRow').addClass('d-none');
+
   });
 
   $('.data').on('click', function (e) {
@@ -1039,10 +1046,11 @@ function bindChartAndDataTab() {
     if(globals.mobileDevice()) {
       $('.map').removeClass('selectedFilter');
       $('#mapContainerRow').addClass('d-none');
+      $('.projectionsRow').addClass('d-none');
     }
     
     $('#dataTable').parent().removeClass('d-none');
-    $('.projectionsRow').addClass('d-none');
+
     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
   });
 
@@ -1054,5 +1062,6 @@ function bindChartAndDataTab() {
     $('#chartdiv').parent().addClass('invisibleHeight0');
     $('#dataTable').parent().addClass('d-none');
     $('#mapContainerRow').removeClass('d-none');
+    $('.projectionsRow').removeClass('d-none');
   });
 }
