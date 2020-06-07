@@ -125,8 +125,8 @@ require([
     if (globals.mobileDevice()) { //if its a mobile device
       $('.largedeviceQueryBoxRow').html("");
    //   $('.renderField').value="";
-      $('#renderField button:eq(0) ').html("&nbsp;<span class='fa fa-bed pr-2' aria-hidden='true'></span>&nbsp;");
-      $('#renderField button:eq(1) ').html("&nbsp;<span class='fa fa-users pr-2' aria-hidden='true'></span>&nbsp;");
+ //     $('#renderField button:eq(0) ').html("&nbsp;<span class='fa fa-bed pr-2' aria-hidden='true'></span>&nbsp;");
+  //    $('#renderField button:eq(1) ').html("&nbsp;<span class='fa fa-users pr-2' aria-hidden='true'></span>&nbsp;");
     } else {
 
       $('.mobilemapChartDataRow').html("");
@@ -429,7 +429,8 @@ require([
 
     //Change rendering field, this is ONLY for single attribute mode
     function changeRenderField(event) {
-      globals.renderFieldIndex = event.target.value;
+      globals.renderFieldIndex = event.target.value ? event.target.value : event.target.parentElement.value;
+      console.log('event.target.value=',event.target.value,"event.target=",event);
       $('.renderField').addClass('disabled');
       $(event.target).removeClass('disabled');
 
@@ -1027,6 +1028,7 @@ function bindChartAndDataTab() {
       $('#mapContainerRow').addClass('d-none');
     }
     $('#chartdiv').parent().removeClass('invisibleHeight0');
+    $('.projectionsRow').addClass('d-none');
   });
 
   $('.data').on('click', function (e) {
@@ -1040,6 +1042,7 @@ function bindChartAndDataTab() {
     }
     
     $('#dataTable').parent().removeClass('d-none');
+    $('.projectionsRow').addClass('d-none');
     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
   });
 

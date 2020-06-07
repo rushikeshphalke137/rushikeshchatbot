@@ -232,16 +232,11 @@
           <input name="queryByName" id="queryByName" type="text" class="form-control forMobile" aria-label="Small"
             placeholder="Search Region. Comma separated names allowed"
             aria-describedby="Search Region. Comma separated names allowed">
-<<<<<<< HEAD
             <div class="input-group-append queryFilter" style="cursor: pointer;">
               <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-search"
                   ></i></span>
             </div>
-=======
->>>>>>> 6464b3dfab873e5aefa0d5d2c30555a1ed90615c
-          <div class="input-group-append resetDefault" style="cursor: pointer;">
-            <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-search"></i></span>
-          </div>
+
           <div class="input-group-append resetDefault" style="cursor: pointer;">
             <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-times-circle"></i></span>
           </div>
@@ -299,7 +294,7 @@
 
     </div>
 
-    <div class="row mb-1 ">
+    <div class="row mb-1 projectionsRow">
 
       <div class="col-12 d-flex" style="align-items: center;">
 
@@ -324,13 +319,15 @@
             <div id="renderField" class="btn-group mr-auto d-block toggleOptions" role="group" aria-label="First group">
               <button type="button" value="Projected Demand (%)" class="btn btn-primary confirmBtn renderField pr-2"
                 title="Projected Resource Demand (%)">
-                <span class="fa fa-bed pr-2" aria-hidden="true"></span>Percentage of Occupied Beds
+                <span class="fa fa-bed pr-2" aria-hidden="true" value="Projected Demand (%)"></span>
+                <span class="renderBtnText">Percentage of Occupied Beds</span>
               
               </button>
 
               <button type="button" value="Hospitalizations (Median)"
                 class="btn btn-danger activeBtn disabled renderField" title="Weekly Hospitalizations">
-                <span class="fa fa-users pr-2" aria-hidden="true"></span>Weekly Hospitalizations
+                <span class="fa fa-users pr-2" aria-hidden="true" value="Hospitalizations (Median)"></span>
+                <span class="renderBtnText">Weekly Hospitalizations</span>
               </button>
             </div>
           </div>
