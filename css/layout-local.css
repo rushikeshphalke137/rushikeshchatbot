@@ -838,7 +838,9 @@ button.owl-prev:focus {
 #timeline .owl-item {
   font-size: .9rem;
 }
-
+.supported-content {
+  height: calc(100% - 95px);
+}
 .demand-button-container,
 .hospital-button-container {
   background-color: whitesmoke;
