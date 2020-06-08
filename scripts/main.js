@@ -91,8 +91,8 @@ require([
   ) {
     parser.parse();
 
-    $.getJSON("supported_scenarios.json")
-      //$.getJSON("data_va/supported_scenarios.json")
+    //$.getJSON("supported_scenarios.json")
+    $.getJSON("data_va/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -124,9 +124,9 @@ require([
     // This is to hide Application in Mobile's landscape mode
     if (globals.mobileDevice()) { //if its a mobile device
       $('.largedeviceQueryBoxRow').html("");
-   //   $('.renderField').value="";
-     $('#renderField button:eq(0) ').html("<span class='fa fa-bed' aria-hidden='true'></span>");
-     $('#renderField button:eq(1) ').html("<span class='fa fa-users' aria-hidden='true'></span>");
+      //   $('.renderField').value="";
+      $('#renderField button:eq(0) ').html("<span class='fa fa-bed' aria-hidden='true'></span>");
+      $('#renderField button:eq(1) ').html("<span class='fa fa-users' aria-hidden='true'></span>");
     } else {
 
       $('.mobilemapChartDataRow').html("");
@@ -178,7 +178,7 @@ require([
       }
 
       // Select default option as Charts
-      if(globals.mobileDevice()) { 
+      if (globals.mobileDevice()) {
         $('.map').click(); //for mobile default map selected
       } else {
         $('.charts').click(); //for except mobile chart by default selected
@@ -431,12 +431,12 @@ require([
     function changeRenderField(event) {
       let clickedButton = event.target;
       globals.renderFieldIndex = event.target.value;
-      if(!event.target.value) {
+      if (!event.target.value) {
         globals.renderFieldIndex = event.target.parentElement.value;
         clickedButton = event.target.parentElement;
       }
-      
-      console.log('event.target.value=',event.target.value,"event.target=",event);
+
+      console.log('event.target.value=', event.target.value, "event.target=", event);
       $('.renderField').addClass('disabled');
       $(clickedButton).removeClass('disabled');
 
@@ -835,11 +835,13 @@ require([
         scenarioName = globals.scenarios[index].scenario_display_name_line1;
         scenarioNameSecondLine = globals.scenarios[index].scenario_display_name_line2;
         scenarioDisplayName = scenarioName + "</br>" + scenarioNameSecondLine;
+        scenarioDirectory = globals.scenarios[index].directory;
+
         if (index == 0) {
-          scenarioHTML += '<div class="d-flex selected-scenario scenario-content item" data-scenario="' + scenarioName + '"' +
+          scenarioHTML += '<div class="d-flex selected-scenario scenario-content item" data-scenario-directory="' + scenarioDirectory + '" data-scenario="' + scenarioName + '"' +
             'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom" data-title="' + scenarioDisplayName + '" data-content="' + globals.scenarios[index].description + '">';
         } else {
-          scenarioHTML += '<div class="d-flex scenario-content item" data-scenario="' + scenarioName + '"' +
+          scenarioHTML += '<div class="d-flex scenario-content item" data-scenario-directory="' + scenarioDirectory + '" data-scenario="' + scenarioName + '"' +
             'data-toggle="popover" data-html="true" data-trigger="hover focus" data-placement="bottom" data-title="' + scenarioDisplayName + '" data-content="' + globals.scenarios[index].description + '">';
         }
         scenarioHTML += '<div class="d-flex mr-1" style="align-items: center;">' +
@@ -875,7 +877,8 @@ require([
       $('#scenarios .scenario-content').off().on('click', function (event) {
         $('#overlay').show();
 
-        selectedScenario = event.currentTarget.dataset.scenario;
+        selectedScenarioDirectory = event.currentTarget.dataset.scenarioDirectory;
+        globals.scenariosDirectory = selectedScenarioDirectory;
 
         // Remove selection
         $(".selected-scenario").each(function (i, item) {
@@ -885,15 +888,6 @@ require([
         // Add selection class to current timeline
         $(event.currentTarget).addClass('selected-scenario');
 
-        for (index = 0; index < globals.scenarios.length; index++) {
-          scenario = globals.scenarios[index];
-
-          if (scenario.scenario_display_name_line1 === selectedScenario) {
-            globals.selectedScenario = scenario;
-            globals.scenariosDirectory = scenario.directory;
-            break;
-          }
-        }
 
         globals.map.infoWindow.hide();
         executeDefaultWorkflow();
@@ -1029,7 +1023,7 @@ function bindChartAndDataTab() {
     $('.data').removeClass('selectedFilter');
     $('.charts').addClass('selectedFilter');
     $('#dataTable').parent().addClass('d-none');
-    if(globals.mobileDevice()) {
+    if (globals.mobileDevice()) {
       $('.map').removeClass('selectedFilter');
       $('#mapContainerRow').addClass('d-none');
       $('.projectionsRow').addClass('d-none');
@@ -1043,12 +1037,12 @@ function bindChartAndDataTab() {
     $('.charts').removeClass('selectedFilter');
     $('.data').addClass('selectedFilter');
     $('#chartdiv').parent().addClass('invisibleHeight0');
-    if(globals.mobileDevice()) {
+    if (globals.mobileDevice()) {
       $('.map').removeClass('selectedFilter');
       $('#mapContainerRow').addClass('d-none');
       $('.projectionsRow').addClass('d-none');
     }
-    
+
     $('#dataTable').parent().removeClass('d-none');
 
     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
