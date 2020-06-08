@@ -430,7 +430,7 @@ font-size: 1em;
   max-height: calc(100% - 89px);
 }
 .dataTableContainer {
-  max-height: calc(100% - 52px);
+  max-height: calc(100% - 73px);
 }
 #renderField button > span::after {
   content: "";
