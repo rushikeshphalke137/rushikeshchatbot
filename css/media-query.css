@@ -269,7 +269,7 @@
     font-size: .9rem !important;
   }
   .mapDataContainer {
-    height: calc(100% - 110px);
+    height: calc(100% - 116px);
   }
 
   #mapCanvas {
@@ -308,9 +308,18 @@
   }
 
   #queryByName {
-    width: 52% !important;
+    min-width: auto;
+    max-width: 100%;
+    height: 100%;
+    font-size: 1rem !important;
   }
-
+#queryWrapper {
+  flex-grow: 1;
+}
+#queryWrapper .input-group {
+  margin: 5px 0px !important;
+  height: 35px;
+}
   .modal-dialog {
     max-width: 90% !important;
     top: 35% !important;
@@ -350,7 +359,7 @@
       width: 25px;
   }
   .scenario-heading-section {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: bold;
   }
   .mobileHeaderRow .applicationTitle{
@@ -359,6 +368,7 @@
     font-size: 1.2rem !important;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: bold;
   }
   .mobileHeaderRow a {
     display: flex;
@@ -438,7 +448,7 @@ font-size: 1em;
 .projectionsRow {
   position: absolute;
     z-index: 1;
-    top: 213px;
+    top: 221px;
     left: 11px;
 }
 .renderField .fa-bed,
@@ -454,5 +464,11 @@ font-size: 1em;
 }
 .supported-content {
   height: calc(100% - 128px);
+}
+.tabMenu {
+  margin-bottom: 2px;
+}
+.queryFilter .fa.fa-search{
+  font-size: 1.2rem;
 }
 }

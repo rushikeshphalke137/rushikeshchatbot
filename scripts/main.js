@@ -91,8 +91,8 @@ require([
   ) {
     parser.parse();
 
-    //$.getJSON("supported_scenarios.json")
-    $.getJSON("data_va/supported_scenarios.json")
+    $.getJSON("supported_scenarios.json")
+  //  $.getJSON("data_va/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -123,7 +123,7 @@ require([
 
     // This is to hide Application in Mobile's landscape mode
     if (globals.mobileDevice()) { //if its a mobile device
-      $('.largedeviceQueryBoxRow').html("");
+    //  $('.largedeviceQueryBoxRow').html("");
       //   $('.renderField').value="";
       $('#renderField button:eq(0) ').html("<span class='fa fa-bed' aria-hidden='true'></span>");
       $('#renderField button:eq(1) ').html("<span class='fa fa-users' aria-hidden='true'></span>");
@@ -195,13 +195,19 @@ require([
     //initial setup for the map, globals.query and globals.queryTask to query this level by NAME
     function setupMapLayer() {
       globals.defaultExtent = new Extent(globals.configuration.extent);
-
+let mapMinZoomLevel = 4;
+let mapZoomLevel = globals.configuration.zoom_level;
+      if (globals.mobileDevice()) { 
+        mapZoomLevel = (mapZoomLevel >= 1) ?  parseInt(mapZoomLevel) - 1 : mapZoomLevel ;
+        mapMinZoomLevel = 3 ;
+      }
       globals.map = new Map("mapCanvas", {
         basemap: "gray",
         extent: globals.defaultExtent,
-        zoom: globals.configuration.zoom_level,
-        minZoom: 4
+        zoom: mapZoomLevel,
+        minZoom: mapMinZoomLevel
       });
+      console.log('mapMinZoomLevel-',mapMinZoomLevel,'mapZoomLevel-',mapZoomLevel);
       globals.map.infoWindow.resize(280, 210);
 
       var symbol = new SimpleFillSymbol(

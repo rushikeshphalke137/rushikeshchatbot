@@ -223,7 +223,7 @@
 
   <div class="supported-content w-100">
 
-    <div class="row mt-1 d-flex d-lg-none mobileQueryBoxRow">
+    <!-- <div class="row mt-1 d-flex d-lg-none mobileQueryBoxRow">
       <div class="col-12 d-flex" style="font-size: 1rem;">
         <div class="input-group mr-1" style="box-shadow: lightgrey 0 0 7px;">
 
@@ -242,7 +242,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="row my-1">
       <div class="col-12 d-lg-flex" style="align-items: center;">
@@ -266,13 +266,19 @@
           <div id="scenarios" class="owl-carousel scenarios-contener" style="align-items: center;"> </div>
         </div>
 
-        <div class="d-none d-lg-flex query-content-section largedeviceQueryBoxRow">
+        <!-- <div class="d-none d-lg-flex query-content-section largedeviceQueryBoxRow"> -->
+          <div class="d-flex query-content-section">
           <div id="queryWrapper" class="d-flex" style="align-items: center;">
 
             <div class="input-group mr-1">
               <input name="queryByName" id="queryByName" type="text" class="form-control" aria-label="Small"
-                style="min-width: 260px; max-width: 300px;" placeholder="Search Region. Comma separated names allowed"
+                placeholder="Search Region. Comma separated names allowed"
                 aria-describedby="Search Region. Comma separated names allowed">
+
+                <div class="d-lg-none input-group-append queryFilter" style="cursor: pointer;">
+                  <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-search"
+                      ></i></span>
+                </div>
 
               <div class="input-group-append resetDefault" style="cursor: pointer;">
                 <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-times-circle"
@@ -280,7 +286,7 @@
               </div>
             </div>
 
-            <button class="btn btn-warning queryFilter">Query</button>
+            <button class="d-none d-lg-flex btn btn-warning queryFilter">Query</button>
             <!-- <button  class="btn btn-light resetDefault">Reset</button> -->
 
             <button id="noResultFoundButton" class="d-none" type="button" class="btn btn-primary" data-toggle="modal"
@@ -346,9 +352,7 @@
       </div>
 
     </div>
-    <div class="row mb-2 d-flex d-lg-none">
-
-    </div>
+    
     <!-- Space for Map and Data-->
 
     <!-- <div class="row mb-2 d-flex d-lg-none mobilemapChartDataRow">
@@ -447,7 +451,7 @@
 
       <!-- <div class="col-12 col-lg-6 col-xl-5 dataContainer d-none d-lg-block h-100"> -->
         <div class="col-lg-6 col-xl-5 col-sm-12 dataContainer" id="chartDataTableContainerRow">
-        <div class="row">
+        <div class="row tabMenu">
 
           <div class="col-12 d-flex align-items-center">
             <div class="map d-flex col-lg-6 col-md-6 col-sm-4 d-sm-none pt-2 pb-1 justify-content-center dataChartFilter selectedFilter"
