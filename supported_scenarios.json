@@ -1,82 +1,70 @@
 {
     "configuration": {
-        "region" : "vhass",
-        "application_title": "COVID-19 Medical Resource Demand Dashboard - Virginia",
-        "chart_title": "Virginia Health Demand Forecast",
-        "layer_url": "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/1",
-        "layer_attribute": "VHASS_Reg",
-        "query_attribute": "VHASS_Reg",
-        "zoom_level": 6,
+        "region": "hrr",
+        "application_title": "COVID-19 Medical Resource Demand Dashboard - US National",
+        "chart_title": "United States National Demand Forecast",
+        "layer_url": "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/0",
+        "layer_attribute": "HRRCITY",
+        "query_attribute": "HRRNUM",
+        "zoom_level": 4,
         "extent": {
-            "xmin": -83.6753991625592,
-            "xmax": -75.2417293387953,
-            "ymin": 36.541660218841,
-            "ymax": 39.4660198481876,
+            "xmin": -124.730045456146,
+            "xmax": -66.9505093527641,
+            "ymin": 24.5439397696533,
+            "ymax": 49.3839397693269,
             "spatialReference": {
                 "wkid": 4326
             }
         },
         "out_fields": [
-            "VHASS_Reg",
-            "InPoly_FID"
+            "HRRNUM",
+            "HRRCITY",
+            "DHS_Beds",
+            "Total_Pop"
         ]
     },
     "scenarios": [
         {
-            "scenario_display_name_line1": "LightRebound-dur8",
-            "scenario_display_name_line2":"Duration: 8 Days",
+            "scenario_display_name_line1": "Pause-StaggRelease-dur7",
+            "scenario_display_name_line2": "Duration: 7 Days",
             "position": 0,
-            "directory": "data_va/scVA-LightRebound-dur8-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) public social interactions return to 1/6th of pre-pandemic levels, (c) there is a moderate increase in transmission, and (d) typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-27."
+            "directory": "sc-Pause-StaggRelease-dur7-projBounds",
+            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states and that typical hospital stays are set at 7 days. Updated 2020-05-25."
         },
         {
-            "scenario_display_name_line1": "LightRebound-dur14",
-            "scenario_display_name_line2":"Duration: 14 Days",
+            "scenario_display_name_line1": "Pause-StaggRelease-dur14",
+            "scenario_display_name_line2": "Duration: 14 Days",
             "position": 1,
-            "directory": "data_va/scVA-LightRebound-dur14-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) public social interactions return to 1/6th of pre-pandemic levels, (c) there is a moderate increase in transmission, and (d) typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-27."
+            "directory": "sc-Pause-StaggRelease-dur14-projBounds",
+            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states and that typical hospital stays are set at 14 days. Updated 2020-05-25."
         },
         {
-            "scenario_display_name_line1": "LightRebound-BetterDetection-dur8",
-            "scenario_display_name_line2":"Duration: 8 Days",
+            "scenario_display_name_line1": "Pause-StaggRelease-ImproveTest-dur7",
+            "scenario_display_name_line2": "Duration: 7 Days",
             "position": 2,
-            "directory": "data_va/scVA-LightRebound-BetterDetection-dur8-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) public social interactions return to 1/6th of pre-pandemic levels, (c) there is a moderate increase in transmission, (d) better detection has led to earlier quarantining (reducing spread), and (e) typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-27."
+            "directory": "sc-Pause-StaggRelease-ImproveTest-dur7-projBounds",
+            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states, that there is improved access to testing, and that typical hospital stays are set at 7 days. Updated 2020-05-25."
         },
         {
-            "scenario_display_name_line1": "LightRebound-BetterDetection-dur14",
-            "scenario_display_name_line2":"Duration: 14 Days",
+            "scenario_display_name_line1": "Pause-StaggRelease-ImproveTest-dur14",
+            "scenario_display_name_line2": "Duration: 14 Days",
             "position": 3,
-            "directory": "data_va/scVA-LightRebound-BetterDetection-dur14-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) public social interactions return to 1/6th of pre-pandemic levels, (c) there is a moderate increase in transmission, (d) better detection has led to earlier quarantining (reducing spread), and (e) typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-27."
+            "directory": "sc-Pause-StaggRelease-ImproveTest-dur14-projBounds",
+            "description": "This model assumes that there will be a staggered release of stay-at-home orders amongst the states, that there is improved access to testing, and that typical hospital stays are set at 14 days. Updated 2020-05-25."
         },
         {
-            "scenario_display_name_line1": "StrongRebound-dur8",
-            "scenario_display_name_line2":"Duration: 8 Days",
+            "scenario_display_name_line1": "Pause-Indefinite-dur7",
+            "scenario_display_name_line2": "Duration: 7 Days",
             "position": 4,
-            "directory": "data_va/scVA-StrongRebound-dur8-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) public social interactions return to 1/3th of pre-pandemic levels, (c) there is a moderately larger increase in transmission compared to LightRebound, and (d) typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-27."
+            "directory": "sc-Pause-Indefinite-dur7-projBounds",
+            "description": "This model assumes indefinite stay-at-home orders (ie, social distancing for the foreseeable future) with length of hospital stay set to 7 days. Updated 2020-05-26."
         },
         {
-            "scenario_display_name_line1": "StrongRebound-dur14",
-            "scenario_display_name_line2":"Duration: 14 Days",
+            "scenario_display_name_line1": "Pause-Indefinite-dur14",
+            "scenario_display_name_line2": "Duration: 14 Days",
             "position": 5,
-            "directory": "data_va/scVA-StrongRebound-dur14-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) public social interactions return to 1/3th of pre-pandemic levels, (c) there is a moderately larger increase in transmission compared to LightRebound, and (d) typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-27."
-        },
-        {
-            "scenario_display_name_line1": "StrongRebound-BetterDetection-dur8",
-            "scenario_display_name_line2":"Duration: 8 Days",
-            "position": 6,
-            "directory": "data_va/scVA-StrongRebound-BetterDetection-dur8-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) public social interactions return to 1/3th of pre-pandemic levels, (c) there is a moderately larger increase in transmission compared to LightRebound, (d) better detection has led to earlier quarantining (reducing spread), and (e) typical COVID-19 hospitalizations last about 8 days. Updated 2020-05-27."
-        },
-        {
-            "scenario_display_name_line1": "StrongRebound-BetterDetection-dur14",
-            "scenario_display_name_line2":"Duration: 14 Days",
-            "position": 7,
-            "directory": "data_va/scVA-StrongRebound-BetterDetection-dur14-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) public social interactions return to 1/3th of pre-pandemic levels, (c) there is a moderately larger increase in transmission compared to LightRebound, (d) better detection has led to earlier quarantining (reducing spread), and (e) typical COVID-19 hospitalizations last about 14 days. Updated 2020-05-27."
+            "directory": "sc-Pause-Indefinite-dur14-projBounds",
+            "description": "This model assumes indefinite stay-at-home orders (ie, social distancing for the foreseeable future) with length of hospital stay set to 14 days. Updated 2020-05-26."
         }
     ]
 }
