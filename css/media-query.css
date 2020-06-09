@@ -434,13 +434,16 @@ font-size: 1em;
   height: 100%;
 }
 .mapContainer {
-  height: calc(100% - 74px);
+  /* height: calc(100% - 74px); */
+  height: 403px;
 }
 .chartContainer {
-  max-height: calc(100% - 89px);
+  /* max-height: calc(100% - 89px); */
+  height: 472px;
 }
 .dataTableContainer {
-  max-height: calc(100% - 89px);
+  /* max-height: calc(100% - 89px); */
+  height: 483px;
 }
 #renderField button > span::after {
   content: "";

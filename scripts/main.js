@@ -16,9 +16,7 @@ var globals = {};
 //code end for check device is mobile or not
 
 //code start for check mobile orientation
-window.addEventListener("orientationchange", checkOrientation, false);
-window.addEventListener("load", checkOrientation, false);
-function checkOrientation() {
+let checkOrientation = () => {
   
   if(globals.mobileDevice() && (window.orientation == 90 || window.orientation == -90)) {
     $('.supported-content').addClass('invisibleHeight0');
@@ -30,6 +28,8 @@ function checkOrientation() {
     $('.supported-content').removeClass('invisibleHeight0');
   }
 }
+window.addEventListener("orientationchange", checkOrientation, false);
+window.addEventListener("load", checkOrientation, false);
 //code end for check mobile orientation
 
 
@@ -120,8 +120,8 @@ require([
   ) {
     parser.parse();
 
-    $.getJSON("supported_scenarios.json")
-  //  $.getJSON("data_va/supported_scenarios.json")
+ //   $.getJSON("supported_scenarios.json")
+    $.getJSON("data_va/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -617,7 +617,7 @@ let mapZoomLevel = globals.configuration.zoom_level;
         } else {
           $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
           $('#noResultFoundButton').click();
-          $('#overlay').hide(); //need to remove from here later
+          $('#overlay').hide(); //need to remove from here later(hide on mobile after query button clicked)
         }
       });
 
