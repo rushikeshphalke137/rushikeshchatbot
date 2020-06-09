@@ -322,7 +322,7 @@
 }
   .modal-dialog {
     max-width: 90% !important;
-    top: 35% !important;
+    top: 0% !important;
     left: 2%;
   }
 

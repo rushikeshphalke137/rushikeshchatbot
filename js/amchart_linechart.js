@@ -258,8 +258,10 @@ function createDemandSeries(chart) {
   demandSeries.sequencedInterpolation = true;
   demandSeries.defaultState.transitionDuration = 1000;
 
-  demandSeries.name = "Percentage of Occupied Beds";
-
+  demandSeries.name = "Percentage of Occupied Beds"; //button lavel
+  if (globals.mobileDevice()) { //if its a mobile device
+    demandSeries.name = "Occupied Beds(%)"; //button lavel
+  }
   demandSeries.tooltip.label.ignoreFormatting = true;
   demandSeries.tooltipText = `Percentage of Occupied Beds: 
   {rangeValueY}`;

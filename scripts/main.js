@@ -617,6 +617,7 @@ let mapZoomLevel = globals.configuration.zoom_level;
         } else {
           $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
           $('#noResultFoundButton').click();
+          $('#overlay').hide(); //need to remove from here later
         }
       });
 
