@@ -120,7 +120,7 @@ require([
   ) {
     parser.parse();
 
- //   $.getJSON("supported_scenarios.json")
+ // $.getJSON("supported_scenarios.json")
     $.getJSON("data_va/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
