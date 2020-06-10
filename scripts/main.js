@@ -120,7 +120,7 @@ require([
   ) {
     parser.parse();
 
- // $.getJSON("supported_scenarios.json")
+//  $.getJSON("supported_scenarios.json")
     $.getJSON("data_va/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
@@ -1047,6 +1047,7 @@ function bindChartAndDataTab() {
       $('#mapContainerRow').addClass('d-none');
       $('.projectionsRow').addClass('d-none');
     }
+    $('#chartDataTableContainerRow').css('height', '100%');
     $('#chartdiv').parent().removeClass('invisibleHeight0');
 
   });
@@ -1063,7 +1064,7 @@ function bindChartAndDataTab() {
     }
 
     $('#dataTable').parent().removeClass('d-none');
-
+    $('#chartDataTableContainerRow').css('height', '100%');
     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
   });
 
@@ -1072,6 +1073,7 @@ function bindChartAndDataTab() {
     $('.charts').removeClass('selectedFilter');
     $('.data').removeClass('selectedFilter');
     $('.map').addClass('selectedFilter');
+    $('#chartDataTableContainerRow').css('height', 'auto');
     $('#chartdiv').parent().addClass('invisibleHeight0');
     $('#dataTable').parent().addClass('d-none');
     $('#mapContainerRow').removeClass('d-none');
