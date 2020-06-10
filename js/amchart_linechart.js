@@ -38,6 +38,10 @@ function renderSummaryDataChart() {
 
   categoryAxis.renderer.minGridDistance = 50;
   categoryAxis.renderer.labels.template.rotation = -45;
+  if (globals.mobileDevice()) { //if its a mobile device
+    categoryAxis.renderer.labels.template.rotation = 0;
+  }
+  
   categoryAxis.renderer.line.strokeOpacity = 1;
   categoryAxis.renderer.line.strokeWidth = 1;
   categoryAxis.renderer.labels.template.fill = am4core.color("#fff");
@@ -260,7 +264,7 @@ function createDemandSeries(chart) {
 
   demandSeries.name = "Percentage of Occupied Beds"; //button lavel
   if (globals.mobileDevice()) { //if its a mobile device
-    demandSeries.name = "Occupied Beds(%)"; //button lavel
+    demandSeries.name = "Occupied Beds (%)"; //button lavel
   }
   demandSeries.tooltip.label.ignoreFormatting = true;
   demandSeries.tooltipText = `Percentage of Occupied Beds: 

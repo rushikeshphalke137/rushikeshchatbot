@@ -752,6 +752,10 @@ button.owl-prev:focus {
 .scenario-content-section {
   width: calc(100% - 510px);
 }
+#queryByName {
+  min-width: 260px;
+  max-width: 300px;
+}
 
 .projection-content-section {
   width: calc(100% - 140px);

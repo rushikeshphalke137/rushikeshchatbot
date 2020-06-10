@@ -356,7 +356,7 @@
   }
   .logo {
     height: 25px;
-      width: 25px;
+      width: 35px;
   }
   .scenario-heading-section {
     font-size: 1.1rem;
@@ -364,7 +364,7 @@
   }
   .mobileHeaderRow .applicationTitle{
     color:white;
-    margin-left: .2rem;
+    margin-left: 1rem;
     font-size: 1.2rem !important;
     overflow: hidden;
     text-overflow: ellipsis;
