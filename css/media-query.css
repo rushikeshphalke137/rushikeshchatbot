@@ -203,7 +203,7 @@
     font-size: .9rem !important;
   }
   .mapDataContainer {
-    height: calc(100% - 116px);
+    height: calc(100% - 123px);
   }
 
   #mapCanvas {
@@ -389,7 +389,7 @@ font-size: 1em;
 .projectionsRow {
   position: absolute;
     z-index: 1;
-    top: 221px;
+    top: 224px;
     left: 11px;
 }
 .renderField .fa-bed,
