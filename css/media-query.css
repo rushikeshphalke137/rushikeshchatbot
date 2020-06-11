@@ -198,6 +198,13 @@
 }
 /* Media Query for Mobile Devices */
 @media (max-width: 480px) {
+  body { position: absolute;
+    top: 1px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch; }
   body,
   .scenario-name {
     font-size: .9rem !important;
