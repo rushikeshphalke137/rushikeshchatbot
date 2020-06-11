@@ -446,7 +446,7 @@ require([
 
     //Change rendering field, this is ONLY for single attribute mode
     function changeRenderField(event) {
-      let clickedButton = event.target;
+      var clickedButton = event.target;
       globals.renderFieldIndex = event.target.value;
       if (!event.target.value) {
         globals.renderFieldIndex = event.target.parentElement.value;
