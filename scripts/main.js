@@ -704,7 +704,7 @@ require([
           // Region Name, Hospitalizations (Range), Projected Demand (Range)
           tableHTML += "<td>" + globals.jsonData[i][regionNameColumn] + "</td>";
           tableHTML += "<td>" + globals.jsonData[i]["Total Projected Demand (Range)"] + "</td>";
-          tableHTML += "<td>" + globals.jsonData[i]["Total Hospitalizations (Range)"]; + "</td>";
+          tableHTML += "<td>" + globals.jsonData[i]["Total Hospitalizations (Range)"] + "</td>";
 
           tableHTML += "</tr>\n";
         }
