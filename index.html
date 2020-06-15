@@ -32,6 +32,7 @@
 
   <!-- local css to layout -->
   <link rel="stylesheet" href="css/layout-local.css" />
+  <link rel="stylesheet" type="text/css" href="css/noUISlider.css" />
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -57,6 +58,7 @@
 
   <!-- <script src="js/amchart_barchart.js"></script> -->
   <script src="js/amchart_linechart.js"></script>
+  <script src="js/noUISlider.js"></script>
 
 
   <!-- carosel file -->
@@ -267,7 +269,7 @@
         </div>
 
         <!-- <div class="d-none d-lg-flex query-content-section largedeviceQueryBoxRow"> -->
-          <div class="d-flex query-content-section">
+        <div class="d-flex query-content-section">
           <div id="queryWrapper" class="d-flex" style="align-items: center;">
 
             <div class="input-group mr-1">
@@ -275,10 +277,9 @@
                 placeholder="Search Region. Comma separated names allowed"
                 aria-describedby="Search Region. Comma separated names allowed">
 
-                <div class="d-lg-none input-group-append queryFilter" style="cursor: pointer;">
-                  <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-search"
-                      ></i></span>
-                </div>
+              <div class="d-lg-none input-group-append queryFilter" style="cursor: pointer;">
+                <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-search"></i></span>
+              </div>
 
               <div class="input-group-append resetDefault" style="cursor: pointer;">
                 <span class="input-group-text" style="padding: .375rem .5rem;"><i class="fa fa-times-circle"
@@ -319,40 +320,58 @@
           <div class="d-none d-lg-flex arrow-right mr-2"></div>
         </div>
 
-        <div class="projection-content-section mr-auto">
+        <div class="projection-content-section">
 
           <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div id="renderField" class="btn-group mr-auto d-block toggleOptions" role="group" aria-label="First group">
-              <!-- <button type="button" value="Projected Demand (%)" class="btn btn-primary confirmBtn renderField pr-2"
-                title="Projected Resource Demand (%)">
-                <span class="fa fa-bed pr-2" aria-hidden="true" value="Projected Demand (%)"></span>
-                <span class="renderBtnText">Percentage of Occupied Beds</span>
-              
-              </button>
 
-              <button type="button" value="Hospitalizations (Median)"
-                class="btn btn-danger activeBtn disabled renderField" title="Weekly Hospitalizations">
-                <span class="fa fa-users pr-2" aria-hidden="true" value="Hospitalizations (Median)"></span>
-                <span class="renderBtnText">Weekly Hospitalizations</span>
-              </button> -->
-              <button type="button" value="Projected Demand (%)" 
-              class="btn btn-primary confirmBtn renderField pr-2"
+              <button type="button" value="Projected Demand (%)" class="btn btn-primary confirmBtn renderField pr-2"
                 title="Projected Resource Demand (%)">
                 <span class="fa fa-bed pr-2" aria-hidden="true"></span>Percentage of Occupied Beds
               </button>
 
               <button type="button" value="Hospitalizations (Median)"
-              class="btn btn-danger activeBtn disabled renderField" title="Weekly Hospitalizations">
-              <span class="fa fa-users pr-2" aria-hidden="true"></span>Weekly Hospitalizations
-            </button>
+                class="btn btn-danger activeBtn disabled renderField" title="Weekly Hospitalizations">
+                <span class="fa fa-users pr-2" aria-hidden="true"></span>Weekly Hospitalizations
+              </button>
             </div>
           </div>
 
         </div>
+
+        <div class="d-flex align-items-center ml-3">
+          <div class="scenario-heading">Hospital Capacity</div>
+          <div class="d-none d-lg-flex arrow-right mr-2"></div>
+          <div id="slider-range" style="width: 300px; color: white;"></div>
+          <div class="d-flex ml-2">
+            <button type="button" value="Hospitalizations (Median)"
+              class="btn btn-primary activeBtn disabled applyHospitalCapacity" style="padding: 3px 5px; color: white !important;"
+              title="Apply">Apply
+            </button>
+          </div>
+        </div>
+
       </div>
 
     </div>
-    
+
+    <!-- <div class="row slider-labels" style="color: white;">
+      <div class="col-xs-6 caption">
+        <strong>Min:</strong> <span id="slider-range-value1"></span>
+      </div>
+      <div class="col-xs-6 text-right caption">
+        <strong>Max:</strong> <span id="slider-range-value2"></span>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-sm-12">
+        <form>
+          <input type="hidden" name="min-value" value="">
+          <input type="hidden" name="max-value" value="">
+        </form>
+      </div>
+    </div>
+
     <!-- Space for Map and Data-->
 
     <!-- <div class="row mb-2 d-flex d-lg-none mobilemapChartDataRow">
@@ -380,14 +399,14 @@
     <div class="row mapDataContainer">
 
       <div class="col-lg-6 col-xl-7 col-sm-12 pr-lg-0" id="mapContainerRow">
-        <div class="col-12 p-0 mapContainer" >
+        <div class="col-12 p-0 mapContainer">
           <div class="h-100" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:' left'">
 
             <!--Map Section-->
             <div class="h-100" id="mapCanvas" data-dojo-type="dijit/layout/ContentPane"
               data-dojo-props="region:'center'">
 
-           <!--   <div class="d-lg-none d-flex justify-content-start mr-2" role="toolbar"
+              <!--   <div class="d-lg-none d-flex justify-content-start mr-2" role="toolbar"
                 aria-label="Toolbar with button groups">
                 <div class="btn-group ml-auto d-flex resetOptions" role="group" aria-label="First group">
                   <button type="button" value="2" class="btn btn-primary d-flex align-items-center mr-2"
@@ -450,12 +469,13 @@
 
 
       <!-- <div class="col-12 col-lg-6 col-xl-5 dataContainer d-none d-lg-block h-100"> -->
-        <div class="col-lg-6 col-xl-5 col-sm-12 dataContainer" id="chartDataTableContainerRow">
+      <div class="col-lg-6 col-xl-5 col-sm-12 dataContainer" id="chartDataTableContainerRow">
         <div class="row tabMenu">
 
           <div class="col-12 d-flex align-items-center">
-            <div class="map d-flex col-lg-6 col-md-6 col-sm-4 d-sm-none pt-2 pb-1 justify-content-center dataChartFilter selectedFilter"
-            style="border-bottom: 2px solid rgb(255,140,0);">Map</div>
+            <div
+              class="map d-flex col-lg-6 col-md-6 col-sm-4 d-sm-none pt-2 pb-1 justify-content-center dataChartFilter selectedFilter"
+              style="border-bottom: 2px solid rgb(255,140,0);">Map</div>
             <div class="charts col-lg-6 col-md-6 col-sm-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter"
               style="border-bottom: 2px solid rgb(255,140,0);">Chart</div>
             <div class="data col-lg-6 col-md-6 col-sm-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter"
@@ -464,7 +484,7 @@
 
         </div>
 
-        <div class="row d-none dataTableContainer" >
+        <div class="row d-none dataTableContainer">
           <div id="dataTable" class="col-12 h-100"></div>
         </div>
 

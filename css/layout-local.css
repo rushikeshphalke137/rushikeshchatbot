@@ -757,9 +757,9 @@ button.owl-prev:focus {
   max-width: 300px;
 }
 
-.projection-content-section {
+/* .projection-content-section {
   width: calc(100% - 140px);
-}
+} */
 .foot-note-chart {
   padding: 2px 0px;
   color: white;
@@ -1291,6 +1291,12 @@ div#socialSharing a span#linkedin:hover {
   height: 100%;
 }
 
+.noUi-horizontal .noUi-handle {
+  width: 35px !important;
+  height: 22px !important;
+  text-align: center;
+  top: -9px !important;
+}
 
 
 /** code started for media query **/
