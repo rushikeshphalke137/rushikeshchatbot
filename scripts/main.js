@@ -1127,8 +1127,10 @@ function bindChartAndDataTab() {
     $('#dataTable').parent().addClass('d-none');
     if (globals.mobileDevice()) {
       $('.map').removeClass('selectedFilter');
-      $('#mapContainerRow').addClass('d-none');
-      $('.projectionsRow').addClass('d-none');
+      // $('#mapContainerRow').addClass('d-none');
+      // $('.projectionsRow').addClass('d-none');
+      $('#mapContainerRow').addClass('invisibleHeight0');
+      $('.projectionsRow').addClass('invisibleHeight0');
     }
     $('#chartDataTableContainerRow').css('height', '100%');
     $('#chartdiv').parent().removeClass('invisibleHeight0');
@@ -1141,8 +1143,10 @@ function bindChartAndDataTab() {
     $('#chartdiv').parent().addClass('invisibleHeight0');
     if (globals.mobileDevice()) {
       $('.map').removeClass('selectedFilter');
-      $('#mapContainerRow').addClass('d-none');
-      $('.projectionsRow').addClass('d-none');
+      // $('#mapContainerRow').addClass('d-none');
+      // $('.projectionsRow').addClass('d-none');
+            $('#mapContainerRow').addClass('invisibleHeight0');
+      $('.projectionsRow').addClass('invisibleHeight0');
     }
 
     $('#dataTable').parent().removeClass('d-none');
@@ -1157,8 +1161,10 @@ function bindChartAndDataTab() {
     $('#chartDataTableContainerRow').css('height', 'auto');
     $('#chartdiv').parent().addClass('invisibleHeight0');
     $('#dataTable').parent().addClass('d-none');
-    $('#mapContainerRow').removeClass('d-none');
-    $('.projectionsRow').removeClass('d-none');
+    // $('#mapContainerRow').removeClass('d-none');
+    // $('.projectionsRow').removeClass('d-none');
+    $('#mapContainerRow').removeClass('invisibleHeight0');
+    $('.projectionsRow').removeClass('invisibleHeight0');
   });
 }
 
