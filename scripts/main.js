@@ -218,7 +218,7 @@ require([
       var mapZoomLevel = globals.configuration.zoom_level;
       if (globals.mobileDevice()) {
         mapZoomLevel = (mapZoomLevel >= 1) ? parseInt(mapZoomLevel) - 1 : mapZoomLevel;
-        mapMinZoomLevel = 3;
+        mapMinZoomLevel = 4;
       }
       globals.map = new Map("mapCanvas", {
         basemap: "gray",
@@ -534,11 +534,13 @@ require([
       var inputStr = $("#queryByName").val();
 
       if (inputStr.length == 0) {
-        if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0) {
-          $('#overlay').hide();
-        } else {
-          resetApplication();
-        }
+        // if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0) {
+        //   $('#overlay').hide();
+        // } else {
+        //   resetApplication();
+        // }
+        // return;
+        $('#overlay').hide();
         return;
       }
 
@@ -919,6 +921,7 @@ require([
     }
 
     function readDataFromCSVFile(file) {
+      console.log('file',file);
       $.ajax({
         url: file,
         async: false,
