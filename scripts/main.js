@@ -214,11 +214,12 @@ require([
     //initial setup for the map, globals.query and globals.queryTask to query this level by NAME
     function setupMapLayer() {
       globals.defaultExtent = new Extent(globals.configuration.extent);
-      var mapMinZoomLevel = 4;
+      var mapMinZoomLevel = globals.configuration.min_zoom_level;
       var mapZoomLevel = globals.configuration.zoom_level;
       if (globals.mobileDevice()) {
-        mapZoomLevel = (mapZoomLevel >= 1) ? parseInt(mapZoomLevel) - 1 : mapZoomLevel;
-        mapMinZoomLevel = 4;
+        globals.defaultExtent = new Extent(globals.configuration.extentMobile);
+        mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) - 1 : mapZoomLevel;
+        mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) - 1 : mapMinZoomLevel;
       }
       globals.map = new Map("mapCanvas", {
         basemap: "gray",
