@@ -170,7 +170,7 @@
           <div class="d-flex linksContainer align-items-center justify-content-end">
             <!-- <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F&amp;src=sdkpreparse"
             target="_blank" class="icon-link round-corner facebook fill "><i class="fa fa-facebook"></i>
-      
+
           </a>
           <a class="icon-link round-corner twitter fill "
             href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2Fmaster%2Findex.html&ref_src=twsrc%5Etfw&text=Check%20out%20this%20%23covid19%20dashboard%20by%20%40UVA_BI%20which%20has%20a%20time%20slider.%20Search%20is%20easy%3A%20click%20on%20Data%20icon%20and%20type%20something.&tw_p=tweetbutton&url=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F"
@@ -189,7 +189,7 @@
           <i class="fa fa-youtube-play" aria-hidden="true"></i>
         </a>
 
-          
+
           <a class="dt-button dashboardButton " href="http://nssac.bii.virginia.edu/covid-19/dashboard/"
           target="_blank">SD
         </a> -->
@@ -301,26 +301,25 @@
 
     </div>
 
-    <div class="row mb-1 projectionsRow">
+    <div class="row mb-1 mt-2 projectionsRow">
 
       <div class="col-12 d-flex" style="align-items: center;">
 
-        <div class="d-flex timeline-heading-section" style="align-items: center;">
+        <!-- <div class="d-flex timeline-heading-section" style="align-items: center;">
           <div class="d-none d-lg-flex scenario-heading">
             <span>Projections</span>
             <i class="d-flex justify-content-center align-items-center fa fa-info-circle pl-1"
               style="cursor: pointer; padding-top: 3px;" data-toggle="popover" data-html="true"
-              data-trigger="hover focus" data-placement="bottom" data-title="What are Projections?" data-content="Our projections depend on output from our model simulations (Scenarios.) 
-              Weekly Hospitalizations represent general trends compared across different models, but should not be interpreted as hard forecasts because 
-              conditions will change as disease parameters are refined and new interventions emerge. 
+              data-trigger="hover focus" data-placement="bottom" data-title="What are Projections?" data-content="Our projections depend on output from our model simulations (Scenarios.)
+              Weekly Hospitalizations represent general trends compared across different models, but should not be interpreted as hard forecasts because
+              conditions will change as disease parameters are refined and new interventions emerge.
               The Percentage of Occupied Beds is calculated from projected weekly hospitalizations, the number of hospital beds in the selected regions (assuming that 80% of total occupancy is taken up by non-COVID-19 patients),
                and the duration of the typical hospital stay."></i>
           </div>
-          <!-- <div class="d-flex d-lg-none scenario-heading">P</div> -->
           <div class="d-none d-lg-flex arrow-right mr-2"></div>
-        </div>
+        </div> -->
 
-        <div class="projection-content-section">
+        <!-- <div class="projection-content-section">
 
           <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div id="renderField" class="btn-group mr-auto d-block toggleOptions" role="group" aria-label="First group">
@@ -337,16 +336,15 @@
             </div>
           </div>
 
-        </div>
+        </div> -->
 
-        <div class="d-lg-flex d-none align-items-center ml-3">
+        <div class="d-lg-flex d-none align-items-center">
           <div class="scenario-heading">Hospital Capacity</div>
           <div class="d-none d-lg-flex arrow-right mr-2"></div>
-          <div id="slider-range" style="width: 300px; color: white;"></div>
+          <div id="slider-range" style="width: 325px; color: white;"></div>
           <div class="d-flex ml-2">
             <button type="button" value="Hospitalizations (Median)"
-              class="btn btn-primary activeBtn disabled applyHospitalCapacity" style="padding: 3px 5px; color: white !important;"
-              title="Apply">Apply
+              class="btn btn-warning activeBtn applyHospitalCapacity" style="padding: 3px 10px;" title="Apply">Apply
             </button>
           </div>
         </div>
@@ -355,14 +353,6 @@
 
     </div>
 
-    <!-- <div class="row slider-labels" style="color: white;">
-      <div class="col-xs-6 caption">
-        <strong>Min:</strong> <span id="slider-range-value1"></span>
-      </div>
-      <div class="col-xs-6 text-right caption">
-        <strong>Max:</strong> <span id="slider-range-value2"></span>
-      </div>
-    </div> -->
     <div class="row">
       <div class="col-sm-12">
         <form>
@@ -396,7 +386,7 @@
 
 
 
-    <div class="row mapDataContainer">
+    <div class="row mapDataContainer mt-1">
 
       <div class="col-lg-6 col-xl-7 col-sm-12 pr-lg-0" id="mapContainerRow">
         <div class="col-12 p-0 mapContainer">
@@ -406,21 +396,52 @@
             <div class="h-100" id="mapCanvas" data-dojo-type="dijit/layout/ContentPane"
               data-dojo-props="region:'center'">
 
-              <!--   <div class="d-lg-none d-flex justify-content-start mr-2" role="toolbar"
-                aria-label="Toolbar with button groups">
-                <div class="btn-group ml-auto d-flex resetOptions" role="group" aria-label="First group">
-                  <button type="button" value="2" class="btn btn-primary d-flex align-items-center mr-2"
-                    title="Percentage of Occupied Beds" style="color: white !important;">
-                    <i class="fa fa-bed" style="font-size: 1.5em; padding-right: 5px;"></i>
+              <div class="d-lg-none d-flex justify-content-start mr-2" role="toolbar" aria-label="Toolbar with button groups">
+                <div id="renderField" class="btn-group ml-auto d-flex resetOptions" role="group" aria-label="First group">
+                  <button type="button" value="Projected Demand (%)"
+                    class="btn btn-primary confirmBtn renderField pr-2 mr-2" title="Projected Resource Demand (%)">
+                    <span class="fa fa-bed pr-2" aria-hidden="true"></span>
                   </button>
 
-                  <button type="button" value="2" class="btn btn-danger d-flex align-items-center"
-                    title="Weekly Hospitalizations" style="color: white !important;">
-                    <i class="fa fa-users" style="font-size: 1.2em; padding-right: 5px; padding-left: 5px;"></i>
+                  <button type="button" value="Hospitalizations (Median)"
+                    class="btn btn-danger activeBtn disabled renderField" title="Weekly Hospitalizations">
+                    <span class="fa fa-users pr-2" aria-hidden="true"></span>
                   </button>
 
                 </div>
-              </div> -->
+              </div>
+
+              <div class="d-lg-flex d-none timeline-heading-section resetOptions"
+                style="align-items: center; background-color: transparent; padding-left: 1px;">
+                <div class="d-none d-lg-flex scenario-heading">
+                  <span>Projections</span>
+                  <i class="d-flex justify-content-center align-items-center fa fa-info-circle pl-1"
+                    style="cursor: pointer; padding-top: 3px;" data-toggle="popover" data-html="true"
+                    data-trigger="hover focus" data-placement="bottom" data-title="What are Projections?" data-content="Our projections depend on output from our model simulations (Scenarios.) 
+                    Weekly Hospitalizations represent general trends compared across different models, but should not be interpreted as hard forecasts because 
+                    conditions will change as disease parameters are refined and new interventions emerge. 
+                    The Percentage of Occupied Beds is calculated from projected weekly hospitalizations, the number of hospital beds in the selected regions (assuming that 80% of total occupancy is taken up by non-COVID-19 patients),
+                     and the duration of the typical hospital stay."></i>
+                </div>
+                <div class="d-none d-lg-flex arrow-right mr-2"></div>
+              </div>
+
+
+              <div class="d-lg-flex d-none justify-content-start mr-2" role="toolbar" aria-label="Toolbar with button groups">
+                <div id="renderField" class="btn-group ml-auto d-flex resetOptions" role="group" aria-label="First group"
+                  style="left: 15%;">
+                  <button type="button" value="Projected Demand (%)"
+                    class="btn btn-primary confirmBtn renderField pr-2 mr-2" title="Projected Resource Demand (%)">
+                    <span class="fa fa-bed pr-2" aria-hidden="true"></span>Percentage of Occupied Beds
+                  </button>
+
+                  <button type="button" value="Hospitalizations (Median)"
+                    class="btn btn-danger activeBtn disabled renderField" title="Weekly Hospitalizations">
+                    <span class="fa fa-users pr-2" aria-hidden="true"></span>Weekly Hospitalizations
+                  </button>
+
+                </div>
+              </div>
 
               <div class="d-flex justify-content-end mr-2" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group ml-auto d-flex resetOptions" role="group" aria-label="First group">
@@ -500,7 +521,7 @@
 
   </div>
 
-  <footer class="footer-section d-flex">
+  <footer class="footer-section d-flex mt-1">
     <div class="mobileDeviceSocial">
       <div class="d-lg-none d-flex footerIcons">
         <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnssac.bii.virginia.edu%2Fcovid-19%2Fdashboard%2F&amp;src=sdkpreparse"
@@ -563,7 +584,7 @@
 
       <!-- <a href="http://nssac.bii.virginia.edu/covid-19/dashboard/" target="_blank">
         <li style="border-top: 1px solid black;">
-          COVID-19 
+          COVID-19
         </li>
       </a> -->
 
@@ -581,7 +602,7 @@
         <li style="border-top: 1px solid black;">
           Surveillance Dashboard
         </li>
-      </a> 
+      </a>
       <a href="mailto:nssac_ncov_support@virginia.edu">
         <li style="border-top: 1px solid black;">
           Contact Us

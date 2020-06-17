@@ -16,6 +16,15 @@
                 "wkid": 4326
             }
         },
+        "extentMobile": {
+            "xmin": -83.6753991625592,
+            "xmax": -75.2417293387953,
+            "ymin": 36.541660218841,
+            "ymax": 39.4660198481876,
+            "spatialReference": {
+                "wkid": 4326
+            }
+        },
         "out_fields": [
             "VHASS_Reg",
             "InPoly_FID"

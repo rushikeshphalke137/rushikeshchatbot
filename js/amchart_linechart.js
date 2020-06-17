@@ -41,7 +41,7 @@ function renderSummaryDataChart() {
   if (globals.mobileDevice()) { //if its a mobile device
     categoryAxis.renderer.labels.template.rotation = 0;
   }
-  
+
   categoryAxis.renderer.line.strokeOpacity = 1;
   categoryAxis.renderer.line.strokeWidth = 1;
   categoryAxis.renderer.labels.template.fill = am4core.color("#fff");
@@ -302,10 +302,10 @@ function createHospitalizationSeries(chart, color) {
 
   chart.data.forEach(function (chartValue, index) {
     if (maxHospitalizationValue < Number(chartValue['Upper Hospitalization Bound']))
-    maxHospitalizationValue = Number(chartValue['Upper Hospitalization Bound']);
+      maxHospitalizationValue = Number(chartValue['Upper Hospitalization Bound']);
 
     if (minHospitalizationValue > Number(chartValue['Lower Hospitalization Bound']))
-    minHospitalizationValue = Number(chartValue['Lower Hospitalization Bound']);
+      minHospitalizationValue = Number(chartValue['Lower Hospitalization Bound']);
   });
 
   hospitalizationValueAxis.min = minHospitalizationValue - 10;
@@ -454,6 +454,35 @@ function mergeDataAcrossRegions() {
       " [" + numFormatter(mergedData[loop]["Lower Hospitalization Bound"]) + " - " + numFormatter(mergedData[loop]["Upper Hospitalization Bound"]) + "]";
     mergedData[loop]["Total Projected Demand (Range)"] = (mergedData[loop]["Total Projected Demand (%)"]).toFixed(2) +
       "% [" + (mergedData[loop]["Lower Projected Demand Bound"]).toFixed(2) + "% - " + (mergedData[loop]["Upper Projected Demand Bound"]).toFixed(2) + "%]";
+  }
+
+  for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
+    var regionName = globals.queriedRegionNumbers[i] + "";
+
+    // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
+    if (regionName.indexOf(' ') >= 0)
+      regionName = regionName.split(" ").join("_");
+
+    var cumulativeBeds = 0;
+    for (var i = 0; i < globals.regionData.length; i++) {
+      if (regionName == globals.regionData[i]["#VHASS_Region"]) {
+        cumulativeBeds = cumulativeBeds + Number(globals.regionData[i]["Beds"]);
+        break;
+      }
+    }
+  }
+  var percentDemand = globals.minHospitalCapacity / 100;
+  for (var i = 0; i < mergedData.length; i++) {
+
+    var med_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(mergedData[i]["Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
+    var lb_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(mergedData[i]["Lower Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
+    var ub_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(mergedData[i]["Upper Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
+
+    mergedData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
+    mergedData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
+    mergedData[i]["Total Projected Demand (%)"] = med_proj_dem;
+
+    mergedData[i]["Total Projected Demand (Range)"] = med_proj_dem + "% [" + lb_proj_dem + "% - " + ub_proj_dem + "%]";
   }
 
   return mergedData;

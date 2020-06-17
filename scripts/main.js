@@ -122,8 +122,8 @@ require([
   ) {
     parser.parse();
 
-    $.getJSON("supported_scenarios.json")
-      //$.getJSON("data_va/supported_scenarios.json")
+  $.getJSON("supported_scenarios.json")
+  //  $.getJSON("data_va/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -327,14 +327,20 @@ require([
       //different colors for different attribute
       var colors = [];
       if (globals.renderFieldIndex == 'Projected Demand (%)') {
+
         colors.push(new Color([189, 201, 225]));
         colors.push(new Color([116, 169, 207]));
         colors.push(new Color([43, 140, 190]));
         colors.push(new Color([4, 90, 141]));
         colors.push(new Color([3, 72, 112]));
 
-        var breakMins = [80, 90, 100, 120, 130];
-        var breakMaxs = [89.99, 99.99, 119.99, 129.99, 200];
+        var breakMins = [40, 80, 90, 100, 120];
+
+        if (globals.maxHospitalCapacity > 120)
+          var breakMins = [40, 80, 90, 100, globals.maxHospitalCapacity];
+
+        var breakMaxs = [79.99, 89.99, 99.99, globals.maxHospitalCapacity - 0.01, 200];
+
       } else {
         numClasses = 6;
         colors.push(new Color([254, 240, 217]));
@@ -922,7 +928,7 @@ require([
     }
 
     function readDataFromCSVFile(file) {
-      console.log('file',file);
+      console.log('file', file);
       $.ajax({
         url: file,
         async: false,
@@ -945,12 +951,14 @@ require([
         readDataFromCSVFile(regionFile);
 
         if (globals.isSliderApplied) {
+          var percentDemand = globals.minHospitalCapacity / 100;
+
           for (var i = 0; i < globals.timelineJsonData.length; i++) {
             var beds = Number(globals.regionData[i]["Beds"]);
 
-            var med_proj_dem = Number(((percentDemand * beds) + globals.timelineJsonData[i]["Max Occupied Beds"]) * 100 / beds).toFixed(2);
-            var lb_proj_dem = Number(((percentDemand * beds) + globals.timelineJsonData[i]["Lower Max Occupied Beds"]) * 100 / beds).toFixed(2);
-            var ub_proj_dem = Number(((percentDemand * beds) + globals.timelineJsonData[i]["Upper Max Occupied Beds"]) * 100 / beds).toFixed(2);
+            var med_proj_dem = Number(((percentDemand * beds) + Number(globals.timelineJsonData[i]["Max Occupied Beds"])) * 100 / beds).toFixed(2);
+            var lb_proj_dem = Number(((percentDemand * beds) + Number(globals.timelineJsonData[i]["Lower Max Occupied Beds"])) * 100 / beds).toFixed(2);
+            var ub_proj_dem = Number(((percentDemand * beds) + Number(globals.timelineJsonData[i]["Upper Max Occupied Beds"])) * 100 / beds).toFixed(2);
 
             globals.timelineJsonData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
             globals.timelineJsonData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
@@ -1149,7 +1157,7 @@ function bindChartAndDataTab() {
       $('.map').removeClass('selectedFilter');
       // $('#mapContainerRow').addClass('d-none');
       // $('.projectionsRow').addClass('d-none');
-            $('#mapContainerRow').addClass('invisibleHeight0');
+      $('#mapContainerRow').addClass('invisibleHeight0');
       $('.projectionsRow').addClass('invisibleHeight0');
     }
 
