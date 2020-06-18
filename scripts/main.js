@@ -80,6 +80,9 @@ globals.maxHospitalCapacity = 120;
 
 globals.isSliderApplied = false;
 
+globals.regionDataNameColumn = "HRRCITY";
+globals.regionDataBedsColumn = "DHS_Beds";
+
 require([
   "esri/Color",
   "esri/geometry/Extent",
@@ -122,8 +125,8 @@ require([
   ) {
     parser.parse();
 
-  $.getJSON("supported_scenarios.json")
-  //  $.getJSON("data_va/supported_scenarios.json")
+    $.getJSON("supported_scenarios.json")
+      //$.getJSON("data_va/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -954,7 +957,7 @@ require([
           var percentDemand = globals.minHospitalCapacity / 100;
 
           for (var i = 0; i < globals.timelineJsonData.length; i++) {
-            var beds = Number(globals.regionData[i]["Beds"]);
+            var beds = Number(globals.regionData[i][globals.regionDataBedsColumn]);
 
             var med_proj_dem = Number(((percentDemand * beds) + Number(globals.timelineJsonData[i]["Max Occupied Beds"])) * 100 / beds).toFixed(2);
             var lb_proj_dem = Number(((percentDemand * beds) + Number(globals.timelineJsonData[i]["Lower Max Occupied Beds"])) * 100 / beds).toFixed(2);
@@ -991,7 +994,7 @@ require([
       var percentDemand = globals.minHospitalCapacity / 100;
 
       for (var i = 0; i < globals.jsonData.length; i++) {
-        var beds = Number(globals.regionData[i]["Beds"]);
+        var beds = Number(globals.regionData[i][globals.regionDataBedsColumn]);
 
         //  med_proj_dem = round(((0.8 * int(row["Beds"])) + median_occupancy)*100/int(row["Beds"]),2)
 
@@ -1008,7 +1011,7 @@ require([
 
       var cumulativeBeds = 0;
       for (var i = 0; i < globals.regionData.length; i++) {
-        cumulativeBeds = cumulativeBeds + Number(globals.regionData[i]["Beds"]);
+        cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
       }
 
       for (var i = 0; i < globals.timelineJsonData.length; i++) {
@@ -1025,7 +1028,15 @@ require([
       }
 
       renderTimeline();
-      renderSummaryDataChart();
+
+      if (globals.selectedRegionNum != 0) {
+        renderSelectedRegionsChart(globals.selectedRegionNum, globals.selectedRegionName);
+      } else if (globals.queriedRegionNames.length != 0) {
+        renderQueriedRegionsChart();
+      } else {
+        renderSummaryDataChart();
+      }
+
       showCSVDataInTable();
       setMapRenderer();
 
@@ -1213,7 +1224,16 @@ function bindSliderEvents() {
 }
 
 function loadRegionData() {
-  var fileURL = "data_va/VHASS_Region_Counts.csv";
+  if (globals.configuration.region == 'vhass') {
+    var fileURL = "data_va/VHASS_Region_Counts.csv";
+    globals.regionDataNameColumn = "#VHASS_Region";
+    globals.regionDataBedsColumn = "Beds";
+  } else {
+    var fileURL = "data_ro/HRR_Data.csv";
+    globals.regionDataNameColumn = "HRRCITY";
+    globals.regionDataBedsColumn = "DHS_Beds";
+  }
+
   $.ajax({
     url: fileURL,
     async: false,
