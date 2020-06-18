@@ -1310,6 +1310,16 @@ div#socialSharing a span#linkedin:hover {
   background: rgb(255, 140, 0) !important;
 }
 
+.sliderRow .arrow-right {
+  width: 3%;
+}
+.sliderRow  #slider-range {
+  color: white;
+  width: 52%;
+}
+.applyBtn {
+    width: 15%;
+}
 /** code started for media query **/
 /* @media (max-width: 768px) {
 

@@ -210,7 +210,7 @@
     font-size: .9rem !important;
   }
   .mapDataContainer {
-    height: calc(100% - 123px);
+    height: calc(100% - 140px);
   }
 
   #mapCanvas {
@@ -303,7 +303,6 @@
       width: 35px;
   }
   .scenario-heading-section {
-    font-size: 1.1rem;
     font-weight: bold;
   }
   .mobileHeaderRow .applicationTitle{
@@ -393,12 +392,12 @@ font-size: 1em;
 #renderField button > span::after {
   content: "";
 }
-.projectionsRow {
+/* .projectionsRow {
   position: absolute;
     z-index: 1;
     top: 224px;
     left: 11px;
-}
+} */
 .renderField .fa-bed,
 .renderField .fa-users {
   padding-right: 0px !important;
@@ -433,9 +432,24 @@ font-size: 1em;
   margin-right: 0px !important;
   margin-top: 0px !important;
 }
-/* .map .esriMapContainer {
-top: -79px !important;
-} */
+.scenario-heading {
+  white-space: nowrap;
+  padding: 5px 2px;
+  font-size: inherit;
+  width: 30%;
+  font-weight: bold;
+}
+.sliderRow {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+.sliderRow .arrow-right {
+  margin-right: 1px !important;
+}
+.applyBtn {
+  margin-left: 1px !important;
+}
+
 }
 
 /* iPhone 5, 5C, 5S, iPod Touch 5g */

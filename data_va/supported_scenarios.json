@@ -7,6 +7,7 @@
         "layer_attribute": "VHASS_Reg",
         "query_attribute": "VHASS_Reg",
         "zoom_level": 6,
+		"min_zoom_level": 4,
         "extent": {
             "xmin": -83.6753991625592,
             "xmax": -75.2417293387953,
@@ -17,9 +18,9 @@
             }
         },
         "extentMobile": {
-            "xmin": -83.6753991625592,
-            "xmax": -75.2417293387953,
-            "ymin": 36.541660218841,
+            "xmin": -103.6753991625592,
+            "xmax": -55.2417293387953,
+            "ymin": 26.541660218841,
             "ymax": 39.4660198481876,
             "spatialReference": {
                 "wkid": 4326
