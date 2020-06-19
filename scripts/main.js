@@ -310,7 +310,6 @@ require([
     }
 
     function setMapRenderer() {
-      dojo.connect(dojo.byId("renderField"), "onclick", changeRenderField);
       renderLegend();
     }
 
@@ -342,7 +341,7 @@ require([
         if (globals.maxHospitalCapacity > 120)
           var breakMins = [40, 80, 90, 100, globals.maxHospitalCapacity];
 
-        var breakMaxs = [79.99, 89.99, 99.99, globals.maxHospitalCapacity - 0.01, 200];
+        var breakMaxs = [79.99, 89.99, 99.99, globals.maxHospitalCapacity - 0.01, 500];
 
       } else {
         numClasses = 6;
@@ -931,7 +930,6 @@ require([
     }
 
     function readDataFromCSVFile(file) {
-      console.log('file', file);
       $.ajax({
         url: file,
         async: false,
@@ -1067,8 +1065,7 @@ require([
       $('.getQueryResultsBtn').removeClass('d-flex');
       $('.getQueryResultsBtn').addClass('d-none');
 
-      document.getElementsByName('min-value').value = 80;
-      document.getElementsByName('max-value').value = 120;
+      globals.rangeSlider.noUiSlider.set([80, 120]);
 
       // Select first scenario.
       globals.selectedDate = null;
@@ -1094,13 +1091,20 @@ require([
       $('.getQueryResultsBtn').removeClass('d-flex');
       $('.getQueryResultsBtn').addClass('d-none');
 
-      document.getElementsByName('min-value').value = 80;
-      document.getElementsByName('max-value').value = 120;
+      globals.rangeSlider.noUiSlider.set([80, 120]);
 
       executeDefaultWorkflow();
     }
 
     function bindSearchAndResetButton() {
+      $('#renderField').on('click', function (e) {
+        changeRenderField(e);
+      });
+
+      $('#renderFieldMobile').on('click', function (e) {
+        changeRenderField(e);
+      });
+
       $('.resetBtn').on('click', function (e) {
         resetMap();
       });
@@ -1109,7 +1113,12 @@ require([
         resetApplication();
       });
 
-      $('.queryFilter, .getQueryResultsBtn').on('click', function (e) {
+      $('.getQueryResultsBtn').on('click', function (e) {
+        globals.isSliderApplied = false;
+        queryByName();
+      });
+
+      $('.queryFilter').on('click', function (e) {
         queryByName();
       });
 
@@ -1195,9 +1204,9 @@ function bindSliderEvents() {
   // $('.noUi-handle').on('click', function() {
   //   $(this).width(50);
   // });
-  var rangeSlider = document.getElementById('slider-range');
+  globals.rangeSlider = document.getElementById('slider-range');
 
-  noUiSlider.create(rangeSlider, {
+  noUiSlider.create(globals.rangeSlider, {
     start: [80, 120],
     step: 1,
     tooltips: true,
@@ -1212,7 +1221,7 @@ function bindSliderEvents() {
   });
 
   // Set visual min and max values and also update value hidden form inputs
-  rangeSlider.noUiSlider.on('update', function (values, handle) {
+  globals.rangeSlider.noUiSlider.on('update', function (values, handle) {
     // document.getElementById('slider-range-value1').innerHTML = values[0];
     // document.getElementById('slider-range-value2').innerHTML = values[1];
     document.getElementsByName('min-value').value = Number(values[0]);

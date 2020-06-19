@@ -834,7 +834,6 @@ button.owl-prev:focus {
 
 #renderField .renderField {
   color: white !important;
-  padding: .3rem .75rem;
 }
 .btn-group>.btn:hover {
   z-index: 2;
@@ -860,7 +859,7 @@ button.owl-prev:focus {
   position: absolute !important;
   z-index: 1000;
   background-color: whitesmoke;
-  padding: 5px;
+  padding: 3px;
 }
 
 #timeline .content {

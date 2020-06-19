@@ -456,7 +456,7 @@ function mergeDataAcrossRegions() {
       "% [" + (mergedData[loop]["Lower Projected Demand Bound"]).toFixed(2) + "% - " + (mergedData[loop]["Upper Projected Demand Bound"]).toFixed(2) + "%]";
   }
 
-  if (globals.isSliderApplied) {
+  if (globals.isSliderApplied && globals.configuration.region == 'vhass') {
     for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
       var regionName = globals.queriedRegionNumbers[i] + "";
 
