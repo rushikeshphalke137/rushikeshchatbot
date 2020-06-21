@@ -9,6 +9,7 @@ function renderSummaryDataChart() {
   // Create chart instance
   var chart = am4core.create("chartdiv", am4charts.XYChart);
   chart.data = globals.timelineJsonData;
+
   chart.hiddenState.properties.opacity = 0;
   // Converts Y axis values in K,M,B
   chart.numberFormatter.numberFormat = "###a";
@@ -456,13 +457,9 @@ function mergeDataAcrossRegions() {
       "% [" + (mergedData[loop]["Lower Projected Demand Bound"]).toFixed(2) + "% - " + (mergedData[loop]["Upper Projected Demand Bound"]).toFixed(2) + "%]";
   }
 
-  if (globals.isSliderApplied && globals.configuration.region == 'vhass') {
-    for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
-      var regionName = globals.queriedRegionNumbers[i] + "";
-
-      // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
-      if (regionName.indexOf(' ') >= 0)
-        regionName = regionName.split(" ").join("_");
+  if (globals.isSliderApplied) {
+    for (i = 0; i < globals.queriedRegionNames.length; i++) {
+      var regionName = globals.queriedRegionNames[i] + "";
 
       var cumulativeBeds = 0;
       for (var i = 0; i < globals.regionData.length; i++) {

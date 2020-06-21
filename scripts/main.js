@@ -303,6 +303,8 @@ require([
           if (!globals.renderFieldIndex)
             globals.renderFieldIndex = "Projected Demand (%)";
 
+          if (globals.isSliderApplied)
+            applySliderOnSummaryData();
           showCSVDataInTable();
           setMapRenderer();
         }
@@ -938,6 +940,9 @@ require([
           var jsonobject = JSON.stringify(items);
 
           globals.timelineJsonData = JSON.parse(jsonobject);
+
+          if (globals.isSliderApplied)
+            applySliderOnTimelineData();
         },
         dataType: "text",
         complete: function () { }
@@ -950,25 +955,6 @@ require([
       if (globals.selectedRegionNum != 0) {
         var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
         readDataFromCSVFile(regionFile);
-
-        if (globals.isSliderApplied) {
-          var percentDemand = globals.minHospitalCapacity / 100;
-
-          for (var i = 0; i < globals.timelineJsonData.length; i++) {
-            var beds = Number(globals.regionData[i][globals.regionDataBedsColumn]);
-
-            var med_proj_dem = Number(((percentDemand * beds) + Number(globals.timelineJsonData[i]["Max Occupied Beds"])) * 100 / beds).toFixed(2);
-            var lb_proj_dem = Number(((percentDemand * beds) + Number(globals.timelineJsonData[i]["Lower Max Occupied Beds"])) * 100 / beds).toFixed(2);
-            var ub_proj_dem = Number(((percentDemand * beds) + Number(globals.timelineJsonData[i]["Upper Max Occupied Beds"])) * 100 / beds).toFixed(2);
-
-            globals.timelineJsonData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
-            globals.timelineJsonData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
-            globals.timelineJsonData[i]["Total Projected Demand (%)"] = med_proj_dem;
-
-            globals.timelineJsonData[i]["Total Projected Demand (Range)"] = med_proj_dem + "% [" + lb_proj_dem + "% - " + ub_proj_dem + "%]";
-          }
-        }
-
         renderTimeline();
         return;
       }
@@ -989,41 +975,8 @@ require([
       $('#overlay').show();
       globals.isSliderApplied = true;
 
-      var percentDemand = globals.minHospitalCapacity / 100;
-
-      for (var i = 0; i < globals.jsonData.length; i++) {
-        var beds = Number(globals.regionData[i][globals.regionDataBedsColumn]);
-
-        //  med_proj_dem = round(((0.8 * int(row["Beds"])) + median_occupancy)*100/int(row["Beds"]),2)
-
-        var med_proj_dem = Number(((percentDemand * beds) + Number(globals.jsonData[i]["Max Occupied Beds"])) * 100 / beds).toFixed(2);
-        var lb_proj_dem = Number(((percentDemand * beds) + Number(globals.jsonData[i]["Lower Max Occupied Beds"])) * 100 / beds).toFixed(2);
-        var ub_proj_dem = Number(((percentDemand * beds) + Number(globals.jsonData[i]["Upper Max Occupied Beds"])) * 100 / beds).toFixed(2);
-
-        globals.jsonData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
-        globals.jsonData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
-        globals.jsonData[i]["Total Projected Demand (%)"] = med_proj_dem;
-
-        globals.jsonData[i]["Total Projected Demand (Range)"] = med_proj_dem + "% [" + lb_proj_dem + "% - " + ub_proj_dem + "%]";
-      }
-
-      var cumulativeBeds = 0;
-      for (var i = 0; i < globals.regionData.length; i++) {
-        cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
-      }
-
-      for (var i = 0; i < globals.timelineJsonData.length; i++) {
-
-        var med_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(globals.timelineJsonData[i]["Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
-        var lb_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(globals.timelineJsonData[i]["Lower Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
-        var ub_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(globals.timelineJsonData[i]["Upper Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
-
-        globals.timelineJsonData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
-        globals.timelineJsonData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
-        globals.timelineJsonData[i]["Total Projected Demand (%)"] = med_proj_dem;
-
-        globals.timelineJsonData[i]["Total Projected Demand (Range)"] = med_proj_dem + "% [" + lb_proj_dem + "% - " + ub_proj_dem + "%]";
-      }
+      applySliderOnSummaryData();
+      applySliderOnTimelineData()
 
       renderTimeline();
 
@@ -1043,6 +996,48 @@ require([
 
       // Initialize Query Tooltip
       $('[data-toggle="popover"]').popover();
+    }
+
+    function applySliderOnSummaryData() {
+      var percentDemand = globals.minHospitalCapacity / 100;
+
+      for (var i = 0; i < globals.jsonData.length; i++) {
+        var beds = Number(globals.regionData[i][globals.regionDataBedsColumn]);
+
+        //  med_proj_dem = round(((0.8 * int(row["Beds"])) + median_occupancy)*100/int(row["Beds"]),2)
+
+        var med_proj_dem = Number(((percentDemand * beds) + Number(globals.jsonData[i]["Max Occupied Beds"])) * 100 / beds).toFixed(2);
+        var lb_proj_dem = Number(((percentDemand * beds) + Number(globals.jsonData[i]["Lower Max Occupied Beds"])) * 100 / beds).toFixed(2);
+        var ub_proj_dem = Number(((percentDemand * beds) + Number(globals.jsonData[i]["Upper Max Occupied Beds"])) * 100 / beds).toFixed(2);
+
+        globals.jsonData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
+        globals.jsonData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
+        globals.jsonData[i]["Total Projected Demand (%)"] = med_proj_dem;
+
+        globals.jsonData[i]["Total Projected Demand (Range)"] = med_proj_dem + "% [" + lb_proj_dem + "% - " + ub_proj_dem + "%]";
+      }
+    }
+
+    function applySliderOnTimelineData() {
+      var percentDemand = globals.minHospitalCapacity / 100;
+
+      var cumulativeBeds = 0;
+      for (var i = 0; i < globals.regionData.length; i++) {
+        cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
+      }
+
+      for (var i = 0; i < globals.timelineJsonData.length; i++) {
+
+        var med_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(globals.timelineJsonData[i]["Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
+        var lb_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(globals.timelineJsonData[i]["Lower Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
+        var ub_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(globals.timelineJsonData[i]["Upper Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
+
+        globals.timelineJsonData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
+        globals.timelineJsonData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
+        globals.timelineJsonData[i]["Total Projected Demand (%)"] = med_proj_dem;
+
+        globals.timelineJsonData[i]["Total Projected Demand (Range)"] = med_proj_dem + "% [" + lb_proj_dem + "% - " + ub_proj_dem + "%]";
+      }
     }
 
     function resetApplication() {
