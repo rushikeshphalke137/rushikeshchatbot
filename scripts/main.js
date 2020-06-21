@@ -925,7 +925,6 @@ require([
         // Add selection class to current timeline
         $(event.currentTarget).addClass('selected-scenario');
 
-
         globals.map.infoWindow.hide();
         executeDefaultWorkflow();
       });
@@ -972,7 +971,7 @@ require([
     }
 
     function updateHospitalCapacity() {
-      $('#overlay').show();
+      // $('#overlay').show();
       globals.isSliderApplied = true;
 
       applySliderOnSummaryData();
@@ -996,6 +995,9 @@ require([
 
       // Initialize Query Tooltip
       $('[data-toggle="popover"]').popover();
+
+      $('#timeline .content').removeClass('content-selected');
+      $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
     }
 
     function applySliderOnSummaryData() {
@@ -1092,11 +1094,7 @@ require([
     }
 
     function bindSearchAndResetButton() {
-      $('#renderField').on('click', function (e) {
-        changeRenderField(e);
-      });
-
-      $('#renderFieldMobile').on('click', function (e) {
+      $('#renderField, #renderFieldMobile').on('click', function (e) {
         changeRenderField(e);
       });
 
@@ -1108,12 +1106,7 @@ require([
         resetApplication();
       });
 
-      $('.getQueryResultsBtn').on('click', function (e) {
-        globals.isSliderApplied = false;
-        queryByName();
-      });
-
-      $('.queryFilter').on('click', function (e) {
+      $('.queryFilter, .getQueryResultsBtn').on('click', function (e) {
         queryByName();
       });
 
