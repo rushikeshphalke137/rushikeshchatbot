@@ -24,21 +24,19 @@ var isLandscape = (window.orientation == 90 || window.orientation == -90) ? true
 function checkOrientation() {
   isLandscape = (window.orientation == 90 || window.orientation == -90) ? true : false;
   //if (isTablet && !isLandscape )) {
-    if ((isTablet && !isLandscape)) {
-    console.log('mapclk',isLandscape);
+  if ((isTablet && !isLandscape)) {
     $('.map').click(); //for mobile default map selected
-  } 
- else if ((globals.mobileDevice() && (window.orientation == 90 || window.orientation == -90)) && (!isTablet)) {
-   $('.supported-content').addClass('invisibleHeight0');
-   $('.not-supported').addClass('d-flex');
-   $('.not-supported').removeClass('d-none');
- } else {
-   $('.not-supported').addClass('d-none');
-   $('.not-supported').removeClass('d-flex');
-   $('.supported-content').removeClass('invisibleHeight0');
-   console.log('chrtclk',isLandscape);
-   $('.charts').click();
- }
+  }
+  else if ((globals.mobileDevice() && (window.orientation == 90 || window.orientation == -90)) && (!isTablet)) {
+    $('.supported-content').addClass('invisibleHeight0');
+    $('.not-supported').addClass('d-flex');
+    $('.not-supported').removeClass('d-none');
+  } else {
+    $('.not-supported').addClass('d-none');
+    $('.not-supported').removeClass('d-flex');
+    $('.supported-content').removeClass('invisibleHeight0');
+    $('.charts').click();
+  }
 }
 window.addEventListener("orientationchange", checkOrientation, false);
 //window.addEventListener("load", checkOrientation, false);
@@ -214,11 +212,9 @@ require([
       }
 
       // Select default option as Charts
-      if (globals.mobileDevice() || (isTablet && !isLandscape )) {
-        console.log('mapclk',isLandscape);
+      if (globals.mobileDevice() || (isTablet && !isLandscape)) {
         $('.map').click(); //for mobile default map selected
       } else {
-        console.log('chrtclk',isLandscape);
         $('.charts').click(); //for except mobile chart by default selected
       }
 
@@ -238,8 +234,7 @@ require([
         globals.defaultExtent = new Extent(globals.configuration.extentMobile);
         mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) - 1 : mapZoomLevel;
         mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) - 1 : mapMinZoomLevel;
-      } else if(isTablet) 
-      {
+      } else if (isTablet) {
         mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) + 1 : mapZoomLevel;
         mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) + 1 : mapMinZoomLevel;
       }
@@ -483,9 +478,8 @@ require([
 
     //Change rendering field, this is ONLY for single attribute mode
     function changeRenderField(event) {
-      console.log('event.target.value=',event.target.value);
       var clickedButton = event.target;
-      
+
       globals.renderFieldIndex = event.target.value;
       if (!event.target.value) {
         globals.renderFieldIndex = event.target.parentElement.value;
@@ -534,8 +528,8 @@ require([
           // Clear all Tooltips
           $('[data-toggle="tooltip"]').tooltip('dispose');
 
-          renderSelectedRegion();
           updateDataForTimeline();
+          renderSelectedRegion();
 
           // Initialize all Tooltips
           $('[data-toggle="tooltip"]').tooltip();
@@ -926,7 +920,7 @@ require([
           },
           1281: {
             items: 5,
-          }, 
+          },
           1441: { //code added for responsive in large desktop as "Wrapping" Scenario names #38 (git issue number)
             items: 6
           }
@@ -1045,8 +1039,20 @@ require([
       var percentDemand = globals.minHospitalCapacity / 100;
 
       var cumulativeBeds = 0;
-      for (var i = 0; i < globals.regionData.length; i++) {
-        cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
+
+      // If user has clicked on any region then, cumulative beds will be count of that region only.
+      // Else cumulative beds for all regions.
+      if (globals.selectedRegionNum != 0) {
+        for (var i = 0; i < globals.regionData.length; i++) {
+          if (globals.selectedRegionName == globals.regionData[i][globals.regionDataNameColumn]) {
+            cumulativeBeds = Number(globals.regionData[i][globals.regionDataBedsColumn]);
+            break;
+          }
+        }
+      } else {
+        for (var i = 0; i < globals.regionData.length; i++) {
+          cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
+        }
       }
 
       for (var i = 0; i < globals.timelineJsonData.length; i++) {
@@ -1162,7 +1168,6 @@ function bindMenuEvents() {
 }
 
 function bindChartAndDataTab() {
-  console.log('bindChartAndDataTab-isLandscape=',isLandscape);
   $('.charts').on('click', function (e) {
     $('.data').removeClass('selectedFilter');
     $('.charts').addClass('selectedFilter');
