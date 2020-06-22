@@ -176,7 +176,7 @@
 
   <div class="supported-content w-100">
 
-    <div class="row my-1">
+    <div class="row my-1 scenarioRow">
       <div class="col-12 d-lg-flex" style="align-items: center;">
 
         <div class="d-flex scenario-heading-section" style="align-items: center;">
@@ -189,7 +189,7 @@
                they may also include interventions, such as stay-at-home orders."></i>
           </div>
           <!-- only for mobile Scenarios start-->
-          <div class="d-flex d-lg-none" style="color: white;">Scenarios</div>
+          <div class="d-flex d-lg-none scenarioText" style="color: white;">Scenarios</div>
           <div class="arrow-right d-none d-lg-flex mr-2"></div>
           <!-- only for mobile Scenarios end-->
         </div>
@@ -234,11 +234,11 @@
     <div class="row mb-1 mt-2 sliderRow">
 
 
-        <div class="d-flex col-lg-6 col-md-6 col-sm-12 align-items-center">
+        <div class="d-flex col-lg-6 col-xl-6 col-md-12 col-sm-12 col-12 align-items-center hospitalSliderContainer">
           <div class="scenario-heading">Hospital Capacity</div>
           <div class="d-flex arrow-right mr-2"></div>
           <div id="slider-range"></div>
-          <div class="d-flex ml-2 applyBtn">
+          <div class="d-flex ml-2 applyBtn align-items-center justify-content-center">
             <button type="button" value="Hospitalizations (Median)"
               class="btn btn-warning activeBtn applyHospitalCapacity" style="padding: 3px 10px;" title="Apply">Apply
             </button>
@@ -269,7 +269,7 @@
             <div class="h-100" id="mapCanvas" data-dojo-type="dijit/layout/ContentPane"
               data-dojo-props="region:'center'">
 
-              <div class="d-lg-none d-flex justify-content-start mr-2" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="d-lg-none d-flex justify-content-start mr-2 toolbarProjectionsMobile" role="toolbar" aria-label="Toolbar with button groups">
                 <div id="renderField" class="btn-group ml-auto d-flex resetOptions" role="group" aria-label="First group">
                   <button type="button" value="Projected Demand (%)"
                     class="btn btn-primary confirmBtn renderField pr-2 mr-2" title="Projected Resource Demand (%)">
@@ -300,7 +300,7 @@
               </div>
 
 
-              <div class="d-lg-flex d-none justify-content-start mr-2" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="d-lg-flex d-none justify-content-start mr-2 toolbarProjections" role="toolbar" aria-label="Toolbar with button groups">
                 <div id="renderField" class="btn-group ml-auto d-flex resetOptions" role="group" aria-label="First group"
                   style="left: 15%;">
                   <button type="button" value="Projected Demand (%)"
@@ -351,12 +351,12 @@
 
       </div>
 
-      <div class="col-lg-6 col-xl-5 col-sm-12 dataContainer" id="chartDataTableContainerRow">
+      <div class="col-lg-6 col-xl-5 col-sm-12 col-12 dataContainer" id="chartDataTableContainerRow">
         <div class="row tabMenu">
 
           <div class="col-12 d-flex align-items-center">
             <div
-              class="map d-flex col-lg-6 col-md-6 col-sm-4 d-sm-none pt-2 pb-1 justify-content-center dataChartFilter selectedFilter"
+              class="map d-flex col-lg-6 col-md-6 col-sm-4 d-xl-none d-lg-none pt-2 pb-1 justify-content-center dataChartFilter selectedFilter"
               style="border-bottom: 2px solid rgb(255,140,0);">Map</div>
             <div class="charts col-lg-6 col-md-6 col-sm-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter"
               style="border-bottom: 2px solid rgb(255,140,0);">Chart</div>

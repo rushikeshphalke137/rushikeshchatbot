@@ -5,7 +5,7 @@
 var globals = {};
 //map for the applicaiton
 
-//code start for check device is mobile or not
+//code start for check device is mobile or nottabMenu
 globals.mobileDevice = function () {
   var check = false;
   (function (a) {
@@ -15,20 +15,33 @@ globals.mobileDevice = function () {
 };
 //code end for check device is mobile or not
 
+var userAgentForTablet = navigator.userAgent.toLowerCase();
+var isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgentForTablet);
+var isLandscape = (window.orientation == 90 || window.orientation == -90) ? true : false;
+
+
 //code start for check mobile orientation
 function checkOrientation() {
-  if (globals.mobileDevice() && (window.orientation == 90 || window.orientation == -90)) {
-    $('.supported-content').addClass('invisibleHeight0');
-    $('.not-supported').addClass('d-flex');
-    $('.not-supported').removeClass('d-none');
-  } else {
-    $('.not-supported').addClass('d-none');
-    $('.not-supported').removeClass('d-flex');
-    $('.supported-content').removeClass('invisibleHeight0');
-  }
+  isLandscape = (window.orientation == 90 || window.orientation == -90) ? true : false;
+  //if (isTablet && !isLandscape )) {
+    if ((isTablet && !isLandscape)) {
+    console.log('mapclk',isLandscape);
+    $('.map').click(); //for mobile default map selected
+  } 
+ else if ((globals.mobileDevice() && (window.orientation == 90 || window.orientation == -90)) && (!isTablet)) {
+   $('.supported-content').addClass('invisibleHeight0');
+   $('.not-supported').addClass('d-flex');
+   $('.not-supported').removeClass('d-none');
+ } else {
+   $('.not-supported').addClass('d-none');
+   $('.not-supported').removeClass('d-flex');
+   $('.supported-content').removeClass('invisibleHeight0');
+   console.log('chrtclk',isLandscape);
+   $('.charts').click();
+ }
 }
 window.addEventListener("orientationchange", checkOrientation, false);
-window.addEventListener("load", checkOrientation, false);
+//window.addEventListener("load", checkOrientation, false);
 //code end for check mobile orientation
 
 
@@ -148,7 +161,7 @@ require([
       });
 
     // This is to hide Application in Mobile's landscape mode
-    if (globals.mobileDevice()) { //if its a mobile device
+    if (globals.mobileDevice() || isTablet) { //if its a mobile device
       //  $('.largedeviceQueryBoxRow').html("");
       //   $('.renderField').value="";
       $('#renderField button:eq(0) ').html("<span class='fa fa-bed' aria-hidden='true'></span>");
@@ -201,9 +214,11 @@ require([
       }
 
       // Select default option as Charts
-      if (globals.mobileDevice()) {
+      if (globals.mobileDevice() || (isTablet && !isLandscape )) {
+        console.log('mapclk',isLandscape);
         $('.map').click(); //for mobile default map selected
       } else {
+        console.log('chrtclk',isLandscape);
         $('.charts').click(); //for except mobile chart by default selected
       }
 
@@ -223,6 +238,10 @@ require([
         globals.defaultExtent = new Extent(globals.configuration.extentMobile);
         mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) - 1 : mapZoomLevel;
         mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) - 1 : mapMinZoomLevel;
+      } else if(isTablet) 
+      {
+        mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) + 1 : mapZoomLevel;
+        mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) + 1 : mapMinZoomLevel;
       }
       globals.map = new Map("mapCanvas", {
         basemap: "gray",
@@ -445,7 +464,7 @@ require([
       http.open('HEAD', globals.renderFile, false);
       http.send();
       if (http.status === 404) {
-        if (globals.mobileDevice() && $('#dataView').hasClass('disabled')) {
+        if ((globals.mobileDevice() || isTablet) && $('#dataView').hasClass('disabled')) {
           alert("Data for " + selectedDate + " is not available yet.");
         }
       } else {
@@ -463,7 +482,9 @@ require([
 
     //Change rendering field, this is ONLY for single attribute mode
     function changeRenderField(event) {
+      console.log('event.target.value=',event.target.value);
       var clickedButton = event.target;
+      
       globals.renderFieldIndex = event.target.value;
       if (!event.target.value) {
         globals.renderFieldIndex = event.target.parentElement.value;
@@ -904,7 +925,7 @@ require([
           },
           1281: {
             items: 5,
-          },
+          }, 
           1441: { //code added for responsive in large desktop as "Wrapping" Scenario names #38 (git issue number)
             items: 6
           }
@@ -1144,11 +1165,12 @@ function bindMenuEvents() {
 }
 
 function bindChartAndDataTab() {
+  console.log('bindChartAndDataTab-isLandscape=',isLandscape);
   $('.charts').on('click', function (e) {
     $('.data').removeClass('selectedFilter');
     $('.charts').addClass('selectedFilter');
     $('#dataTable').parent().addClass('d-none');
-    if (globals.mobileDevice()) {
+    if (globals.mobileDevice() || (isTablet && !isLandscape)) {
       $('.map').removeClass('selectedFilter');
       // $('#mapContainerRow').addClass('d-none');
       // $('.projectionsRow').addClass('d-none');
@@ -1164,10 +1186,8 @@ function bindChartAndDataTab() {
     $('.charts').removeClass('selectedFilter');
     $('.data').addClass('selectedFilter');
     $('#chartdiv').parent().addClass('invisibleHeight0');
-    if (globals.mobileDevice()) {
+    if (globals.mobileDevice() || (isTablet && !isLandscape)) {
       $('.map').removeClass('selectedFilter');
-      // $('#mapContainerRow').addClass('d-none');
-      // $('.projectionsRow').addClass('d-none');
       $('#mapContainerRow').addClass('invisibleHeight0');
       $('.projectionsRow').addClass('invisibleHeight0');
     }
@@ -1180,7 +1200,7 @@ function bindChartAndDataTab() {
   $('.map').on('click', function (e) {
     $('.charts').removeClass('selectedFilter');
     $('.data').removeClass('selectedFilter');
-    $('.map').addClass('selectedFilter');
+    $('.tabMenu .map').addClass('selectedFilter');
     $('#chartDataTableContainerRow').css('height', 'auto');
     $('#chartdiv').parent().addClass('invisibleHeight0');
     $('#dataTable').parent().addClass('d-none');
