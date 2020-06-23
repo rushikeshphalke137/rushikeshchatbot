@@ -95,7 +95,7 @@ globals.isSliderApplied = false;
 
 globals.regionDataNameColumn = "HRRCITY";
 globals.regionDataBedsColumn = "DHS_Beds";
-
+globals.selectedTimelineIndex = 0 ;
 require([
   "esri/Color",
   "esri/geometry/Extent",
@@ -852,6 +852,7 @@ require([
         margin: 5,
         nav: true,
         responsiveClass: true,
+        startPosition: globals.selectedTimelineIndex,
         navText: ["<div class='nav-btn timeline-prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>", "<div class='nav-btn timeline-next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
         responsive: {
           0: {
@@ -871,7 +872,7 @@ require([
 
       $('#timeline .content').off().on('click', function (event) {
         selectedDate = event.currentTarget.id.substring(5);
-
+        globals.selectedTimelineIndex = $('#timeline .content').index(this);
         // Remove selection
         $(".content-selected").each(function (i, item) {
           $(item).removeClass('content-selected');
