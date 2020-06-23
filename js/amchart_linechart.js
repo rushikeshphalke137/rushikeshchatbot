@@ -142,7 +142,7 @@ function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
 
   // Create chart instance
   var chart = am4core.create("chartdiv", am4charts.XYChart);
-  chart.data = getJSONData(datafile);
+  chart.data = globals.timelineJsonData;
   chart.hiddenState.properties.opacity = 0;
 
   let title = chart.titles.create();
