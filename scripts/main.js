@@ -228,6 +228,7 @@ require([
     //initial setup for the map, globals.query and globals.queryTask to query this level by NAME
     function setupMapLayer() {
       globals.defaultExtent = new Extent(globals.configuration.extent);
+      
       var mapMinZoomLevel = globals.configuration.min_zoom_level;
       var mapZoomLevel = globals.configuration.zoom_level;
       if (globals.mobileDevice()) {
@@ -238,6 +239,7 @@ require([
         mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) + 1 : mapZoomLevel;
         mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) + 1 : mapMinZoomLevel;
       }
+      
       globals.map = new Map("mapCanvas", {
         basemap: "gray",
         extent: globals.defaultExtent,
@@ -319,6 +321,7 @@ require([
 
           if (globals.isSliderApplied)
             applySliderOnSummaryData();
+
           showCSVDataInTable();
           setMapRenderer();
         }
@@ -352,12 +355,19 @@ require([
         colors.push(new Color([4, 90, 141]));
         colors.push(new Color([3, 72, 112]));
 
-        var breakMins = [40, 80, 90, 100, 120];
+        globals.minHospitalCapacity = Number(globals.minHospitalCapacity);
+        globals.maxHospitalCapacity = Number(globals.maxHospitalCapacity);
 
-        if (globals.maxHospitalCapacity > 120)
-          var breakMins = [40, 80, 90, 100, globals.maxHospitalCapacity];
+        var breakDifference = Number((globals.maxHospitalCapacity - globals.minHospitalCapacity) / 4).toFixed(2);
 
+        // Adding default values for breaks.
+        var breakMins = [globals.minHospitalCapacity, 80, 90, 100, globals.maxHospitalCapacity];
         var breakMaxs = [79.99, 89.99, 99.99, globals.maxHospitalCapacity - 0.01, 500];
+
+        for (i = 1; i < numClasses - 1; i++) {
+          breakMins[i] = Number(globals.minHospitalCapacity + (breakDifference * i)).toFixed(2);
+          breakMaxs[i-1] = Number(breakMins[i] - 0.01);
+        }
 
       } else {
         numClasses = 6;
@@ -990,7 +1000,7 @@ require([
       globals.isSliderApplied = true;
 
       applySliderOnSummaryData();
-      applySliderOnTimelineData()
+      applySliderOnTimelineData();
 
       renderTimeline();
 
@@ -1020,8 +1030,6 @@ require([
 
       for (var i = 0; i < globals.jsonData.length; i++) {
         var beds = Number(globals.regionData[i][globals.regionDataBedsColumn]);
-
-        //  med_proj_dem = round(((0.8 * int(row["Beds"])) + median_occupancy)*100/int(row["Beds"]),2)
 
         var med_proj_dem = Number(((percentDemand * beds) + Number(globals.jsonData[i]["Max Occupied Beds"])) * 100 / beds).toFixed(2);
         var lb_proj_dem = Number(((percentDemand * beds) + Number(globals.jsonData[i]["Lower Max Occupied Beds"])) * 100 / beds).toFixed(2);
