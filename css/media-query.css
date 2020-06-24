@@ -341,7 +341,9 @@ font-size: 1em;
 .applyBtn {
   margin-left: 1px !important;
 }
-
+#slider-range .noUi-base {
+  width: 88%;
+}
 }
 @media only screen and (min-device-width: 768px) and (max-device-width: 1100px) and (orientation:portrait) {
   /* ipad,ipad pro,all tablet  portrait mode only */
@@ -408,7 +410,9 @@ font-size: 1em;
 #mapContainerRow {
   padding-right: 15px !important;
 }
-
+#slider-range .noUi-base {
+  width: 100%;
+}
 
   }
 
@@ -462,11 +466,16 @@ font-size: 1em;
 .scenario-content-section .owl-carousel .owl-nav button.owl-prev {
   height: auto;
 }
+#slider-range .noUi-base {
+  width: 88%;
+}
 }
 
 @media only screen and (min-device-width: 1101) and (max-device-width: 1366px) and (orientation:landscape) {
   /* ipad pro landscape mode only */
-
+  #slider-range .noUi-base {
+    width: 100%;
+  }
   }
 /* iPhone 5, 5C, 5S, iPod Touch 5g */
 @media screen and (device-aspect-ratio: 40/71) {
