@@ -408,10 +408,7 @@ font-size: 1em;
 #mapContainerRow {
   padding-right: 15px !important;
 }
-.esriSimpleSliderTL {
-  top: 5px;
-  left: 105px !important;
-}
+
 
   }
 
@@ -459,6 +456,10 @@ font-size: 1em;
 }
 #queryWrapper .input-group {
   margin: 0px 5px !important;
+  height: auto;
+}
+.scenario-content-section .owl-carousel .owl-nav button.owl-next,
+.scenario-content-section .owl-carousel .owl-nav button.owl-prev {
   height: auto;
 }
 }

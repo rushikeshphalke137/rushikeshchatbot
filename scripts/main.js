@@ -235,10 +235,11 @@ require([
         globals.defaultExtent = new Extent(globals.configuration.extentMobile);
         mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) - 1 : mapZoomLevel;
         mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) - 1 : mapMinZoomLevel;
-      } else if (isTablet) {
-        mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) + 1 : mapZoomLevel;
-        mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) + 1 : mapMinZoomLevel;
-      }
+      } 
+      // else if (isTablet) {
+      //   mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) + 1 : mapZoomLevel;
+      //   mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) + 1 : mapMinZoomLevel;
+      // }
       
       globals.map = new Map("mapCanvas", {
         basemap: "gray",
@@ -794,12 +795,12 @@ require([
       });
     }
 
-
-    if (/Android|webOS|iPhone|iPod|ipad|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      $.fn.DataTable.ext.pager.numbers_length = 4;
-    } else {
-      $.fn.DataTable.ext.pager.numbers_length = 5;
-    }
+    $.fn.DataTable.ext.pager.numbers_length = 5;
+    // if (/Android|webOS|iPhone|iPod|ipad|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    //   $.fn.DataTable.ext.pager.numbers_length = 5;
+    // } else {
+    //   $.fn.DataTable.ext.pager.numbers_length = 5;
+    // }
 
     function renderTimeline() {
       var timelineHTML = "";

@@ -1319,6 +1319,9 @@ div#socialSharing a span#linkedin:hover {
 .applyBtn {
     width: 15%;
 }
+.getQueryResultsBtn {
+  white-space: nowrap;
+}
 /** code started for media query **/
 /* @media (max-width: 768px) {
 
