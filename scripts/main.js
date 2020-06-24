@@ -93,7 +93,7 @@ globals.isSliderApplied = false;
 
 globals.regionDataNameColumn = "HRRCITY";
 globals.regionDataBedsColumn = "DHS_Beds";
-globals.selectedTimelineIndex = 0 ;
+globals.selectedTimelineIndex = 0;
 require([
   "esri/Color",
   "esri/geometry/Extent",
@@ -137,7 +137,7 @@ require([
     parser.parse();
 
     $.getJSON("supported_scenarios.json")
-      //$.getJSON("data_va/supported_scenarios.json")
+      //  $.getJSON("data_va/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -228,7 +228,7 @@ require([
     //initial setup for the map, globals.query and globals.queryTask to query this level by NAME
     function setupMapLayer() {
       globals.defaultExtent = new Extent(globals.configuration.extent);
-      
+
       var mapMinZoomLevel = globals.configuration.min_zoom_level;
       var mapZoomLevel = globals.configuration.zoom_level;
       if (globals.mobileDevice()) {
@@ -362,13 +362,15 @@ require([
         var breakDifference = Number((globals.maxHospitalCapacity - globals.minHospitalCapacity) / 4).toFixed(2);
 
         // Adding default values for breaks.
-        var breakMins = [globals.minHospitalCapacity, 80, 90, 100, globals.maxHospitalCapacity];
-        var breakMaxs = [79.99, 89.99, 99.99, globals.maxHospitalCapacity - 0.01, 500];
+        var breakMins = [40, globals.minHospitalCapacity, 90, 100];
+        var breakMaxs = [globals.minHospitalCapacity, 89.99, 99.99, globals.maxHospitalCapacity - 0.01];
 
-        for (i = 1; i < numClasses - 1; i++) {
+        for (i = 2; i < numClasses - 1; i++) {
           breakMins[i] = Number(globals.minHospitalCapacity + (breakDifference * i)).toFixed(2);
-          breakMaxs[i-1] = Number(breakMins[i] - 0.01);
+          breakMaxs[i - 1] = Number(breakMins[i] - 0.01);
         }
+        breakMins.push(globals.maxHospitalCapacity);
+        breakMaxs.push(500);
 
       } else {
         numClasses = 6;
@@ -380,7 +382,7 @@ require([
         colors.push(new Color([179, 0, 0]));
 
         var breakMins = [0, 10, 100, 500, 1000, 10000];
-        var breakMaxs = [9, 99, 499, 999, 9999, 299999];
+        var breakMaxs = [10, 99, 499, 999, 9999, 299999];
       }
 
       //add render field to legend
@@ -442,7 +444,10 @@ require([
         var labelCell = document.createElement("td");
 
         var labelText;
-        if (i != numClasses - 1)
+
+        if (i == 0)
+          labelText = "< " + BreakMax.toLocaleString();
+        else if (i != numClasses - 1)
           labelText = BreakMin.toLocaleString() + " - " + BreakMax.toLocaleString();
         else
           labelText = BreakMin.toLocaleString() + " +";
