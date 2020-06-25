@@ -136,8 +136,8 @@ require([
   ) {
     parser.parse();
 
-    $.getJSON("supported_scenarios.json")
-      //  $.getJSON("data_va/supported_scenarios.json")
+    // $.getJSON("supported_scenarios.json")
+    $.getJSON("data_va/supported_scenarios.json")
       .done(function (json) {
         globals.configuration = json.configuration;
         globals.scenarios = json.scenarios;
@@ -235,12 +235,12 @@ require([
         globals.defaultExtent = new Extent(globals.configuration.extentMobile);
         mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) - 1 : mapZoomLevel;
         mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) - 1 : mapMinZoomLevel;
-      } 
+      }
       // else if (isTablet) {
       //   mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) + 1 : mapZoomLevel;
       //   mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) + 1 : mapMinZoomLevel;
       // }
-      
+
       globals.map = new Map("mapCanvas", {
         basemap: "gray",
         extent: globals.defaultExtent,
@@ -359,15 +359,15 @@ require([
         globals.minHospitalCapacity = Number(globals.minHospitalCapacity);
         globals.maxHospitalCapacity = Number(globals.maxHospitalCapacity);
 
-        var breakDifference = Number((globals.maxHospitalCapacity - globals.minHospitalCapacity) / 4).toFixed(2);
+        var breakDifference = Number((globals.maxHospitalCapacity - globals.minHospitalCapacity) / 4).toFixed(1);
 
         // Adding default values for breaks.
         var breakMins = [40, globals.minHospitalCapacity, 90, 100];
-        var breakMaxs = [globals.minHospitalCapacity, 89.99, 99.99, globals.maxHospitalCapacity - 0.01];
+        var breakMaxs = [globals.minHospitalCapacity, 89.99, 99.99, globals.maxHospitalCapacity - 0.1];
 
         for (i = 2; i < numClasses - 1; i++) {
-          breakMins[i] = Number(globals.minHospitalCapacity + (breakDifference * i)).toFixed(2);
-          breakMaxs[i - 1] = Number(breakMins[i] - 0.01);
+          breakMins[i] = Number(globals.minHospitalCapacity + (breakDifference * i)).toFixed(1);
+          breakMaxs[i - 1] = Number(breakMins[i] - 0.1);
         }
         breakMins.push(globals.maxHospitalCapacity);
         breakMaxs.push(500);
@@ -1020,6 +1020,9 @@ require([
       }
 
       showCSVDataInTable();
+
+      // Hide popup if any on map.
+      globals.map.infoWindow.hide();
       setMapRenderer();
 
       // Initialize all Tooltips
