@@ -862,6 +862,7 @@ require([
         margin: 5,
         nav: true,
         responsiveClass: true,
+        autoWidth:true,
         startPosition: globals.selectedTimelineIndex,
         navText: ["<div class='nav-btn timeline-prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>", "<div class='nav-btn timeline-next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
         responsive: {
