@@ -329,6 +329,24 @@ require([
       });
     }
 
+    function readDataFromCSVFile(file) {
+      $.ajax({
+        url: file,
+        async: false,
+        success: function (csv) {
+          var items = $.csv.toObjects(csv);
+          var jsonobject = JSON.stringify(items);
+
+          globals.timelineJsonData = JSON.parse(jsonobject);
+
+          if (globals.isSliderApplied)
+            applySliderOnTimelineData();
+        },
+        dataType: "text",
+        complete: function () { }
+      });
+    }
+
     function setMapRenderer() {
       renderLegend();
     }
@@ -962,24 +980,6 @@ require([
       });
     }
 
-    function readDataFromCSVFile(file) {
-      $.ajax({
-        url: file,
-        async: false,
-        success: function (csv) {
-          var items = $.csv.toObjects(csv);
-          var jsonobject = JSON.stringify(items);
-
-          globals.timelineJsonData = JSON.parse(jsonobject);
-
-          if (globals.isSliderApplied)
-            applySliderOnTimelineData();
-        },
-        dataType: "text",
-        complete: function () { }
-      });
-    }
-
     function updateDataForTimeline() {
 
       // Condition to display selected region data.
@@ -1048,6 +1048,7 @@ require([
         globals.jsonData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
         globals.jsonData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
         globals.jsonData[i]["Total Projected Demand (%)"] = med_proj_dem;
+        globals.jsonData[i]["Projected Demand (%)"] = med_proj_dem;
 
         globals.jsonData[i]["Total Projected Demand (Range)"] = med_proj_dem + "% [" + lb_proj_dem + "% - " + ub_proj_dem + "%]";
       }
@@ -1082,6 +1083,7 @@ require([
         globals.timelineJsonData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
         globals.timelineJsonData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
         globals.timelineJsonData[i]["Total Projected Demand (%)"] = med_proj_dem;
+        globals.timelineJsonData[i]["Projected Demand (%)"] = med_proj_dem;
 
         globals.timelineJsonData[i]["Total Projected Demand (Range)"] = med_proj_dem + "% [" + lb_proj_dem + "% - " + ub_proj_dem + "%]";
       }
