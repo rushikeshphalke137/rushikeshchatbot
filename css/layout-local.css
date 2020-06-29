@@ -1293,6 +1293,7 @@ div#socialSharing a span#linkedin:hover {
 .noUi-horizontal .noUi-handle {
   background-color: rgb(255, 140, 0) !important;
   border-radius: 5px !important;
+  cursor: pointer;
   width: 30px !important;
   height: 28px !important;
   text-align: center;
