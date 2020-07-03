@@ -1322,6 +1322,28 @@ div#socialSharing a span#linkedin:hover {
 .getQueryResultsBtn {
   white-space: nowrap;
 }
+.timeline-video-item-section a.icon-link {
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+.timeline-video-item-section a:hover,
+.timeline-video-item-section a.selectedVideoActionBtn
+ {
+  background-color: #e0a800;
+  border-color: #d39e00;
+}
+/* .timeline-video-item-section a.selectedVideoActionBtn i,
+.timeline-video-item-section i:hover {
+  color: red;
+} */
+.timeline-video-item-section i {
+  font-size: 35px;
+}
+.disableVideoBtn {
+  pointer-events: none !important;
+    background-color: gray !important;
+}
 /** code started for media query **/
 /* @media (max-width: 768px) {
 

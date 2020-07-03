@@ -862,7 +862,6 @@ require([
         margin: 5,
         nav: true,
         responsiveClass: true,
-        autoWidth:true,
         startPosition: globals.selectedTimelineIndex,
         navText: ["<div class='nav-btn timeline-prev-slide'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>", "<div class='nav-btn timeline-next-slide'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>"],
         responsive: {
@@ -876,7 +875,7 @@ require([
             items: 3,
           },
           1281: {
-            items: 5,
+            items: 4,
           }
         }
       });
@@ -896,6 +895,88 @@ require([
         changeDate(selectedDate);
       });
     }
+
+    var timelineVideo = [];
+    var currentSelectedTimeline = 0;
+    var selectedDate;
+    var isPaused = false ;
+
+    $('#playTimelineVideo').off().on('click', function (event) { //stop button clciked timeline video action
+      $('#playTimelineVideo').addClass('disableVideoBtn');
+      $('#pauseTimelineVideo').removeClass('disableVideoBtn');
+      $('#stopTimelineVideo').removeClass('disableVideoBtn');
+      $('.timeline-content').css("pointer-events", "none");
+      $(".timeline-content").css("opacity", "0.5");
+      $('.scenario-content-section').css("pointer-events", "none");
+      $(".scenario-content-section").css("opacity", "0.5");
+      $("#timeline .owl-item").each(function (currentLoopingItemIndex, currentLoopingItem) {
+        
+        if(!isPaused && currentSelectedTimeline === 0) {
+          $('#timeline').trigger('to.owl.carousel', 0);
+        }
+
+        if(currentSelectedTimeline <= currentLoopingItemIndex) { //start from where paused or where end like when click play after complete of play items
+          timelineVideo.push(setTimeout(function () {
+            selectedDate = $(currentLoopingItem).children().attr('id').substring(5);
+            if ((currentLoopingItemIndex !== 0 && $("#timeline .owl-item.active").index($(currentLoopingItem))!== 0)) {//if its not first element/Item and also not starting from vissible item on slider
+              $('#timeline').trigger('next.owl.carousel');
+            }
+            $("#timeline .content-selected").removeClass('content-selected');
+            $(currentLoopingItem).children().addClass('content-selected');
+            currentSelectedTimeline = currentLoopingItemIndex; //current IteemSelected and data showing for this item
+            if (currentLoopingItemIndex == ($("#timeline .owl-item").length - 1)) { //if last item on play
+              currentSelectedTimeline = 0;
+              isPaused = false;
+              $('.timeline-content').css("pointer-events", "painted");
+              $(".timeline-content").css("opacity", "1");
+              $('.scenario-content-section').css("pointer-events", "painted");
+              $(".scenario-content-section").css("opacity", "1");
+              $('#playTimelineVideo').removeClass('disableVideoBtn');
+              $('#pauseTimelineVideo').addClass('disableVideoBtn');
+              $('#stopTimelineVideo').addClass('disableVideoBtn');
+            }
+            globals.map.infoWindow.hide();
+            changeDate(selectedDate);
+          }, currentLoopingItemIndex * 2000));
+        }
+      });
+    });
+    
+    $('#stopTimelineVideo').off().on('click', function (event) { //stop button clciked timeline video action
+      $('#playTimelineVideo').removeClass('disableVideoBtn');
+      $('.timeline-content').css("pointer-events", "painted");
+      $(".timeline-content").css("opacity", "1");
+      $('.scenario-content-section').css("pointer-events", "painted");
+      $(".scenario-content-section").css("opacity", "1");
+      $('#stopTimelineVideo').addClass('disableVideoBtn');
+      timelineVideo.forEach(function (timer) {
+        clearTimeout(timer);
+      });
+      currentSelectedTimeline = 0;
+      isPaused = false;
+      selectedDate = $("#timeline .owl-item").children('div:first').attr('id').substring(5);
+      globals.map.infoWindow.hide();
+      changeDate(selectedDate);
+      $('#timeline').trigger('to.owl.carousel', 0);
+      $("#timeline .owl-item").children().removeClass('content-selected');
+      $("#timeline .owl-item").children('div:first').addClass('content-selected');
+      $('.scenario-content-section').css("pointer-events", "painted");
+    });
+
+    $('#pauseTimelineVideo').off().on('click', function (event) { //pause button clciked timeline video action
+      $('.timeline-content').css("pointer-events", "painted");
+      $(".timeline-content").css("opacity", "1");
+      $('.scenario-content-section').css("pointer-events", "none");
+      $(".scenario-content-section").css("opacity", "0.5");
+      $('#playTimelineVideo').removeClass('disableVideoBtn');
+      $('#pauseTimelineVideo').addClass('disableVideoBtn');
+      $('#stopTimelineVideo').removeClass('disableVideoBtn');
+//when pause cleartimeout so it will start from where it left with new instance
+      timelineVideo.forEach(function (timer) {
+        clearTimeout(timer);
+      });
+      isPaused = true;
+    });
 
     function renderScenarios() {
 
@@ -1193,8 +1274,6 @@ function bindChartAndDataTab() {
     $('#dataTable').parent().addClass('d-none');
     if (globals.mobileDevice() || (isTablet && !isLandscape)) {
       $('.map').removeClass('selectedFilter');
-      // $('#mapContainerRow').addClass('d-none');
-      // $('.projectionsRow').addClass('d-none');
       $('#mapContainerRow').addClass('invisibleHeight0');
       $('.projectionsRow').addClass('invisibleHeight0');
     }
@@ -1225,17 +1304,12 @@ function bindChartAndDataTab() {
     $('#chartDataTableContainerRow').css('height', 'auto');
     $('#chartdiv').parent().addClass('invisibleHeight0');
     $('#dataTable').parent().addClass('d-none');
-    // $('#mapContainerRow').removeClass('d-none');
-    // $('.projectionsRow').removeClass('d-none');
     $('#mapContainerRow').removeClass('invisibleHeight0');
     $('.projectionsRow').removeClass('invisibleHeight0');
   });
 }
 
 function bindSliderEvents() {
-  // $('.noUi-handle').on('click', function() {
-  //   $(this).width(50);
-  // });
   globals.rangeSlider = document.getElementById('slider-range');
 
   noUiSlider.create(globals.rangeSlider, {
@@ -1252,10 +1326,7 @@ function bindSliderEvents() {
     connect: true
   });
 
-  // Set visual min and max values and also update value hidden form inputs
   globals.rangeSlider.noUiSlider.on('update', function (values, handle) {
-    // document.getElementById('slider-range-value1').innerHTML = values[0];
-    // document.getElementById('slider-range-value2').innerHTML = values[1];
     document.getElementsByName('min-value').value = Number(values[0]);
     document.getElementsByName('max-value').value = Number(values[1]);
 
