@@ -329,6 +329,24 @@ require([
       });
     }
 
+    function readDataFromCSVFile(file) {
+      $.ajax({
+        url: file,
+        async: false,
+        success: function (csv) {
+          var items = $.csv.toObjects(csv);
+          var jsonobject = JSON.stringify(items);
+
+          globals.timelineJsonData = JSON.parse(jsonobject);
+
+          if (globals.isSliderApplied)
+            applySliderOnTimelineData();
+        },
+        dataType: "text",
+        complete: function () { }
+      });
+    }
+
     function setMapRenderer() {
       renderLegend();
     }
@@ -359,15 +377,15 @@ require([
         globals.minHospitalCapacity = Number(globals.minHospitalCapacity);
         globals.maxHospitalCapacity = Number(globals.maxHospitalCapacity);
 
-        var breakDifference = Number((globals.maxHospitalCapacity - globals.minHospitalCapacity) / 4).toFixed(1);
+        var breakDifference = Number((globals.maxHospitalCapacity - globals.minHospitalCapacity) / 4).toFixed(2);
 
         // Adding default values for breaks.
         var breakMins = [40, globals.minHospitalCapacity, 90, 100];
-        var breakMaxs = [globals.minHospitalCapacity, 89.99, 99.99, globals.maxHospitalCapacity - 0.1];
+        var breakMaxs = [globals.minHospitalCapacity, 89.99, 99.99, globals.maxHospitalCapacity - 0.01];
 
         for (i = 2; i < numClasses - 1; i++) {
-          breakMins[i] = Number(globals.minHospitalCapacity + (breakDifference * i)).toFixed(1);
-          breakMaxs[i - 1] = Number(breakMins[i] - 0.1);
+          breakMins[i] = Number(globals.minHospitalCapacity + (breakDifference * i)).toFixed(2);
+          breakMaxs[i - 1] = Number(breakMins[i] - 0.01);
         }
         breakMins.push(globals.maxHospitalCapacity);
         breakMaxs.push(500);
@@ -448,7 +466,7 @@ require([
         if (i == 0)
           labelText = "< " + BreakMax.toLocaleString();
         else if (i != numClasses - 1)
-          labelText = BreakMin.toLocaleString() + " - " + BreakMax.toLocaleString();
+          labelText = Number(BreakMin).toFixed(1).toLocaleString() + " - " + Number(BreakMax).toFixed(1).toLocaleString();
         else
           labelText = BreakMin.toLocaleString() + " +";
         labelCell.textContent = labelText;
@@ -1044,24 +1062,6 @@ require([
       });
     }
 
-    function readDataFromCSVFile(file) {
-      $.ajax({
-        url: file,
-        async: false,
-        success: function (csv) {
-          var items = $.csv.toObjects(csv);
-          var jsonobject = JSON.stringify(items);
-
-          globals.timelineJsonData = JSON.parse(jsonobject);
-
-          if (globals.isSliderApplied)
-            applySliderOnTimelineData();
-        },
-        dataType: "text",
-        complete: function () { }
-      });
-    }
-
     function updateDataForTimeline() {
 
       // Condition to display selected region data.
@@ -1130,6 +1130,7 @@ require([
         globals.jsonData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
         globals.jsonData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
         globals.jsonData[i]["Total Projected Demand (%)"] = med_proj_dem;
+        globals.jsonData[i]["Projected Demand (%)"] = med_proj_dem;
 
         globals.jsonData[i]["Total Projected Demand (Range)"] = med_proj_dem + "% [" + lb_proj_dem + "% - " + ub_proj_dem + "%]";
       }
@@ -1164,6 +1165,7 @@ require([
         globals.timelineJsonData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
         globals.timelineJsonData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
         globals.timelineJsonData[i]["Total Projected Demand (%)"] = med_proj_dem;
+        globals.timelineJsonData[i]["Projected Demand (%)"] = med_proj_dem;
 
         globals.timelineJsonData[i]["Total Projected Demand (Range)"] = med_proj_dem + "% [" + lb_proj_dem + "% - " + ub_proj_dem + "%]";
       }
