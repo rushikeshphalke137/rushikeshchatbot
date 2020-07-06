@@ -962,6 +962,7 @@ require([
     
     $('#stopTimelineVideo').off().on('click', function (event) { //stop button clciked timeline video action
       $('#playTimelineVideo').removeClass('disableVideoBtn');
+      $('#pauseTimelineVideo').addClass('disableVideoBtn');
       $('.timeline-content').css("pointer-events", "painted");
       $(".timeline-content").css("opacity", "1");
       $('.scenario-content-section').css("pointer-events", "painted");
