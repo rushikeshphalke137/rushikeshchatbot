@@ -1341,6 +1341,13 @@ div#socialSharing a span#linkedin:hover {
 .timeline-video-item-section i {
   font-size: 35px;
 }
+/* .timeline-video-item-section {
+  width: 100%;
+  max-width: 90%;
+}
+.timeline-video-item-section a {
+  width: 30%;
+} */
 .disableVideoBtn {
   pointer-events: none !important;
     background-color: gray !important;
