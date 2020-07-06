@@ -923,10 +923,13 @@ require([
       $('#playTimelineVideo').addClass('disableVideoBtn');
       $('#pauseTimelineVideo').removeClass('disableVideoBtn');
       $('#stopTimelineVideo').removeClass('disableVideoBtn');
-      $('.timeline-content').css("pointer-events", "none");
-      $(".timeline-content").css("opacity", "0.5");
-      $('.scenario-content-section').css("pointer-events", "none");
-      $(".scenario-content-section").css("opacity", "0.5");
+$('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({"pointer-events":"none", "opacity":"0.7"});
+
+
+      
+      
+      
+      
       $("#timeline .owl-item").each(function (currentLoopingItemIndex, currentLoopingItem) {
         
         if(!isPaused && currentSelectedTimeline === 0) {
@@ -945,10 +948,11 @@ require([
             if (currentLoopingItemIndex == ($("#timeline .owl-item").length - 1)) { //if last item on play
               currentSelectedTimeline = 0;
               isPaused = false;
-              $('.timeline-content').css("pointer-events", "painted");
-              $(".timeline-content").css("opacity", "1");
-              $('.scenario-content-section').css("pointer-events", "painted");
-              $(".scenario-content-section").css("opacity", "1");
+              // $('.timeline-content').css("pointer-events", "painted");
+              // $(".timeline-content").css("opacity", "1");
+              // $('.scenario-content-section').css("pointer-events", "painted");
+              // $(".scenario-content-section").css("opacity", "1");
+              $('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({"pointer-events":"painted", "opacity":"1.0"});
               $('#playTimelineVideo').removeClass('disableVideoBtn');
               $('#pauseTimelineVideo').addClass('disableVideoBtn');
               $('#stopTimelineVideo').addClass('disableVideoBtn');
@@ -963,10 +967,11 @@ require([
     $('#stopTimelineVideo').off().on('click', function (event) { //stop button clciked timeline video action
       $('#playTimelineVideo').removeClass('disableVideoBtn');
       $('#pauseTimelineVideo').addClass('disableVideoBtn');
-      $('.timeline-content').css("pointer-events", "painted");
-      $(".timeline-content").css("opacity", "1");
-      $('.scenario-content-section').css("pointer-events", "painted");
-      $(".scenario-content-section").css("opacity", "1");
+      $('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({"pointer-events":"painted", "opacity":"1.0"});
+      // $('.timeline-content').css("pointer-events", "painted");
+      // $(".timeline-content").css("opacity", "1");
+      // $('.scenario-content-section').css("pointer-events", "painted");
+      // $(".scenario-content-section").css("opacity", "1");
       $('#stopTimelineVideo').addClass('disableVideoBtn');
       timelineVideo.forEach(function (timer) {
         clearTimeout(timer);
@@ -979,14 +984,15 @@ require([
       $('#timeline').trigger('to.owl.carousel', 0);
       $("#timeline .owl-item").children().removeClass('content-selected');
       $("#timeline .owl-item").children('div:first').addClass('content-selected');
-      $('.scenario-content-section').css("pointer-events", "painted");
+    //  $('.scenario-content-section').css("pointer-events", "painted");
     });
 
     $('#pauseTimelineVideo').off().on('click', function (event) { //pause button clciked timeline video action
-      $('.timeline-content').css("pointer-events", "painted");
-      $(".timeline-content").css("opacity", "1");
-      $('.scenario-content-section').css("pointer-events", "none");
-      $(".scenario-content-section").css("opacity", "0.5");
+  //   $('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({"pointer-events":"painted", "opacity":"1.0"});
+      // $('.timeline-content').css("pointer-events", "painted");
+      // $(".timeline-content").css("opacity", "1");
+      // $('.scenario-content-section').css("pointer-events", "none");
+      // $(".scenario-content-section").css("opacity", "0.5");
       $('#playTimelineVideo').removeClass('disableVideoBtn');
       $('#pauseTimelineVideo').addClass('disableVideoBtn');
       $('#stopTimelineVideo').removeClass('disableVideoBtn');
