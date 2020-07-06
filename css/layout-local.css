@@ -1352,6 +1352,17 @@ div#socialSharing a span#linkedin:hover {
   pointer-events: none !important;
     background-color: gray !important;
 }
+.map-rendering-options {
+  margin-left: 0px !important;
+  position: absolute;
+  z-index: 999;
+  flex-wrap: nowrap !important
+}
+
+.btn-whitesmoke {
+  background-color: whitesmoke;
+  padding: 3px;
+}
 /** code started for media query **/
 /* @media (max-width: 768px) {
 
