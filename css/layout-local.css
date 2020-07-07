@@ -796,7 +796,15 @@ button.owl-prev:focus {
 .timeline-heading-section {
   align-items: center;
 }
-
+.timeline-heading-section {
+  width: 15%;
+}
+.toolbarProjections {
+  width: 46%;
+}
+/* .reset-container {
+  width: 39%;
+} */
 .scenario-heading {
   background-color: black;
   color: rgb(255, 140, 0);
@@ -903,6 +911,10 @@ button.owl-prev:focus {
   padding-left: 5px;
   font-size: 1.1em;
   font-weight: bold;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
   /* color: rgb(255, 140, 0); */
 }
 
@@ -1346,10 +1358,10 @@ div#socialSharing a span#linkedin:hover {
 /* .timeline-video-item-section {
   width: 100%;
   max-width: 90%;
-}
-.timeline-video-item-section a {
-  width: 30%;
 } */
+.timeline-video-item-section a {
+  width: 30% !important;
+} 
 .disableVideoBtn {
   pointer-events: none !important;
     background-color: gray !important;
@@ -1366,10 +1378,15 @@ div#socialSharing a span#linkedin:hover {
 .map-rendering-options .btn { 
 padding-left: .20rem !important;
 padding-right: .20rem !important;
+text-overflow: ellipsis;
+overflow: hidden;
 }
 .btn-whitesmoke {
   background-color: whitesmoke;
   padding: 3px;
+}
+#renderField {
+  width: 100%;
 }
 /** code started for media query **/
 /* @media (max-width: 768px) {
