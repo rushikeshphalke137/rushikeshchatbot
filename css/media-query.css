@@ -356,6 +356,7 @@ font-size: 1em;
     display: flex;
 }
 }
+
 @media only screen and (min-device-width: 768px) and (max-device-width: 1100px) and (orientation:portrait) {
   /* ipad,ipad pro,all tablet  portrait mode only */
   html body,

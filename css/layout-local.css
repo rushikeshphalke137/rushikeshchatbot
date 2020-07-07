@@ -1388,6 +1388,9 @@ overflow: hidden;
 #renderField {
   width: 100%;
 }
+#mapCanvas {
+  position: relative;
+}
 /** code started for media query **/
 /* @media (max-width: 768px) {
 
