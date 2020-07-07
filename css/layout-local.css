@@ -1361,6 +1361,7 @@ div#socialSharing a span#linkedin:hover {
   flex-wrap: wrap !important;
   white-space: nowrap;
   overflow: hidden;
+  font-size: .9rem !important;
 }
 .map-rendering-options .btn { 
 padding-left: .20rem !important;
