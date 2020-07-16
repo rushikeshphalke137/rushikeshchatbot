@@ -37,42 +37,28 @@
             "scenario_display_name_line2":"Duration: 8 Days",
             "position": 0,
             "directory": "data_va/scVA-BestFit-dur8-projBounds",
-            "description": "This model is made up of 'BestFit' scenarios at the district level, so it can predict variation based on local levels of activity and compliance with offical health department guidelines. It also assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-06-30."
+            "description": "This model is made up of 'BestFit' scenarios at the district level, so it can predict variation based on local levels of activity and compliance with official health department guidelines. It also assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-07-13."
         },
         {
             "scenario_display_name_line1": "BestFit",
             "scenario_display_name_line2":"Duration: 14 Days",
-            "position": 0,
+            "position": 1,
             "directory": "data_va/scVA-BestFit-dur14-projBounds",
-            "description": "This model is made up of 'BestFit' scenarios at the district level, so it can predict variation based on local levels of activity and compliance with offical health department guidelines. It also assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-06-30."
+            "description": "This model is made up of 'BestFit' scenarios at the district level, so it can predict variation based on local levels of activity and compliance with official health department guidelines. It also assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-07-13."
         },
         {
-            "scenario_display_name_line1": "Steady",
+            "scenario_display_name_line1": "BestFit-Surge",
             "scenario_display_name_line2":"Duration: 8 Days",
-            "position": 4,
-            "directory": "data_va/scVA-Steady-dur8-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) calibrated mixing rate remains steady into the future, and (c) typical COVID-19 hospitalizations last about 8 days. Updated 2020-06-30."
+            "position": 2,
+            "directory": "data_va/scVA-BestFit-Surge-dur8-projBounds",
+            "description": "This model is made up of 'BestFit' scenarios at the district level, so it can predict variation based on local levels of activity and compliance with official health department guidelines; BestFit-Surge varies from BestFit in that it predicts a surge about six weeks after Virginia enters Stage 3. It also assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-07-13."
         },
         {
-            "scenario_display_name_line1": "Steady",
+            "scenario_display_name_line1": "BestFit-Surge",
             "scenario_display_name_line2":"Duration: 14 Days",
-            "position": 5,
-            "directory": "data_va/scVA-Steady-dur14-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) calibrated mixing rate remains steady into the future, and (c) typical COVID-19 hospitalizations last about 14 days. Updated 2020-06-30."
-        },
-        {
-            "scenario_display_name_line1": "Steady-BetterDetection",
-            "scenario_display_name_line2":"Duration: 8 Days",
-            "position": 6,
-            "directory": "data_va/scVA-Steady-BetterDetection-dur8-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) calibrated mixing rate remains steady into the future, (c) better detection has led to earlier quarantining (reducing spread), and (d) typical COVID-19 hospitalizations last about 8 days. Updated 2020-06-30."
-        },
-        {
-            "scenario_display_name_line1": "Steady-BetterDetection",
-            "scenario_display_name_line2":"Duration: 14 Days",
-            "position": 7,
-            "directory": "data_va/scVA-Steady-BetterDetection-dur14-projBounds",
-            "description": "This model assumes (a) Virginia's social-distancing order is lifted on May 15th, (b) calibrated mixing rate remains steady into the future, (c) better detection has led to earlier quarantining (reducing spread), and (d) typical COVID-19 hospitalizations last about 14 days. Updated 2020-06-30."
+            "position": 3,
+            "directory": "data_va/scVA-BestFit-Surge-dur14-projBounds",
+            "description": "This model is made up of 'BestFit' scenarios at the district level, so it can predict variation based on local levels of activity and compliance with official health department guidelines; BestFit-Surge varies from BestFit in that it predicts a surge about six weeks after Virginia enters Stage 3. It also assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-07-13."
         }
     ]
 }
