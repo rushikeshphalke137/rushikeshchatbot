@@ -81,6 +81,8 @@ globals.queriedRegionNumbers = [];
 globals.selectedRegionNum = 0;
 globals.selectedRegionName = "";
 
+globals.rawData = {};
+
 globals.jsonData = {};
 globals.timelineJsonData = {};
 globals.regionData = {};
@@ -88,7 +90,8 @@ globals.regionData = {};
 globals.minHospitalCapacity = 80;
 globals.maxHospitalCapacity = 120;
 
-globals.isSliderApplied = false;
+globals.isCapacitySliderApplied = false;
+globals.isDurationSliderApplied = false;
 
 globals.hospitalDuration = 8;
 
@@ -138,8 +141,8 @@ require([
     ) {
         parser.parse();
 
-        // $.getJSON("supported_scenarios.json")
         $.getJSON("supported_scenarios.json")
+            // $.getJSON("data_va/supported_scenarios.json")
             .done(function(json) {
                 globals.configuration = json.configuration;
                 globals.scenarios = json.scenarios;
@@ -149,10 +152,14 @@ require([
                 $('.applicationTitle').html(globals.configuration.application_title);
                 $('#queryByName')[0].value = "";
 
+                // This call is required to get all dates for timeline, that can be used to calculate duration and capacity based on raw data.
+                var summaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
+                globals.timelineJsonData = getJSONData(summaryFile);
+                loadRegionData();
+
                 setupMapLayer();
                 renderScenarios();
                 executeDefaultWorkflow();
-                loadRegionData();
             })
             .fail(function(jqxhr, textStatus, error) {
                 var err = textStatus + ", " + error;
@@ -162,8 +169,6 @@ require([
 
         // This is to hide Application in Mobile's landscape mode
         if (globals.mobileDevice() || isTablet) { //if its a mobile device
-            //  $('.largedeviceQueryBoxRow').html("");
-            //   $('.renderField').value="";
             $('#renderField button:eq(0) ').html("<span class='fa fa-bed' aria-hidden='true'></span>");
             $('#renderField button:eq(1) ').html("<span class='fa fa-users' aria-hidden='true'></span>");
         } else {
@@ -243,10 +248,6 @@ require([
                 mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) - 1 : mapZoomLevel;
                 mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) - 1 : mapMinZoomLevel;
             }
-            // else if (isTablet) {
-            //   mapZoomLevel = (mapZoomLevel >= 2) ? parseInt(mapZoomLevel) + 1 : mapZoomLevel;
-            //   mapMinZoomLevel = (mapMinZoomLevel >= 2) ? parseInt(mapMinZoomLevel) + 1 : mapMinZoomLevel;
-            // }
 
             globals.map = new Map("mapCanvas", {
                 basemap: "gray",
@@ -327,8 +328,11 @@ require([
                     if (!globals.renderFieldIndex)
                         globals.renderFieldIndex = "Projected Demand (%)";
 
-                    if (globals.isSliderApplied)
-                        applySliderOnSummaryData();
+                    if (globals.isCapacitySliderApplied)
+                        applyCapacitySliderOnSummaryData();
+
+                    if (globals.isDurationSliderApplied)
+                        applyDurationSliderOnSummaryData();
 
                     showCSVDataInTable();
                     setMapRenderer();
@@ -344,10 +348,8 @@ require([
                     var items = $.csv.toObjects(csv);
                     var jsonobject = JSON.stringify(items);
 
-                    globals.timelineJsonData = JSON.parse(jsonobject);
-
-                    if (globals.isSliderApplied)
-                        applySliderOnTimelineData();
+                    //globals.timelineJsonData = JSON.parse(jsonobject);
+                    globals.rawData = JSON.parse(jsonobject);
                 },
                 dataType: "text",
                 complete: function() {}
@@ -601,12 +603,6 @@ require([
             var inputStr = $("#queryByName").val();
 
             if (inputStr.length == 0) {
-                // if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0) {
-                //   $('#overlay').hide();
-                // } else {
-                //   resetApplication();
-                // }
-                // return;
                 $('#overlay').hide();
                 return;
             }
@@ -670,10 +666,6 @@ require([
                     var extent = esri.graphicsExtent(fset.features);
                     globals.map.setExtent(extent, true);
 
-                    // Display Chart 
-                    renderQueriedRegionsChart();
-                    showCSVDataInTable();
-
                     // Clear all Tooltips
                     $('[data-toggle="tooltip"]').tooltip('dispose');
 
@@ -687,6 +679,10 @@ require([
 
                     $('#timeline .content').removeClass('content-selected');
                     $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
+
+                    // Display Chart 
+                    renderQueriedRegionsChart();
+                    showCSVDataInTable();
 
                 } else {
                     $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
@@ -826,11 +822,6 @@ require([
         }
 
         $.fn.DataTable.ext.pager.numbers_length = 5;
-        // if (/Android|webOS|iPhone|iPod|ipad|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        //   $.fn.DataTable.ext.pager.numbers_length = 5;
-        // } else {
-        //   $.fn.DataTable.ext.pager.numbers_length = 5;
-        // }
 
         function renderTimeline() {
             var timelineHTML = "";
@@ -932,11 +923,6 @@ require([
             $('#stopTimelineVideo').removeClass('disableVideoBtn');
             $('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({ "pointer-events": "none", "opacity": "0.7" });
 
-
-
-
-
-
             $("#timeline .owl-item").each(function(currentLoopingItemIndex, currentLoopingItem) {
 
                 if (!isPaused && currentSelectedTimeline === 0) {
@@ -955,10 +941,6 @@ require([
                         if (currentLoopingItemIndex == ($("#timeline .owl-item").length - 1)) { //if last item on play
                             currentSelectedTimeline = 0;
                             isPaused = false;
-                            // $('.timeline-content').css("pointer-events", "painted");
-                            // $(".timeline-content").css("opacity", "1");
-                            // $('.scenario-content-section').css("pointer-events", "painted");
-                            // $(".scenario-content-section").css("opacity", "1");
                             $('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({ "pointer-events": "painted", "opacity": "1.0" });
                             $('#playTimelineVideo').removeClass('disableVideoBtn');
                             $('#pauseTimelineVideo').addClass('disableVideoBtn');
@@ -975,10 +957,6 @@ require([
             $('#playTimelineVideo').removeClass('disableVideoBtn');
             $('#pauseTimelineVideo').addClass('disableVideoBtn');
             $('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({ "pointer-events": "painted", "opacity": "1.0" });
-            // $('.timeline-content').css("pointer-events", "painted");
-            // $(".timeline-content").css("opacity", "1");
-            // $('.scenario-content-section').css("pointer-events", "painted");
-            // $(".scenario-content-section").css("opacity", "1");
             $('#stopTimelineVideo').addClass('disableVideoBtn');
             timelineVideo.forEach(function(timer) {
                 clearTimeout(timer);
@@ -991,15 +969,9 @@ require([
             $('#timeline').trigger('to.owl.carousel', 0);
             $("#timeline .owl-item").children().removeClass('content-selected');
             $("#timeline .owl-item").children('div:first').addClass('content-selected');
-            //  $('.scenario-content-section').css("pointer-events", "painted");
         });
 
         $('#pauseTimelineVideo').off().on('click', function(event) { //pause button clciked timeline video action
-            //   $('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({"pointer-events":"painted", "opacity":"1.0"});
-            // $('.timeline-content').css("pointer-events", "painted");
-            // $(".timeline-content").css("opacity", "1");
-            // $('.scenario-content-section').css("pointer-events", "none");
-            // $(".scenario-content-section").css("opacity", "0.5");
             $('#playTimelineVideo').removeClass('disableVideoBtn');
             $('#pauseTimelineVideo').addClass('disableVideoBtn');
             $('#stopTimelineVideo').removeClass('disableVideoBtn');
@@ -1077,33 +1049,28 @@ require([
         }
 
         function updateDataForTimeline() {
-
             // Condition to display selected region data.
             if (globals.selectedRegionNum != 0) {
-                var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
+                var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + "-daily.csv";
                 readDataFromCSVFile(regionFile);
-                renderTimeline();
-                return;
-            }
-
-            // Condition to display summary data.
-            if (globals.queriedRegionNames.length == 0) {
-                var summaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
+            } else if (globals.queriedRegionNames.length == 0) {
+                var summaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary-daily.csv";
                 readDataFromCSVFile(summaryFile);
-                renderTimeline();
-                return;
+            } else {
+                globals.rawData = mergeDataAcrossRegions();
             }
 
-            globals.timelineJsonData = mergeDataAcrossRegions();
+            // Once raw data (daily data) is available, apply duration slider on raw data and create timeline data
+            applyDurationSliderOnTimelineData();
             renderTimeline();
         }
 
         function updateHospitalCapacity() {
             // $('#overlay').show();
-            globals.isSliderApplied = true;
+            globals.isCapacitySliderApplied = true;
 
-            applySliderOnSummaryData();
-            applySliderOnTimelineData();
+            applyCapacitySliderOnSummaryData();
+            applyCapacitySliderOnTimelineData();
 
             renderTimeline();
 
@@ -1131,7 +1098,7 @@ require([
             $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
         }
 
-        function applySliderOnSummaryData() {
+        function applyCapacitySliderOnSummaryData() {
             var percentDemand = globals.minHospitalCapacity / 100;
 
             for (var i = 0; i < globals.jsonData.length; i++) {
@@ -1150,7 +1117,7 @@ require([
             }
         }
 
-        function applySliderOnTimelineData() {
+        function applyCapacitySliderOnTimelineData() {
             var percentDemand = globals.minHospitalCapacity / 100;
 
             var cumulativeBeds = 0;
@@ -1162,6 +1129,17 @@ require([
                     if (globals.selectedRegionName == globals.regionData[i][globals.regionDataNameColumn]) {
                         cumulativeBeds = Number(globals.regionData[i][globals.regionDataBedsColumn]);
                         break;
+                    }
+                }
+            } else if (globals.queriedRegionNames.length != 0) {
+                for (i = 0; i < globals.queriedRegionNames.length; i++) {
+                    var regionName = globals.queriedRegionNames[i] + "";
+
+                    for (var i = 0; i < globals.regionData.length; i++) {
+                        if (regionName == globals.regionData[i][globals.regionDataNameColumn]) {
+                            cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
+                            break;
+                        }
                     }
                 }
             } else {
@@ -1188,82 +1166,21 @@ require([
         function updateHospitalDuration() {
             $('#overlay').show();
             console.log("Start time ==> " + new Date());
-            var summaryDailyFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary-daily.csv";
-            var summaryDailyData = getJSONData(summaryDailyFile);
 
-            for (var i = 0; i < summaryDailyData.length; i++) {
-                summaryDailyData[i]["cumulative"] = Number(summaryDailyData[i]["Total Hospitalizations (Median)"]);
+            globals.isDurationSliderApplied = true;
 
-                for (j = 1; j < globals.hospitalDuration; j++) {
-                    var previousDate = Number(i - j);
-                    if (previousDate < 0) break;
-
-                    summaryDailyData[i]["cumulative"] = Number(summaryDailyData[i]["cumulative"]) + Number(summaryDailyData[previousDate]["Total Hospitalizations (Median)"]);
-                }
-            }
-
-            var cumulativeBeds = 0;
-            for (var i = 0; i < globals.regionData.length; i++) {
-                cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
-            }
-
-            var percentDemand = Number(globals.minHospitalCapacity / 100).toFixed(2);
-            for (var i = 0; i < globals.timelineJsonData.length; i++) {
-                var currentDate = globals.timelineJsonData[i]["date"];
-
-                var index = summaryDailyData.findIndex(obj => obj.date == currentDate);
-
-                var maxCapacity = 0;
-                for (var j = 0; j < 7; j++) {
-                    var cumulative = Number(summaryDailyData[index - j]["cumulative"]);
-
-                    if (cumulative > maxCapacity)
-                        maxCapacity = Number(cumulative);
-                }
-
-                var projectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxCapacity) / cumulativeBeds;
-                globals.timelineJsonData[i]["Total Projected Demand (%)"] = Number(projectedDemand).toFixed(2);
-            }
-
-
-            // Calculate summary data for each region
-            for (var loop = 0; loop < globals.jsonData.length; loop++) {
-                var regionDailyFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.jsonData[loop]["HRRNum"] + "-daily.csv";
-                var regionDailyData = getJSONData(regionDailyFile);
-
-                // If region file is not present
-                if (regionDailyData != undefined) {
-
-                    for (var i = 0; i < regionDailyData.length; i++) {
-                        regionDailyData[i]["cumulative"] = Number(regionDailyData[i]["Total Hospitalizations (Median)"]);
-
-                        for (j = 1; j < globals.hospitalDuration; j++) {
-                            var previousDate = Number(i - j);
-                            if (previousDate < 0) break;
-
-                            regionDailyData[i]["cumulative"] = Number(regionDailyData[i]["cumulative"]) + Number(regionDailyData[previousDate]["Total Hospitalizations (Median)"]);
-                        }
-                    }
-
-                    var index = regionDailyData.findIndex(obj => obj.date == globals.selectedDate);
-
-                    var maxCapacity = 0;
-                    for (var j = 0; j < 7; j++) {
-                        var cumulative = Number(regionDailyData[index - j]["cumulative"]);
-
-                        if (cumulative > maxCapacity)
-                            maxCapacity = Number(cumulative);
-                    }
-
-                    var cumulativeBeds = Number(globals.regionData[loop][globals.regionDataBedsColumn]);
-                    var projectedDemand = 100 * (((Number(percentDemand) * cumulativeBeds) + maxCapacity) / cumulativeBeds);
-                    globals.jsonData[loop]["Projected Demand (%)"] = Number(projectedDemand).toFixed(2);
-
-                }
-            }
+            applyDurationSliderOnSummaryData();
+            applyDurationSliderOnTimelineData();
 
             renderTimeline();
-            renderSummaryDataChart();
+
+            if (globals.selectedRegionNum != 0) {
+                renderSelectedRegionsChart(globals.selectedRegionNum, globals.selectedRegionName);
+            } else if (globals.queriedRegionNames.length != 0) {
+                renderQueriedRegionsChart();
+            } else {
+                renderSummaryDataChart();
+            }
             showCSVDataInTable();
 
             // Hide popup if any on map.
@@ -1282,13 +1199,171 @@ require([
             console.log("End time ==> " + new Date());
         }
 
+        function applyDurationSliderOnTimelineData() {
+            var cumulativeBeds = 0;
+
+            if (globals.selectedRegionNum != 0) {
+                for (var i = 0; i < globals.regionData.length; i++) {
+                    if (globals.selectedRegionName == globals.regionData[i][globals.regionDataNameColumn]) {
+                        cumulativeBeds = Number(globals.regionData[i][globals.regionDataBedsColumn]);
+                        break;
+                    }
+                }
+            } else if (globals.queriedRegionNumbers.length > 0) {
+                for (i = 0; i < globals.queriedRegionNames.length; i++) {
+                    var regionName = globals.queriedRegionNames[i] + "";
+
+                    for (var i = 0; i < globals.regionData.length; i++) {
+                        if (regionName == globals.regionData[i][globals.regionDataNameColumn]) {
+                            cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
+                            break;
+                        }
+                    }
+                }
+            } else {
+                for (var i = 0; i < globals.regionData.length; i++) {
+                    cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
+                }
+            }
+
+            var dailyData = globals.rawData;
+            for (var i = 0; i < dailyData.length; i++) {
+                dailyData[i]["cumulative"] = Number(dailyData[i]["Total Hospitalizations (Median)"]);
+                dailyData[i]["cumulative_lower_bound"] = Number(dailyData[i]["Lower Hospitalization Bound"]);
+                dailyData[i]["cumulative_upper_bound"] = Number(dailyData[i]["Upper Hospitalization Bound"]);
+
+                for (j = 1; j < globals.hospitalDuration; j++) {
+                    var previousDate = Number(i - j);
+                    if (previousDate < 0) break;
+
+                    dailyData[i]["cumulative"] = Number(dailyData[i]["cumulative"]) + Number(dailyData[previousDate]["Total Hospitalizations (Median)"]);
+                    dailyData[i]["cumulative_lower_bound"] = Number(dailyData[i]["cumulative_lower_bound"]) + Number(dailyData[previousDate]["Lower Hospitalization Bound"]);
+                    dailyData[i]["cumulative_upper_bound"] = Number(dailyData[i]["cumulative_upper_bound"]) + Number(dailyData[previousDate]["Upper Hospitalization Bound"]);
+                }
+            }
+
+            var percentDemand = Number(globals.minHospitalCapacity / 100).toFixed(2);
+
+            for (var i = 0; i < globals.timelineJsonData.length; i++) {
+                var currentDate = globals.timelineJsonData[i]["date"];
+
+                var index = dailyData.findIndex(obj => obj.date == currentDate);
+
+                var maxCapacity = 0;
+                var maxLowerCapacity = 0;
+                var maxUpperCapacity = 0;
+
+                for (var j = 0; j < 7; j++) {
+                    var cumulative = Number(dailyData[index - j]["cumulative"]);
+
+                    if (cumulative > maxCapacity) {
+                        maxCapacity = Number(cumulative);
+                        maxLowerCapacity = Number(dailyData[index - j]["cumulative_lower_bound"]);
+                        maxUpperCapacity = Number(dailyData[index - j]["cumulative_upper_bound"]);
+                    }
+
+                }
+
+                var totalProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxCapacity) / cumulativeBeds;
+                var lowerProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxLowerCapacity) / cumulativeBeds;
+                var upperProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxUpperCapacity) / cumulativeBeds;
+
+                globals.timelineJsonData[i]["Total Projected Demand (%)"] = Number(totalProjectedDemand).toFixed(2);
+                globals.timelineJsonData[i]["Lower Projected Demand Bound"] = Number(lowerProjectedDemand).toFixed(2);
+                globals.timelineJsonData[i]["Upper Projected Demand Bound"] = Number(upperProjectedDemand).toFixed(2);
+
+                globals.timelineJsonData[i]["Total Hospitalizations (Median)"] = maxCapacity;
+                globals.timelineJsonData[i]["Lower Hospitalization Bound"] = maxLowerCapacity;
+                globals.timelineJsonData[i]["Upper Hospitalization Bound"] = maxUpperCapacity;
+
+                globals.timelineJsonData[i]["Max Occupied Beds"] = maxCapacity;
+                globals.timelineJsonData[i]["Lower Max Occupied Beds"] = maxLowerCapacity;
+                globals.timelineJsonData[i]["Upper Max Occupied Beds"] = maxUpperCapacity;
+
+                globals.timelineJsonData[i]["Total Hospitalizations (Range)"] = numFormatter(maxCapacity) +
+                    " [" + numFormatter(maxLowerCapacity) + " - " + numFormatter(maxUpperCapacity) + "]";
+                globals.timelineJsonData[i]["Total Projected Demand (Range)"] = Number(totalProjectedDemand).toFixed(2) +
+                    "% [" + Number(lowerProjectedDemand).toFixed(2) + "% - " + Number(upperProjectedDemand).toFixed(2) + "%]";
+            }
+
+            if (globals.isCapacitySliderApplied)
+                applyCapacitySliderOnTimelineData();
+        }
+
+        function applyDurationSliderOnSummaryData() {
+            console.log("Timeline change ==>" + new Date());
+            for (var loop = 0; loop < globals.jsonData.length; loop++) {
+
+                var regionNumColumn = "HRRNum";
+                if (globals.configuration.region == 'vhass') {
+                    regionNumColumn = "VHASSNum";
+                }
+
+                var regionDailyFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.jsonData[loop][regionNumColumn] + "-daily.csv";
+                var regionDailyData = getJSONData(regionDailyFile);
+
+                // If region file is not present
+                if (regionDailyData != undefined) {
+
+                    for (var i = 0; i < regionDailyData.length; i++) {
+                        regionDailyData[i]["cumulative"] = Number(regionDailyData[i]["Total Hospitalizations (Median)"]);
+                        regionDailyData[i]["cumulative_lower_bound"] = Number(regionDailyData[i]["Lower Hospitalization Bound"]);
+                        regionDailyData[i]["cumulative_upper_bound"] = Number(regionDailyData[i]["Upper Hospitalization Bound"]);
+
+                        for (j = 1; j < globals.hospitalDuration; j++) {
+                            var previousDate = Number(i - j);
+                            if (previousDate < 0) break;
+
+                            regionDailyData[i]["cumulative"] = Number(regionDailyData[i]["cumulative"]) + Number(regionDailyData[previousDate]["Total Hospitalizations (Median)"]);
+                            regionDailyData[i]["cumulative_lower_bound"] = Number(regionDailyData[i]["cumulative_lower_bound"]) + Number(regionDailyData[previousDate]["Lower Hospitalization Bound"]);
+                            regionDailyData[i]["cumulative_upper_bound"] = Number(regionDailyData[i]["cumulative_upper_bound"]) + Number(regionDailyData[previousDate]["Upper Hospitalization Bound"]);
+                        }
+                    }
+
+                    var index = regionDailyData.findIndex(obj => obj.date == globals.selectedDate);
+
+                    var maxCapacity = 0;
+                    var maxLowerCapacity = 0;
+                    var maxUpperCapacity = 0;
+
+                    for (var j = 0; j < 7; j++) {
+                        var cumulative = Number(regionDailyData[index - j]["cumulative"]);
+
+                        if (cumulative > maxCapacity)
+                            maxCapacity = Number(cumulative);
+
+                        maxLowerCapacity = Number(regionDailyData[index - j]["cumulative_lower_bound"]);
+                        maxUpperCapacity = Number(regionDailyData[index - j]["cumulative_upper_bound"]);
+                    }
+
+                    var percentDemand = Number(globals.minHospitalCapacity / 100).toFixed(2);
+                    var cumulativeBeds = Number(globals.regionData[loop][globals.regionDataBedsColumn]);
+
+                    var projectedDemand = 100 * (((Number(percentDemand) * cumulativeBeds) + maxCapacity) / cumulativeBeds);
+                    var lowerProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxLowerCapacity) / cumulativeBeds;
+                    var upperProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxUpperCapacity) / cumulativeBeds;
+
+                    globals.jsonData[loop]["Projected Demand (%)"] = Number(projectedDemand).toFixed(2);
+                    globals.jsonData[loop]["Lower Projected Demand Bound"] = Number(lowerProjectedDemand).toFixed(2);
+                    globals.jsonData[loop]["Upper Projected Demand Bound"] = Number(upperProjectedDemand).toFixed(2);
+
+                    globals.jsonData[loop]["Total Hospitalizations (Range)"] = numFormatter(maxCapacity) +
+                        " [" + numFormatter(maxLowerCapacity) + " - " + numFormatter(maxUpperCapacity) + "]";
+                    globals.jsonData[loop]["Total Projected Demand (Range)"] = Number(projectedDemand).toFixed(2) +
+                        "% [" + Number(lowerProjectedDemand).toFixed(2) + "% - " + Number(upperProjectedDemand).toFixed(2) + "%]";
+                }
+            }
+            console.log("Timeline change ==>" + new Date());
+        }
+
         function resetApplication() {
             var queryString = $('#queryByName')[0].value;
 
-            if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0 && queryString.length == 0 && !globals.isSliderApplied)
+            if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0 && queryString.length == 0 && !globals.isCapacitySliderApplied)
                 return;
 
-            globals.isSliderApplied = false;
+            globals.isCapacitySliderApplied = false;
+            globals.isDurationSliderApplied = false;
 
             globals.map.graphics.clear();
             globals.map.infoWindow.hide();
@@ -1303,6 +1378,7 @@ require([
             $('.getQueryResultsBtn').addClass('d-none');
 
             globals.rangeSlider.noUiSlider.set([80, 120]);
+            globals.durationSlider.noUiSlider.set(7);
 
             // Select first scenario.
             globals.selectedDate = null;
@@ -1311,10 +1387,11 @@ require([
 
         function resetMap() {
             var queryString = $('#queryByName')[0].value;
-            if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0 && queryString.length == 0 && !globals.isSliderApplied)
+            if (globals.selectedRegionNum == 0 && globals.queriedRegionNames.length == 0 && queryString.length == 0 && !globals.isCapacitySliderApplied && !globals.isDurationSliderApplied)
                 return;
 
-            globals.isSliderApplied = false;
+            globals.isCapacitySliderApplied = false;
+            globals.isDurationSliderApplied = false;
 
             globals.map.graphics.clear();
             globals.map.infoWindow.hide();
@@ -1329,6 +1406,7 @@ require([
             $('.getQueryResultsBtn').addClass('d-none');
 
             globals.rangeSlider.noUiSlider.set([80, 120]);
+            globals.durationSlider.noUiSlider.set(7);
 
             executeDefaultWorkflow();
         }
