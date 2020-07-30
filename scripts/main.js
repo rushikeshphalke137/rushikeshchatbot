@@ -141,8 +141,8 @@ require([
     ) {
         parser.parse();
 
-        $.getJSON("supported_scenarios.json")
-            // $.getJSON("data_va/supported_scenarios.json")
+        //$.getJSON("supported_scenarios.json")
+        $.getJSON("data_va/supported_scenarios.json")
             .done(function(json) {
                 globals.configuration = json.configuration;
                 globals.scenarios = json.scenarios;
@@ -151,12 +151,9 @@ require([
 
                 $('.applicationTitle').html(globals.configuration.application_title);
                 $('#queryByName')[0].value = "";
+                globals.durationSlider.noUiSlider.set(globals.configuration.defaultDuration);
 
-                // This call is required to get all dates for timeline, that can be used to calculate duration and capacity based on raw data.
-                var summaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
-                globals.timelineJsonData = getJSONData(summaryFile);
                 loadRegionData();
-
                 setupMapLayer();
                 renderScenarios();
                 executeDefaultWorkflow();
@@ -348,8 +345,8 @@ require([
                     var items = $.csv.toObjects(csv);
                     var jsonobject = JSON.stringify(items);
 
-                    //globals.timelineJsonData = JSON.parse(jsonobject);
-                    globals.rawData = JSON.parse(jsonobject);
+                    globals.timelineJsonData = JSON.parse(jsonobject);
+                    //globals.rawData = JSON.parse(jsonobject);
                 },
                 dataType: "text",
                 complete: function() {}
@@ -1051,17 +1048,19 @@ require([
         function updateDataForTimeline() {
             // Condition to display selected region data.
             if (globals.selectedRegionNum != 0) {
-                var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + "-daily.csv";
+                var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
                 readDataFromCSVFile(regionFile);
             } else if (globals.queriedRegionNames.length == 0) {
-                var summaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary-daily.csv";
+                var summaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
                 readDataFromCSVFile(summaryFile);
             } else {
-                globals.rawData = mergeDataAcrossRegions();
+                globals.timelineJsonData = mergeDataAcrossRegions();
             }
 
             // Once raw data (daily data) is available, apply duration slider on raw data and create timeline data
-            applyDurationSliderOnTimelineData();
+            if (globals.isDurationSliderApplied)
+                applyDurationSliderOnTimelineData();
+
             renderTimeline();
         }
 
@@ -1200,6 +1199,18 @@ require([
         }
 
         function applyDurationSliderOnTimelineData() {
+
+            // Condition to display selected region data.
+            if (globals.selectedRegionNum != 0) {
+                var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + "-daily.csv";
+                globals.rawData = getJSONData(regionFile);
+            } else if (globals.queriedRegionNames.length == 0) {
+                var summaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary-daily.csv";
+                globals.rawData = getJSONData(summaryFile);
+            } else {
+                globals.rawData = mergeDailyDataAcrossRegions();
+            }
+
             var cumulativeBeds = 0;
 
             if (globals.selectedRegionNum != 0) {
@@ -1272,16 +1283,17 @@ require([
                 globals.timelineJsonData[i]["Lower Projected Demand Bound"] = Number(lowerProjectedDemand).toFixed(2);
                 globals.timelineJsonData[i]["Upper Projected Demand Bound"] = Number(upperProjectedDemand).toFixed(2);
 
-                globals.timelineJsonData[i]["Total Hospitalizations (Median)"] = maxCapacity;
-                globals.timelineJsonData[i]["Lower Hospitalization Bound"] = maxLowerCapacity;
-                globals.timelineJsonData[i]["Upper Hospitalization Bound"] = maxUpperCapacity;
+                // globals.timelineJsonData[i]["Total Hospitalizations (Median)"] = maxCapacity;
+                // globals.timelineJsonData[i]["Lower Hospitalization Bound"] = maxLowerCapacity;
+                // globals.timelineJsonData[i]["Upper Hospitalization Bound"] = maxUpperCapacity;
 
                 globals.timelineJsonData[i]["Max Occupied Beds"] = maxCapacity;
                 globals.timelineJsonData[i]["Lower Max Occupied Beds"] = maxLowerCapacity;
                 globals.timelineJsonData[i]["Upper Max Occupied Beds"] = maxUpperCapacity;
 
-                globals.timelineJsonData[i]["Total Hospitalizations (Range)"] = numFormatter(maxCapacity) +
-                    " [" + numFormatter(maxLowerCapacity) + " - " + numFormatter(maxUpperCapacity) + "]";
+                // globals.timelineJsonData[i]["Total Hospitalizations (Range)"] = numFormatter(maxCapacity) +
+                //     " [" + numFormatter(maxLowerCapacity) + " - " + numFormatter(maxUpperCapacity) + "]";
+
                 globals.timelineJsonData[i]["Total Projected Demand (Range)"] = Number(totalProjectedDemand).toFixed(2) +
                     "% [" + Number(lowerProjectedDemand).toFixed(2) + "% - " + Number(upperProjectedDemand).toFixed(2) + "%]";
             }
@@ -1378,7 +1390,7 @@ require([
             $('.getQueryResultsBtn').addClass('d-none');
 
             globals.rangeSlider.noUiSlider.set([80, 120]);
-            globals.durationSlider.noUiSlider.set(7);
+            globals.durationSlider.noUiSlider.set(globals.configuration.defaultDuration);
 
             // Select first scenario.
             globals.selectedDate = null;
@@ -1406,7 +1418,7 @@ require([
             $('.getQueryResultsBtn').addClass('d-none');
 
             globals.rangeSlider.noUiSlider.set([80, 120]);
-            globals.durationSlider.noUiSlider.set(7);
+            globals.durationSlider.noUiSlider.set(globals.configuration.defaultDuration);
 
             executeDefaultWorkflow();
         }

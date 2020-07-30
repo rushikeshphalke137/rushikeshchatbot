@@ -55,6 +55,9 @@ function renderChartData(chartTitle) {
     categoryAxis.renderer.grid.template.fill = am4core.color("#fff");
     categoryAxis.renderer.grid.template.location = 0;
 
+    // categoryAxis.dateFormatter = new am4core.DateFormatter();
+    // categoryAxis.dateFormatter.dateFormat = "MM-dd";
+
     // Create Hospitalization series
     createHospitalizationSeries(chart, colors[0]);
 
@@ -285,6 +288,58 @@ function createHospitalizationSeries(chart, color) {
 }
 
 function mergeDataAcrossRegions() {
+    var mergedData = [];
+
+    for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
+        var regionName = globals.queriedRegionNumbers[i] + "";
+
+        // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
+        if (regionName.indexOf(' ') >= 0)
+            regionName = regionName.split(" ").join("_");
+        var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
+
+        $.ajax({
+            url: datafile,
+            async: false,
+            success: function(csv) {
+                var items = $.csv.toObjects(csv);
+                var jsonobject = JSON.stringify(items);
+                var currentData = JSON.parse(jsonobject);
+
+                if (mergedData.length > 0) {
+                    for (loop = 0; loop < mergedData.length; loop++) {
+                        var filteredData = currentData[loop];
+
+                        mergedData[loop]["Lower Hospitalization Bound"] = parseFloat(mergedData[loop]["Lower Hospitalization Bound"]) + parseFloat(filteredData["Lower Hospitalization Bound"]);
+                        mergedData[loop]["Upper Hospitalization Bound"] = parseFloat(mergedData[loop]["Upper Hospitalization Bound"]) + parseFloat(filteredData["Upper Hospitalization Bound"]);
+                        mergedData[loop]["Lower Projected Demand Bound"] = parseFloat(mergedData[loop]["Lower Projected Demand Bound"]) + parseFloat(filteredData["Lower Projected Demand Bound"]);
+                        mergedData[loop]["Upper Projected Demand Bound"] = parseFloat(mergedData[loop]["Upper Projected Demand Bound"]) + parseFloat(filteredData["Upper Projected Demand Bound"]);
+                        mergedData[loop]["Total Projected Demand (%)"] = parseFloat(mergedData[loop]["Total Projected Demand (%)"]) + parseFloat(filteredData["Total Projected Demand (%)"]);
+                        mergedData[loop]["Total Hospitalizations (Median)"] = parseFloat(mergedData[loop]["Total Hospitalizations (Median)"]) + parseFloat(filteredData["Total Hospitalizations (Median)"]);
+                    }
+                } else {
+                    mergedData = currentData;
+                }
+            },
+            dataType: "text",
+            complete: function() {}
+        });
+    }
+
+    // Average the Total Projected Demand
+    for (loop = 0; loop < mergedData.length; loop++) {
+        mergedData[loop]["Total Projected Demand (%)"] = parseFloat(mergedData[loop]["Total Projected Demand (%)"]) / globals.queriedRegionNumbers.length;
+        mergedData[loop]["Lower Projected Demand Bound"] = parseFloat(mergedData[loop]["Lower Projected Demand Bound"]) / globals.queriedRegionNumbers.length;
+        mergedData[loop]["Upper Projected Demand Bound"] = parseFloat(mergedData[loop]["Upper Projected Demand Bound"]) / globals.queriedRegionNumbers.length;
+
+        mergedData[loop]["Total Hospitalizations (Range)"] = numFormatter(mergedData[loop]["Total Hospitalizations (Median)"]) +
+            " [" + numFormatter(mergedData[loop]["Lower Hospitalization Bound"]) + " - " + numFormatter(mergedData[loop]["Upper Hospitalization Bound"]) + "]";
+        mergedData[loop]["Total Projected Demand (Range)"] = (mergedData[loop]["Total Projected Demand (%)"]).toFixed(2) +
+            "% [" + (mergedData[loop]["Lower Projected Demand Bound"]).toFixed(2) + "% - " + (mergedData[loop]["Upper Projected Demand Bound"]).toFixed(2) + "%]";
+    }
+}
+
+function mergeDailyDataAcrossRegions() {
     var mergedData = [];
 
     for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
