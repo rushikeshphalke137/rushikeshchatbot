@@ -1164,7 +1164,6 @@ require([
 
         function updateHospitalDuration() {
             $('#overlay').show();
-            console.log("Start time ==> " + new Date());
 
             globals.isDurationSliderApplied = true;
 
@@ -1194,8 +1193,6 @@ require([
 
             $('#timeline .content').removeClass('content-selected');
             $('#timeline #date-' + globals.selectedDate).addClass('content-selected');
-
-            console.log("End time ==> " + new Date());
         }
 
         function applyDurationSliderOnTimelineData() {
@@ -1283,16 +1280,9 @@ require([
                 globals.timelineJsonData[i]["Lower Projected Demand Bound"] = Number(lowerProjectedDemand).toFixed(2);
                 globals.timelineJsonData[i]["Upper Projected Demand Bound"] = Number(upperProjectedDemand).toFixed(2);
 
-                // globals.timelineJsonData[i]["Total Hospitalizations (Median)"] = maxCapacity;
-                // globals.timelineJsonData[i]["Lower Hospitalization Bound"] = maxLowerCapacity;
-                // globals.timelineJsonData[i]["Upper Hospitalization Bound"] = maxUpperCapacity;
-
                 globals.timelineJsonData[i]["Max Occupied Beds"] = maxCapacity;
                 globals.timelineJsonData[i]["Lower Max Occupied Beds"] = maxLowerCapacity;
                 globals.timelineJsonData[i]["Upper Max Occupied Beds"] = maxUpperCapacity;
-
-                // globals.timelineJsonData[i]["Total Hospitalizations (Range)"] = numFormatter(maxCapacity) +
-                //     " [" + numFormatter(maxLowerCapacity) + " - " + numFormatter(maxUpperCapacity) + "]";
 
                 globals.timelineJsonData[i]["Total Projected Demand (Range)"] = Number(totalProjectedDemand).toFixed(2) +
                     "% [" + Number(lowerProjectedDemand).toFixed(2) + "% - " + Number(upperProjectedDemand).toFixed(2) + "%]";
@@ -1303,7 +1293,6 @@ require([
         }
 
         function applyDurationSliderOnSummaryData() {
-            console.log("Timeline change ==>" + new Date());
             for (var loop = 0; loop < globals.jsonData.length; loop++) {
 
                 var regionNumColumn = "HRRNum";
@@ -1341,11 +1330,11 @@ require([
                     for (var j = 0; j < 7; j++) {
                         var cumulative = Number(regionDailyData[index - j]["cumulative"]);
 
-                        if (cumulative > maxCapacity)
+                        if (cumulative > maxCapacity) {
                             maxCapacity = Number(cumulative);
-
-                        maxLowerCapacity = Number(regionDailyData[index - j]["cumulative_lower_bound"]);
-                        maxUpperCapacity = Number(regionDailyData[index - j]["cumulative_upper_bound"]);
+                            maxLowerCapacity = Number(regionDailyData[index - j]["cumulative_lower_bound"]);
+                            maxUpperCapacity = Number(regionDailyData[index - j]["cumulative_upper_bound"]);
+                        }
                     }
 
                     var percentDemand = Number(globals.minHospitalCapacity / 100).toFixed(2);
@@ -1359,13 +1348,10 @@ require([
                     globals.jsonData[loop]["Lower Projected Demand Bound"] = Number(lowerProjectedDemand).toFixed(2);
                     globals.jsonData[loop]["Upper Projected Demand Bound"] = Number(upperProjectedDemand).toFixed(2);
 
-                    globals.jsonData[loop]["Total Hospitalizations (Range)"] = numFormatter(maxCapacity) +
-                        " [" + numFormatter(maxLowerCapacity) + " - " + numFormatter(maxUpperCapacity) + "]";
                     globals.jsonData[loop]["Total Projected Demand (Range)"] = Number(projectedDemand).toFixed(2) +
                         "% [" + Number(lowerProjectedDemand).toFixed(2) + "% - " + Number(upperProjectedDemand).toFixed(2) + "%]";
                 }
             }
-            console.log("Timeline change ==>" + new Date());
         }
 
         function resetApplication() {
