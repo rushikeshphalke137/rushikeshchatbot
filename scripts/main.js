@@ -152,7 +152,20 @@ require([
                 $('.applicationTitle').html(globals.configuration.application_title);
                 $('#queryByName')[0].value = "";
                 globals.durationSlider.noUiSlider.set(globals.configuration.defaultDuration);
-
+                var o = new Option("All", "value");
+                $(o).html("All");
+                $("#scenariosDropdown").append(o);
+                globals.newScenariosList= globals.scenarios;
+                globals.newScenariosList = globals.scenarios.filter(function(item) {
+                    return item !== globals.selectedScenario
+                })
+                
+                $.each(globals.newScenariosList, function () {
+                    globals.dropdownScenarios = this.scenario_display_name_line2; 
+                    globals.scenariosDirectory1  =this.directory;
+                    var div_data="<option value="+globals.scenariosDirectory1+">"+globals.dropdownScenarios+"</option>";
+                    $(div_data).appendTo('#scenariosDropdown'); 
+                });
                 loadRegionData();
                 setupMapLayer();
                 renderScenarios();
@@ -336,7 +349,15 @@ require([
                 }
             });
         }
-
+        $("#scenariosDropdown").change(function(){
+            var selectedScenarioDirectory = $(this).children("option:selected").val();
+            globals.scenariosDirectory = selectedScenarioDirectory;
+            var summaryFile = selectedScenarioDirectory + "/nssac_ncov_ro-summary.csv";
+            globals.timelineJsonData = getJSONData(summaryFile);
+          renderSummaryDataChart();
+          showCSVDataInTable();
+        });
+       
         function readDataFromCSVFile(file) {
             $.ajax({
                 url: file,
@@ -1566,4 +1587,14 @@ function loadRegionData() {
 
         }
     });
+
+    $('#allToggleButton').on('change', function (e) {
+        if (this.checked) {
+            $(".scenarioDropdown").hide();
+                 } else {
+      
+        $(".scenarioDropdown").show();
+        }
+      });
+
 }

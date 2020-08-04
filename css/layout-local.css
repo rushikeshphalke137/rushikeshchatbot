@@ -1598,3 +1598,19 @@ div#socialSharing a span#linkedin:hover {
 
 
 /** code ended for media query **/
+/* .chartFilterOption {
+    width: 125px !important;
+  }
+  .chartFilterOption .chartFilter {
+    padding:0 25px 0 5px !important;
+    -webkit-padding-end: 25px !important;
+    -webkit-padding-start: 5px !important;
+  } */
+
+  .topKSelect {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+    cursor: pointer;
+    padding: 0px 5px !important;
+    height: 30px !important; 
+  }
