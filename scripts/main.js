@@ -141,8 +141,8 @@ require([
     ) {
         parser.parse();
 
-        //$.getJSON("supported_scenarios.json")
-        $.getJSON("data_va/supported_scenarios.json")
+        $.getJSON("supported_scenarios.json")
+            //$.getJSON("data_va/supported_scenarios.json")
             .done(function(json) {
                 globals.configuration = json.configuration;
                 globals.scenarios = json.scenarios;
@@ -1351,6 +1351,12 @@ require([
                     globals.jsonData[loop]["Total Projected Demand (Range)"] = Number(projectedDemand).toFixed(2) +
                         "% [" + Number(lowerProjectedDemand).toFixed(2) + "% - " + Number(upperProjectedDemand).toFixed(2) + "%]";
                 }
+            }
+        }
+
+        function mergeDataAcrossScenarios() {
+            for (var i = 0; i < globals.scenarios.length; i++) {
+
             }
         }
 

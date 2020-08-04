@@ -48,15 +48,15 @@ function renderChartData(chartTitle) {
     categoryAxis.dataFields.category = "date";
 
     categoryAxis.renderer.minGridDistance = 50;
-    categoryAxis.renderer.labels.template.rotation = -45;
+    categoryAxis.renderer.labels.template.rotation = -25;
     categoryAxis.renderer.line.strokeOpacity = 1;
     categoryAxis.renderer.line.strokeWidth = 1;
     categoryAxis.renderer.labels.template.fill = am4core.color("#fff");
     categoryAxis.renderer.grid.template.fill = am4core.color("#fff");
     categoryAxis.renderer.grid.template.location = 0;
 
-    // categoryAxis.dateFormatter = new am4core.DateFormatter();
-    // categoryAxis.dateFormatter.dateFormat = "MM-dd";
+    categoryAxis.dateFormatter = new am4core.DateFormatter();
+    categoryAxis.dateFormatter.dateFormat = "MM-dd";
 
     // Create Hospitalization series
     createHospitalizationSeries(chart, colors[0]);
@@ -337,6 +337,7 @@ function mergeDataAcrossRegions() {
         mergedData[loop]["Total Projected Demand (Range)"] = (mergedData[loop]["Total Projected Demand (%)"]).toFixed(2) +
             "% [" + (mergedData[loop]["Lower Projected Demand Bound"]).toFixed(2) + "% - " + (mergedData[loop]["Upper Projected Demand Bound"]).toFixed(2) + "%]";
     }
+    return mergedData;
 }
 
 function mergeDailyDataAcrossRegions() {
