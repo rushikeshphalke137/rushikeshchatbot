@@ -1609,7 +1609,7 @@ function loadScenarioListForDropdown() {
         globals.dropdownScenarios = this.scenario_display_name_line2;
         globals.dropdownScenariosName =this.scenario_display_name_line1
         globals.scenariosDirectory1  =this.directory;
-        var div_data="<option value="+globals.scenariosDirectory1+">"+globals.dropdownScenariosName +"["+globals.dropdownScenarios+"]"+"</option>";
+        var div_data="<option value="+globals.scenariosDirectory1+">"+globals.dropdownScenariosName+" "+"["+globals.dropdownScenarios+"]"+"</option>";
         $(div_data).appendTo('#scenariosDropdown'); 
     });
    
