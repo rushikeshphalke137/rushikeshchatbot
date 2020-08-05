@@ -152,24 +152,11 @@ require([
                 $('.applicationTitle').html(globals.configuration.application_title);
                 $('#queryByName')[0].value = "";
                 globals.durationSlider.noUiSlider.set(globals.configuration.defaultDuration);
-                var o = new Option("All", "value");
-                $(o).html("All");
-                $("#scenariosDropdown").append(o);
-                globals.newScenariosList= globals.scenarios;
-                globals.newScenariosList = globals.scenarios.filter(function(item) {
-                    return item !== globals.selectedScenario
-                })
-                
-                $.each(globals.newScenariosList, function () {
-                    globals.dropdownScenarios = this.scenario_display_name_line2; 
-                    globals.scenariosDirectory1  =this.directory;
-                    var div_data="<option value="+globals.scenariosDirectory1+">"+globals.dropdownScenarios+"</option>";
-                    $(div_data).appendTo('#scenariosDropdown'); 
-                });
                 loadRegionData();
                 setupMapLayer();
                 renderScenarios();
                 executeDefaultWorkflow();
+               loadScenarioListForDropdown();
             })
             .fail(function(jqxhr, textStatus, error) {
                 var err = textStatus + ", " + error;
@@ -1052,7 +1039,11 @@ require([
 
                 selectedScenarioDirectory = event.currentTarget.dataset.scenarioDirectory;
                 globals.scenariosDirectory = selectedScenarioDirectory;
-
+              //  globals.newScenariosList = globals.scenariosDirectory;
+               // loadScenarioListForDropdown();
+               $("#scenariosDropdown").empty(); 
+               updateDropdownScenario();
+               
                 // Remove selection
                 $(".selected-scenario").each(function(i, item) {
                     $(item).removeClass('selected-scenario');
@@ -1063,8 +1054,14 @@ require([
 
                 globals.map.infoWindow.hide();
                 executeDefaultWorkflow();
+                loadScenarioListForDropdown();
             });
         }
+
+        function updateDropdownScenario(selectedScenarioDirectory){
+            globals.newScenariosList =selectedScenarioDirectory;
+        }
+
 
         function updateDataForTimeline() {
             // Condition to display selected region data.
@@ -1588,6 +1585,7 @@ function loadRegionData() {
         }
     });
 
+   
     $('#allToggleButton').on('change', function (e) {
         if (this.checked) {
             $(".scenarioDropdown").hide();
@@ -1597,4 +1595,22 @@ function loadRegionData() {
         }
       });
 
+}
+function loadScenarioListForDropdown() {
+    var o = new Option("All", "value");
+    $(o).html("All");
+    $("#scenariosDropdown").append(o);
+    globals.newScenariosList= globals.scenarios;
+    globals.newScenariosList = globals.scenarios.filter(function(item) {
+        return item.directory !== globals.scenariosDirectory
+    })
+    
+    $.each(globals.newScenariosList, function () {
+        globals.dropdownScenarios = this.scenario_display_name_line2;
+        globals.dropdownScenariosName =this.scenario_display_name_line1
+        globals.scenariosDirectory1  =this.directory;
+        var div_data="<option value="+globals.scenariosDirectory1+">"+globals.dropdownScenariosName +"["+globals.dropdownScenarios+"]"+"</option>";
+        $(div_data).appendTo('#scenariosDropdown'); 
+    });
+   
 }
