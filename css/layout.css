@@ -21,6 +21,12 @@ select {
     max-width: auto;
 }
 
+select option {
+    margin: 40px;
+    background: white;
+    color: black;
+}
+
 #header {
     background: #c5deea; /* Old browsers */
     background: -moz-linear-gradient(top, #c5deea 0%, #8abbd7 31%, #066dab 100%); /* FF3.6+ */

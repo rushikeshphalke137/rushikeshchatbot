@@ -1,410 +1,521 @@
 function renderSummaryDataChart() {
-    var chartTitle = globals.configuration.chart_title;
-    renderChartData(chartTitle);
+
+  // Dispose all Charts and clear Browser memory/cache
+  am4core.disposeAllCharts();
+
+  am4core.useTheme(am4themes_animated);
+  //am4core.useTheme(am4themes_myTheme);
+
+  // Create chart instance
+  var chart = am4core.create("chartdiv", am4charts.XYChart);
+  chart.data = globals.timelineJsonData;
+
+  chart.hiddenState.properties.opacity = 0;
+  // Converts Y axis values in K,M,B
+  chart.numberFormatter.numberFormat = "###a";
+
+  let title = chart.titles.create();
+  title.text = globals.configuration.chart_title;
+  title.stroke = am4core.color("#fff");
+  title.fill = am4core.color("#fff");
+  title.fontSize = 20;
+  title.marginBottom = 15;
+
+  var colors = ["#bd1e2e", "#3479A1", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
+
+  // Create axes
+  var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+  categoryAxis.renderer.grid.template.strokeOpacity = 1;
+  categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff
+  categoryAxis.renderer.grid.template.strokeWidth = 1;
+  //  categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
+
+
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff
+  categoryAxis.renderer.line.strokeWidth = 1;
+
+  categoryAxis.dataFields.category = "date";
+
+  categoryAxis.renderer.minGridDistance = 50;
+  categoryAxis.renderer.labels.template.rotation = -45;
+  if (globals.mobileDevice()) { //if its a mobile device
+    categoryAxis.renderer.labels.template.rotation = 0;
+  }
+
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.strokeWidth = 1;
+  categoryAxis.renderer.labels.template.fill = am4core.color("#fff");
+  categoryAxis.renderer.grid.template.fill = am4core.color("#fff");
+
+  categoryAxis.dateFormatter = new am4core.DateFormatter();
+  categoryAxis.dateFormatter.dateFormat = "MM-dd";
+
+  // Create Hospitalization series
+  createHospitalizationSeries(chart, colors[0]);
+
+  // Create Demand series
+  createDemandSeries(chart);
+
+  // Add legend
+  chart.legend = new am4charts.Legend();
+  // Sets color of Legends to white
+  chart.legend.labels.template.fill = am4core.color("#fff");
+  chart.legend.valueLabels.template.fill = am4core.color("#fff");
+
+  // Add cursor
+  chart.cursor = new am4charts.XYCursor();
 }
 
 function renderQueriedRegionsChart() {
-    var chartTitle = "Demand Forecast for Queried Regions";
-    renderChartData(chartTitle);
+
+  // Dispose all Charts and clear Browser memory/cache
+  am4core.disposeAllCharts();
+
+  // Themes begin
+  am4core.useTheme(am4themes_animated);
+
+  // Create chart instance
+  var chart = am4core.create("chartdiv", am4charts.XYChart);
+  chart.data = mergeDataAcrossRegions();
+  chart.hiddenState.properties.opacity = 0;
+
+  let title = chart.titles.create();
+  title.text = "Demand Forecast for Queried Regions";
+  title.stroke = am4core.color("#fff");
+  title.fill = am4core.color("#fff");
+  title.fontSize = 20;
+  title.marginBottom = 15;
+
+  var colors = ["#bd1e2e", "#3479A1", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
+
+  // Create axes
+  var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+  categoryAxis.renderer.grid.template.strokeOpacity = 1;
+  categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
+  categoryAxis.renderer.grid.template.strokeWidth = 1;
+  //  categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
+
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff 
+  categoryAxis.renderer.line.strokeWidth = 1;
+
+  categoryAxis.dataFields.category = "date";
+
+  categoryAxis.renderer.minGridDistance = 50;
+  categoryAxis.renderer.labels.template.rotation = -45;
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.strokeWidth = 1;
+  categoryAxis.renderer.labels.template.fill = am4core.color("#fff");
+  categoryAxis.renderer.grid.template.fill = am4core.color("#fff");
+
+  // Create Hospitalization series
+  createHospitalizationSeries(chart, colors[0]);
+
+  // Create Demand series
+  createDemandSeries(chart);
+
+  // Add legend
+  chart.legend = new am4charts.Legend();
+  // Sets color of Legends to white
+  chart.legend.labels.template.fill = am4core.color("#fff");
+  chart.legend.valueLabels.template.fill = am4core.color("#fff");
+
+  // Add cursor
+  chart.cursor = new am4charts.XYCursor();
 }
 
 function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
-    var chartTitle = "Demand Forecast for " + selectedHRRName;
-    renderChartData(chartTitle);
-}
+  var regionName = selectedHRRNumber + "";
 
-function renderChartData(chartTitle) {
-    // Dispose all Charts and clear Browser memory/cache
-    am4core.disposeAllCharts();
+  // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
+  if (regionName.indexOf(' ') >= 0)
+    regionName = regionName.split(" ").join("_");
 
-    // Themes begin
-    am4core.useTheme(am4themes_animated);
+  var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
 
-    // Create chart instance
-    var chart = am4core.create("chartdiv", am4charts.XYChart);
-    chart.data = globals.timelineJsonData;
-    chart.hiddenState.properties.opacity = 0;
+  // Dispose all Charts and clear Browser memory/cache
+  am4core.disposeAllCharts();
 
-    let title = chart.titles.create();
-    title.text = chartTitle;
-    title.stroke = am4core.color("#fff");
-    title.fill = am4core.color("#fff");
-    title.fontSize = 20;
-    title.marginBottom = 15;
+  // Themes begin
+  am4core.useTheme(am4themes_animated);
 
-    var colors = ["#bd1e2e", "#3479A1", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
+  // Create chart instance
+  var chart = am4core.create("chartdiv", am4charts.XYChart);
+  chart.data = globals.timelineJsonData;
+  chart.hiddenState.properties.opacity = 0;
 
-    // Create axes
-    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.renderer.grid.template.strokeOpacity = 1;
-    categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff
-    categoryAxis.renderer.grid.template.strokeWidth = 1;
-    categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
+  let title = chart.titles.create();
+  title.text = "Demand Forecast for " + selectedHRRName;
+  title.stroke = am4core.color("#fff");
+  title.fill = am4core.color("#fff");
+  title.fontSize = 20;
+  title.marginBottom = 15;
 
-    categoryAxis.renderer.line.strokeOpacity = 1;
-    categoryAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff
-    categoryAxis.renderer.line.strokeWidth = 1;
+  var colors = ["#bd1e2e", "#3479A1", "#fc4503", "#167d1a", "#c6d42c", "#7de067", "#80cbd9", "#b60fdb", "#c2305a", "#9c2187"];
 
-    categoryAxis.dataFields.category = "date";
+  // Create axes
+  var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+  categoryAxis.renderer.grid.template.strokeOpacity = 1;
+  categoryAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff
+  categoryAxis.renderer.grid.template.strokeWidth = 1;
+  categoryAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43
 
-    categoryAxis.renderer.minGridDistance = 50;
-    categoryAxis.renderer.labels.template.rotation = -45;
-    categoryAxis.renderer.line.strokeOpacity = 1;
-    categoryAxis.renderer.line.strokeWidth = 1;
-    categoryAxis.renderer.labels.template.fill = am4core.color("#fff");
-    categoryAxis.renderer.grid.template.fill = am4core.color("#fff");
-    categoryAxis.renderer.grid.template.location = 0;
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff
+  categoryAxis.renderer.line.strokeWidth = 1;
 
-    // categoryAxis.dateFormatter = new am4core.DateFormatter();
-    // categoryAxis.dateFormatter.dateFormat = "MM-dd";
+  categoryAxis.dataFields.category = "date";
 
-    // Create Hospitalization series
-    createHospitalizationSeries(chart, colors[0]);
+  categoryAxis.renderer.minGridDistance = 50;
+  categoryAxis.renderer.labels.template.rotation = -45;
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.strokeWidth = 1;
+  categoryAxis.renderer.labels.template.fill = am4core.color("#fff");
+  categoryAxis.renderer.grid.template.fill = am4core.color("#fff");
+  categoryAxis.renderer.grid.template.location = 0;
 
-    // Create Demand series
-    createDemandSeries(chart);
+  // Create Hospitalization series
+  createHospitalizationSeries(chart, colors[0]);
 
-    // Add legend
-    chart.legend = new am4charts.Legend();
-    // Sets color of Legends to white
-    chart.legend.labels.template.fill = am4core.color("#fff");
-    chart.legend.valueLabels.template.fill = am4core.color("#fff");
+  // Create Demand series
+  createDemandSeries(chart);
 
-    // Add cursor
-    chart.cursor = new am4charts.XYCursor();
+  // Add legend
+  chart.legend = new am4charts.Legend();
+  // Sets color of Legends to white
+  chart.legend.labels.template.fill = am4core.color("#fff");
+  chart.legend.valueLabels.template.fill = am4core.color("#fff");
+
+  // Add cursor
+  chart.cursor = new am4charts.XYCursor();
 }
 
 function createDemandSeries(chart) {
 
-    // Create Demand Value axis
-    var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  // Create Demand Value axis
+  var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-    let maxUpperDemandValue = 0;
-    let minLowerDemandValue = 100;
+  let maxUpperDemandValue = 0;
+  let minLowerDemandValue = 100;
 
-    chart.data.forEach(function(chartValue, index) {
-        if (maxUpperDemandValue < Number(chartValue['Upper Projected Demand Bound']))
-            maxUpperDemandValue = Number(chartValue['Upper Projected Demand Bound']);
+  chart.data.forEach(function (chartValue, index) {
+    if (maxUpperDemandValue < Number(chartValue['Upper Projected Demand Bound']))
+      maxUpperDemandValue = Number(chartValue['Upper Projected Demand Bound']);
 
-        if (minLowerDemandValue > Number(chartValue['Lower Projected Demand Bound']))
-            minLowerDemandValue = Number(chartValue['Lower Projected Demand Bound']);
-    });
+    if (minLowerDemandValue > Number(chartValue['Lower Projected Demand Bound']))
+      minLowerDemandValue = Number(chartValue['Lower Projected Demand Bound']);
+  });
 
-    demandValueAxis.min = minLowerDemandValue - 10;
-    demandValueAxis.max = maxUpperDemandValue + (maxUpperDemandValue * 0.5);
+  demandValueAxis.min = minLowerDemandValue - 10;
+  demandValueAxis.max = maxUpperDemandValue + (maxUpperDemandValue * 0.5);
 
-    //demandValueAxis.renderer.minGridDistance = 35; //used for steps in right hand side y axis
-    demandValueAxis.renderer.grid.template.strokeOpacity = 1;
-    demandValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
-    demandValueAxis.renderer.grid.template.strokeWidth = 1;
-    demandValueAxis.tooltip.disabled = true; //right hand size 
+  //demandValueAxis.renderer.minGridDistance = 35; //used for steps in right hand side y axis
+  demandValueAxis.renderer.grid.template.strokeOpacity = 1;
+  demandValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
+  demandValueAxis.renderer.grid.template.strokeWidth = 1;
+  demandValueAxis.tooltip.disabled = true; //right hand size 
 
-    demandValueAxis.renderer.line.strokeOpacity = 1;
-    demandValueAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
-    demandValueAxis.renderer.line.strokeWidth = 1;
+  demandValueAxis.renderer.line.strokeOpacity = 1;
+  demandValueAxis.renderer.line.stroke = am4core.color("#D3D3D3"); // ffffff 8DB8D6
+  demandValueAxis.renderer.line.strokeWidth = 1;
 
-    demandValueAxis.title.text = "Percentage of Occupied Beds";
-    demandValueAxis.title.fill = am4core.color("#fff");
-    demandValueAxis.title.fontSize = 14;
+  demandValueAxis.title.text = "Percentage of Occupied Beds";
+  demandValueAxis.title.fill = am4core.color("#fff");
+  demandValueAxis.title.fontSize = 14;
 
-    demandValueAxis.renderer.opposite = true;
-    demandValueAxis.renderer.line.stroke = am4core.color("#3479A1");
-    demandValueAxis.renderer.line.strokeOpacity = 1;
-    demandValueAxis.renderer.line.strokeWidth = 1;
-    demandValueAxis.renderer.labels.template.fill = am4core.color("#fff");
-    demandValueAxis.renderer.grid.template.fill = am4core.color("#fff");
+  demandValueAxis.renderer.opposite = true;
+  demandValueAxis.renderer.line.stroke = am4core.color("#3479A1");
+  demandValueAxis.renderer.line.strokeOpacity = 1;
+  demandValueAxis.renderer.line.strokeWidth = 1;
+  demandValueAxis.renderer.labels.template.fill = am4core.color("#fff");
+  demandValueAxis.renderer.grid.template.fill = am4core.color("#fff");
 
-    // Create Uncertainity Bound Series
-    var uncertainitySeries = chart.series.push(new am4charts.LineSeries());
+  // Create Uncertainity Bound Series
+  var uncertainitySeries = chart.series.push(new am4charts.LineSeries());
 
-    uncertainitySeries.dataFields.categoryX = "date";
-    uncertainitySeries.dataFields.openValueY = "Lower Projected Demand Bound";
-    uncertainitySeries.dataFields.valueY = "Upper Projected Demand Bound";
-    uncertainitySeries.yAxis = demandValueAxis;
+  uncertainitySeries.dataFields.categoryX = "date";
+  uncertainitySeries.dataFields.openValueY = "Lower Projected Demand Bound";
+  uncertainitySeries.dataFields.valueY = "Upper Projected Demand Bound";
+  uncertainitySeries.yAxis = demandValueAxis;
 
-    uncertainitySeries.stroke = am4core.color("#3479A1");
-    uncertainitySeries.fill = am4core.color("#3479A1");
-    uncertainitySeries.hiddenInLegend = true;
+  uncertainitySeries.stroke = am4core.color("#3479A1");
+  uncertainitySeries.fill = am4core.color("#3479A1");
+  uncertainitySeries.hiddenInLegend = true;
 
-    uncertainitySeries.fillOpacity = 0.4;
-    uncertainitySeries.sequencedInterpolation = true;
-    uncertainitySeries.defaultState.transitionDuration = 1000;
+  uncertainitySeries.fillOpacity = 0.4;
+  uncertainitySeries.sequencedInterpolation = true;
+  uncertainitySeries.defaultState.transitionDuration = 1000;
 
-    // Create Demand series
-    var demandSeries = chart.series.push(new am4charts.LineSeries());
+  // Create Demand series
+  var demandSeries = chart.series.push(new am4charts.LineSeries());
 
-    demandSeries.dataFields.categoryX = "date";
-    demandSeries.dataFields.valueY = "Total Projected Demand (%)";
-    demandSeries.dataFields.rangeValueY = "Total Projected Demand (Range)";
+  demandSeries.dataFields.categoryX = "date";
+  demandSeries.dataFields.valueY = "Total Projected Demand (%)";
+  demandSeries.dataFields.rangeValueY = "Total Projected Demand (Range)";
 
-    demandSeries.yAxis = demandValueAxis;
+  demandSeries.yAxis = demandValueAxis;
 
-    demandSeries.stroke = am4core.color("#3479A1");
-    demandSeries.fill = am4core.color("#3479A1");
+  demandSeries.stroke = am4core.color("#3479A1");
+  demandSeries.fill = am4core.color("#3479A1");
 
-    demandSeries.strokeWidth = 2;
-    demandSeries.sequencedInterpolation = true;
-    demandSeries.defaultState.transitionDuration = 1000;
+  demandSeries.strokeWidth = 2;
+  demandSeries.sequencedInterpolation = true;
+  demandSeries.defaultState.transitionDuration = 1000;
 
-    demandSeries.name = "Percentage of Occupied Beds"; //button lavel
-    if (globals.mobileDevice()) { //if its a mobile device
-        demandSeries.name = "Occupied Beds (%)"; //button lavel
-    }
-    demandSeries.tooltip.label.ignoreFormatting = true;
-    demandSeries.tooltipText = `Percentage of Occupied Beds: 
+  demandSeries.name = "Percentage of Occupied Beds"; //button lavel
+  if (globals.mobileDevice()) { //if its a mobile device
+    demandSeries.name = "Occupied Beds (%)"; //button lavel
+  }
+  demandSeries.tooltip.label.ignoreFormatting = true;
+  demandSeries.tooltipText = `Percentage of Occupied Beds: 
   {rangeValueY}`;
 
-    demandSeries.tooltip.background.fill = am4core.color("#3479A1");
-    demandSeries.showOnInit = true;
+  demandSeries.tooltip.background.fill = am4core.color("#3479A1");
+  demandSeries.showOnInit = true;
 
-    // Create data points
-    var bullet = demandSeries.bullets.push(new am4charts.CircleBullet());
-    bullet.width = 5;
-    bullet.height = 5;
+  // Create data points
+  var bullet = demandSeries.bullets.push(new am4charts.CircleBullet());
+  bullet.width = 5;
+  bullet.height = 5;
 
-    bullet.circle.stroke = am4core.color("#3479A1");
-    bullet.circle.strokeWidth = 2;
+  bullet.circle.stroke = am4core.color("#3479A1");
+  bullet.circle.strokeWidth = 2;
 
-    // Hiding Uncertainity bounds when hiding the actual series
-    demandSeries.events.on("hidden", function() {
-        uncertainitySeries.hide();
-    });
+  // Hiding Uncertainity bounds when hiding the actual series
+  demandSeries.events.on("hidden", function () {
+    uncertainitySeries.hide();
+  });
 
-    // Displaying Uncertainity bounds when displaying the actual series
-    demandSeries.events.on("shown", function() {
-        uncertainitySeries.show();
-    });
+  // Displaying Uncertainity bounds when displaying the actual series
+  demandSeries.events.on("shown", function () {
+    uncertainitySeries.show();
+  });
 }
 
 function createHospitalizationSeries(chart, color) {
 
-    // Create Hospitalization Value axis
-    var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  // Create Hospitalization Value axis
+  var hospitalizationValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-    let maxHospitalizationValue = 0;
-    let minHospitalizationValue = 100;
+  let maxHospitalizationValue = 0;
+  let minHospitalizationValue = 100;
 
-    chart.data.forEach(function(chartValue, index) {
-        if (maxHospitalizationValue < Number(chartValue['Upper Hospitalization Bound']))
-            maxHospitalizationValue = Number(chartValue['Upper Hospitalization Bound']);
+  chart.data.forEach(function (chartValue, index) {
+    if (maxHospitalizationValue < Number(chartValue['Upper Hospitalization Bound']))
+      maxHospitalizationValue = Number(chartValue['Upper Hospitalization Bound']);
 
-        if (minHospitalizationValue > Number(chartValue['Lower Hospitalization Bound']))
-            minHospitalizationValue = Number(chartValue['Lower Hospitalization Bound']);
-    });
+    if (minHospitalizationValue > Number(chartValue['Lower Hospitalization Bound']))
+      minHospitalizationValue = Number(chartValue['Lower Hospitalization Bound']);
+  });
 
-    hospitalizationValueAxis.min = minHospitalizationValue - 10;
-    hospitalizationValueAxis.max = maxHospitalizationValue + (maxHospitalizationValue * 0.5);
+  hospitalizationValueAxis.min = minHospitalizationValue - 10;
+  hospitalizationValueAxis.max = maxHospitalizationValue + (maxHospitalizationValue * 0.5);
 
-    //hospitalizationValueAxis.renderer.minGridDistance = 50; //used for steps in value axis
-    hospitalizationValueAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43 left side
+  //hospitalizationValueAxis.renderer.minGridDistance = 50; //used for steps in value axis
+  hospitalizationValueAxis.tooltip.disabled = true; //to disable button blackcolor tooltip #43 left side
 
-    hospitalizationValueAxis.renderer.grid.template.strokeOpacity = 1;
-    hospitalizationValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); //ffffff 8DB8D6
-    hospitalizationValueAxis.renderer.grid.template.strokeWidth = 1;
+  hospitalizationValueAxis.renderer.grid.template.strokeOpacity = 1;
+  hospitalizationValueAxis.renderer.grid.template.stroke = am4core.color("#D3D3D3"); //ffffff 8DB8D6
+  hospitalizationValueAxis.renderer.grid.template.strokeWidth = 1;
 
-    hospitalizationValueAxis.renderer.line.strokeOpacity = 1;
-    hospitalizationValueAxis.renderer.line.stroke = am4core.color("#D3D3D3 "); //fffff 8DB8D6
-    hospitalizationValueAxis.renderer.line.strokeWidth = 1;
+  hospitalizationValueAxis.renderer.line.strokeOpacity = 1;
+  hospitalizationValueAxis.renderer.line.stroke = am4core.color("#D3D3D3 "); //fffff 8DB8D6
+  hospitalizationValueAxis.renderer.line.strokeWidth = 1;
 
-    hospitalizationValueAxis.title.text = "Weekly Hospitalizations";
-    hospitalizationValueAxis.title.fill = am4core.color("#fff");
-    hospitalizationValueAxis.title.fontSize = 14;
-
-    hospitalizationValueAxis.renderer.opposite = false;
-    hospitalizationValueAxis.renderer.line.stroke = am4core.color(color);
-    hospitalizationValueAxis.renderer.line.strokeOpacity = 1;
-    hospitalizationValueAxis.renderer.line.strokeWidth = 1;
-    hospitalizationValueAxis.renderer.labels.template.fill = am4core.color("#fff");
-    hospitalizationValueAxis.renderer.grid.template.fill = am4core.color("#fff");
-
-    // Create Uncertainity Bound Series
-    var uncertainitySeries = chart.series.push(new am4charts.LineSeries());
-
-    uncertainitySeries.dataFields.categoryX = "date";
-    uncertainitySeries.dataFields.openValueY = "Lower Hospitalization Bound";
-    uncertainitySeries.dataFields.valueY = "Upper Hospitalization Bound";
-    uncertainitySeries.yAxis = hospitalizationValueAxis;
+  hospitalizationValueAxis.title.text = "Weekly Hospitalizations";
+  hospitalizationValueAxis.title.fill = am4core.color("#fff");
+  hospitalizationValueAxis.title.fontSize = 14;
 
 
-    // uncertainitySeries.numberFormatter.numberFormat = "#.";
 
-    uncertainitySeries.stroke = am4core.color(color);
-    uncertainitySeries.fill = am4core.color(color);
-    uncertainitySeries.hiddenInLegend = true;
+  hospitalizationValueAxis.renderer.opposite = false;
+  hospitalizationValueAxis.renderer.line.stroke = am4core.color(color);
+  hospitalizationValueAxis.renderer.line.strokeOpacity = 1;
+  hospitalizationValueAxis.renderer.line.strokeWidth = 1;
+  hospitalizationValueAxis.renderer.labels.template.fill = am4core.color("#fff");
+  hospitalizationValueAxis.renderer.grid.template.fill = am4core.color("#fff");
 
-    uncertainitySeries.fillOpacity = 0.4;
-    uncertainitySeries.sequencedInterpolation = true;
-    uncertainitySeries.defaultState.transitionDuration = 1000;
+  // Create Uncertainity Bound Series
+  var uncertainitySeries = chart.series.push(new am4charts.LineSeries());
 
-    // Create Hospitalization series
-    var hospitalizationSeries = chart.series.push(new am4charts.LineSeries());
+  uncertainitySeries.dataFields.categoryX = "date";
+  uncertainitySeries.dataFields.openValueY = "Lower Hospitalization Bound";
+  uncertainitySeries.dataFields.valueY = "Upper Hospitalization Bound";
+  uncertainitySeries.yAxis = hospitalizationValueAxis;
 
-    hospitalizationSeries.dataFields.categoryX = "date";
-    hospitalizationSeries.dataFields.valueY = "Total Hospitalizations (Median)";
-    hospitalizationSeries.dataFields.rangeValueY = "Total Hospitalizations (Range)";
 
-    hospitalizationSeries.yAxis = hospitalizationValueAxis;
+  // uncertainitySeries.numberFormatter.numberFormat = "#.";
 
-    hospitalizationSeries.stroke = am4core.color(color);
-    hospitalizationSeries.fill = am4core.color(color);
+  uncertainitySeries.stroke = am4core.color(color);
+  uncertainitySeries.fill = am4core.color(color);
+  uncertainitySeries.hiddenInLegend = true;
 
-    hospitalizationSeries.strokeWidth = 2;
-    hospitalizationSeries.sequencedInterpolation = true;
-    hospitalizationSeries.defaultState.transitionDuration = 1000;
+  uncertainitySeries.fillOpacity = 0.4;
+  uncertainitySeries.sequencedInterpolation = true;
+  uncertainitySeries.defaultState.transitionDuration = 1000;
 
-    hospitalizationSeries.name = "Weekly Hospitalizations";
+  // Create Hospitalization series
+  var hospitalizationSeries = chart.series.push(new am4charts.LineSeries());
 
-    hospitalizationSeries.tooltip.label.ignoreFormatting = true;
-    hospitalizationSeries.tooltipText = `Weekly Hospitalizations: 
+  hospitalizationSeries.dataFields.categoryX = "date";
+  hospitalizationSeries.dataFields.valueY = "Total Hospitalizations (Median)";
+  hospitalizationSeries.dataFields.rangeValueY = "Total Hospitalizations (Range)";
+
+  hospitalizationSeries.yAxis = hospitalizationValueAxis;
+
+  hospitalizationSeries.stroke = am4core.color(color);
+  hospitalizationSeries.fill = am4core.color(color);
+
+  hospitalizationSeries.strokeWidth = 2;
+  hospitalizationSeries.sequencedInterpolation = true;
+  hospitalizationSeries.defaultState.transitionDuration = 1000;
+
+  hospitalizationSeries.name = "Weekly Hospitalizations";
+
+  hospitalizationSeries.tooltip.label.ignoreFormatting = true;
+  hospitalizationSeries.tooltipText = `Weekly Hospitalizations: 
   {rangeValueY}`;
 
 
-    hospitalizationSeries.tooltip.background.fill = am4core.color(color);
-    hospitalizationSeries.showOnInit = true;
+  hospitalizationSeries.tooltip.background.fill = am4core.color(color);
+  hospitalizationSeries.showOnInit = true;
 
-    // Create data points
-    var bullet = hospitalizationSeries.bullets.push(new am4charts.Bullet());
-    bullet.width = 5;
-    bullet.height = 5;
-    bullet.horizontalCenter = "middle";
-    bullet.verticalCenter = "middle";
+  // Create data points
+  var bullet = hospitalizationSeries.bullets.push(new am4charts.Bullet());
+  bullet.width = 5;
+  bullet.height = 5;
+  bullet.horizontalCenter = "middle";
+  bullet.verticalCenter = "middle";
 
-    // Create Rectangle shape data points
-    var rectangle = bullet.createChild(am4core.Rectangle);
-    rectangle.stroke = am4core.color(color);
-    rectangle.strokeWidth = 2;
-    rectangle.width = 5;
-    rectangle.height = 5;
+  // Create Rectangle shape data points
+  var rectangle = bullet.createChild(am4core.Rectangle);
+  rectangle.stroke = am4core.color(color);
+  rectangle.strokeWidth = 2;
+  rectangle.width = 5;
+  rectangle.height = 5;
 
-    // Hiding Uncertainity bounds when hiding the actual series
-    hospitalizationSeries.events.on("hidden", function() {
-        uncertainitySeries.hide();
-    });
+  // Hiding Uncertainity bounds when hiding the actual series
+  hospitalizationSeries.events.on("hidden", function () {
+    uncertainitySeries.hide();
+  });
 
-    // Displaying Uncertainity bounds when displaying the actual series
-    hospitalizationSeries.events.on("shown", function() {
-        uncertainitySeries.show();
-    });
+  // Displaying Uncertainity bounds when displaying the actual series
+  hospitalizationSeries.events.on("shown", function () {
+    uncertainitySeries.show();
+  });
 }
 
 function mergeDataAcrossRegions() {
-    var mergedData = [];
+  var mergedData = [];
 
-    for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
-        var regionName = globals.queriedRegionNumbers[i] + "";
+  for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
+    var regionName = globals.queriedRegionNumbers[i] + "";
 
-        // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
-        if (regionName.indexOf(' ') >= 0)
-            regionName = regionName.split(" ").join("_");
-        var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
+    // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
+    if (regionName.indexOf(' ') >= 0)
+      regionName = regionName.split(" ").join("_");
+    var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
 
-        $.ajax({
-            url: datafile,
-            async: false,
-            success: function(csv) {
-                var items = $.csv.toObjects(csv);
-                var jsonobject = JSON.stringify(items);
-                var currentData = JSON.parse(jsonobject);
+    $.ajax({
+      url: datafile,
+      async: false,
+      success: function (csv) {
+        var items = $.csv.toObjects(csv);
+        var jsonobject = JSON.stringify(items);
+        var currentData = JSON.parse(jsonobject);
 
-                if (mergedData.length > 0) {
-                    for (loop = 0; loop < mergedData.length; loop++) {
-                        var filteredData = currentData[loop];
+        if (mergedData.length > 0) {
+          for (loop = 0; loop < mergedData.length; loop++) {
+            var filteredData = currentData[loop];
 
-                        mergedData[loop]["Lower Hospitalization Bound"] = parseFloat(mergedData[loop]["Lower Hospitalization Bound"]) + parseFloat(filteredData["Lower Hospitalization Bound"]);
-                        mergedData[loop]["Upper Hospitalization Bound"] = parseFloat(mergedData[loop]["Upper Hospitalization Bound"]) + parseFloat(filteredData["Upper Hospitalization Bound"]);
-                        mergedData[loop]["Lower Projected Demand Bound"] = parseFloat(mergedData[loop]["Lower Projected Demand Bound"]) + parseFloat(filteredData["Lower Projected Demand Bound"]);
-                        mergedData[loop]["Upper Projected Demand Bound"] = parseFloat(mergedData[loop]["Upper Projected Demand Bound"]) + parseFloat(filteredData["Upper Projected Demand Bound"]);
-                        mergedData[loop]["Total Projected Demand (%)"] = parseFloat(mergedData[loop]["Total Projected Demand (%)"]) + parseFloat(filteredData["Total Projected Demand (%)"]);
-                        mergedData[loop]["Total Hospitalizations (Median)"] = parseFloat(mergedData[loop]["Total Hospitalizations (Median)"]) + parseFloat(filteredData["Total Hospitalizations (Median)"]);
-                    }
-                } else {
-                    mergedData = currentData;
-                }
-            },
-            dataType: "text",
-            complete: function() {}
-        });
+            mergedData[loop]["Lower Hospitalization Bound"] = parseFloat(mergedData[loop]["Lower Hospitalization Bound"]) + parseFloat(filteredData["Lower Hospitalization Bound"]);
+            mergedData[loop]["Upper Hospitalization Bound"] = parseFloat(mergedData[loop]["Upper Hospitalization Bound"]) + parseFloat(filteredData["Upper Hospitalization Bound"]);
+            mergedData[loop]["Lower Projected Demand Bound"] = parseFloat(mergedData[loop]["Lower Projected Demand Bound"]) + parseFloat(filteredData["Lower Projected Demand Bound"]);
+            mergedData[loop]["Upper Projected Demand Bound"] = parseFloat(mergedData[loop]["Upper Projected Demand Bound"]) + parseFloat(filteredData["Upper Projected Demand Bound"]);
+            mergedData[loop]["Total Projected Demand (%)"] = parseFloat(mergedData[loop]["Total Projected Demand (%)"]) + parseFloat(filteredData["Total Projected Demand (%)"]);
+            mergedData[loop]["Total Hospitalizations (Median)"] = parseFloat(mergedData[loop]["Total Hospitalizations (Median)"]) + parseFloat(filteredData["Total Hospitalizations (Median)"]);
+          }
+        } else {
+          mergedData = currentData;
+        }
+      },
+      dataType: "text",
+      complete: function () { }
+    });
+  }
+
+  // Average the Total Projected Demand
+  for (loop = 0; loop < mergedData.length; loop++) {
+    mergedData[loop]["Total Projected Demand (%)"] = parseFloat(mergedData[loop]["Total Projected Demand (%)"]) / globals.queriedRegionNumbers.length;
+    mergedData[loop]["Lower Projected Demand Bound"] = parseFloat(mergedData[loop]["Lower Projected Demand Bound"]) / globals.queriedRegionNumbers.length;
+    mergedData[loop]["Upper Projected Demand Bound"] = parseFloat(mergedData[loop]["Upper Projected Demand Bound"]) / globals.queriedRegionNumbers.length;
+
+    mergedData[loop]["Total Hospitalizations (Range)"] = numFormatter(mergedData[loop]["Total Hospitalizations (Median)"]) +
+      " [" + numFormatter(mergedData[loop]["Lower Hospitalization Bound"]) + " - " + numFormatter(mergedData[loop]["Upper Hospitalization Bound"]) + "]";
+    mergedData[loop]["Total Projected Demand (Range)"] = (mergedData[loop]["Total Projected Demand (%)"]).toFixed(2) +
+      "% [" + (mergedData[loop]["Lower Projected Demand Bound"]).toFixed(2) + "% - " + (mergedData[loop]["Upper Projected Demand Bound"]).toFixed(2) + "%]";
+  }
+
+  if (globals.isSliderApplied) {
+    for (i = 0; i < globals.queriedRegionNames.length; i++) {
+      var regionName = globals.queriedRegionNames[i] + "";
+
+      var cumulativeBeds = 0;
+      for (var i = 0; i < globals.regionData.length; i++) {
+        if (regionName == globals.regionData[i][globals.regionDataNameColumn]) {
+          cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
+          break;
+        }
+      }
     }
 
-    // Average the Total Projected Demand
-    for (loop = 0; loop < mergedData.length; loop++) {
-        mergedData[loop]["Total Projected Demand (%)"] = parseFloat(mergedData[loop]["Total Projected Demand (%)"]) / globals.queriedRegionNumbers.length;
-        mergedData[loop]["Lower Projected Demand Bound"] = parseFloat(mergedData[loop]["Lower Projected Demand Bound"]) / globals.queriedRegionNumbers.length;
-        mergedData[loop]["Upper Projected Demand Bound"] = parseFloat(mergedData[loop]["Upper Projected Demand Bound"]) / globals.queriedRegionNumbers.length;
+    var percentDemand = globals.minHospitalCapacity / 100;
+    for (var i = 0; i < mergedData.length; i++) {
 
-        mergedData[loop]["Total Hospitalizations (Range)"] = numFormatter(mergedData[loop]["Total Hospitalizations (Median)"]) +
-            " [" + numFormatter(mergedData[loop]["Lower Hospitalization Bound"]) + " - " + numFormatter(mergedData[loop]["Upper Hospitalization Bound"]) + "]";
-        mergedData[loop]["Total Projected Demand (Range)"] = (mergedData[loop]["Total Projected Demand (%)"]).toFixed(2) +
-            "% [" + (mergedData[loop]["Lower Projected Demand Bound"]).toFixed(2) + "% - " + (mergedData[loop]["Upper Projected Demand Bound"]).toFixed(2) + "%]";
+      var med_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(mergedData[i]["Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
+      var lb_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(mergedData[i]["Lower Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
+      var ub_proj_dem = Number(((percentDemand * cumulativeBeds) + Number(mergedData[i]["Upper Max Occupied Beds"])) * 100 / cumulativeBeds).toFixed(2);
+
+      mergedData[i]["Lower Projected Demand Bound"] = lb_proj_dem;
+      mergedData[i]["Upper Projected Demand Bound"] = ub_proj_dem;
+      mergedData[i]["Total Projected Demand (%)"] = med_proj_dem;
+
+      mergedData[i]["Total Projected Demand (Range)"] = med_proj_dem + "% [" + lb_proj_dem + "% - " + ub_proj_dem + "%]";
     }
-}
+  }
 
-function mergeDailyDataAcrossRegions() {
-    var mergedData = [];
-
-    for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
-        var regionName = globals.queriedRegionNumbers[i] + "";
-
-        // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
-        if (regionName.indexOf(' ') >= 0)
-            regionName = regionName.split(" ").join("_");
-        var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + "-daily.csv";
-
-        $.ajax({
-            url: datafile,
-            async: false,
-            success: function(csv) {
-                var items = $.csv.toObjects(csv);
-                var jsonobject = JSON.stringify(items);
-                var currentData = JSON.parse(jsonobject);
-
-                if (mergedData.length > 0) {
-                    for (loop = 0; loop < mergedData.length; loop++) {
-                        var filteredData = currentData[loop];
-
-                        mergedData[loop]["Lower Hospitalization Bound"] = Number(mergedData[loop]["Lower Hospitalization Bound"]) + Number(filteredData["Lower Hospitalization Bound"]);
-                        mergedData[loop]["Upper Hospitalization Bound"] = Number(mergedData[loop]["Upper Hospitalization Bound"]) + Number(filteredData["Upper Hospitalization Bound"]);
-                        mergedData[loop]["Total Hospitalizations (Median)"] = Number(mergedData[loop]["Total Hospitalizations (Median)"]) + Number(filteredData["Total Hospitalizations (Median)"]);
-                    }
-                } else {
-                    mergedData = currentData;
-                }
-            },
-            dataType: "text",
-            complete: function() {}
-        });
-    }
-
-    return mergedData;
+  return mergedData;
 }
 
 function numFormatter(num) {
-    // Here we get number as string value.
-    num = Number(num);
+  // Here we get number as string value.
+  num = Number(num);
 
-    if (num < 9999) return num.toLocaleString();
+  if (num < 9999) return num.toLocaleString();
 
-    if (num >= 10000 && num <= 999999)
-        return (num / 1000).toFixed(2) + 'K';
+  if (num >= 10000 && num <= 999999)
+    return (num / 1000).toFixed(2) + 'K';
 
-    if (num >= 1000000 && num <= 999999999)
-        return (num / 1000000).toFixed(2) + 'M';
+  if (num >= 1000000 && num <= 999999999)
+    return (num / 1000000).toFixed(2) + 'M';
 }
 
 function getJSONData(datafile) {
 
-    var jsonData;
-    $.ajax({
-        url: datafile,
-        async: false,
-        success: function(csv) {
-            var items = $.csv.toObjects(csv);
-            var jsonobject = JSON.stringify(items);
-            jsonData = JSON.parse(jsonobject);
-        },
-        dataType: "text",
-        complete: function() {}
-    });
+  var jsonData;
+  $.ajax({
+    url: datafile,
+    async: false,
+    success: function (csv) {
+      var items = $.csv.toObjects(csv);
+      var jsonobject = JSON.stringify(items);
+      jsonData = JSON.parse(jsonobject);
+    },
+    dataType: "text",
+    complete: function () { }
+  });
 
-    return jsonData;
+  return jsonData;
 }
+
