@@ -149,6 +149,25 @@
     height: 100%;
     font-size: 1rem !important;
   }
+  
+  /* CSS changes to overide Jquery Automcomplete CSS for customise */
+.ui-menu-item{
+    list-style-type: none !important;    
+    width: 300px !important;
+    background-color: #ffc107 !important; 
+    color: black !important;
+    border: rgb(114, 96, 96) 1px solid !important;
+    padding: 5px !important;      
+}
+.ui-autocomplete {
+  max-height: 250px !important;  
+}
+.ui-menu .ui-menu-item-wrapper:hover, .ui-menu .ui-menu-item-wrapper.ui-state-active {
+  color: #303030 !important;
+  background-color: #fac31d !important;
+  border: #fac31d 1px solid !important;
+}
+  
 #queryWrapper {
   flex-grow: 1;
 }

@@ -1472,6 +1472,26 @@ div#socialSharing a span#linkedin:hover {
     position: relative;
 }
 
+/* CSS changes to overide Jquery Automcomplete CSS for customise */
+.ui-menu-item{
+    list-style-type: none !important;
+    background-color: #ffc107 !important; 
+    color: black !important;
+    border: rgb(114, 96, 96) 1px solid !important;
+    margin-right: 86.50rem !important; 
+    margin-left: -2.75rem !important;  
+    padding: 5px !important; 
+}
+.ui-autocomplete {
+    max-height: 200px !important;
+    overflow-y: auto !important;    
+    overflow-x: hidden !important;    
+} 
+.ui-menu .ui-menu-item-wrapper:hover, .ui-menu .ui-menu-item-wrapper.ui-state-active {
+    color: #303030 !important;
+    background-color: #fac31d !important;
+    border: #fac31d 1px solid !important;
+}
 
 /** code started for media query **/
 
