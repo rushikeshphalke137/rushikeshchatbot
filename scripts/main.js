@@ -141,8 +141,8 @@ require([
     ) {
         parser.parse();
 
-        $.getJSON("supported_scenarios.json")
-            //$.getJSON("data_va/supported_scenarios.json")
+        //$.getJSON("supported_scenarios.json")
+        $.getJSON("data_va/supported_scenarios.json")
             .done(function(json) {
                 globals.configuration = json.configuration;
                 globals.scenarios = json.scenarios;
@@ -383,15 +383,15 @@ require([
                 globals.minHospitalCapacity = Number(globals.minHospitalCapacity);
                 globals.maxHospitalCapacity = Number(globals.maxHospitalCapacity);
 
-                var breakDifference = Number((globals.maxHospitalCapacity - globals.minHospitalCapacity) / 4).toFixed(2);
+                var breakDifference = Number((globals.maxHospitalCapacity - globals.minHospitalCapacity) / 3).toFixed(2);
 
                 // Adding default values for breaks.
                 var breakMins = [40, globals.minHospitalCapacity, 90, 100];
-                var breakMaxs = [globals.minHospitalCapacity, 89.99, 99.99, globals.maxHospitalCapacity - 0.01];
+                var breakMaxs = [globals.minHospitalCapacity, 89.99, 99.99, globals.maxHospitalCapacity];
 
-                for (i = 2; i < numClasses - 1; i++) {
-                    breakMins[i] = Number(globals.minHospitalCapacity + (breakDifference * i)).toFixed(2);
-                    breakMaxs[i - 1] = Number(breakMins[i] - 0.01);
+                for (i = 1; i < numClasses - 2; i++) {
+                    breakMins[i + 1] = Number(globals.minHospitalCapacity + (breakDifference * i)).toFixed(2);
+                    breakMaxs[i] = Number(breakMins[i + 1] - 0.01);
                 }
                 breakMins.push(globals.maxHospitalCapacity);
                 breakMaxs.push(500);
@@ -471,9 +471,12 @@ require([
 
                 if (i == 0)
                     labelText = "< " + BreakMax.toLocaleString();
-                else if (i != numClasses - 1)
-                    labelText = Number(BreakMin).toFixed(1).toLocaleString() + " - " + Number(BreakMax).toFixed(1).toLocaleString();
-                else
+                else if (i != numClasses - 1) {
+                    if (globals.renderFieldIndex == 'Projected Demand (%)')
+                        labelText = Number(BreakMin).toFixed(1).toLocaleString() + " - " + Number(BreakMax).toFixed(1).toLocaleString();
+                    else
+                        labelText = Number(BreakMin).toLocaleString() + " - " + Number(BreakMax).toLocaleString();
+                } else
                     labelText = BreakMin.toLocaleString() + " +";
                 labelCell.textContent = labelText;
 
