@@ -343,6 +343,8 @@ require([
             var summaryFile = selectedScenarioDirectory + "/nssac_ncov_ro-summary.csv";
             globals.timelineJsonData = getJSONData(summaryFile);
             renderSummaryDataChart();
+            var renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + globals.selectedDate + ".csv";
+            globals.scenarioJsonData = getJSONData(renderFile);
             showCSVDataInTable();
         });
 
@@ -1624,21 +1626,21 @@ function loadRegionData() {
 
         }
     });
-
-
-    $('#allToggleButton').on('change', function (e) {
-        if (this.checked) {
-            $(".scenarioDropdown").hide();
-        } else {
-
-            $(".scenarioDropdown").show();
-        }
-    });
-
 }
+
+$('#allToggleButton').on('change', function (e) {
+    if (this.checked) {
+        $(".scenarioDropdown").hide();
+        $("#scenariosDropdown").empty();
+        loadScenarioListForDropdown();
+    } else {
+        $(".scenarioDropdown").show();
+    }
+});
+
 function loadScenarioListForDropdown() {
-    var o = new Option("All", "value");
-    $(o).html("All");
+    var addAllOPtions = new Option("All", "value");
+    $(addAllOPtions).html("All");
     $("#scenariosDropdown").append(o);
     globals.newScenariosList = globals.scenarios;
     globals.newScenariosList = globals.scenarios.filter(function (item) {
