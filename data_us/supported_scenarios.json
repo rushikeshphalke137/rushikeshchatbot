@@ -34,19 +34,48 @@
         ],
         "defaultDuration": 7
     },
-    "scenarios": [{
+    "scenarios": [
+        {
             "scenario_display_name_line1": "BestFit",
             "scenario_display_name_line2": "Duration: 7 Days",
             "position": 0,
             "directory": "data_us/sc-BestFit-dur7-projBounds",
-            "description": "This model is made up of 'BestFit' scenarios at local levels, so it can predict variation based on local levels of activity and compliance with official health department guidelines. It also assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-07-13."
+            "description": "This model is made up of 'BestFit' scenarios at local levels, so it can predict variation based on local levels of activity and compliance with official health department guidelines. It also assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-07-27."
         },
         {
             "scenario_display_name_line1": "BestFit",
             "scenario_display_name_line2": "Duration: 14 Days",
             "position": 1,
             "directory": "data_us/sc-BestFit-dur14-projBounds",
-            "description": "This model is made up of 'BestFit' scenarios at local levels, so it can predict variation based on local levels of activity and compliance with official health department guidelines. It also assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-07-13."
+            "description": "This model is made up of 'BestFit' scenarios at local levels, so it can predict variation based on local levels of activity and compliance with official health department guidelines. It also assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-07-27."
+        },
+        {
+            "scenario_display_name_line1": "BestFit-Low",
+            "scenario_display_name_line2": "Duration: 7 Days",
+            "position": 0,
+            "directory": "data_us/sc-BestFit-Low-dur7-projBounds",
+            "description": "This model is similar to the BestFit Scenario except that it has a 10% (low) increase in transmissability due to seasonal effects after Labor Day; as such, it may not look much different from BestFit until after the first week of September. It also assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-07-27."
+        },
+        {
+            "scenario_display_name_line1": "BestFit-Low",
+            "scenario_display_name_line2": "Duration: 14 Days",
+            "position": 1,
+            "directory": "data_us/sc-BestFit-Low-dur14-projBounds",
+            "description": "This model is similar to the BestFit Scenario except that it has a 10% (low) increase in transmissability due to seasonal effects after Labor Day; as such, it may not look much different from BestFit until after the first week of September. It also assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-07-27."
+        },
+        {
+            "scenario_display_name_line1": "BestFit-High",
+            "scenario_display_name_line2": "Duration: 7 Days",
+            "position": 0,
+            "directory": "data_us/sc-BestFit-High-dur7-projBounds",
+            "description": "This model is similar to the BestFit Scenario except that it has a 20% (high) increase in transmissability due to seasonal effects after Labor Day; as such, it may not look much different from BestFit until after the first week of September. It assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-07-27."
+        },
+        {
+            "scenario_display_name_line1": "BestFit-High",
+            "scenario_display_name_line2": "Duration: 14 Days",
+            "position": 1,
+            "directory": "data_us/sc-BestFit-High-dur14-projBounds",
+            "description": "This model is similar to the BestFit Scenario except that it has a 20% (high) increase in transmissability due to seasonal effects after Labor Day; as such, it may not look much different from BestFit until after the first week of September. It assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-07-27."
         }
     ]
 }
