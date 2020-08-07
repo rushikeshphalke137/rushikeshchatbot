@@ -1641,7 +1641,7 @@ $('#allToggleButton').on('change', function (e) {
 function loadScenarioListForDropdown() {
     var addAllOPtions = new Option("All", "value");
     $(addAllOPtions).html("All");
-    $("#scenariosDropdown").append(o);
+    $("#scenariosDropdown").append(addAllOPtions);
     globals.newScenariosList = globals.scenarios;
     globals.newScenariosList = globals.scenarios.filter(function (item) {
         return item.directory !== globals.scenariosDirectory
