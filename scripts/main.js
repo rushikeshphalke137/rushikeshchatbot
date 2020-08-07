@@ -1633,6 +1633,10 @@ $('#allToggleButton').on('change', function (e) {
         $(".scenarioDropdown").hide();
         $("#scenariosDropdown").empty();
         loadScenarioListForDropdown();
+        varscenariosDirectory = globals.scenariosDirectory;
+        var summaryFile = selectedScenarioDirectory + "/nssac_ncov_ro-summary.csv";
+        globals.timelineJsonData = getJSONData(summaryFile);
+        renderSummaryDataChart();
     } else {
         $(".scenarioDropdown").show();
     }
