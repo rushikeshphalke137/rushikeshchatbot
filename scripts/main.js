@@ -141,8 +141,8 @@ require([
     ) {
         parser.parse();
 
-        //$.getJSON("supported_scenarios.json")
-        $.getJSON("data_va/supported_scenarios.json")
+        $.getJSON("supported_scenarios.json")
+            //$.getJSON("data_va/supported_scenarios.json")
             .done(function(json) {
                 globals.configuration = json.configuration;
                 globals.scenarios = json.scenarios;
@@ -1257,8 +1257,13 @@ require([
 
             for (var i = 0; i < globals.timelineJsonData.length; i++) {
                 var currentDate = globals.timelineJsonData[i]["date"];
+                var index = 0;
 
-                var index = dailyData.findIndex(obj => obj.date == currentDate);
+                for (index = 0; index < dailyData.length; index++) {
+                    if (dailyData[index].date == currentDate) {
+                        break;
+                    }
+                }
 
                 var maxCapacity = 0;
                 var maxLowerCapacity = 0;
@@ -1272,7 +1277,6 @@ require([
                         maxLowerCapacity = Number(dailyData[index - j]["cumulative_lower_bound"]);
                         maxUpperCapacity = Number(dailyData[index - j]["cumulative_upper_bound"]);
                     }
-
                 }
 
                 var totalProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxCapacity) / cumulativeBeds;
@@ -1324,7 +1328,13 @@ require([
                         }
                     }
 
-                    var index = regionDailyData.findIndex(obj => obj.date == globals.selectedDate);
+                    // var index = regionDailyData.findIndex(obj => obj.date == globals.selectedDate);
+                    var index = 0;
+                    for (index = 0; index < regionDailyData.length; index++) {
+                        if (regionDailyData[index].date == globals.selectedDate) {
+                            break;
+                        }
+                    }
 
                     var maxCapacity = 0;
                     var maxLowerCapacity = 0;
