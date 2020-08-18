@@ -332,20 +332,20 @@ require([
                     if (globals.isDurationSliderApplied)
                         applyDurationSliderOnSummaryData();
 
-                    showCSVDataInTable();
+                    showCSVDataInTable(globals.jsonData);
                     setMapRenderer();
                 }
             });
         }
         $("#scenariosDropdown").change(function () {
             var selectedScenarioDirectory = $(this).children("option:selected").val();
-            globals.scenariosDirectory = selectedScenarioDirectory;
+           // globals.scenariosDirectory = selectedScenarioDirectory;
             var summaryFile = selectedScenarioDirectory + "/nssac_ncov_ro-summary.csv";
             globals.timelineJsonData = getJSONData(summaryFile);
             renderSummaryDataChart();
-            var renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + globals.selectedDate + ".csv";
+            var renderFile = selectedScenarioDirectory + "/nssac_ncov_ro_" + globals.selectedDate + ".csv";
             globals.scenarioJsonData = getJSONData(renderFile);
-            showCSVDataInTable();
+            showCSVDataInTable(globals.scenarioJsonData);
         });
 
         function readDataFromCSVFile(file) {
@@ -690,7 +690,7 @@ require([
 
                     // Display Chart 
                     renderQueriedRegionsChart();
-                    showCSVDataInTable();
+                    showCSVDataInTable(globals.jsonData);
 
                 } else {
                     $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
@@ -736,7 +736,7 @@ require([
                     }
 
                     renderSelectedRegionsChart(globals.selectedRegionNum, globals.selectedRegionName);
-                    showCSVDataInTable();
+                    showCSVDataInTable(globals.jsonData);
                     var extent = esri.graphicsExtent(fset.features);
                     globals.map.setExtent(extent, true);
                 } else {
@@ -746,28 +746,26 @@ require([
             });
         }
 
-        function showCSVDataInTable() {
+        function showCSVDataInTable(csvData) {
             var filteredNames = [];
-
             if (globals.selectedRegionNum != 0) {
                 filteredNames.push(globals.selectedRegionName);
             } else if (globals.queriedRegionNames.length != 0) {
                 filteredNames = globals.queriedRegionNames;
             }
-
             var tableHTML = null;
             var lengthMenuOptions = null;
             var downloadOptions = "";
 
-            var regionNameColumn = Object.keys(globals.jsonData[0])[1];
+            var regionNameColumn = Object.keys(csvData[0])[1];
             tableHTML = '<table id="example" class="display" cellspacing="0" width="100%">\n<thead><tr>';
             tableHTML += "<th>" + regionNameColumn + "</th>";
             tableHTML += "<th>" + "Percentage of Occupied Beds" + "</th>";
             tableHTML += "<th>" + "Weekly Hospitalizations" + "</th>";
 
             tableHTML += "</tr></thead><tbody>";
-            for (var i = 0; i < globals.jsonData.length; i++) {
-                var name = globals.jsonData[i][regionNameColumn];
+            for (var i = 0; i < csvData.length; i++) {
+                var name = csvData[i][regionNameColumn];
 
                 if (filteredNames.length > 0 && filteredNames.indexOf(name) == -1)
                     continue;
@@ -775,9 +773,9 @@ require([
                     tableHTML += "<tr>";
 
                     // Region Name, Hospitalizations (Range), Projected Demand (Range)
-                    tableHTML += "<td>" + globals.jsonData[i][regionNameColumn] + "</td>";
-                    tableHTML += "<td>" + globals.jsonData[i]["Total Projected Demand (Range)"] + "</td>";
-                    tableHTML += "<td>" + globals.jsonData[i]["Total Hospitalizations (Range)"] + "</td>";
+                    tableHTML += "<td>" + csvData[i][regionNameColumn] + "</td>";
+                    tableHTML += "<td>" + csvData[i]["Total Projected Demand (Range)"] + "</td>";
+                    tableHTML += "<td>" + csvData[i]["Total Hospitalizations (Range)"] + "</td>";
 
                     tableHTML += "</tr>\n";
                 }
@@ -1039,13 +1037,10 @@ require([
             });
             $('#scenarios .scenario-content').off().on('click', function (event) {
                 $('#overlay').show();
-
                 selectedScenarioDirectory = event.currentTarget.dataset.scenarioDirectory;
                 globals.scenariosDirectory = selectedScenarioDirectory;
-                //  globals.newScenariosList = globals.scenariosDirectory;
-                // loadScenarioListForDropdown();
                 $("#scenariosDropdown").empty();
-                updateDropdownScenario();
+               
 
                 // Remove selection
                 $(".selected-scenario").each(function (i, item) {
@@ -1061,12 +1056,7 @@ require([
             });
         }
 
-        function updateDropdownScenario(selectedScenarioDirectory) {
-            globals.newScenariosList = selectedScenarioDirectory;
-        }
-
-
-        function updateDataForTimeline() {
+               function updateDataForTimeline() {
             // Condition to display selected region data.
             if (globals.selectedRegionNum != 0) {
                 var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
@@ -1102,7 +1092,7 @@ require([
                 renderSummaryDataChart();
             }
 
-            showCSVDataInTable();
+            showCSVDataInTable(globals.jsonData);
 
             // Hide popup if any on map.
             globals.map.infoWindow.hide();
@@ -1200,7 +1190,7 @@ require([
             } else {
                 renderSummaryDataChart();
             }
-            showCSVDataInTable();
+            showCSVDataInTable(globals.jsonData);
 
             // Hide popup if any on map.
             globals.map.infoWindow.hide();
@@ -1528,6 +1518,8 @@ function bindChartAndDataTab() {
         }
         $('#chartDataTableContainerRow').css('height', '100%');
         $('#chartdiv').parent().removeClass('invisibleHeight0');
+        $('#allToggleButton').parent().removeClass('d-none');
+        $('#chartMessage').show();
 
     });
 
@@ -1540,9 +1532,9 @@ function bindChartAndDataTab() {
             $('#mapContainerRow').addClass('invisibleHeight0');
             $('.projectionsRow').addClass('invisibleHeight0');
         }
-
         $('#dataTable').parent().removeClass('d-none');
         $('#chartDataTableContainerRow').css('height', '100%');
+         $('#chartMessage').hide();
         $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
     });
 
@@ -1555,6 +1547,11 @@ function bindChartAndDataTab() {
         $('#dataTable').parent().addClass('d-none');
         $('#mapContainerRow').removeClass('invisibleHeight0');
         $('.projectionsRow').removeClass('invisibleHeight0');
+        $('#allToggleButton').parent().addClass('d-none');
+        $('.chartContainer').removeClass('charContainerHeight');
+        $('#chartMessage').hide();
+        
+        
     });
 }
 
@@ -1633,10 +1630,13 @@ $('#allToggleButton').on('change', function (e) {
         $(".scenarioDropdown").hide();
         $("#scenariosDropdown").empty();
         loadScenarioListForDropdown();
-        varscenariosDirectory = globals.scenariosDirectory;
-        var summaryFile = selectedScenarioDirectory + "/nssac_ncov_ro-summary.csv";
+        var scenariosDirectory = globals.scenariosDirectory;
+        var summaryFile = scenariosDirectory + "/nssac_ncov_ro-summary.csv";
         globals.timelineJsonData = getJSONData(summaryFile);
         renderSummaryDataChart();
+        var renderFile = scenariosDirectory + "/nssac_ncov_ro_" + globals.selectedDate + ".csv";
+        var scenarioJsonData = getJSONData(renderFile);
+        showCSVDataInTable(scenarioJsonData);
     } else {
         $(".scenarioDropdown").show();
     }
@@ -1646,17 +1646,18 @@ function loadScenarioListForDropdown() {
     var addAllOPtions = new Option("All", "value");
     $(addAllOPtions).html("All");
     $("#scenariosDropdown").append(addAllOPtions);
-    globals.newScenariosList = globals.scenarios;
-    globals.newScenariosList = globals.scenarios.filter(function (item) {
+    var newScenariosList = globals.scenarios;
+    var newScenariosList = globals.scenarios.filter(function (item) {
         return item.directory !== globals.scenariosDirectory
     })
 
-    $.each(globals.newScenariosList, function () {
-        globals.dropdownScenarios = this.scenario_display_name_line2;
-        globals.dropdownScenariosName = this.scenario_display_name_line1
-        globals.scenariosDirectory1 = this.directory;
-        var div_data = "<option value=" + globals.scenariosDirectory1 + ">" + globals.dropdownScenariosName + " " + "[" + globals.dropdownScenarios + "]" + "</option>";
+    $.each(newScenariosList, function () {
+    var dropdownScenarios = this.scenario_display_name_line2;
+    var dropdownScenariosName = this.scenario_display_name_line1
+    var scenariosDirectory1 = this.directory;
+    var div_data = "<option value=" + scenariosDirectory1 + ">" +dropdownScenariosName + " " + "[" + dropdownScenarios + "]" + "</option>";
         $(div_data).appendTo('#scenariosDropdown');
     });
 
 }
+

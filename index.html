@@ -486,7 +486,6 @@
 
             <div class="col-lg-6 col-xl-5 col-sm-12 col-12 dataContainer" id="chartDataTableContainerRow">
                 <div class="row tabMenu">
-
                     <div class="col-12 d-flex align-items-center">
                         <div class="map d-flex col-lg-6 col-md-6 col-sm-4 d-xl-none d-lg-none pt-2 pb-1 justify-content-center dataChartFilter selectedFilter"
                             style="border-bottom: 2px solid rgb(255,140,0);">Map</div>
@@ -503,29 +502,43 @@
                             data-toggle="toggle" data-off="All" data-on="Selected" data-onstyle="success"
                             data-offstyle="danger" />
                     </div>
-                    
+
                     <div class="scenarioDropdown"
                         style="display:none; height: 40px; margin-top: 10px; margin-left: 25px;">
                         <select name="dropdown" id="scenariosDropdown" class="topKSelect">
-
                         </select>
                     </div>
                 </div>
 
-                <div class="row d-none dataTableContainer">
-                    <div id="dataTable" class="col-12 h-100"></div>
+                <div class="row d-none dataTableContainer dataTableContainerHeight">
+                    <div id="dataTable" class="col-12 "></div>
                 </div>
 
-                <div class="row chartContainer">
+                <!-- <div class="row chartContainer">
                     <div id="chartdiv" class="col-12 pl-0 pr-0 h-100"></div>
                     <div class="foot-note-chart">Weekly Hospitalizations and Percentage of Occupied Beds are projected
                         values provided to convey relative trends for comparative purposes only, and should not be taken
                         as actual values. They are subject to change as more information
                         about COVID-19 becomes available.</div>
+                </div> -->
+                <div class="row chartContainer charContainerHeight">
+                    <div id="chartdiv" class="col-12 pl-0 pr-0 "></div>
+
                 </div>
 
+            
+                <div class="foot-note-chart" id="chartMessage">Weekly Hospitalizations and Percentage of Occupied Beds
+                    are projected
+                    values provided to convey relative trends for comparative purposes only, and should not be taken
+                    as actual values. They are subject to change as more information
+                    about COVID-19 becomes available.</div>
             </div>
+
+
+
+
         </div>
+    </div>
 
     </div>
 
@@ -626,8 +639,5 @@
             </div>
         </div>
     </div>
-
-
 </body>
-
 </html>
