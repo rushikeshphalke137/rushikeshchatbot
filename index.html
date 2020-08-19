@@ -372,73 +372,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="d-lg-none d-flex justify-content-start mr-2 toolbarProjectionsMobile" role="toolbar"
-                aria-label="Toolbar with button groups">
-                <div id="renderField" class="btn-group ml-auto d-flex resetOptions" role="group"
-                  aria-label="First group">
-                  <button type="button" value="Projected Demand (%)"
-                    class="btn btn-primary confirmBtn renderField pr-2 mr-2" title="Projected Resource Demand (%)">
-                    <span class="fa fa-bed pr-2" aria-hidden="true"></span>
-                  </button>
 
-                  <button type="button" value="Hospitalizations (Median)"
-                    class="btn btn-danger activeBtn disabled renderField" title="Weekly Hospitalizations">
-                    <span class="fa fa-users pr-2" aria-hidden="true"></span>
-                  </button>
-
-                </div>
-              </div>
-
-              <div class="d-lg-flex d-none timeline-heading-section resetOptions"
-                style="align-items: center;background-color: transparent;padding-left: 0px;">
-                <div class="d-none d-lg-flex scenario-heading">
-                  <span>Projections</span>
-                  <i class="d-flex justify-content-center align-items-center fa fa-info-circle pl-1"
-                    style="cursor: pointer; padding-top: 3px;" data-toggle="popover" data-html="true"
-                    data-trigger="hover focus" data-placement="bottom" data-title="What are Projections?" data-content="Our projections depend on output from our model simulations (Scenarios.) 
-                  Weekly Hospitalizations represent general trends compared across different models, but should not be interpreted as hard forecasts because 
-                  conditions will change as disease parameters are refined and new interventions emerge. 
-                  The Percentage of Occupied Beds is calculated from projected weekly hospitalizations, the number of hospital beds in the selected regions (assuming that 80% of total occupancy is taken up by non-COVID-19 patients),
-                   and the duration of the typical hospital stay." data-original-title="" title=""></i>
-                </div>
-                <div class="d-none d-lg-flex arrow-right mr-2"></div>
-              </div>
-
-
-              <div class="d-lg-flex d-none justify-content-start mr-2 toolbarProjections" role="toolbar"
-                aria-label="Toolbar with button groups">
-                <div id="renderField" class="btn-group ml-auto d-flex resetOptions" role="group"
-                  aria-label="First group" style="left: 17%;">
-                  <button type="button" value="Projected Demand (%)"
-                    class="btn btn-primary confirmBtn renderField pr-1 mr-1" title="Projected Resource Demand (%)">
-                    <span class="fa fa-bed pr-1" aria-hidden="true"></span>Percentage of Occupied Beds
-                  </button>
-
-                  <button type="button" value="Hospitalizations (Median)"
-                    class="btn btn-danger activeBtn disabled renderField" title="Weekly Hospitalizations">
-                    <span class="fa fa-users pr-2" aria-hidden="true"></span>Weekly Hospitalizations
-                  </button>
-
-                </div>
-              </div>
-
-              <div class="d-flex justify-content-end" role="toolbar" aria-label="Toolbar with button groups">
-                <div class="btn-group ml-auto d-flex resetOptions" role="group" aria-label="First group">
-                  <button type="button" value="2"
-                    class="btn btn-secondary getQueryResultsBtn d-none align-items-center mr-1"
-                    title="Back to Query Results" style="color: white !important;">
-                    <i class="fa fa-long-arrow-left pr-lg-1" style="font-size: 1.5em;"></i>
-                    <span class="d-lg-flex d-none">Back to Query</span>
-                  </button>
-
-                  <button type="button" value="2" class="btn btn-secondary resetBtn d-flex align-items-center"
-                    title="Reset" style="color: white !important;">
-                    <i class="fa fa-undo pr-lg-2" style="font-size: 1.2em;"></i>
-                    <span class="d-lg-flex d-none">Reset</span>
-                  </button>
-
-                </div>
-              </div> -->
                         </div>
 
                         <div id="displayOptionWrapper">
@@ -485,57 +419,54 @@
             </div>
 
             <div class="col-lg-6 col-xl-5 col-sm-12 col-12 dataContainer" id="chartDataTableContainerRow">
-                <div class="row tabMenu">
-                    <div class="col-12 d-flex align-items-center">
-                        <div class="map d-flex col-lg-6 col-md-6 col-sm-4 d-xl-none d-lg-none pt-2 pb-1 justify-content-center dataChartFilter selectedFilter"
-                            style="border-bottom: 2px solid rgb(255,140,0);">Map</div>
-                        <div class="charts col-lg-6 col-md-6 col-sm-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter"
-                            style="border-bottom: 2px solid rgb(255,140,0);">Chart</div>
-                        <div class="data col-lg-6 col-md-6 col-sm-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter"
-                            style="border-bottom: 2px solid rgb(255,140,0);">Data</div>
+                <div class="h-100">
+                    <div class="row tabMenu">
+                        <div class="col-12 d-flex align-items-center">
+                            <div class="map d-flex col-lg-6 col-md-6 col-sm-4 d-xl-none d-lg-none pt-2 pb-1 justify-content-center dataChartFilter selectedFilter"
+                                style="border-bottom: 2px solid rgb(255,140,0);">Map</div>
+                            <div class="charts col-lg-6 col-md-6 col-sm-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter"
+                                style="border-bottom: 2px solid rgb(255,140,0);">Chart</div>
+                            <div class="data col-lg-6 col-md-6 col-sm-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter"
+                                style="border-bottom: 2px solid rgb(255,140,0);">Data</div>
+                        </div>
+
                     </div>
+                    <div class="h-100">
+                        <div class="col-12 d-flex align-items-centers">
+                            <div class="mt-2">
+                                <input style="height: 40px;" id="allToggleButton" type="checkbox" checked
+                                    data-toggle="toggle" data-off="All" data-on="Selected" data-onstyle="success"
+                                    data-offstyle="danger" />
+                            </div>
 
-                </div>
-                <div class="col-12 d-flex align-items-centers">
-                    <div class="mt-2">
-                        <input style="height: 40px;width:600px;" id="allToggleButton" type="checkbox" checked
-                            data-toggle="toggle" data-off="All" data-on="Selected" data-onstyle="success"
-                            data-offstyle="danger" />
+                            <div class="scenarioDropdown"
+                                style="display:none; height: 40px; margin-top: 10px; margin-left: 25px;">
+                                <select name="dropdown" id="scenariosDropdown" class="topKSelect">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row d-none dataTableContainer h-75">
+                            <div id="dataTable" class="col-12 h-100"></div>
+                        </div>
+                        <div class="h-100 charContainerHeight">
+                            <div class="row chartContainer h-75">
+                                <div id="chartdiv" class="col-12 pl-0 pr-0"></div>
+                            </div>
+                            <div class="foot-note-chart h-25" id="chartMessage">Weekly Hospitalizations and Percentage
+                                of Occupied Beds
+                                are projected
+                                values provided to convey relative trends for comparative purposes only, and should not
+                                be taken
+                                as actual values. They are subject to change as more information
+                                about COVID-19 becomes available.</div>
+
+                        </div>
+
                     </div>
-
-                    <div class="scenarioDropdown"
-                        style="display:none; height: 40px; margin-top: 10px; margin-left: 25px;">
-                        <select name="dropdown" id="scenariosDropdown" class="topKSelect">
-                        </select>
-                    </div>
                 </div>
 
-                <div class="row d-none dataTableContainer dataTableContainerHeight">
-                    <div id="dataTable" class="col-12 "></div>
-                </div>
-
-                <!-- <div class="row chartContainer">
-                    <div id="chartdiv" class="col-12 pl-0 pr-0 h-100"></div>
-                    <div class="foot-note-chart">Weekly Hospitalizations and Percentage of Occupied Beds are projected
-                        values provided to convey relative trends for comparative purposes only, and should not be taken
-                        as actual values. They are subject to change as more information
-                        about COVID-19 becomes available.</div>
-                </div> -->
-                <div class="row chartContainer charContainerHeight">
-                    <div id="chartdiv" class="col-12 pl-0 pr-0 "></div>
-
-                </div>
-
-            
-                <div class="foot-note-chart" id="chartMessage">Weekly Hospitalizations and Percentage of Occupied Beds
-                    are projected
-                    values provided to convey relative trends for comparative purposes only, and should not be taken
-                    as actual values. They are subject to change as more information
-                    about COVID-19 becomes available.</div>
             </div>
-
-
-
 
         </div>
     </div>
@@ -640,4 +571,5 @@
         </div>
     </div>
 </body>
+
 </html>

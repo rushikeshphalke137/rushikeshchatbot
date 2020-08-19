@@ -339,7 +339,7 @@ require([
         }
         $("#scenariosDropdown").change(function () {
             var selectedScenarioDirectory = $(this).children("option:selected").val();
-           // globals.scenariosDirectory = selectedScenarioDirectory;
+            // globals.scenariosDirectory = selectedScenarioDirectory;
             var summaryFile = selectedScenarioDirectory + "/nssac_ncov_ro-summary.csv";
             globals.timelineJsonData = getJSONData(summaryFile);
             renderSummaryDataChart();
@@ -1040,7 +1040,7 @@ require([
                 selectedScenarioDirectory = event.currentTarget.dataset.scenarioDirectory;
                 globals.scenariosDirectory = selectedScenarioDirectory;
                 $("#scenariosDropdown").empty();
-               
+
 
                 // Remove selection
                 $(".selected-scenario").each(function (i, item) {
@@ -1056,7 +1056,7 @@ require([
             });
         }
 
-               function updateDataForTimeline() {
+        function updateDataForTimeline() {
             // Condition to display selected region data.
             if (globals.selectedRegionNum != 0) {
                 var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
@@ -1512,15 +1512,16 @@ function bindChartAndDataTab() {
         $('.charts').addClass('selectedFilter');
         $('#dataTable').parent().addClass('d-none');
         if (globals.mobileDevice() || (isTablet && !isLandscape)) {
+            $('.charContainerHeight').show();
             $('.map').removeClass('selectedFilter');
             $('#mapContainerRow').addClass('invisibleHeight0');
             $('.projectionsRow').addClass('invisibleHeight0');
+            renderSummaryDataChart();
         }
         $('#chartDataTableContainerRow').css('height', '100%');
         $('#chartdiv').parent().removeClass('invisibleHeight0');
         $('#allToggleButton').parent().removeClass('d-none');
-        $('#chartMessage').show();
-
+        $('#scenariosDropdown').parent().removeClass('d-none');
     });
 
     $('.data').on('click', function (e) {
@@ -1528,13 +1529,15 @@ function bindChartAndDataTab() {
         $('.data').addClass('selectedFilter');
         $('#chartdiv').parent().addClass('invisibleHeight0');
         if (globals.mobileDevice() || (isTablet && !isLandscape)) {
+            $('.charContainerHeight').hide();
             $('.map').removeClass('selectedFilter');
             $('#mapContainerRow').addClass('invisibleHeight0');
             $('.projectionsRow').addClass('invisibleHeight0');
         }
         $('#dataTable').parent().removeClass('d-none');
+        $('#allToggleButton').parent().addClass('d-none');
+        $('#scenariosDropdown').parent().addClass('d-none');
         $('#chartDataTableContainerRow').css('height', '100%');
-         $('#chartMessage').hide();
         $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
     });
 
@@ -1547,11 +1550,12 @@ function bindChartAndDataTab() {
         $('#dataTable').parent().addClass('d-none');
         $('#mapContainerRow').removeClass('invisibleHeight0');
         $('.projectionsRow').removeClass('invisibleHeight0');
-        $('#allToggleButton').parent().addClass('d-none');
-        $('.chartContainer').removeClass('charContainerHeight');
-        $('#chartMessage').hide();
-        
-        
+
+        if (globals.mobileDevice() || (isTablet && !isLandscape)) {
+            $('.charContainerHeight').hide();
+            $('#allToggleButton').parent().addClass('d-none');
+            $('#scenariosDropdown').parent().addClass('d-none');
+        }
     });
 }
 
@@ -1652,10 +1656,10 @@ function loadScenarioListForDropdown() {
     })
 
     $.each(newScenariosList, function () {
-    var dropdownScenarios = this.scenario_display_name_line2;
-    var dropdownScenariosName = this.scenario_display_name_line1
-    var scenariosDirectory1 = this.directory;
-    var div_data = "<option value=" + scenariosDirectory1 + ">" +dropdownScenariosName + " " + "[" + dropdownScenarios + "]" + "</option>";
+        var dropdownScenarios = this.scenario_display_name_line2;
+        var dropdownScenariosName = this.scenario_display_name_line1
+        var scenariosDirectory1 = this.directory;
+        var div_data = "<option value=" + scenariosDirectory1 + ">" + dropdownScenariosName + " " + "[" + dropdownScenarios + "]" + "</option>";
         $(div_data).appendTo('#scenariosDropdown');
     });
 
