@@ -398,6 +398,9 @@ function mergeDataAcrossScenarios() {
             currentData = getJSONData(datafile);
         }
 
+        if (globals.isDurationSliderApplied)
+            currentData = applyDurationSliderOnScenarioData(globals.scenarios[i].directory, currentData);
+
         if (globals.isCapacitySliderApplied)
             currentData = applyCapacitySliderOnScenarioData(currentData);
 
