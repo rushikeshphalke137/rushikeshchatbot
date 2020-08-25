@@ -31,10 +31,10 @@
             "HRRCITY",
             "DHS_Beds",
             "Total_Pop"
-        ]
+        ],
+        "defaultDuration": 7
     },
-    "scenarios": [
-        {
+    "scenarios": [{
             "scenario_display_name_line1": "BestFit",
             "scenario_display_name_line2": "Duration: 7 Days",
             "position": 0,

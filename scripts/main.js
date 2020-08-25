@@ -221,11 +221,7 @@ require([
                     renderSummaryDataChart();
                 }
             } else {
-                var selection = $("#scenariosDropdown").children("option:selected").val();
-                if (selection == "wh")
-                    renderAllScenariosWH();
-                else
-                    renderAllScenariosPOB();
+                renderAllScenarios();
             }
 
             // Select default option as Charts
@@ -346,11 +342,7 @@ require([
         }
 
         $("#scenariosDropdown").change(function() {
-            var selection = $("#scenariosDropdown").children("option:selected").val();
-            if (selection == "wh")
-                renderAllScenariosWH();
-            else
-                renderAllScenariosPOB();
+            renderAllScenarios();
         });
 
         function readDataFromCSVFile(file) {
@@ -697,11 +689,7 @@ require([
                     if ($('#allToggleButton')[0].checked) {
                         renderQueriedRegionsChart();
                     } else {
-                        var selection = $("#scenariosDropdown").children("option:selected").val();
-                        if (selection == "wh")
-                            renderAllScenariosWH();
-                        else
-                            renderAllScenariosPOB();
+                        renderAllScenarios();
                     }
                     showCSVDataInTable(globals.jsonData);
 
@@ -751,12 +739,9 @@ require([
                     if ($('#allToggleButton')[0].checked) {
                         renderSelectedRegionsChart(globals.selectedRegionNum, globals.selectedRegionName);
                     } else {
-                        var selection = $("#scenariosDropdown").children("option:selected").val();
-                        if (selection == "wh")
-                            renderAllScenariosWH();
-                        else
-                            renderAllScenariosPOB();
+                        renderAllScenarios();
                     }
+
                     showCSVDataInTable(globals.jsonData);
                     var extent = esri.graphicsExtent(fset.features);
                     globals.map.setExtent(extent, true);
@@ -1111,11 +1096,7 @@ require([
                     renderSummaryDataChart();
                 }
             } else {
-                var selection = $("#scenariosDropdown").children("option:selected").val();
-                if (selection == "wh")
-                    renderAllScenariosWH();
-                else
-                    renderAllScenariosPOB();
+                renderAllScenarios();
             }
 
             showCSVDataInTable(globals.jsonData);
@@ -1192,11 +1173,7 @@ require([
                     renderSummaryDataChart();
                 }
             } else {
-                var selection = $("#scenariosDropdown").children("option:selected").val();
-                if (selection == "wh")
-                    renderAllScenariosWH();
-                else
-                    renderAllScenariosPOB();
+                renderAllScenarios();
             }
 
             showCSVDataInTable(globals.jsonData);
@@ -1568,7 +1545,7 @@ function querySearchAutocomplete() {
         var regionData = globals.regionData;
         for (var i = 0; i < globals.regionData.length; i++) {
             var HRRCITY = 'HRRCITY'
-            if (regionData.hasOwnProperty(HRRCITY)) {
+            if (regionData[i].hasOwnProperty(HRRCITY)) {
                 arrayOfTotalRegions.push(globals.regionData[i]["HRRCITY"]);
             } else {
                 arrayOfTotalRegions.push(globals.regionData[i]["#VHASS_Region"]);
@@ -1748,9 +1725,15 @@ function loadRegionData() {
 $('#allToggleButton').on('change', function(e) {
     if (this.checked) {
         $(".scenarioDropdown").hide();
-        renderSummaryDataChart();
+        if (globals.selectedRegionNum != 0) {
+            renderSelectedRegionsChart(globals.selectedRegionNum, globals.selectedRegionName);
+        } else if (globals.queriedRegionNames.length != 0) {
+            renderQueriedRegionsChart();
+        } else {
+            renderSummaryDataChart();
+        }
     } else {
         $(".scenarioDropdown").show();
-        renderAllScenariosPOB();
+        renderAllScenarios();
     }
 });

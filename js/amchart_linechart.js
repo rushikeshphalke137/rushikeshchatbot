@@ -344,7 +344,11 @@ function mergeDataAcrossRegions(scenarioDirectory) {
     return mergedData;
 }
 
-function mergeDailyDataAcrossRegions() {
+function mergeDailyDataAcrossRegions(scenariosDirectory) {
+
+    if (scenariosDirectory == undefined)
+        scenariosDirectory = globals.scenariosDirectory;
+
     var mergedData = [];
 
     for (i = 0; i < globals.queriedRegionNumbers.length; i++) {
@@ -353,7 +357,7 @@ function mergeDailyDataAcrossRegions() {
         // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
         if (regionName.indexOf(' ') >= 0)
             regionName = regionName.split(" ").join("_");
-        var datafile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + "-daily.csv";
+        var datafile = scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + "-daily.csv";
 
         $.ajax({
             url: datafile,
@@ -433,6 +437,14 @@ function mergeDataAcrossScenarios() {
     return mergedData;
 }
 
+function renderAllScenarios() {
+    var selection = $("#scenariosDropdown").children("option:selected").val();
+    if (selection == "wh")
+        renderAllScenariosWH();
+    else
+        renderAllScenariosPOB();
+}
+
 function renderAllScenariosPOB() {
     // Dispose all Charts and clear Browser memory/cache
     am4core.disposeAllCharts();
@@ -445,7 +457,7 @@ function renderAllScenariosPOB() {
     chart.hiddenState.properties.opacity = 0;
 
     let title = chart.titles.create();
-    title.text = "All Scenarios";
+    title.text = "Demand Forecast for All Scenarios";
     title.stroke = am4core.color("#fff");
     title.fill = am4core.color("#fff");
     title.fontSize = 16;
@@ -519,56 +531,68 @@ function renderAllScenariosPOB() {
 
     var colors = ["#bd1e2e", "#5e3aba", "#7de067", "#c2305a", "#167d1a", "#c6d42c", "#80cbd9", "#b60fdb", "#9c2187", "#bd1e2e", "#5e3aba", "#fc4505", "#167d1b", "#c6d42d", "#7de065", "#80cbd7", "#b60fdd", "#c2305b", "#9c2178"];
 
-    var series = [];
+    globals.series = [];
+    globals.uncertainitySeries = [];
     var bullet = [];
-    var uncertainitySeries = [];
 
     for (var i = 0; i < globals.scenarios.length; i++) {
 
-        series[i] = chart.series.push(new am4charts.LineSeries());
-
-        series[i].dataFields.valueY = "Total Projected Demand (%)-" + i;
-        series[i].dataFields.categoryX = "date";
-
-        series[i].yAxis = demandValueAxis;
-
         // Create Uncertainity Bound Series
-        uncertainitySeries[i] = chart.series.push(new am4charts.LineSeries());
+        globals.uncertainitySeries[i] = chart.series.push(new am4charts.LineSeries());
 
-        uncertainitySeries[i].dataFields.categoryX = "date";
-        uncertainitySeries[i].dataFields.openValueY = "Lower Projected Demand Bound-" + i;
-        uncertainitySeries[i].dataFields.valueY = "Upper Projected Demand Bound-" + i;
-        uncertainitySeries[i].yAxis = demandValueAxis;
+        globals.uncertainitySeries[i].dataFields.categoryX = "date";
+        globals.uncertainitySeries[i].dataFields.openValueY = "Lower Projected Demand Bound-" + i;
+        globals.uncertainitySeries[i].dataFields.valueY = "Upper Projected Demand Bound-" + i;
+        globals.uncertainitySeries[i].yAxis = demandValueAxis;
 
-        uncertainitySeries[i].stroke = am4core.color(colors[i]);
-        uncertainitySeries[i].fill = am4core.color(colors[i]);
-        uncertainitySeries[i].hiddenInLegend = true;
+        globals.uncertainitySeries[i].stroke = am4core.color(colors[i]);
+        globals.uncertainitySeries[i].fill = am4core.color(colors[i]);
+        globals.uncertainitySeries[i].hiddenInLegend = true;
 
-        uncertainitySeries[i].fillOpacity = 0.4;
-        uncertainitySeries[i].sequencedInterpolation = true;
-        uncertainitySeries[i].defaultState.transitionDuration = 1000;
+        globals.uncertainitySeries[i].fillOpacity = 0.4;
+        globals.uncertainitySeries[i].sequencedInterpolation = true;
+        globals.uncertainitySeries[i].defaultState.transitionDuration = 1000;
 
-        series[i].stroke = am4core.color(colors[i]);
-        series[i].strokeWidth = 2;
-        series[i].tensionX = 0.8;
-        series[i].sequencedInterpolation = true;
-        series[i].defaultState.transitionDuration = 1000;
+        globals.series[i] = chart.series.push(new am4charts.LineSeries());
 
-        series[i].name = globals.scenarios[i].scenario_display_name_line1;
-        series[i].tooltipText = "{name}: [bold]{valueY}[/]";
-        series[i].tooltip.getFillFromObject = false;
-        series[i].tooltip.background.fill = am4core.color(colors[i]);
+        globals.series[i].dataFields.valueY = "Total Projected Demand (%)-" + i;
+        globals.series[i].dataFields.categoryX = "date";
 
-        series[i].showOnInit = true;
+        globals.series[i].yAxis = demandValueAxis;
+
+        globals.series[i].stroke = am4core.color(colors[i]);
+        globals.series[i].strokeWidth = 2;
+        globals.series[i].tensionX = 0.8;
+        globals.series[i].sequencedInterpolation = true;
+        globals.series[i].defaultState.transitionDuration = 1000;
+
+        globals.series[i].name = globals.scenarios[i].scenario_display_name_line1;
+        globals.series[i].tooltipText = "{name}: [bold]{valueY}[/]";
+        globals.series[i].tooltip.getFillFromObject = false;
+        globals.series[i].tooltip.background.fill = am4core.color(colors[i]);
+
+        globals.series[i].showOnInit = true;
 
         // Create data points
-        bullet[i] = series[i].bullets.push(new am4charts.CircleBullet());
+        bullet[i] = globals.series[i].bullets.push(new am4charts.CircleBullet());
         bullet[i].width = 5;
         bullet[i].height = 5;
 
         bullet[i].circle.fill = am4core.color(colors[i]);
         bullet[i].circle.stroke = am4core.color(colors[i]);
         bullet[i].circle.strokeWidth = 2;
+
+        // Hiding Uncertainity bounds when hiding the actual series
+        globals.series[i].events.on("hidden", function(event) {
+            if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
+                globals.uncertainitySeries[globals.series.indexOf(event.target)].hide();
+        });
+
+        // Displaying Uncertainity bounds when displaying the actual series
+        globals.series[i].events.on("shown", function(event) {
+            if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
+                globals.uncertainitySeries[globals.series.indexOf(event.target)].show();
+        });
     }
 
     // Add legend
@@ -591,7 +615,7 @@ function renderAllScenariosWH() {
     chart.hiddenState.properties.opacity = 0;
 
     let title = chart.titles.create();
-    title.text = "All Scenarios";
+    title.text = "Demand Forecast for All Scenarios";
     title.stroke = am4core.color("#fff");
     title.fill = am4core.color("#fff");
     title.fontSize = 16;
@@ -628,56 +652,68 @@ function renderAllScenariosWH() {
 
     var colors = ["#bd1e2e", "#5e3aba", "#7de067", "#c2305a", "#167d1a", "#c6d42c", "#80cbd9", "#b60fdb", "#9c2187", "#bd1e2e", "#5e3aba", "#fc4505", "#167d1b", "#c6d42d", "#7de065", "#80cbd7", "#b60fdd", "#c2305b", "#9c2178"];
 
-    var series = [];
+    globals.series = [];
+    globals.uncertainitySeries = [];
     var bullet = [];
-    var uncertainitySeries = [];
 
     for (var i = 0; i < globals.scenarios.length; i++) {
 
-        series[i] = chart.series.push(new am4charts.LineSeries());
-
-        series[i].dataFields.valueY = "Total Hospitalizations (Median)-" + i;
-        series[i].dataFields.categoryX = "date";
-
-        series[i].yAxis = demandValueAxis;
-
         // Create Uncertainity Bound Series
-        uncertainitySeries[i] = chart.series.push(new am4charts.LineSeries());
+        globals.uncertainitySeries[i] = chart.series.push(new am4charts.LineSeries());
 
-        uncertainitySeries[i].dataFields.categoryX = "date";
-        uncertainitySeries[i].dataFields.openValueY = "Lower Hospitalization Bound-" + i;
-        uncertainitySeries[i].dataFields.valueY = "Upper Hospitalization Bound-" + i;
-        uncertainitySeries[i].yAxis = demandValueAxis;
+        globals.uncertainitySeries[i].dataFields.categoryX = "date";
+        globals.uncertainitySeries[i].dataFields.openValueY = "Lower Hospitalization Bound-" + i;
+        globals.uncertainitySeries[i].dataFields.valueY = "Upper Hospitalization Bound-" + i;
+        globals.uncertainitySeries[i].yAxis = demandValueAxis;
 
-        uncertainitySeries[i].stroke = am4core.color(colors[i]);
-        uncertainitySeries[i].fill = am4core.color(colors[i]);
-        uncertainitySeries[i].hiddenInLegend = true;
+        globals.uncertainitySeries[i].stroke = am4core.color(colors[i]);
+        globals.uncertainitySeries[i].fill = am4core.color(colors[i]);
+        globals.uncertainitySeries[i].hiddenInLegend = true;
 
-        uncertainitySeries[i].fillOpacity = 0.4;
-        uncertainitySeries[i].sequencedInterpolation = true;
-        uncertainitySeries[i].defaultState.transitionDuration = 1000;
+        globals.uncertainitySeries[i].fillOpacity = 0.4;
+        globals.uncertainitySeries[i].sequencedInterpolation = true;
+        globals.uncertainitySeries[i].defaultState.transitionDuration = 1000;
 
-        series[i].stroke = am4core.color(colors[i]);
-        series[i].strokeWidth = 2;
-        series[i].tensionX = 0.8;
-        series[i].sequencedInterpolation = true;
-        series[i].defaultState.transitionDuration = 1000;
+        globals.series[i] = chart.series.push(new am4charts.LineSeries());
 
-        series[i].name = globals.scenarios[i].scenario_display_name_line1;
-        series[i].tooltipText = "{name}: [bold]{valueY}[/]";
-        series[i].tooltip.getFillFromObject = false;
-        series[i].tooltip.background.fill = am4core.color(colors[i]);
+        globals.series[i].dataFields.valueY = "Total Hospitalizations (Median)-" + i;
+        globals.series[i].dataFields.categoryX = "date";
 
-        series[i].showOnInit = true;
+        globals.series[i].yAxis = demandValueAxis;
+
+        globals.series[i].stroke = am4core.color(colors[i]);
+        globals.series[i].strokeWidth = 2;
+        globals.series[i].tensionX = 0.8;
+        globals.series[i].sequencedInterpolation = true;
+        globals.series[i].defaultState.transitionDuration = 1000;
+
+        globals.series[i].name = globals.scenarios[i].scenario_display_name_line1;
+        globals.series[i].tooltipText = "{name}: [bold]{valueY}[/]";
+        globals.series[i].tooltip.getFillFromObject = false;
+        globals.series[i].tooltip.background.fill = am4core.color(colors[i]);
+
+        globals.series[i].showOnInit = true;
 
         // Create data points
-        bullet[i] = series[i].bullets.push(new am4charts.CircleBullet());
+        bullet[i] = globals.series[i].bullets.push(new am4charts.CircleBullet());
         bullet[i].width = 5;
         bullet[i].height = 5;
 
         bullet[i].circle.fill = am4core.color(colors[i]);
         bullet[i].circle.stroke = am4core.color(colors[i]);
         bullet[i].circle.strokeWidth = 2;
+
+        // Hiding Uncertainity bounds when hiding the actual series
+        globals.series[i].events.on("hidden", function(event) {
+            if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
+                globals.uncertainitySeries[globals.series.indexOf(event.target)].hide();
+        });
+
+        // Displaying Uncertainity bounds when displaying the actual series
+        globals.series[i].events.on("shown", function(event) {
+            if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
+                globals.uncertainitySeries[globals.series.indexOf(event.target)].show();
+        });
     }
 
     // Add legend
