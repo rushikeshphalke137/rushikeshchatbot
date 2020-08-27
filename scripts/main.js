@@ -1609,7 +1609,18 @@ function bindChartAndDataTab() {
             $('.map').removeClass('selectedFilter');
             $('#mapContainerRow').addClass('invisibleHeight0');
             $('.projectionsRow').addClass('invisibleHeight0');
-            renderSummaryDataChart();
+
+            if ($('#allToggleButton')[0].checked) {
+                if (globals.selectedRegionNum != 0) {
+                    renderSelectedRegionsChart(globals.selectedRegionNum, globals.selectedRegionName);
+                } else if (globals.queriedRegionNames.length != 0) {
+                    renderQueriedRegionsChart();
+                } else {
+                    renderSummaryDataChart();
+                }
+            } else {
+                renderAllScenarios();
+            }
         }
         $('#chartDataTableContainerRow').css('height', '100%');
         $('#chartdiv').parent().removeClass('invisibleHeight0');
