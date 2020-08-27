@@ -1384,23 +1384,30 @@ div#socialSharing a span#linkedin:hover {
     background: rgb(255, 140, 0) !important;
 }
 
+.noUi-base {
+    width: 95% !important;
+}
+
 .sliderRow .arrow-right {
     width: 3%;
 }
 
-.sliderRow #slider-range {
+
+/* .sliderRow #slider-range {
     color: white;
     width: 52%;
-}
+} */
 
-.sliderRow #duration-slider {
+#slider-range,
+#duration-slider {
     color: white;
-    width: 48%;
+    width: calc(100% - 270px);
 }
 
-.applyBtn {
+
+/* .applyBtn {
     width: 15%;
-}
+} */
 
 .getQueryResultsBtn {
     white-space: nowrap;
