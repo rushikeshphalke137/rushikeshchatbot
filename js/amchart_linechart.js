@@ -390,20 +390,20 @@ function mergeDailyDataAcrossRegions(scenariosDirectory) {
 function mergeDataAcrossScenarios() {
     var mergedData = [];
 
-    for (i = 0; i < globals.scenarios.length; i++) {
+    for (index = 0; index < globals.scenarios.length; index++) {
         var currentData = {};
         if (globals.selectedRegionNum != 0) {
-            datafile = globals.scenarios[i].directory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
+            var datafile = globals.scenarios[index].directory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
             currentData = getJSONData(datafile);
         } else if (globals.queriedRegionNames.length != 0) {
-            currentData = mergeDataAcrossRegions(globals.scenarios[i].directory);
+            currentData = mergeDataAcrossRegions(globals.scenarios[index].directory);
         } else {
-            var datafile = globals.scenarios[i].directory + "/nssac_ncov_ro-summary.csv";
+            var datafile = globals.scenarios[index].directory + "/nssac_ncov_ro-summary.csv";
             currentData = getJSONData(datafile);
         }
 
         if (globals.isDurationSliderApplied)
-            currentData = applyDurationSliderOnScenarioData(globals.scenarios[i].directory, currentData);
+            currentData = applyDurationSliderOnScenarioData(globals.scenarios[index].directory, currentData);
 
         if (globals.isCapacitySliderApplied)
             currentData = applyCapacitySliderOnScenarioData(currentData);
@@ -412,23 +412,23 @@ function mergeDataAcrossScenarios() {
             for (loop = 0; loop < mergedData.length; loop++) {
                 var filteredData = currentData[loop];
 
-                mergedData[loop]["Total Projected Demand (%)-" + i] = Number(filteredData["Total Projected Demand (%)"]);
-                mergedData[loop]["Total Hospitalizations (Median)-" + i] = Number(filteredData["Total Hospitalizations (Median)"]);
-                mergedData[loop]["Lower Projected Demand Bound-" + i] = Number(filteredData["Lower Projected Demand Bound"]);
-                mergedData[loop]["Upper Projected Demand Bound-" + i] = Number(filteredData["Upper Projected Demand Bound"]);
-                mergedData[loop]["Lower Hospitalization Bound-" + i] = Number(filteredData["Lower Hospitalization Bound"]);
-                mergedData[loop]["Upper Hospitalization Bound-" + i] = Number(filteredData["Upper Hospitalization Bound"]);
+                mergedData[loop]["Total Projected Demand (%)-" + index] = Number(filteredData["Total Projected Demand (%)"]);
+                mergedData[loop]["Total Hospitalizations (Median)-" + index] = Number(filteredData["Total Hospitalizations (Median)"]);
+                mergedData[loop]["Lower Projected Demand Bound-" + index] = Number(filteredData["Lower Projected Demand Bound"]);
+                mergedData[loop]["Upper Projected Demand Bound-" + index] = Number(filteredData["Upper Projected Demand Bound"]);
+                mergedData[loop]["Lower Hospitalization Bound-" + index] = Number(filteredData["Lower Hospitalization Bound"]);
+                mergedData[loop]["Upper Hospitalization Bound-" + index] = Number(filteredData["Upper Hospitalization Bound"]);
             }
         } else {
             for (loop = 0; loop < currentData.length; loop++) {
                 var filteredData = currentData[loop];
 
-                currentData[loop]["Total Projected Demand (%)-" + i] = Number(filteredData["Total Projected Demand (%)"]);
-                currentData[loop]["Total Hospitalizations (Median)-" + i] = Number(filteredData["Total Hospitalizations (Median)"]);
-                currentData[loop]["Lower Projected Demand Bound-" + i] = Number(filteredData["Lower Projected Demand Bound"]);
-                currentData[loop]["Upper Projected Demand Bound-" + i] = Number(filteredData["Upper Projected Demand Bound"]);
-                currentData[loop]["Lower Hospitalization Bound-" + i] = Number(filteredData["Lower Hospitalization Bound"]);
-                currentData[loop]["Upper Hospitalization Bound-" + i] = Number(filteredData["Upper Hospitalization Bound"]);
+                currentData[loop]["Total Projected Demand (%)-" + index] = Number(filteredData["Total Projected Demand (%)"]);
+                currentData[loop]["Total Hospitalizations (Median)-" + index] = Number(filteredData["Total Hospitalizations (Median)"]);
+                currentData[loop]["Lower Projected Demand Bound-" + index] = Number(filteredData["Lower Projected Demand Bound"]);
+                currentData[loop]["Upper Projected Demand Bound-" + index] = Number(filteredData["Upper Projected Demand Bound"]);
+                currentData[loop]["Lower Hospitalization Bound-" + index] = Number(filteredData["Lower Hospitalization Bound"]);
+                currentData[loop]["Upper Hospitalization Bound-" + index] = Number(filteredData["Upper Hospitalization Bound"]);
             }
             mergedData = currentData;
         }
