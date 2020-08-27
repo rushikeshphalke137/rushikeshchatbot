@@ -278,7 +278,7 @@
         padding-bottom: 30px;
     }
     .mapContainer {
-        max-height: calc(100% - 79px);
+        max-height: calc(100% - 90px);
         /* height: 403px; */
     }
     .chartContainer {
