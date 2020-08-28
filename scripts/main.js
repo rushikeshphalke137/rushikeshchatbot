@@ -1470,22 +1470,20 @@ function applyCapacitySliderOnScenarioData(currentData) {
 
 function applyDurationSliderOnScenarioData(scenariosDirectory, currentData) {
 
+    var dailyData = {};
     // Condition to display selected region data.
     if (globals.selectedRegionNum != 0) {
         var regionFile = scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + "-daily.csv";
-        globals.rawData = getJSONData(regionFile);
+        dailyData = getJSONData(regionFile);
     } else if (globals.queriedRegionNames.length == 0) {
         var summaryFile = scenariosDirectory + "/nssac_ncov_ro-summary-daily.csv";
-        globals.rawData = getJSONData(summaryFile);
+        dailyData = getJSONData(summaryFile);
     } else {
-        globals.rawData = mergeDailyDataAcrossRegions(scenariosDirectory);
+        dailyData = mergeDailyDataAcrossRegions(scenariosDirectory);
     }
 
-    var cumulativeBeds = 0;
+    var cumulativeBeds = getCumulativeBeds();
 
-    cumulativeBeds = getCumulativeBeds();
-
-    var dailyData = globals.rawData;
     for (var i = 0; i < dailyData.length; i++) {
         dailyData[i]["cumulative"] = Number(dailyData[i]["Total Hospitalizations (Median)"]);
         dailyData[i]["cumulative_lower_bound"] = Number(dailyData[i]["Lower Hospitalization Bound"]);
