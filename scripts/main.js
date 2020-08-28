@@ -621,6 +621,8 @@ require([
 
             for (var i = 0; i < inputStrSplit.length; i++) {
                 var temp = inputStrSplit[i].trim();
+                if (temp == "") continue;
+
                 if (where == '')
                     where += globals.configuration.layer_attribute + " LIKE '%" + temp.toString() + "%'";
                 else
