@@ -1484,16 +1484,17 @@ div#socialSharing a span#linkedin:hover {
 
 .ui-menu-item {
     list-style-type: none !important;
-    background-color: #ffc107 !important;
+    background-color: white !important;
     color: black !important;
     cursor: pointer;
     border: rgb(114, 96, 96) 1px solid !important;
-    margin-right: 86.50rem !important;
+    margin-right: 74.50rem !important;
     margin-left: -2.75rem !important;
-    padding: 5px !important;
+    padding: 3px !important;
 }
 
 .ui-autocomplete {
+    z-index: 999 !important;
     max-height: 200px !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;

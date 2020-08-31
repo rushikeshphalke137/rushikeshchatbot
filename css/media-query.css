@@ -151,10 +151,10 @@
     .ui-menu-item {
         list-style-type: none !important;
         width: 300px !important;
-        background-color: #ffc107 !important;
+        background-color: white !important;
         color: black !important;
         border: rgb(114, 96, 96) 1px solid !important;
-        padding: 5px !important;
+        padding: 3px !important;
     }
     .ui-autocomplete {
         max-height: 250px !important;

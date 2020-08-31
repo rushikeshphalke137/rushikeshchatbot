@@ -188,7 +188,7 @@ require([
         bindChartAndDataTab();
         bindSearchAndResetButton();
         bindSliderEvents();
-        querySearchAutocomplete();
+        
 
         function executeDefaultWorkflow() {
             // Clear all Tooltips
@@ -1725,6 +1725,8 @@ function loadRegionData() {
             var items = $.csv.toObjects(csv);
             var jsonobject = JSON.stringify(items);
             globals.regionData = JSON.parse(jsonobject);
+            //To get auto-suggestion for QuerySearch, Region data must be loaded (git 67)
+            querySearchAutocomplete();
         },
         dataType: "text",
         complete: function() {
