@@ -188,7 +188,7 @@ require([
         bindChartAndDataTab();
         bindSearchAndResetButton();
         bindSliderEvents();
-        
+
 
         function executeDefaultWorkflow() {
             // Clear all Tooltips
@@ -935,7 +935,7 @@ require([
             $('#playTimelineVideo').addClass('disableVideoBtn');
             $('#pauseTimelineVideo').removeClass('disableVideoBtn');
             $('#stopTimelineVideo').removeClass('disableVideoBtn');
-            $('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({ "pointer-events": "none", "opacity": "0.7" });
+            $('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({ "pointer-events": "none", "opacity": "0.95" });
 
             $("#timeline .owl-item").each(function(currentLoopingItemIndex, currentLoopingItem) {
 
