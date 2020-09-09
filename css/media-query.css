@@ -148,17 +148,18 @@
         font-size: 1rem !important;
     }
     /* CSS changes to overide Jquery Automcomplete CSS for customise */
-    .ui-menu-item {
-        list-style-type: none !important;
-        width: 300px !important;
+    #ui-id-1{
+        max-height: 200px !important;
         background-color: white !important;
-        color: black !important;
-        border: rgb(114, 96, 96) 1px solid !important;
+        width: 300px !important;
+        overflow-y: scroll !important;
+        list-style-type: none !important;
+        z-index: 999 !important;
+        color: black !important; 
         padding: 3px !important;
+        border: rgb(114, 96, 96) 1px solid !important;
     }
-    .ui-autocomplete {
-        max-height: 250px !important;
-    }
+    
     .ui-menu .ui-menu-item-wrapper:hover,
     .ui-menu .ui-menu-item-wrapper.ui-state-active {
         color: #303030 !important;
@@ -533,6 +534,21 @@
     #duration-slider {
         color: white;
         width: calc(100% - 200px);
+    }
+}
+
+ /* android mobile galaxy Gs6 only Jquery Autocomplete suggestions width*/
+@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3){
+    #ui-id-1{
+        max-height: 200px !important;
+        background-color: white !important;
+        width: 288px !important;
+        overflow-y: scroll !important;
+        list-style-type: none !important;
+        z-index: 999 !important;
+        color: black !important; 
+        padding: 3px !important;
+        border: rgb(114, 96, 96) 1px solid !important;
     }
 }
 
