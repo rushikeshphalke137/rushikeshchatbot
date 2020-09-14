@@ -31,51 +31,29 @@
             "HRRCITY",
             "DHS_Beds",
             "Total_Pop"
-        ],
-        "defaultDuration": 7
+        ]
     },
     "scenarios": [
         {
-            "scenario_display_name_line1": "BestFit",
-            "scenario_display_name_line2": "Duration: 7 Days",
+            "scenario_display_name_line1": "Adaptive",
+            "scenario_display_name_line2": "",
             "position": 0,
-            "directory": "data_us/sc-BestFit-dur7-projBounds",
-            "description": "This model is made up of 'BestFit' scenarios at local levels, so it can predict variation based on local levels of activity and compliance with official health department guidelines. It also assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-07-27."
+            "directory": "data_us/sc-Adaptive-dur7-projBounds",
+            "description": "The Adaptive Fitting Projection model fits each HRR region precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-09-08."
         },
         {
-            "scenario_display_name_line1": "BestFit",
-            "scenario_display_name_line2": "Duration: 14 Days",
-            "position": 1,
-            "directory": "data_us/sc-BestFit-dur14-projBounds",
-            "description": "This model is made up of 'BestFit' scenarios at local levels, so it can predict variation based on local levels of activity and compliance with official health department guidelines. It also assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-07-27."
-        },
-        {
-            "scenario_display_name_line1": "BestFit-Low",
-            "scenario_display_name_line2": "Duration: 7 Days",
+            "scenario_display_name_line1": "Adaptive-Low",
+            "scenario_display_name_line2": "",
             "position": 0,
-            "directory": "data_us/sc-BestFit-Low-dur7-projBounds",
-            "description": "This model is similar to the BestFit Scenario except that it has a 10% (low) increase in transmissability due to seasonal effects after Labor Day; as such, it may not look much different from BestFit until after the first week of September. It also assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-07-27."
+            "directory": "data_us/sc-Adaptive-Low-dur7-projBounds",
+            "description": "The Adaptive-Low Fitting Projection model fits each HRR region precisely, using recent trends to guide the future projections, but assumes there will be a low surge in mid-October as seasonal weather starts driving people indoors. This scenario assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-09-08."
         },
         {
-            "scenario_display_name_line1": "BestFit-Low",
-            "scenario_display_name_line2": "Duration: 14 Days",
-            "position": 1,
-            "directory": "data_us/sc-BestFit-Low-dur14-projBounds",
-            "description": "This model is similar to the BestFit Scenario except that it has a 10% (low) increase in transmissability due to seasonal effects after Labor Day; as such, it may not look much different from BestFit until after the first week of September. It also assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-07-27."
-        },
-        {
-            "scenario_display_name_line1": "BestFit-High",
-            "scenario_display_name_line2": "Duration: 7 Days",
+            "scenario_display_name_line1": "Adaptive-High",
+            "scenario_display_name_line2": "",
             "position": 0,
-            "directory": "data_us/sc-BestFit-High-dur7-projBounds",
-            "description": "This model is similar to the BestFit Scenario except that it has a 20% (high) increase in transmissability due to seasonal effects after Labor Day; as such, it may not look much different from BestFit until after the first week of September. It assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-07-27."
-        },
-        {
-            "scenario_display_name_line1": "BestFit-High",
-            "scenario_display_name_line2": "Duration: 14 Days",
-            "position": 1,
-            "directory": "data_us/sc-BestFit-High-dur14-projBounds",
-            "description": "This model is similar to the BestFit Scenario except that it has a 20% (high) increase in transmissability due to seasonal effects after Labor Day; as such, it may not look much different from BestFit until after the first week of September. It assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-07-27."
+            "directory": "data_us/sc-Adaptive-High-dur7-projBounds",
+            "description": "The Adaptive-High Fitting Projection model fits each HRR region precisely, using recent trends to guide the future projections, but assumes there will be a more substantial surge in mid-October as seasonal factors kick in. This scenario assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-09-08."
         }
     ]
 }
