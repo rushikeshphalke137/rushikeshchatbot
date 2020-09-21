@@ -519,7 +519,7 @@ function renderAllScenariosPOB() {
     range.axisFill.fillOpacity = 0.3;
     range.grid.strokeOpacity = 0;
     range.label.inside = true;
-    range.label.text = "Cautious";
+    range.label.text = "Caution";
     range.label.verticalCenter = "bottom";
     range.label.fill = am4core.color("orange");
 
