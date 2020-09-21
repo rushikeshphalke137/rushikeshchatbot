@@ -418,6 +418,11 @@ function mergeDataAcrossScenarios() {
                 mergedData[loop]["Upper Projected Demand Bound-" + index] = Number(filteredData["Upper Projected Demand Bound"]);
                 mergedData[loop]["Lower Hospitalization Bound-" + index] = Number(filteredData["Lower Hospitalization Bound"]);
                 mergedData[loop]["Upper Hospitalization Bound-" + index] = Number(filteredData["Upper Hospitalization Bound"]);
+
+                if(globals.demandMinValue >  Number(mergedData[loop]["Lower Projected Demand Bound-" + index]))
+                globals.demandMinValue = Number(mergedData[loop]["Lower Projected Demand Bound-" + index]);
+               if(globals.demandMaxValue < Number(mergedData[loop]["Upper Projected Demand Bound-" + index]))
+               globals.demandMaxValue = Number(mergedData[loop]["Upper Projected Demand Bound-" + index]);
             }
         } else {
             for (loop = 0; loop < currentData.length; loop++) {
@@ -483,10 +488,10 @@ function renderAllScenariosPOB() {
     // Create Demand Value axis
     var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-    demandValueAxis.min = 40;
-    demandValueAxis.max = 180;
-
-    demandValueAxis.renderer.minGridDistance = 20; //used for steps in right hand side y axis
+    demandValueAxis.min = 0;
+  demandValueAxis.max = 170;
+  demandValueAxis.strictMinMax = true; 
+    demandValueAxis.renderer.minGridDistance = 30; //used for steps in right hand side y axis
     demandValueAxis.renderer.grid.template.strokeWidth = 0;
     demandValueAxis.tooltip.disabled = true; //right hand size 
 
@@ -497,36 +502,36 @@ function renderAllScenariosPOB() {
     demandValueAxis.renderer.labels.template.fill = am4core.color("#fff");
 
     var range1 = demandValueAxis.axisRanges.create();
-    range1.value = 40;
-    range1.endValue = 80;
+    range1.value =  demandValueAxis.min;
+    range1.endValue = globals.minHospitalCapacity;
     range1.axisFill.fill = am4core.color("green");
     range1.axisFill.fillOpacity = 0.3;
     range1.grid.strokeOpacity = 0;
-
     range1.label.inside = true;
     range1.label.text = "Constraint";
+    range1.label.verticalCenter = "bottom";
     range1.label.fill = am4core.color("green");
 
     var range = demandValueAxis.axisRanges.create();
-    range.value = 80;
-    range.endValue = 120;
+     range.value = globals.minHospitalCapacity;
+     range.endValue = globals.maxHospitalCapacity;
     range.axisFill.fill = am4core.color("orange");
     range.axisFill.fillOpacity = 0.3;
     range.grid.strokeOpacity = 0;
-
     range.label.inside = true;
     range.label.text = "Cautious";
+    range.label.verticalCenter = "bottom";
     range.label.fill = am4core.color("orange");
 
     var range2 = demandValueAxis.axisRanges.create();
-    range2.value = 120;
-    range2.endValue = 180;
+    range2.value = globals.maxHospitalCapacity;
+    range2.endValue = demandValueAxis.max;
     range2.axisFill.fill = am4core.color("red");
     range2.axisFill.fillOpacity = 0.3;
     range2.grid.strokeOpacity = 0;
-
     range2.label.inside = true;
     range2.label.text = "Crisis";
+    range.label.verticalCenter = "bottom";
     range2.label.fill = am4core.color("red");
 
     var colors = ["#bd1e2e", "#5e3aba", "#7de067", "#c2305a", "#167d1a", "#c6d42c", "#80cbd9", "#b60fdb", "#9c2187", "#bd1e2e", "#5e3aba", "#fc4505", "#167d1b", "#c6d42d", "#7de065", "#80cbd7", "#b60fdd", "#c2305b", "#9c2178"];
