@@ -808,7 +808,7 @@ require([
             $('table.display').DataTable({
                 dom: 'Blfrtip',
                 "order": [
-                    [0, "asc"]
+                    // [0, "asc"]
                 ],
                 scrollX: true,
                 scrollCollapse: true,

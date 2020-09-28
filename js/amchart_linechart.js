@@ -462,7 +462,8 @@ function renderAllScenariosPOB() {
     chart.hiddenState.properties.opacity = 0;
 
     let title = chart.titles.create();
-    title.text = "Demand Forecast for All Scenarios";
+   // title.text = "Demand Forecast for All Scenarios";
+    title.text =globals.configuration.chart_title;
     title.stroke = am4core.color("#fff");
     title.fill = am4core.color("#fff");
     title.fontSize = 16;
