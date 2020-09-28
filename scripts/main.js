@@ -1574,8 +1574,16 @@ function querySearchAutocomplete() {
         }
         $("#queryByName").autocomplete({
             source: function (request, response) {
+                var filteredRegionData = arrayOfTotalRegions;
+                var term = request.term;
+                var selectedRegionData = term.split(',');
+                for (var i = 0; i < selectedRegionData.length; i++) {
+                    selectedRegionData[i] = selectedRegionData[i].trim()
+                }
+                filteredRegionData = filteredRegionData.filter(val => !selectedRegionData.includes(val));
+                
                 response($.ui.autocomplete.filter(
-                    arrayOfTotalRegions, extractLast(request.term)));
+                    filteredRegionData, extractLast(request.term)));
             },
             select: function (event, ui) {
 
