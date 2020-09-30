@@ -38,21 +38,21 @@
             "scenario_display_name_line2":"",
             "position": 0,
             "directory": "data_va/scVA-Adaptive-dur8-projBounds",
-            "description": "The Adaptive Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-22."
+            "description": "The Adaptive Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-29."
         },
         {
             "scenario_display_name_line1": "Adaptive-Low",
             "scenario_display_name_line2":"",
             "position": 0,
             "directory": "data_va/scVA-Adaptive-Low-dur8-projBounds",
-            "description": "The Adaptive-Low Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-22."
+            "description": "The Adaptive-Low Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-29."
         },
         {
             "scenario_display_name_line1": "Adaptive-High",
             "scenario_display_name_line2":"",
             "position": 0,
             "directory": "data_va/scVA-Adaptive-High-dur8-projBounds",
-            "description": "The Adaptive-High Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-22."
+            "description": "The Adaptive-High Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-29."
         }
     ]
 }
