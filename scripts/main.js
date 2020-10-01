@@ -141,7 +141,7 @@ require([
     ) {
         parser.parse();
 
-        $.getJSON("supported_scenarios.json")
+        $.getJSON("data_us_durations/supported_scenarios.json")
             //$.getJSON("data_va/supported_scenarios.json")
             .done(function(json) {
                 globals.configuration = json.configuration;
@@ -203,7 +203,7 @@ require([
                 scenarioChanged = false;
             }
 
-            globals.renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + globals.selectedDate + ".csv";
+            globals.renderFile = globals.scenariosDirectory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro_" + globals.selectedDate + ".csv";
 
             getCSVDataAndRendering();
 
@@ -328,8 +328,8 @@ require([
                     if (globals.isCapacitySliderApplied)
                         applyCapacitySliderOnSummaryData();
 
-                    if (globals.isDurationSliderApplied)
-                        applyDurationSliderOnSummaryData();
+                    // if (globals.isDurationSliderApplied)
+                    //     applyDurationSliderOnSummaryData();
 
                     showCSVDataInTable();
                     setMapRenderer();
@@ -496,7 +496,7 @@ require([
 
         function changeDate(selectedDate) {
             globals.selectedDate = selectedDate;
-            globals.renderFile = globals.scenariosDirectory + "/nssac_ncov_ro_" + selectedDate + ".csv";
+            globals.renderFile = globals.scenariosDirectory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro_" + selectedDate + ".csv";
 
             //check whether file exists
             var http = new XMLHttpRequest();
@@ -1054,7 +1054,7 @@ require([
                 var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
                 readDataFromCSVFile(regionFile);
             } else if (globals.queriedRegionNames.length == 0) {
-                var summaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary.csv";
+                var summaryFile = globals.scenariosDirectory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro-summary.csv";
                 readDataFromCSVFile(summaryFile);
             } else {
                 globals.timelineJsonData = mergeDataAcrossRegions();
@@ -1170,7 +1170,7 @@ require([
 
             globals.isDurationSliderApplied = true;
 
-            applyDurationSliderOnSummaryData();
+            // applyDurationSliderOnSummaryData();
             applyDurationSliderOnTimelineData();
 
             renderTimeline();
@@ -1200,99 +1200,103 @@ require([
 
         function applyDurationSliderOnTimelineData() {
 
+            var applyDuration = true;
             // Condition to display selected region data.
             if (globals.selectedRegionNum != 0) {
                 var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + "-daily.csv";
                 globals.rawData = getJSONData(regionFile);
             } else if (globals.queriedRegionNames.length == 0) {
-                var summaryFile = globals.scenariosDirectory + "/nssac_ncov_ro-summary-daily.csv";
-                globals.rawData = getJSONData(summaryFile);
+                var summaryFile = globals.scenariosDirectory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro-summary.csv";
+                globals.timelineJsonData = getJSONData(summaryFile);
+                applyDuration = false;
             } else {
                 globals.rawData = mergeDailyDataAcrossRegions();
             }
 
-            var cumulativeBeds = 0;
+            if (applyDuration) {
+                var cumulativeBeds = 0;
 
-            if (globals.selectedRegionNum != 0) {
-                for (var i = 0; i < globals.regionData.length; i++) {
-                    if (globals.selectedRegionName == globals.regionData[i][globals.regionDataNameColumn]) {
-                        cumulativeBeds = Number(globals.regionData[i][globals.regionDataBedsColumn]);
-                        break;
-                    }
-                }
-            } else if (globals.queriedRegionNumbers.length > 0) {
-                for (i = 0; i < globals.queriedRegionNames.length; i++) {
-                    var regionName = globals.queriedRegionNames[i] + "";
-
+                if (globals.selectedRegionNum != 0) {
                     for (var i = 0; i < globals.regionData.length; i++) {
-                        if (regionName == globals.regionData[i][globals.regionDataNameColumn]) {
-                            cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
+                        if (globals.selectedRegionName == globals.regionData[i][globals.regionDataNameColumn]) {
+                            cumulativeBeds = Number(globals.regionData[i][globals.regionDataBedsColumn]);
                             break;
                         }
                     }
-                }
-            } else {
-                for (var i = 0; i < globals.regionData.length; i++) {
-                    cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
-                }
-            }
+                } else if (globals.queriedRegionNumbers.length > 0) {
+                    for (i = 0; i < globals.queriedRegionNames.length; i++) {
+                        var regionName = globals.queriedRegionNames[i] + "";
 
-            var dailyData = globals.rawData;
-            for (var i = 0; i < dailyData.length; i++) {
-                dailyData[i]["cumulative"] = Number(dailyData[i]["Total Hospitalizations (Median)"]);
-                dailyData[i]["cumulative_lower_bound"] = Number(dailyData[i]["Lower Hospitalization Bound"]);
-                dailyData[i]["cumulative_upper_bound"] = Number(dailyData[i]["Upper Hospitalization Bound"]);
-
-                for (j = 1; j < globals.hospitalDuration; j++) {
-                    var previousDate = Number(i - j);
-                    if (previousDate < 0) break;
-
-                    dailyData[i]["cumulative"] = Number(dailyData[i]["cumulative"]) + Number(dailyData[previousDate]["Total Hospitalizations (Median)"]);
-                    dailyData[i]["cumulative_lower_bound"] = Number(dailyData[i]["cumulative_lower_bound"]) + Number(dailyData[previousDate]["Lower Hospitalization Bound"]);
-                    dailyData[i]["cumulative_upper_bound"] = Number(dailyData[i]["cumulative_upper_bound"]) + Number(dailyData[previousDate]["Upper Hospitalization Bound"]);
-                }
-            }
-
-            var percentDemand = Number(globals.minHospitalCapacity / 100).toFixed(2);
-
-            for (var i = 0; i < globals.timelineJsonData.length; i++) {
-                var currentDate = globals.timelineJsonData[i]["date"];
-                var index = 0;
-
-                for (index = 0; index < dailyData.length; index++) {
-                    if (dailyData[index].date == currentDate) {
-                        break;
+                        for (var i = 0; i < globals.regionData.length; i++) {
+                            if (regionName == globals.regionData[i][globals.regionDataNameColumn]) {
+                                cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < globals.regionData.length; i++) {
+                        cumulativeBeds = cumulativeBeds + Number(globals.regionData[i][globals.regionDataBedsColumn]);
                     }
                 }
 
-                var maxCapacity = 0;
-                var maxLowerCapacity = 0;
-                var maxUpperCapacity = 0;
+                var dailyData = globals.rawData;
+                for (var i = 0; i < dailyData.length; i++) {
+                    dailyData[i]["cumulative"] = Number(dailyData[i]["Total Hospitalizations (Median)"]);
+                    dailyData[i]["cumulative_lower_bound"] = Number(dailyData[i]["Lower Hospitalization Bound"]);
+                    dailyData[i]["cumulative_upper_bound"] = Number(dailyData[i]["Upper Hospitalization Bound"]);
 
-                for (var j = 0; j < 7; j++) {
-                    var cumulative = Number(dailyData[index - j]["cumulative"]);
+                    for (j = 1; j < globals.hospitalDuration; j++) {
+                        var previousDate = Number(i - j);
+                        if (previousDate < 0) break;
 
-                    if (cumulative > maxCapacity) {
-                        maxCapacity = Number(cumulative);
-                        maxLowerCapacity = Number(dailyData[index - j]["cumulative_lower_bound"]);
-                        maxUpperCapacity = Number(dailyData[index - j]["cumulative_upper_bound"]);
+                        dailyData[i]["cumulative"] = Number(dailyData[i]["cumulative"]) + Number(dailyData[previousDate]["Total Hospitalizations (Median)"]);
+                        dailyData[i]["cumulative_lower_bound"] = Number(dailyData[i]["cumulative_lower_bound"]) + Number(dailyData[previousDate]["Lower Hospitalization Bound"]);
+                        dailyData[i]["cumulative_upper_bound"] = Number(dailyData[i]["cumulative_upper_bound"]) + Number(dailyData[previousDate]["Upper Hospitalization Bound"]);
                     }
                 }
 
-                var totalProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxCapacity) / cumulativeBeds;
-                var lowerProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxLowerCapacity) / cumulativeBeds;
-                var upperProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxUpperCapacity) / cumulativeBeds;
+                var percentDemand = Number(globals.minHospitalCapacity / 100).toFixed(2);
 
-                globals.timelineJsonData[i]["Total Projected Demand (%)"] = Number(totalProjectedDemand).toFixed(2);
-                globals.timelineJsonData[i]["Lower Projected Demand Bound"] = Number(lowerProjectedDemand).toFixed(2);
-                globals.timelineJsonData[i]["Upper Projected Demand Bound"] = Number(upperProjectedDemand).toFixed(2);
+                for (var i = 0; i < globals.timelineJsonData.length; i++) {
+                    var currentDate = globals.timelineJsonData[i]["date"];
+                    var index = 0;
 
-                globals.timelineJsonData[i]["Max Occupied Beds"] = maxCapacity;
-                globals.timelineJsonData[i]["Lower Max Occupied Beds"] = maxLowerCapacity;
-                globals.timelineJsonData[i]["Upper Max Occupied Beds"] = maxUpperCapacity;
+                    for (index = 0; index < dailyData.length; index++) {
+                        if (dailyData[index].date == currentDate) {
+                            break;
+                        }
+                    }
 
-                globals.timelineJsonData[i]["Total Projected Demand (Range)"] = Number(totalProjectedDemand).toFixed(2) +
-                    "% [" + Number(lowerProjectedDemand).toFixed(2) + "% - " + Number(upperProjectedDemand).toFixed(2) + "%]";
+                    var maxCapacity = 0;
+                    var maxLowerCapacity = 0;
+                    var maxUpperCapacity = 0;
+
+                    for (var j = 0; j < 7; j++) {
+                        var cumulative = Number(dailyData[index - j]["cumulative"]);
+
+                        if (cumulative > maxCapacity) {
+                            maxCapacity = Number(cumulative);
+                            maxLowerCapacity = Number(dailyData[index - j]["cumulative_lower_bound"]);
+                            maxUpperCapacity = Number(dailyData[index - j]["cumulative_upper_bound"]);
+                        }
+                    }
+
+                    var totalProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxCapacity) / cumulativeBeds;
+                    var lowerProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxLowerCapacity) / cumulativeBeds;
+                    var upperProjectedDemand = 100 * ((Number(percentDemand) * cumulativeBeds) + maxUpperCapacity) / cumulativeBeds;
+
+                    globals.timelineJsonData[i]["Total Projected Demand (%)"] = Number(totalProjectedDemand).toFixed(2);
+                    globals.timelineJsonData[i]["Lower Projected Demand Bound"] = Number(lowerProjectedDemand).toFixed(2);
+                    globals.timelineJsonData[i]["Upper Projected Demand Bound"] = Number(upperProjectedDemand).toFixed(2);
+
+                    globals.timelineJsonData[i]["Max Occupied Beds"] = maxCapacity;
+                    globals.timelineJsonData[i]["Lower Max Occupied Beds"] = maxLowerCapacity;
+                    globals.timelineJsonData[i]["Upper Max Occupied Beds"] = maxUpperCapacity;
+
+                    globals.timelineJsonData[i]["Total Projected Demand (Range)"] = Number(totalProjectedDemand).toFixed(2) +
+                        "% [" + Number(lowerProjectedDemand).toFixed(2) + "% - " + Number(upperProjectedDemand).toFixed(2) + "%]";
+                }
             }
 
             if (globals.isCapacitySliderApplied)
@@ -1364,12 +1368,6 @@ require([
                     globals.jsonData[loop]["Total Projected Demand (Range)"] = Number(projectedDemand).toFixed(2) +
                         "% [" + Number(lowerProjectedDemand).toFixed(2) + "% - " + Number(upperProjectedDemand).toFixed(2) + "%]";
                 }
-            }
-        }
-
-        function mergeDataAcrossScenarios() {
-            for (var i = 0; i < globals.scenarios.length; i++) {
-
             }
         }
 

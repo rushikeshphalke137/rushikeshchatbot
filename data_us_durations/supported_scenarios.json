@@ -1,6 +1,6 @@
 {
     "configuration": {
-        "region": "hrr",
+        "region": "region",
         "application_title": "COVID-19 Medical Resource Demand Dashboard - US National",
         "chart_title": "United States National Demand Forecast",
         "layer_url": "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/0",
@@ -31,10 +31,10 @@
             "HRRCITY",
             "DHS_Beds",
             "Total_Pop"
-        ]
+        ],
+        "defaultDuration": 8
     },
-    "scenarios": [
-        {
+    "scenarios": [{
             "scenario_display_name_line1": "Adaptive",
             "scenario_display_name_line2": "",
             "position": 0,
