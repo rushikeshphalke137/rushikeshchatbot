@@ -614,9 +614,6 @@ function renderAllScenariosPOB(data) {
     chart.legend.labels.template.fill = am4core.color("#fff");
 
     // Add legend for range
-    chart.legend = new am4charts.Legend();
-    chart.legend.labels.template.fill = am4core.color("#fff");
-
     var legend1 = new am4charts.Legend();
     legend1.parent = chart.chartContainer;
     legend1.align = "right";
