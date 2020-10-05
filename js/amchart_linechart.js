@@ -9,8 +9,10 @@ function renderQueriedRegionsChart() {
 }
 
 function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
-    var chartTitle = "Demand Forecast for " + selectedHRRName;
-    renderChartData(chartTitle);
+    globals.chartTitleRegion = "Demand Forecast for " + selectedHRRName;
+    renderChartData(globals.chartTitleRegion);
+    renderAllScenariosPOB(globals.chartTitleRegion);
+    renderAllScenariosWH(globals.chartTitleRegion);
 }
 
 function renderChartData(chartTitle) {
@@ -82,7 +84,7 @@ function createDemandSeries(chart) {
     let maxUpperDemandValue = 0;
     let minLowerDemandValue = 100;
 
-    chart.data.forEach(function(chartValue, index) {
+    chart.data.forEach(function (chartValue, index) {
         if (maxUpperDemandValue < Number(chartValue['Upper Projected Demand Bound']))
             maxUpperDemandValue = Number(chartValue['Upper Projected Demand Bound']);
 
@@ -166,12 +168,12 @@ function createDemandSeries(chart) {
     bullet.circle.strokeWidth = 2;
 
     // Hiding Uncertainity bounds when hiding the actual series
-    demandSeries.events.on("hidden", function() {
+    demandSeries.events.on("hidden", function () {
         uncertainitySeries.hide();
     });
 
     // Displaying Uncertainity bounds when displaying the actual series
-    demandSeries.events.on("shown", function() {
+    demandSeries.events.on("shown", function () {
         uncertainitySeries.show();
     });
 }
@@ -184,7 +186,7 @@ function createHospitalizationSeries(chart, color) {
     let maxHospitalizationValue = 0;
     let minHospitalizationValue = 100;
 
-    chart.data.forEach(function(chartValue, index) {
+    chart.data.forEach(function (chartValue, index) {
         if (maxHospitalizationValue < Number(chartValue['Upper Hospitalization Bound']))
             maxHospitalizationValue = Number(chartValue['Upper Hospitalization Bound']);
 
@@ -277,12 +279,12 @@ function createHospitalizationSeries(chart, color) {
     rectangle.height = 5;
 
     // Hiding Uncertainity bounds when hiding the actual series
-    hospitalizationSeries.events.on("hidden", function() {
+    hospitalizationSeries.events.on("hidden", function () {
         uncertainitySeries.hide();
     });
 
     // Displaying Uncertainity bounds when displaying the actual series
-    hospitalizationSeries.events.on("shown", function() {
+    hospitalizationSeries.events.on("shown", function () {
         uncertainitySeries.show();
     });
 }
@@ -305,7 +307,7 @@ function mergeDataAcrossRegions(scenarioDirectory) {
         $.ajax({
             url: datafile,
             async: false,
-            success: function(csv) {
+            success: function (csv) {
                 var items = $.csv.toObjects(csv);
                 var jsonobject = JSON.stringify(items);
                 var currentData = JSON.parse(jsonobject);
@@ -326,7 +328,7 @@ function mergeDataAcrossRegions(scenarioDirectory) {
                 }
             },
             dataType: "text",
-            complete: function() {}
+            complete: function () { }
         });
     }
 
@@ -362,7 +364,7 @@ function mergeDailyDataAcrossRegions(scenariosDirectory) {
         $.ajax({
             url: datafile,
             async: false,
-            success: function(csv) {
+            success: function (csv) {
                 var items = $.csv.toObjects(csv);
                 var jsonobject = JSON.stringify(items);
                 var currentData = JSON.parse(jsonobject);
@@ -380,7 +382,7 @@ function mergeDailyDataAcrossRegions(scenariosDirectory) {
                 }
             },
             dataType: "text",
-            complete: function() {}
+            complete: function () { }
         });
     }
 
@@ -419,10 +421,10 @@ function mergeDataAcrossScenarios() {
                 mergedData[loop]["Lower Hospitalization Bound-" + index] = Number(filteredData["Lower Hospitalization Bound"]);
                 mergedData[loop]["Upper Hospitalization Bound-" + index] = Number(filteredData["Upper Hospitalization Bound"]);
 
-                if(globals.demandMinValue >  Number(mergedData[loop]["Lower Projected Demand Bound-" + index]))
-                globals.demandMinValue = Number(mergedData[loop]["Lower Projected Demand Bound-" + index]);
-               if(globals.demandMaxValue < Number(mergedData[loop]["Upper Projected Demand Bound-" + index]))
-               globals.demandMaxValue = Number(mergedData[loop]["Upper Projected Demand Bound-" + index]);
+                if (globals.demandMinValue > Number(mergedData[loop]["Lower Projected Demand Bound-" + index]))
+                    globals.demandMinValue = Number(mergedData[loop]["Lower Projected Demand Bound-" + index]);
+                if (globals.demandMaxValue < Number(mergedData[loop]["Upper Projected Demand Bound-" + index]))
+                    globals.demandMaxValue = Number(mergedData[loop]["Upper Projected Demand Bound-" + index]);
             }
         } else {
             for (loop = 0; loop < currentData.length; loop++) {
@@ -445,12 +447,12 @@ function mergeDataAcrossScenarios() {
 function renderAllScenarios() {
     var selection = $("#scenariosDropdown").children("option:selected").val();
     if (selection == "wh")
-        renderAllScenariosWH();
+        renderAllScenariosWH(globals.chartTitleRegion);
     else
-        renderAllScenariosPOB();
+        renderAllScenariosPOB(globals.chartTitleRegion);
 }
 
-function renderAllScenariosPOB() {
+function renderAllScenariosPOB(data) {
     // Dispose all Charts and clear Browser memory/cache
     am4core.disposeAllCharts();
 
@@ -462,8 +464,14 @@ function renderAllScenariosPOB() {
     chart.hiddenState.properties.opacity = 0;
 
     let title = chart.titles.create();
-   // title.text = "Demand Forecast for All Scenarios";
-    title.text =globals.configuration.chart_title;
+    if (data == undefined) {
+
+        title.text = "Demand Forecast for All Scenarios";
+    }
+    else {
+
+        title.text = data;
+    }
     title.stroke = am4core.color("#fff");
     title.fill = am4core.color("#fff");
     title.fontSize = 16;
@@ -490,8 +498,8 @@ function renderAllScenariosPOB() {
     var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
     demandValueAxis.min = 0;
-  demandValueAxis.max = 170;
-  demandValueAxis.strictMinMax = true; 
+    demandValueAxis.max = 170;
+    demandValueAxis.strictMinMax = true;
     demandValueAxis.renderer.minGridDistance = 30; //used for steps in right hand side y axis
     demandValueAxis.renderer.grid.template.strokeWidth = 0;
     demandValueAxis.tooltip.disabled = true; //right hand size 
@@ -503,24 +511,24 @@ function renderAllScenariosPOB() {
     demandValueAxis.renderer.labels.template.fill = am4core.color("#fff");
 
     var range1 = demandValueAxis.axisRanges.create();
-    range1.value =  demandValueAxis.min;
+    range1.value = demandValueAxis.min;
     range1.endValue = globals.minHospitalCapacity;
     range1.axisFill.fill = am4core.color("green");
     range1.axisFill.fillOpacity = 0.3;
     range1.grid.strokeOpacity = 0;
     range1.label.inside = true;
-    range1.label.text = "Constraint";
+    // range1.label.text = "Constraint";
     range1.label.verticalCenter = "bottom";
     range1.label.fill = am4core.color("green");
 
     var range = demandValueAxis.axisRanges.create();
-     range.value = globals.minHospitalCapacity;
-     range.endValue = globals.maxHospitalCapacity;
+    range.value = globals.minHospitalCapacity;
+    range.endValue = globals.maxHospitalCapacity;
     range.axisFill.fill = am4core.color("orange");
     range.axisFill.fillOpacity = 0.3;
     range.grid.strokeOpacity = 0;
     range.label.inside = true;
-    range.label.text = "Caution";
+    // range.label.text = "Caution";
     range.label.verticalCenter = "bottom";
     range.label.fill = am4core.color("orange");
 
@@ -531,7 +539,7 @@ function renderAllScenariosPOB() {
     range2.axisFill.fillOpacity = 0.3;
     range2.grid.strokeOpacity = 0;
     range2.label.inside = true;
-    range2.label.text = "Crisis";
+    // range2.label.text = "Crisis";
     range.label.verticalCenter = "bottom";
     range2.label.fill = am4core.color("red");
 
@@ -589,13 +597,13 @@ function renderAllScenariosPOB() {
         bullet[i].circle.strokeWidth = 2;
 
         // Hiding Uncertainity bounds when hiding the actual series
-        globals.series[i].events.on("hidden", function(event) {
+        globals.series[i].events.on("hidden", function (event) {
             if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
                 globals.uncertainitySeries[globals.series.indexOf(event.target)].hide();
         });
 
         // Displaying Uncertainity bounds when displaying the actual series
-        globals.series[i].events.on("shown", function(event) {
+        globals.series[i].events.on("shown", function (event) {
             if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
                 globals.uncertainitySeries[globals.series.indexOf(event.target)].show();
         });
@@ -605,11 +613,32 @@ function renderAllScenariosPOB() {
     chart.legend = new am4charts.Legend();
     chart.legend.labels.template.fill = am4core.color("#fff");
 
+    // Add legend for range
+    chart.legend = new am4charts.Legend();
+    chart.legend.labels.template.fill = am4core.color("#fff");
+
+    var legend1 = new am4charts.Legend();
+    legend1.parent = chart.chartContainer;
+    legend1.align = "right";
+    legend1.position = "bottom";
+    legend1.labels.template.fill = "#fff";
+    legend1.data = [{
+        "name": "Crisis",
+        "fill": "#f5876c"
+    }, {
+        "name": "Caution",
+        "fill": "#f5efa2",
+    }, {
+        "name": "Constraint",
+        "fill": "#bcf084",
+    }];
+
+
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
 }
 
-function renderAllScenariosWH() {
+function renderAllScenariosWH(data) {
     // Dispose all Charts and clear Browser memory/cache
     am4core.disposeAllCharts();
 
@@ -621,7 +650,15 @@ function renderAllScenariosWH() {
     chart.hiddenState.properties.opacity = 0;
 
     let title = chart.titles.create();
-    title.text = "Demand Forecast for All Scenarios";
+    if (data == undefined) {
+
+        title.text = "Demand Forecast for All Scenarios";
+    }
+    else {
+
+        title.text = data;
+    }
+    // title.text = "Demand Forecast for All Scenarios";
     title.stroke = am4core.color("#fff");
     title.fill = am4core.color("#fff");
     title.fontSize = 16;
@@ -710,13 +747,13 @@ function renderAllScenariosWH() {
         bullet[i].circle.strokeWidth = 2;
 
         // Hiding Uncertainity bounds when hiding the actual series
-        globals.series[i].events.on("hidden", function(event) {
+        globals.series[i].events.on("hidden", function (event) {
             if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
                 globals.uncertainitySeries[globals.series.indexOf(event.target)].hide();
         });
 
         // Displaying Uncertainity bounds when displaying the actual series
-        globals.series[i].events.on("shown", function(event) {
+        globals.series[i].events.on("shown", function (event) {
             if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
                 globals.uncertainitySeries[globals.series.indexOf(event.target)].show();
         });
@@ -725,6 +762,23 @@ function renderAllScenariosWH() {
     // Add legend
     chart.legend = new am4charts.Legend();
     chart.legend.labels.template.fill = am4core.color("#fff");
+
+    var legend1 = new am4charts.Legend();
+    legend1.parent = chart.chartContainer;
+    legend1.align = "right";
+    legend1.position = "bottom";
+    legend1.labels.template.fill = "#fff";
+    legend1.data = [{
+        "name": "Crisis",
+        "fill": "#f5876c"
+    }, {
+        "name": "Caution",
+        "fill": "#f5efa2",
+    }, {
+        "name": "Constraint",
+        "fill": "#bcf084",
+    }];
+
 
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
@@ -749,13 +803,13 @@ function getJSONData(datafile) {
     $.ajax({
         url: datafile,
         async: false,
-        success: function(csv) {
+        success: function (csv) {
             var items = $.csv.toObjects(csv);
             var jsonobject = JSON.stringify(items);
             jsonData = JSON.parse(jsonobject);
         },
         dataType: "text",
-        complete: function() {}
+        complete: function () { }
     });
 
     return jsonData;
