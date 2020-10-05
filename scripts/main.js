@@ -1051,7 +1051,7 @@ require([
         function updateDataForTimeline() {
             // Condition to display selected region data.
             if (globals.selectedRegionNum != 0) {
-                var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
+                var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_region_" + globals.selectedRegionNum + ".csv";
                 readDataFromCSVFile(regionFile);
             } else if (globals.queriedRegionNames.length == 0) {
                 var summaryFile = globals.scenariosDirectory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro-summary.csv";
@@ -1203,7 +1203,7 @@ require([
             var applyDuration = true;
             // Condition to display selected region data.
             if (globals.selectedRegionNum != 0) {
-                var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + "-daily.csv";
+                var regionFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_region_" + globals.selectedRegionNum + "-daily.csv";
                 globals.rawData = getJSONData(regionFile);
             } else if (globals.queriedRegionNames.length == 0) {
                 var summaryFile = globals.scenariosDirectory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro-summary.csv";
@@ -1311,7 +1311,7 @@ require([
                     regionNumColumn = "VHASSNum";
                 }
 
-                var regionDailyFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.jsonData[loop][regionNumColumn] + "-daily.csv";
+                var regionDailyFile = globals.scenariosDirectory + "/regions/nssac_ncov_ro_summary_region_" + globals.jsonData[loop][regionNumColumn] + "-daily.csv";
                 var regionDailyData = getJSONData(regionDailyFile);
 
                 // If region file is not present
