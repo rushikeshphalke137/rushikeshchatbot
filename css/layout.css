@@ -18,7 +18,13 @@ a {
 }
 
 select {
-    max-width: 180px;
+    max-width: auto;
+}
+
+select option {
+    margin: 40px;
+    background: white;
+    color: black;
 }
 
 #header {

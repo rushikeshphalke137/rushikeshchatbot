@@ -1384,23 +1384,30 @@ div#socialSharing a span#linkedin:hover {
     background: rgb(255, 140, 0) !important;
 }
 
+.noUi-base {
+    width: 95% !important;
+}
+
 .sliderRow .arrow-right {
     width: 3%;
 }
 
-.sliderRow #slider-range {
+
+/* .sliderRow #slider-range {
     color: white;
     width: 52%;
-}
+} */
 
-.sliderRow #duration-slider {
+#slider-range,
+#duration-slider {
     color: white;
-    width: 48%;
+    width: calc(100% - 270px);
 }
 
-.applyBtn {
+
+/* .applyBtn {
     width: 15%;
-}
+} */
 
 .getQueryResultsBtn {
     white-space: nowrap;
@@ -1470,6 +1477,30 @@ div#socialSharing a span#linkedin:hover {
 
 #mapCanvas {
     position: relative;
+}
+
+
+/* CSS changes to overide Jquery Automcomplete CSS for customise */
+
+#ui-id-1{
+    max-height: 200px !important;
+    background-color: white !important;
+    width: 259px !important;
+    overflow-y: scroll !important;
+    list-style-type: none !important;
+    z-index: 999 !important;
+    color: black !important;
+    cursor: pointer !important;
+    margin-left: -2.75rem !important;
+    padding: 5px !important;
+    border: rgb(114, 96, 96) 1px solid !important; 
+}
+
+.ui-menu .ui-menu-item-wrapper:hover,
+.ui-menu .ui-menu-item-wrapper.ui-state-active {
+    color: #303030 !important;
+    background-color: #fac31d !important;
+    border: #fac31d 1px solid !important;
 }
 
 
@@ -1598,3 +1629,22 @@ div#socialSharing a span#linkedin:hover {
 
 
 /** code ended for media query **/
+
+
+/* .chartFilterOption {
+    width: 125px !important;
+  }
+  .chartFilterOption .chartFilter {
+    padding:0 25px 0 5px !important;
+    -webkit-padding-end: 25px !important;
+    -webkit-padding-start: 5px !important;
+  } */
+
+.topKSelect {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+    cursor: pointer;
+    /* padding: 0px 5px !important;
+    height: 30px !important; */
+    width: auto;
+}
