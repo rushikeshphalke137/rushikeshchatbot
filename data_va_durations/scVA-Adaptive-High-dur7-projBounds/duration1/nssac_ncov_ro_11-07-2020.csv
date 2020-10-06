@@ -1,0 +1,7 @@
+region,region_name,Projected Demand (%),Hospitalizations (Median),Lower Hospitalization Bound,Upper Hospitalization Bound,Lower Projected Demand Bound,Upper Projected Demand Bound,Total Hospitalizations (Range),Total Projected Demand (Range),Max Occupied Beds,Lower Max Occupied Beds,Upper Max Occupied Beds,Last Update
+Central,Central,80.29,70,64,82,80.15,80.53,70 [64 - 82],80.29% [80.15% - 80.53%],12,6,22,09-22-2020
+Eastern,Eastern,80.13,34,32,45,80.11,80.37,34 [32 - 45],80.13% [80.11% - 80.37%],5,4,14,09-22-2020
+Far_SW,Far SW,80.75,62,58,71,80.42,81.08,62 [58 - 71],80.75% [80.42% - 81.08%],9,5,13,09-22-2020
+Near_SW,Near SW,80.54,117,110,127,80.33,80.81,117 [110 - 127],80.54% [80.33% - 80.81%],18,11,27,09-22-2020
+Northern,Northern,80.6,135,129,141,80.4,80.77,135 [129 - 141],80.6% [80.4% - 80.77%],21,14,27,09-22-2020
+Northwest,Northwest,80.94,116,104,131,80.31,81.66,116 [104 - 131],80.94% [80.31% - 81.66%],18,6,32,09-22-2020

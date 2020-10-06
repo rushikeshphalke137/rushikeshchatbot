@@ -1,13 +1,13 @@
 {
     "configuration": {
-        "region": "vhass",
+        "region" : "vhass",
         "application_title": "COVID-19 Medical Resource Demand Dashboard - Virginia",
         "chart_title": "Virginia Health Demand Forecast",
         "layer_url": "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/1",
         "layer_attribute": "VHASS_Reg",
         "query_attribute": "VHASS_Reg",
         "zoom_level": 6,
-        "min_zoom_level": 4,
+		"min_zoom_level": 4,
         "extent": {
             "xmin": -83.6753991625592,
             "xmax": -75.2417293387953,
@@ -32,33 +32,27 @@
         ],
         "defaultDuration": 8
     },
-    "scenarios": [{
-            "scenario_display_name_line1": "BestFit",
-            "scenario_display_name_line2": "Duration: 8 Days",
+    "scenarios": [
+        {
+            "scenario_display_name_line1": "Adaptive",
+            "scenario_display_name_line2":"",
             "position": 0,
-            "directory": "data_va/scVA-BestFit-dur8-projBounds",
-            "description": "This model is made up of 'BestFit' scenarios at the district level, so it can predict variation based on local levels of activity and compliance with official health department guidelines. It also assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-07-13."
+            "directory": "data_va/scVA-Adaptive-dur8-projBounds",
+            "description": "The Adaptive Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-29."
         },
         {
-            "scenario_display_name_line1": "BestFit",
-            "scenario_display_name_line2": "Duration: 14 Days",
-            "position": 1,
-            "directory": "data_va/scVA-BestFit-dur14-projBounds",
-            "description": "This model is made up of 'BestFit' scenarios at the district level, so it can predict variation based on local levels of activity and compliance with official health department guidelines. It also assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-07-13."
+            "scenario_display_name_line1": "Adaptive-Low",
+            "scenario_display_name_line2":"",
+            "position": 0,
+            "directory": "data_va/scVA-Adaptive-Low-dur8-projBounds",
+            "description": "The Adaptive-Low Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-29."
         },
         {
-            "scenario_display_name_line1": "BestFit-Surge",
-            "scenario_display_name_line2": "Duration: 8 Days",
-            "position": 2,
-            "directory": "data_va/scVA-BestFit-Surge-dur8-projBounds",
-            "description": "This model is made up of 'BestFit' scenarios at the district level, so it can predict variation based on local levels of activity and compliance with official health department guidelines; BestFit-Surge varies from BestFit in that it predicts a surge about six weeks after Virginia enters Stage 3. It also assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-07-13."
-        },
-        {
-            "scenario_display_name_line1": "BestFit-Surge",
-            "scenario_display_name_line2": "Duration: 14 Days",
-            "position": 3,
-            "directory": "data_va/scVA-BestFit-Surge-dur14-projBounds",
-            "description": "This model is made up of 'BestFit' scenarios at the district level, so it can predict variation based on local levels of activity and compliance with official health department guidelines; BestFit-Surge varies from BestFit in that it predicts a surge about six weeks after Virginia enters Stage 3. It also assumes typical COVID-19 hospitalizations last about 14 days. Updated 2020-07-13."
+            "scenario_display_name_line1": "Adaptive-High",
+            "scenario_display_name_line2":"",
+            "position": 0,
+            "directory": "data_va/scVA-Adaptive-High-dur8-projBounds",
+            "description": "The Adaptive-High Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-29."
         }
     ]
 }
