@@ -148,18 +148,17 @@
         font-size: 1rem !important;
     }
     /* CSS changes to overide Jquery Automcomplete CSS for customise */
-    #ui-id-1{
+    #ui-id-1 {
         max-height: 200px !important;
         background-color: white !important;
         width: 300px !important;
         overflow-y: scroll !important;
         list-style-type: none !important;
         z-index: 999 !important;
-        color: black !important; 
+        color: black !important;
         padding: 3px !important;
         border: rgb(114, 96, 96) 1px solid !important;
     }
-    
     .ui-menu .ui-menu-item-wrapper:hover,
     .ui-menu .ui-menu-item-wrapper.ui-state-active {
         color: #303030 !important;
@@ -254,7 +253,7 @@
     }
     .scenario-content-section button.owl-prev,
     .scenario-content-section button.owl-next {
-        top: 8px;
+        top: 2px;
     }
     .scenario-content-section .owl-carousel .owl-nav button.owl-next,
     .scenario-content-section .owl-carousel .owl-nav button.owl-prev {
@@ -537,16 +536,18 @@
     }
 }
 
- /* android mobile galaxy Gs6 only Jquery Autocomplete suggestions width*/
-@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3){
-    #ui-id-1{
+
+/* android mobile galaxy Gs6 only Jquery Autocomplete suggestions width*/
+
+@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) {
+    #ui-id-1 {
         max-height: 200px !important;
         background-color: white !important;
         width: 288px !important;
         overflow-y: scroll !important;
         list-style-type: none !important;
         z-index: 999 !important;
-        color: black !important; 
+        color: black !important;
         padding: 3px !important;
         border: rgb(114, 96, 96) 1px solid !important;
     }
