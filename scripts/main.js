@@ -6,9 +6,9 @@ var globals = {};
 //map for the applicaiton
 
 //code start for check device is mobile or nottabMenu
-globals.mobileDevice = function () {
+globals.mobileDevice = function() {
     var check = false;
-    (function (a) {
+    (function(a) {
         if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true;
     })(navigator.userAgent || navigator.vendor || window.opera);
     return check;
@@ -100,36 +100,36 @@ globals.regionDataBedsColumn = "DHS_Beds";
 globals.selectedTimelineIndex = 0;
 
 require([
-    "esri/Color",
-    "esri/geometry/Extent",
-    "esri/graphic",
-    "esri/dijit/Legend",
-    "esri/InfoTemplate",
-    "esri/layers/FeatureLayer",
-    "esri/layers/GraphicsLayer",
-    "esri/map",
-    "esri/renderers/ClassBreaksRenderer",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/renderers/SimpleRenderer",
-    "esri/TimeExtent",
-    "esri/dijit/TimeSlider",
-    "esri/tasks/query",
-    "esri/tasks/QueryTask",
-    "esri/toolbars/draw",
-    "esri/urlUtils",
-    "dojo/on",
-    "dojo/parser",
-    "dojo/_base/array",
-    "dojo/_base/lang",
-    "dijit/registry",
-    "dijit/Tooltip",
-    "dojox/data/CsvStore",
-    "dijit/layout/BorderContainer",
-    "dijit/layout/ContentPane",
-    "dojo/domReady!"
-],
-    function (
+        "esri/Color",
+        "esri/geometry/Extent",
+        "esri/graphic",
+        "esri/dijit/Legend",
+        "esri/InfoTemplate",
+        "esri/layers/FeatureLayer",
+        "esri/layers/GraphicsLayer",
+        "esri/map",
+        "esri/renderers/ClassBreaksRenderer",
+        "esri/symbols/SimpleFillSymbol",
+        "esri/symbols/SimpleLineSymbol",
+        "esri/renderers/SimpleRenderer",
+        "esri/TimeExtent",
+        "esri/dijit/TimeSlider",
+        "esri/tasks/query",
+        "esri/tasks/QueryTask",
+        "esri/toolbars/draw",
+        "esri/urlUtils",
+        "dojo/on",
+        "dojo/parser",
+        "dojo/_base/array",
+        "dojo/_base/lang",
+        "dijit/registry",
+        "dijit/Tooltip",
+        "dojox/data/CsvStore",
+        "dijit/layout/BorderContainer",
+        "dijit/layout/ContentPane",
+        "dojo/domReady!"
+    ],
+    function(
         Color, Extent, Graphic, Legend, InfoTemplate,
         FeatureLayer, GraphicsLayer, Map, ClassBreaksRenderer,
         SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer,
@@ -159,7 +159,7 @@ require([
                 renderScenarios();
                 executeDefaultWorkflow();
             })
-            .fail(function (jqxhr, textStatus, error) {
+            .fail(function(jqxhr, textStatus, error) {
                 var err = textStatus + ", " + error;
                 console.log("Request Failed to load 'supported_scenarios.json' file. Reason :: " + err);
                 $('#overlay').hide();
@@ -176,12 +176,12 @@ require([
             $('.mobileMapRenderOption').html("");
         }
 
-        $('.applyHospitalCapacity').on('click', function (e) {
+        $('.applyHospitalCapacity').on('click', function(e) {
             $('#overlay').show();
             updateHospitalCapacity();
         });
 
-        $('.applyHospitalDuration').on('click', function (e) {
+        $('.applyHospitalDuration').on('click', function(e) {
             $('#overlay').show();
             updateHospitalDuration();
         });
@@ -296,11 +296,11 @@ require([
             //setup QueryTask (for filter by region)
             setQueryTask();
 
-            globals.map.on("update-end", function () {
+            globals.map.on("update-end", function() {
                 $('#overlay').hide();
             });
 
-            layer.on("update-end", function () {
+            layer.on("update-end", function() {
                 $('#overlay').hide();
             });
         }
@@ -321,13 +321,13 @@ require([
             $.ajax({
                 url: fileURL,
                 async: false,
-                success: function (csv) {
+                success: function(csv) {
                     var items = $.csv.toObjects(csv);
                     var jsonobject = JSON.stringify(items);
                     globals.jsonData = JSON.parse(jsonobject);
                 },
                 dataType: "text",
-                complete: function () {
+                complete: function() {
                     if (!globals.renderFieldIndex)
                         globals.renderFieldIndex = "Projected Demand (%)";
 
@@ -340,7 +340,7 @@ require([
             });
         }
 
-        $("#scenariosDropdown").change(function () {
+        $("#scenariosDropdown").change(function() {
             renderAllScenarios();
         });
 
@@ -348,7 +348,7 @@ require([
             $.ajax({
                 url: file,
                 async: false,
-                success: function (csv) {
+                success: function(csv) {
                     var items = $.csv.toObjects(csv);
                     var jsonobject = JSON.stringify(items);
 
@@ -356,7 +356,7 @@ require([
                     //globals.rawData = JSON.parse(jsonobject);
                 },
                 dataType: "text",
-                complete: function () { }
+                complete: function() {}
             });
         }
 
@@ -542,7 +542,7 @@ require([
             setMapRenderer(false);
         }
 
-        globals.getRegionMapValue = function (value) {
+        globals.getRegionMapValue = function(value) {
             for (var i = 0; i < globals.jsonData.length; i++) {
                 var fipsValue = (value.hasOwnProperty("attributes")) ? value.attributes[globals.configuration.layer_attribute] : value;
                 var key = Object.keys(globals.jsonData[i])[1];
@@ -555,7 +555,7 @@ require([
             return 0;
         }
 
-        globals.getRegionInfo = function (value) {
+        globals.getRegionInfo = function(value) {
             var returnValue = '';
             for (var i = 0; i < globals.jsonData.length; i++) {
                 var key = Object.keys(globals.jsonData[i])[1];
@@ -653,7 +653,7 @@ require([
             var names = [];
             var selectedHRRNum = [];
 
-            queryTask.execute(query, function (fset) {
+            queryTask.execute(query, function(fset) {
                 globals.map.graphics.clear();
                 if (fset.features.length > 0) {
                     for (var i = 0; i < fset.features.length; i++) {
@@ -731,7 +731,7 @@ require([
                 new Color([255, 0, 0])
             );
 
-            queryTask.execute(query, function (fset) {
+            queryTask.execute(query, function(fset) {
                 globals.map.graphics.clear();
                 if (fset.features.length > 0) {
                     for (var i = 0; i < fset.features.length; i++) {
@@ -833,12 +833,12 @@ require([
                     text: downloadAllOption,
                     titleAttr: 'CSV',
                     className: 'excelButton',
-                    action: function (e, dt, node, config) {
+                    action: function(e, dt, node, config) {
                         downloadAll();
                     }
                 }],
                 columnDefs: [{
-                    render: function (data, type, full, meta) {
+                    render: function(data, type, full, meta) {
                         return "<div class='text-wrap width-600'>" + data + "</div>";
                     },
                     targets: 0
@@ -924,11 +924,11 @@ require([
                 }
             });
 
-            $('#timeline .content').off().on('click', function (event) {
+            $('#timeline .content').off().on('click', function(event) {
                 selectedDate = event.currentTarget.id.substring(5);
                 globals.selectedTimelineIndex = $('#timeline .content').index(this);
                 // Remove selection
-                $(".content-selected").each(function (i, item) {
+                $(".content-selected").each(function(i, item) {
                     $(item).removeClass('content-selected');
                 });
 
@@ -945,20 +945,20 @@ require([
         var selectedDate;
         var isPaused = false;
 
-        $('#playTimelineVideo').off().on('click', function (event) { //stop button clciked timeline video action
+        $('#playTimelineVideo').off().on('click', function(event) { //stop button clciked timeline video action
             $('#playTimelineVideo').addClass('disableVideoBtn');
             $('#pauseTimelineVideo').removeClass('disableVideoBtn');
             $('#stopTimelineVideo').removeClass('disableVideoBtn');
             $('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({ "pointer-events": "none", "opacity": "0.95" });
 
-            $("#timeline .owl-item").each(function (currentLoopingItemIndex, currentLoopingItem) {
+            $("#timeline .owl-item").each(function(currentLoopingItemIndex, currentLoopingItem) {
 
                 if (!isPaused && currentSelectedTimeline === 0) {
                     $('#timeline').trigger('to.owl.carousel', 0);
                 }
 
                 if (currentSelectedTimeline <= currentLoopingItemIndex) { //start from where paused or where end like when click play after complete of play items
-                    timelineVideo.push(setTimeout(function () {
+                    timelineVideo.push(setTimeout(function() {
                         selectedDate = $(currentLoopingItem).children().attr('id').substring(5);
                         if ((currentLoopingItemIndex !== 0 && $("#timeline .owl-item.active").index($(currentLoopingItem)) !== 0)) { //if its not first element/Item and also not starting from vissible item on slider
                             $('#timeline').trigger('next.owl.carousel');
@@ -981,12 +981,12 @@ require([
             });
         });
 
-        $('#stopTimelineVideo').off().on('click', function (event) { //stop button clciked timeline video action
+        $('#stopTimelineVideo').off().on('click', function(event) { //stop button clciked timeline video action
             $('#playTimelineVideo').removeClass('disableVideoBtn');
             $('#pauseTimelineVideo').addClass('disableVideoBtn');
             $('.scenarioRow, .sliderRow, .mapContainer, .timeline-content').css({ "pointer-events": "painted", "opacity": "1.0" });
             $('#stopTimelineVideo').addClass('disableVideoBtn');
-            timelineVideo.forEach(function (timer) {
+            timelineVideo.forEach(function(timer) {
                 clearTimeout(timer);
             });
             currentSelectedTimeline = 0;
@@ -999,12 +999,12 @@ require([
             $("#timeline .owl-item").children('div:first').addClass('content-selected');
         });
 
-        $('#pauseTimelineVideo').off().on('click', function (event) { //pause button clciked timeline video action
+        $('#pauseTimelineVideo').off().on('click', function(event) { //pause button clciked timeline video action
             $('#playTimelineVideo').removeClass('disableVideoBtn');
             $('#pauseTimelineVideo').addClass('disableVideoBtn');
             $('#stopTimelineVideo').removeClass('disableVideoBtn');
             //when pause cleartimeout so it will start from where it left with new instance
-            timelineVideo.forEach(function (timer) {
+            timelineVideo.forEach(function(timer) {
                 clearTimeout(timer);
             });
             isPaused = true;
@@ -1057,13 +1057,13 @@ require([
                     }
                 }
             });
-            $('#scenarios .scenario-content').off().on('click', function (event) {
+            $('#scenarios .scenario-content').off().on('click', function(event) {
                 $('#overlay').show();
                 selectedScenarioDirectory = event.currentTarget.dataset.scenarioDirectory;
                 globals.scenariosDirectory = selectedScenarioDirectory;
 
                 // Remove selection
-                $(".selected-scenario").each(function (i, item) {
+                $(".selected-scenario").each(function(i, item) {
                     $(item).removeClass('selected-scenario');
                 });
 
@@ -1223,7 +1223,7 @@ require([
             } else {
                 globals.rawData = mergeDailyDataAcrossRegions();
             }
-       
+
             if (applyDuration) {
                 var cumulativeBeds = 0;
 
@@ -1374,24 +1374,24 @@ require([
         }
 
         function bindSearchAndResetButton() {
-            $('#renderField, #renderFieldMobile').on('click', function (e) {
+            $('#renderField, #renderFieldMobile').on('click', function(e) {
                 changeRenderField(e);
             });
 
-            $('.resetBtn').on('click', function (e) {
+            $('.resetBtn').on('click', function(e) {
                 resetMap();
             });
 
-            $('.resetDefault').on('click', function (e) {
+            $('.resetDefault').on('click', function(e) {
                 resetApplication();
             });
 
-            $('.queryFilter, .getQueryResultsBtn').on('click', function (e) {
+            $('.queryFilter, .getQueryResultsBtn').on('click', function(e) {
                 queryByName();
             });
 
             //add response to enter key on query input box
-            $("#queryByName").keypress(function (event) {
+            $("#queryByName").keypress(function(event) {
                 if (event.keyCode == 13) {
                     queryByName();
                 }
@@ -1524,7 +1524,7 @@ function applyDurationSliderOnScenarioData(scenariosDirectory, currentData) {
 
 // Query Search auto suggestion
 function querySearchAutocomplete() {
-    $(function () {
+    $(function() {
         var arrayOfTotalRegions = [];
         var regionData = globals.regionData;
         for (var i = 0; i < globals.regionData.length; i++) {
@@ -1544,7 +1544,7 @@ function querySearchAutocomplete() {
             return split(term).pop();
         }
         $("#queryByName").autocomplete({
-            source: function (request, response) {
+            source: function(request, response) {
                 var filteredRegionData = arrayOfTotalRegions;
                 var term = request.term;
                 var selectedRegionData = term.split(',');
@@ -1552,11 +1552,11 @@ function querySearchAutocomplete() {
                     selectedRegionData[i] = selectedRegionData[i].trim()
                 }
                 filteredRegionData = filteredRegionData.filter(val => !selectedRegionData.includes(val));
-                
+
                 response($.ui.autocomplete.filter(
                     filteredRegionData, extractLast(request.term)));
             },
-            select: function (event, ui) {
+            select: function(event, ui) {
 
                 var terms = split(this.value);
                 terms.pop();
@@ -1564,7 +1564,7 @@ function querySearchAutocomplete() {
                 this.value = terms.join(", ");
                 return false;
             },
-            focus: function () {
+            focus: function() {
                 return false;
             }
         });
@@ -1573,18 +1573,18 @@ function querySearchAutocomplete() {
 
 
 function bindMenuEvents() {
-    $('.moreOptionDropDown').off().on("click", function (e) {
+    $('.moreOptionDropDown').off().on("click", function(e) {
         e.stopPropagation();
         $('#optionMenu').removeClass('displayNone');
         $('#optionMenu').toggle();
     });
 
-    $('.hamburgerIcon').click(function (e) {
+    $('.hamburgerIcon').click(function(e) {
         e.stopPropagation();
         $('.optionMenu').toggle();
     });
 
-    $(document).click(function () {
+    $(document).click(function() {
         if (this.id != 'optionMenu') {
             $(".optionMenu").hide();
         }
@@ -1592,7 +1592,7 @@ function bindMenuEvents() {
 }
 
 function bindChartAndDataTab() {
-    $('.charts').on('click', function (e) {
+    $('.charts').on('click', function(e) {
         $('.data').removeClass('selectedFilter');
         $('.charts').addClass('selectedFilter');
         $('#dataTable').parent().addClass('d-none');
@@ -1620,7 +1620,7 @@ function bindChartAndDataTab() {
         $('#scenariosDropdown').parent().removeClass('d-none');
     });
 
-    $('.data').on('click', function (e) {
+    $('.data').on('click', function(e) {
         $('.charts').removeClass('selectedFilter');
         $('.data').addClass('selectedFilter');
         $('#chartdiv').parent().addClass('invisibleHeight0');
@@ -1637,7 +1637,7 @@ function bindChartAndDataTab() {
         $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
     });
 
-    $('.map').on('click', function (e) {
+    $('.map').on('click', function(e) {
         $('.charts').removeClass('selectedFilter');
         $('.data').removeClass('selectedFilter');
         $('.tabMenu .map').addClass('selectedFilter');
@@ -1672,7 +1672,7 @@ function bindSliderEvents() {
         connect: true
     });
 
-    globals.rangeSlider.noUiSlider.on('update', function (values, handle) {
+    globals.rangeSlider.noUiSlider.on('update', function(values, handle) {
         globals.minHospitalCapacity = values[0];
         globals.maxHospitalCapacity = values[1];
     });
@@ -1694,7 +1694,7 @@ function bindSliderEvents() {
         }
     });
 
-    globals.durationSlider.noUiSlider.on('update', function (values, handle) {
+    globals.durationSlider.noUiSlider.on('update', function(values, handle) {
         globals.hospitalDuration = values[handle];
     });
 }
@@ -1713,7 +1713,7 @@ function loadRegionData() {
     $.ajax({
         url: fileURL,
         async: false,
-        success: function (csv) {
+        success: function(csv) {
             var items = $.csv.toObjects(csv);
             var jsonobject = JSON.stringify(items);
             globals.regionData = JSON.parse(jsonobject);
@@ -1721,13 +1721,13 @@ function loadRegionData() {
             querySearchAutocomplete();
         },
         dataType: "text",
-        complete: function () {
+        complete: function() {
 
         }
     });
 }
 
-$('#allToggleButton').on('change', function (e) {
+$('#allToggleButton').on('change', function(e) {
     if (this.checked) {
         $(".scenarioDropdown").hide();
         if (globals.selectedRegionNum != 0) {
@@ -1766,11 +1766,11 @@ function downloadAll() {
     var zip = new JSZip();
     var filesObject = [];
     //Itarte scenarios list and get summary file
-    $.each(globals.scenarios, function (key, val1) {
+    $.each(globals.scenarios, function(key, val1) {
         var summaryFile = val1.directory + "/nssac_ncov_ro-summary.csv";
         var rawData = getJSONData(summaryFile);
         // Itarte directory and get date wise file list
-        $.each(rawData, function (key, val) {
+        $.each(rawData, function(key, val) {
             var rFile = val1.directory + "/nssac_ncov_ro_" + val.date + ".csv";
             filesObject.push(rFile);
         });
@@ -1787,7 +1787,7 @@ function downloadAll() {
     }
     //Genarate zip file 
     zip.generateAsync({ type: "blob" })
-        .then(function (content) {
+        .then(function(content) {
             saveAs(content, "Scearios.zip");
         });
 }

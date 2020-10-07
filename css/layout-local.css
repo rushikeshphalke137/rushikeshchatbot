@@ -599,7 +599,7 @@ a.dt-button:hover:not(.disabled) {
 
 .mapContainer {
     border-width: 2px;
-    height: calc(100% - 69px);
+    height: calc(100% - 54px);
 }
 
 .chartContainer {
@@ -797,7 +797,6 @@ button.owl-prev:focus {
 .foot-note-chart {
     padding: 2px 0px;
     color: white;
-    margin: 0px 15px;
     border-top: 1px solid #E57200;
     font-size: 0.8em;
 }
@@ -1482,7 +1481,7 @@ div#socialSharing a span#linkedin:hover {
 
 /* CSS changes to overide Jquery Automcomplete CSS for customise */
 
-#ui-id-1{
+#ui-id-1 {
     max-height: 200px !important;
     background-color: white !important;
     width: 259px !important;
@@ -1493,7 +1492,7 @@ div#socialSharing a span#linkedin:hover {
     cursor: pointer !important;
     margin-left: -2.75rem !important;
     padding: 5px !important;
-    border: rgb(114, 96, 96) 1px solid !important; 
+    border: rgb(114, 96, 96) 1px solid !important;
 }
 
 .ui-menu .ui-menu-item-wrapper:hover,

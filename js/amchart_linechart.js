@@ -11,8 +11,8 @@ function renderQueriedRegionsChart() {
 function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
     globals.chartTitleRegion = "Demand Forecast for " + selectedHRRName;
     renderChartData(globals.chartTitleRegion);
-    renderAllScenariosPOB(globals.chartTitleRegion);
-    renderAllScenariosWH(globals.chartTitleRegion);
+    // renderAllScenariosPOB(globals.chartTitleRegion);
+    // renderAllScenariosWH(globals.chartTitleRegion);
 }
 
 function renderChartData(chartTitle) {
@@ -84,7 +84,7 @@ function createDemandSeries(chart) {
     let maxUpperDemandValue = 0;
     let minLowerDemandValue = 100;
 
-    chart.data.forEach(function (chartValue, index) {
+    chart.data.forEach(function(chartValue, index) {
         if (maxUpperDemandValue < Number(chartValue['Upper Projected Demand Bound']))
             maxUpperDemandValue = Number(chartValue['Upper Projected Demand Bound']);
 
@@ -168,12 +168,12 @@ function createDemandSeries(chart) {
     bullet.circle.strokeWidth = 2;
 
     // Hiding Uncertainity bounds when hiding the actual series
-    demandSeries.events.on("hidden", function () {
+    demandSeries.events.on("hidden", function() {
         uncertainitySeries.hide();
     });
 
     // Displaying Uncertainity bounds when displaying the actual series
-    demandSeries.events.on("shown", function () {
+    demandSeries.events.on("shown", function() {
         uncertainitySeries.show();
     });
 }
@@ -186,7 +186,7 @@ function createHospitalizationSeries(chart, color) {
     let maxHospitalizationValue = 0;
     let minHospitalizationValue = 100;
 
-    chart.data.forEach(function (chartValue, index) {
+    chart.data.forEach(function(chartValue, index) {
         if (maxHospitalizationValue < Number(chartValue['Upper Hospitalization Bound']))
             maxHospitalizationValue = Number(chartValue['Upper Hospitalization Bound']);
 
@@ -279,12 +279,12 @@ function createHospitalizationSeries(chart, color) {
     rectangle.height = 5;
 
     // Hiding Uncertainity bounds when hiding the actual series
-    hospitalizationSeries.events.on("hidden", function () {
+    hospitalizationSeries.events.on("hidden", function() {
         uncertainitySeries.hide();
     });
 
     // Displaying Uncertainity bounds when displaying the actual series
-    hospitalizationSeries.events.on("shown", function () {
+    hospitalizationSeries.events.on("shown", function() {
         uncertainitySeries.show();
     });
 }
@@ -307,7 +307,7 @@ function mergeDataAcrossRegions(scenarioDirectory) {
         $.ajax({
             url: datafile,
             async: false,
-            success: function (csv) {
+            success: function(csv) {
                 var items = $.csv.toObjects(csv);
                 var jsonobject = JSON.stringify(items);
                 var currentData = JSON.parse(jsonobject);
@@ -328,7 +328,7 @@ function mergeDataAcrossRegions(scenarioDirectory) {
                 }
             },
             dataType: "text",
-            complete: function () { }
+            complete: function() {}
         });
     }
 
@@ -364,7 +364,7 @@ function mergeDailyDataAcrossRegions(scenariosDirectory) {
         $.ajax({
             url: datafile,
             async: false,
-            success: function (csv) {
+            success: function(csv) {
                 var items = $.csv.toObjects(csv);
                 var jsonobject = JSON.stringify(items);
                 var currentData = JSON.parse(jsonobject);
@@ -382,7 +382,7 @@ function mergeDailyDataAcrossRegions(scenariosDirectory) {
                 }
             },
             dataType: "text",
-            complete: function () { }
+            complete: function() {}
         });
     }
 
@@ -400,12 +400,12 @@ function mergeDataAcrossScenarios() {
         } else if (globals.queriedRegionNames.length != 0) {
             currentData = mergeDataAcrossRegions(globals.scenarios[index].directory);
         } else {
-            var datafile = globals.scenarios[index].directory + "/nssac_ncov_ro-summary.csv";
+            var datafile = globals.scenarios[index].directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro-summary.csv";
             currentData = getJSONData(datafile);
         }
 
-        if (globals.isDurationSliderApplied)
-            currentData = applyDurationSliderOnScenarioData(globals.scenarios[index].directory, currentData);
+        // if (globals.isDurationSliderApplied)
+        //     currentData = applyDurationSliderOnScenarioData(globals.scenarios[index].directory, currentData);
 
         if (globals.isCapacitySliderApplied)
             currentData = applyCapacitySliderOnScenarioData(currentData);
@@ -467,8 +467,7 @@ function renderAllScenariosPOB(data) {
     if (data == undefined) {
 
         title.text = "Demand Forecast for All Scenarios";
-    }
-    else {
+    } else {
 
         title.text = data;
     }
@@ -597,13 +596,13 @@ function renderAllScenariosPOB(data) {
         bullet[i].circle.strokeWidth = 2;
 
         // Hiding Uncertainity bounds when hiding the actual series
-        globals.series[i].events.on("hidden", function (event) {
+        globals.series[i].events.on("hidden", function(event) {
             if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
                 globals.uncertainitySeries[globals.series.indexOf(event.target)].hide();
         });
 
         // Displaying Uncertainity bounds when displaying the actual series
-        globals.series[i].events.on("shown", function (event) {
+        globals.series[i].events.on("shown", function(event) {
             if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
                 globals.uncertainitySeries[globals.series.indexOf(event.target)].show();
         });
@@ -617,8 +616,9 @@ function renderAllScenariosPOB(data) {
     var legend1 = new am4charts.Legend();
     legend1.parent = chart.chartContainer;
     legend1.itemContainers.template.togglable = false;
-    legend1.align = "right";
-    legend1.position = "bottom";
+
+    //legend1.align = "right";
+    //legend1.position = "bottom";
     legend1.labels.template.fill = "#fff";
     legend1.data = [{
         "name": "Crisis",
@@ -651,8 +651,7 @@ function renderAllScenariosWH(data) {
     if (data == undefined) {
 
         title.text = "Demand Forecast for All Scenarios";
-    }
-    else {
+    } else {
 
         title.text = data;
     }
@@ -745,13 +744,13 @@ function renderAllScenariosWH(data) {
         bullet[i].circle.strokeWidth = 2;
 
         // Hiding Uncertainity bounds when hiding the actual series
-        globals.series[i].events.on("hidden", function (event) {
+        globals.series[i].events.on("hidden", function(event) {
             if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
                 globals.uncertainitySeries[globals.series.indexOf(event.target)].hide();
         });
 
         // Displaying Uncertainity bounds when displaying the actual series
-        globals.series[i].events.on("shown", function (event) {
+        globals.series[i].events.on("shown", function(event) {
             if (globals.uncertainitySeries[globals.series.indexOf(event.target)] != undefined)
                 globals.uncertainitySeries[globals.series.indexOf(event.target)].show();
         });
@@ -801,13 +800,13 @@ function getJSONData(datafile) {
     $.ajax({
         url: datafile,
         async: false,
-        success: function (csv) {
+        success: function(csv) {
             var items = $.csv.toObjects(csv);
             var jsonobject = JSON.stringify(items);
             jsonData = JSON.parse(jsonobject);
         },
         dataType: "text",
-        complete: function () { }
+        complete: function() {}
     });
 
     return jsonData;
