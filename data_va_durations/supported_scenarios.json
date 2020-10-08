@@ -37,21 +37,21 @@
             "scenario_display_name_line2": "",
             "position": 0,
             "directory": "data_va_durations/scVA-Adaptive-dur7-projBounds",
-            "description": "The Adaptive Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-29."
+            "description": "The Adaptive Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-10-06."
         },
         {
             "scenario_display_name_line1": "Adaptive-Low",
             "scenario_display_name_line2": "",
             "position": 0,
             "directory": "data_va_durations/scVA-Adaptive-Low-dur7-projBounds",
-            "description": "The Adaptive-Low Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-29."
+            "description": "The Adaptive-Low Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-10-06."
         },
         {
             "scenario_display_name_line1": "Adaptive-High",
             "scenario_display_name_line2": "",
             "position": 0,
             "directory": "data_va_durations/scVA-Adaptive-High-dur7-projBounds",
-            "description": "The Adaptive-High Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-09-29."
+            "description": "The Adaptive-High Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-10-06."
         }
     ]
 }
