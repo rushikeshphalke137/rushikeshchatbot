@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS :current_schema.usa_va_mrdd_data
 	max_daily_occupancy_lower_bound integer,
 	max_daily_occupancy_upper_bound integer,
 	last_update date default (now() at time zone 'UTC'),
-	PRIMARY KEY (scenario_id, region_id, reported_date, last_update)
+	duration integer default 8,
+	PRIMARY KEY (scenario_id, region_id, reported_date, last_update, duration)
 );
 

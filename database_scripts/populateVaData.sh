@@ -25,7 +25,8 @@ then
         exit 1
 fi
 
-\read -r -a SCENARIO_DATA_ARRAY <<< $SCENARIO_DATA
+#\read -r -a SCENARIO_DATA_ARRAY <<< $SCENARIO_DATA
+mapfile -t SCENARIO_DATA_ARRAY <<< $SCENARIO_DATA
 for SINGLE_SCENARIO_DATA in "${SCENARIO_DATA_ARRAY[@]}"; do
 	
 	SCENARIO_ID=`echo $SINGLE_SCENARIO_DATA|cut -d'|' -f1`
