@@ -33,7 +33,6 @@ def readData(inScenarioId, inDataTable, inDataDir, OutFile):
     i = 1
     while i < 15:
       duration_dir = inDataDir + "/duration" + str(i)
-	
       data_dir_path = Path(duration_dir)
 		
       #echo `Data Dir: $duration_dir`
@@ -56,7 +55,7 @@ def readData(inScenarioId, inDataTable, inDataDir, OutFile):
                # scenario_id,region_id,region_name,reported_date,weekly_hospitalizations_med,weekly_hospitalizations_lower_bound,
 			   # weekly_hospitalizations_upper_bound, max_daily_occupancy,max_daily_occupancy_lower_bound,
 			   # max_daily_occupancy_upper_bound, last_update
-               insert_str = f'INSERT INTO {data_table} (scenario_id,region_id,region_name,reported_date,weekly_hospitalizations_med,weekly_hospitalizations_lower_bound,weekly_hospitalizations_upper_bound, max_daily_occupancy,max_daily_occupancy_lower_bound,max_daily_occupancy_upper_bound, last_update) VALUES '+"\n"
+               insert_str = f'INSERT INTO {data_table} (scenario_id,region_id,region_name,reported_date,weekly_hospitalizations_med,weekly_hospitalizations_lower_bound,weekly_hospitalizations_upper_bound, max_daily_occupancy,max_daily_occupancy_lower_bound,max_daily_occupancy_upper_bound, last_update, duration) VALUES '+"\n"
 
 			   # Remove any starting and trailing whitespace from each field
                row = [field.strip() for field in row]
@@ -73,10 +72,11 @@ def readData(inScenarioId, inDataTable, inDataDir, OutFile):
                max_daily_occupancy_lower_bound = row[11]
                max_daily_occupancy_upper_bound = row[12]
                last_update=row[13]
+               duration = i
                 
 				#print(f"scenario_id={scenario_id}, region_name={region_name}, region_id={region_id}, reported_date={reported_date}, weekly_hospitalizations_med={weekly_hospitalizations_med}, weekly_hospitalizations_lower_bound={weekly_hospitalizations_lower_bound}, weekly_hospitalizations_upper_bound={weekly_hospitalizations_upper_bound}, max_daily_occupancy={max_daily_occupancy}, max_daily_occupancy_lower_bound={max_daily_occupancy_lower_bound}, max_daily_occupancy_upper_bound={max_daily_occupancy_upper_bound}, last_update={last_update}, ")
 
-               insert_str += f"('{scenario_id}','{region_name}','{region_id}','{reported_date}',{weekly_hospitalizations_med},{weekly_hospitalizations_lower_bound},{weekly_hospitalizations_upper_bound},{max_daily_occupancy},{max_daily_occupancy_lower_bound},{max_daily_occupancy_upper_bound},'{last_update}'),\n"
+               insert_str += f"('{scenario_id}','{region_name}','{region_id}','{reported_date}',{weekly_hospitalizations_med},{weekly_hospitalizations_lower_bound},{weekly_hospitalizations_upper_bound},{max_daily_occupancy},{max_daily_occupancy_lower_bound},{max_daily_occupancy_upper_bound},'{last_update}, {duration}'),\n"
 
 			   #print(f"current_insert_str = {insert_str}")
                out_file.write(f"{insert_str[:-2]};"+"\n")
