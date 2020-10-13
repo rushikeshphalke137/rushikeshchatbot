@@ -1,4 +1,4 @@
-#!/d/Installations/python3/python
+#!/usr/bin/env python3
 """This script reads data files for each scenario, constructs insert queries to insert data into 'usa_va_mrdd_data' table.
    It will append generated insert queries into 'queries_mrdd_va_data.sql'.
    
