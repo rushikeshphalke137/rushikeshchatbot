@@ -13,7 +13,7 @@
 
 echo -e "\n-- Started At "`date`
 
-. ../envload.config	#Execute the config file to set environment variables.
+. ./envload.config	#Execute the config file to set environment variables.
 
 ##########################################
 ##
