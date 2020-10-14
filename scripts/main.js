@@ -1788,6 +1788,6 @@ function downloadAll() {
     //Genarate zip file 
     zip.generateAsync({ type: "blob" })
         .then(function(content) {
-            saveAs(content, "Scearios.zip");
+            saveAs(content, "All-Scenarios.zip");
         });
 }

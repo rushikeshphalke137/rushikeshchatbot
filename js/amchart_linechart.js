@@ -9,10 +9,8 @@ function renderQueriedRegionsChart() {
 }
 
 function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
-    globals.chartTitleRegion = "Demand Forecast for " + selectedHRRName;
-    renderChartData(globals.chartTitleRegion);
-    // renderAllScenariosPOB(globals.chartTitleRegion);
-    // renderAllScenariosWH(globals.chartTitleRegion);
+ var chartTitle = "Demand Forecast for " + selectedHRRName;
+    renderChartData(chartTitle);
 }
 
 function renderChartData(chartTitle) {
@@ -445,14 +443,23 @@ function mergeDataAcrossScenarios() {
 }
 
 function renderAllScenarios() {
+    var chartTitle;
+     if (globals.selectedRegionNum != 0 ) {
+        chartTitle = "Demand Forecast for " + globals.selectedRegionName;  
+    }
+    else if (globals.queriedRegionNames.length != 0) {
+        chartTitle = "Demand Forecast for Queried Regions"; 
+    } else {
+        chartTitle = "Demand Forecast for All Scenarios";
+    }
     var selection = $("#scenariosDropdown").children("option:selected").val();
     if (selection == "wh")
-        renderAllScenariosWH(globals.chartTitleRegion);
+        renderAllScenariosWH(chartTitle);
     else
-        renderAllScenariosPOB(globals.chartTitleRegion);
+        renderAllScenariosPOB(chartTitle);
 }
 
-function renderAllScenariosPOB(data) {
+function renderAllScenariosPOB(chartTitle) {
     // Dispose all Charts and clear Browser memory/cache
     am4core.disposeAllCharts();
 
@@ -464,13 +471,7 @@ function renderAllScenariosPOB(data) {
     chart.hiddenState.properties.opacity = 0;
 
     let title = chart.titles.create();
-    if (data == undefined) {
-
-        title.text = "Demand Forecast for All Scenarios";
-    } else {
-
-        title.text = data;
-    }
+    title.text = chartTitle;
     title.stroke = am4core.color("#fff");
     title.fill = am4core.color("#fff");
     title.fontSize = 16;
@@ -538,7 +539,6 @@ function renderAllScenariosPOB(data) {
     range2.axisFill.fillOpacity = 0.3;
     range2.grid.strokeOpacity = 0;
     range2.label.inside = true;
-    // range2.label.text = "Crisis";
     range.label.verticalCenter = "bottom";
     range2.label.fill = am4core.color("red");
 
@@ -617,8 +617,6 @@ function renderAllScenariosPOB(data) {
     legend1.parent = chart.chartContainer;
     legend1.itemContainers.template.togglable = false;
 
-    //legend1.align = "right";
-    //legend1.position = "bottom";
     legend1.labels.template.fill = "#fff";
     legend1.data = [{
         "name": "Crisis",
@@ -636,7 +634,7 @@ function renderAllScenariosPOB(data) {
     chart.cursor = new am4charts.XYCursor();
 }
 
-function renderAllScenariosWH(data) {
+function renderAllScenariosWH(chartTitle) {
     // Dispose all Charts and clear Browser memory/cache
     am4core.disposeAllCharts();
 
@@ -648,14 +646,7 @@ function renderAllScenariosWH(data) {
     chart.hiddenState.properties.opacity = 0;
 
     let title = chart.titles.create();
-    if (data == undefined) {
-
-        title.text = "Demand Forecast for All Scenarios";
-    } else {
-
-        title.text = data;
-    }
-    // title.text = "Demand Forecast for All Scenarios";
+     title.text = chartTitle;
     title.stroke = am4core.color("#fff");
     title.fill = am4core.color("#fff");
     title.fontSize = 16;
@@ -759,23 +750,6 @@ function renderAllScenariosWH(data) {
     // Add legend
     chart.legend = new am4charts.Legend();
     chart.legend.labels.template.fill = am4core.color("#fff");
-
-    var legend1 = new am4charts.Legend();
-    legend1.parent = chart.chartContainer;
-    legend1.align = "right";
-    legend1.position = "bottom";
-    legend1.labels.template.fill = "#fff";
-    legend1.data = [{
-        "name": "Crisis",
-        "fill": "#f5876c"
-    }, {
-        "name": "Caution",
-        "fill": "#f5efa2",
-    }, {
-        "name": "Constraint",
-        "fill": "#bcf084",
-    }];
-
 
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
