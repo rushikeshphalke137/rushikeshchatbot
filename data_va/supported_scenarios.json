@@ -41,18 +41,18 @@
             "description": "The Adaptive Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-10-13."
         },
         {
-            "scenario_display_name_line1": "Adaptive-Low",
-            "scenario_display_name_line2":"",
+            "scenario_display_name_line1": "Adaptive-MoreControl",
+            "scenario_display_name_line2": "",
             "position": 0,
-            "directory": "data_va/scVA-Adaptive-Low-dur8-projBounds",
-            "description": "The Adaptive-Low Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-10-13."
+            "directory": "data_va/sc-Adaptive-MoreControl-dur8-projBounds",
+            "description": "The Adaptive-MoreControl Fitting Projection model fits each HRR region precisely, using recent trends to guide the future projections, but considers the impact if there is a 15% decrease in transmission starting November 26th, 2020. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-10-20."
         },
         {
-            "scenario_display_name_line1": "Adaptive-High",
-            "scenario_display_name_line2":"",
+            "scenario_display_name_line1": "Adaptive-LessControl",
+            "scenario_display_name_line2": "",
             "position": 0,
-            "directory": "data_va/scVA-Adaptive-High-dur8-projBounds",
-            "description": "The Adaptive-High Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-10-13."
+            "directory": "data_va/sc-Adaptive-LessControl-dur8-projBounds",
+            "description": "The Adaptive-LessControl Fitting Projection model fits each HRR region precisely, using recent trends to guide the future projections, but considers the impact if there is a 15% increase in transmission starting November 26th, 2020. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-10-20."
         }
     ]
 }
