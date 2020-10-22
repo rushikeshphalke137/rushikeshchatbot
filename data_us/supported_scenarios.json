@@ -42,18 +42,18 @@
             "description": "The Adaptive Fitting Projection model fits each HRR region precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-10-06."
         },
         {
-            "scenario_display_name_line1": "Adaptive-Low",
-            "scenario_display_name_line2": "",
+            "scenario_display_name_line1": "Adaptive-MoreControl",
+            "scenario_display_name_line2": "Duration: 7 Days",
             "position": 0,
-            "directory": "data_us/sc-Adaptive-Low-dur7-projBounds",
-            "description": "The Adaptive-Low Fitting Projection model fits each HRR region precisely, using recent trends to guide the future projections, but assumes there will be a low surge in mid-October as seasonal weather starts driving people indoors. This scenario assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-10-06."
+            "directory": "data_us/sc-Adaptive-MoreControl-dur7-projBounds",
+            "description": "The Adaptive-MoreControl Fitting Projection model fits each HRR region precisely, using recent trends to guide the future projections, but considers the impact if there is a 15% decrease in transmission starting November 26th, 2020. This scenario assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-10-20."
         },
         {
-            "scenario_display_name_line1": "Adaptive-High",
-            "scenario_display_name_line2": "",
+            "scenario_display_name_line1": "Adaptive-LessControl",
+            "scenario_display_name_line2": "Duration: 7 Days",
             "position": 0,
-            "directory": "data_us/sc-Adaptive-High-dur7-projBounds",
-            "description": "The Adaptive-High Fitting Projection model fits each HRR region precisely, using recent trends to guide the future projections, but assumes there will be a more substantial surge in mid-October as seasonal factors kick in. This scenario assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-10-06."
+            "directory": "data_us/sc-Adaptive-LessControl-dur7-projBounds",
+            "description": "The Adaptive-LessControl Fitting Projection model fits each HRR region precisely, using recent trends to guide the future projections, but considers the impact if there is a 15% increase in transmission starting November 26th, 2020. This scenario assumes typical COVID-19 hospitalizations last about 7 days. Updated 2020-10-20."
         }
     ]
 }
