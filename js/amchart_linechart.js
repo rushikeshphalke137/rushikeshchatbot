@@ -9,7 +9,7 @@ function renderQueriedRegionsChart() {
 }
 
 function renderSelectedRegionsChart(selectedHRRNumber, selectedHRRName) {
- var chartTitle = "Demand Forecast for " + selectedHRRName;
+    var chartTitle = "Demand Forecast for " + selectedHRRName;
     renderChartData(chartTitle);
 }
 
@@ -23,6 +23,10 @@ function renderChartData(chartTitle) {
     // Create chart instance
     var chart = am4core.create("chartdiv", am4charts.XYChart);
     chart.data = globals.timelineJsonData;
+
+    if (chart.data != undefined)
+        chart.data.pop();
+
     chart.hiddenState.properties.opacity = 0;
 
     let title = chart.titles.create();
@@ -300,7 +304,7 @@ function mergeDataAcrossRegions(scenarioDirectory) {
         // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
         if (regionName.indexOf(' ') >= 0)
             regionName = regionName.split(" ").join("_");
-        var datafile = scenarioDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + ".csv";
+        var datafile = scenarioDirectory + "/regions/nssac_ncov_ro_summary_region_" + regionName + ".csv";
 
         $.ajax({
             url: datafile,
@@ -357,7 +361,7 @@ function mergeDailyDataAcrossRegions(scenariosDirectory) {
         // Check if region name contains a space, bcoz in case of virginia health, selectedHRRNumber would be for ex. "Far SW/Near SW".
         if (regionName.indexOf(' ') >= 0)
             regionName = regionName.split(" ").join("_");
-        var datafile = scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + regionName + "-daily.csv";
+        var datafile = scenariosDirectory + "/regions/nssac_ncov_ro_summary_region_" + regionName + "-daily.csv";
 
         $.ajax({
             url: datafile,
@@ -389,24 +393,31 @@ function mergeDailyDataAcrossRegions(scenariosDirectory) {
 
 function mergeDataAcrossScenarios() {
     var mergedData = [];
+    var applyDuration = false;
 
     for (index = 0; index < globals.scenarios.length; index++) {
         var currentData = {};
         if (globals.selectedRegionNum != 0) {
-            var datafile = globals.scenarios[index].directory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + ".csv";
+            var datafile = globals.scenarios[index].directory + "/regions/nssac_ncov_ro_summary_region_" + globals.selectedRegionNum + ".csv";
             currentData = getJSONData(datafile);
+            applyDuration = true;
         } else if (globals.queriedRegionNames.length != 0) {
             currentData = mergeDataAcrossRegions(globals.scenarios[index].directory);
+            applyDuration = true;
         } else {
             var datafile = globals.scenarios[index].directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro-summary.csv";
             currentData = getJSONData(datafile);
         }
 
-        // if (globals.isDurationSliderApplied)
-        //     currentData = applyDurationSliderOnScenarioData(globals.scenarios[index].directory, currentData);
+        if (globals.isDurationSliderApplied && applyDuration)
+            currentData = applyDurationSliderOnScenarioData(globals.scenarios[index].directory, currentData);
 
         if (globals.isCapacitySliderApplied)
             currentData = applyCapacitySliderOnScenarioData(currentData);
+
+        // This is done to remove the last week of data while displaying. Last week of data is added in file for database purpose.
+        if (currentData != undefined)
+            currentData.pop();
 
         if (mergedData.length > 0) {
             for (loop = 0; loop < mergedData.length; loop++) {
@@ -444,11 +455,10 @@ function mergeDataAcrossScenarios() {
 
 function renderAllScenarios() {
     var chartTitle;
-     if (globals.selectedRegionNum != 0 ) {
-        chartTitle = "Demand Forecast for " + globals.selectedRegionName;  
-    }
-    else if (globals.queriedRegionNames.length != 0) {
-        chartTitle = "Demand Forecast for Queried Regions"; 
+    if (globals.selectedRegionNum != 0) {
+        chartTitle = "Demand Forecast for " + globals.selectedRegionName;
+    } else if (globals.queriedRegionNames.length != 0) {
+        chartTitle = "Demand Forecast for Queried Regions";
     } else {
         chartTitle = "Demand Forecast for All Scenarios";
     }
@@ -575,7 +585,6 @@ function renderAllScenariosPOB(chartTitle) {
 
         globals.series[i].stroke = am4core.color(colors[i]);
         globals.series[i].strokeWidth = 2;
-        globals.series[i].tensionX = 0.8;
         globals.series[i].sequencedInterpolation = true;
         globals.series[i].defaultState.transitionDuration = 1000;
 
@@ -646,7 +655,7 @@ function renderAllScenariosWH(chartTitle) {
     chart.hiddenState.properties.opacity = 0;
 
     let title = chart.titles.create();
-     title.text = chartTitle;
+    title.text = chartTitle;
     title.stroke = am4core.color("#fff");
     title.fill = am4core.color("#fff");
     title.fontSize = 16;
@@ -714,7 +723,6 @@ function renderAllScenariosWH(chartTitle) {
 
         globals.series[i].stroke = am4core.color(colors[i]);
         globals.series[i].strokeWidth = 2;
-        globals.series[i].tensionX = 0.8;
         globals.series[i].sequencedInterpolation = true;
         globals.series[i].defaultState.transitionDuration = 1000;
 

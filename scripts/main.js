@@ -1457,12 +1457,9 @@ function applyDurationSliderOnScenarioData(scenariosDirectory, currentData) {
     var dailyData = {};
     // Condition to display selected region data.
     if (globals.selectedRegionNum != 0) {
-        var regionFile = scenariosDirectory + "/regions/nssac_ncov_ro_summary_" + globals.configuration.region + "_" + globals.selectedRegionNum + "-daily.csv";
+        var regionFile = scenariosDirectory + "/regions/nssac_ncov_ro_summary_region_" + globals.selectedRegionNum + "-daily.csv";
         dailyData = getJSONData(regionFile);
-    } else if (globals.queriedRegionNames.length == 0) {
-        var summaryFile = scenariosDirectory + "/nssac_ncov_ro-summary-daily.csv";
-        dailyData = getJSONData(summaryFile);
-    } else {
+    } else if (globals.queriedRegionNames.length != 0) {
         dailyData = mergeDailyDataAcrossRegions(scenariosDirectory);
     }
 
