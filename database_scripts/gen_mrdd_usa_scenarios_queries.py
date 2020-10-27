@@ -85,6 +85,12 @@ def readScenariosData():
                 #print(f"#73 - num_of_rows Inserted = {num_of_rows}")
            else:
                 scenarioNames += concatScenName + "','"
+                postgreSQL_Update_Query = (f"UPDATE {data_table} SET last_update=NOW() WHERE name = '{concatScenName}';")
+                #print(f"postgreSQL_Update_Query = {postgreSQL_Update_Query}")
+                cursor.execute(postgreSQL_Update_Query)
+                postgreSQL_Update_Query = (f"UPDATE {data_table} SET description='{currDescription}' WHERE name = '{concatScenName}';")
+                #print(f"postgreSQL_Update_Query = {postgreSQL_Update_Query}")
+                cursor.execute(postgreSQL_Update_Query)
 
 		#print {scenarioNames}
         except (Exception, psycopg2.Error) as error :
@@ -113,9 +119,9 @@ def readScenariosData():
            connection = psycopg2.connect(
                                           #user="uname",
                                           #password="passwd",
-                                          host="postgis1",
+                                          host=f"{host_name}",
                                           port="5432",
-                                          database="geodb")
+                                          database=f"{db_name}")
            cursor = connection.cursor()           
            postgreSQL_Update_Query = (f"UPDATE {data_table} SET end_date=NOW() WHERE name IN (SELECT name FROM {data_table} WHERE name NOT IN ({scenarioNames[:-2]}) AND end_date IS NULL);")
            #print(f"postgreSQL_Update_Query = {postgreSQL_Update_Query}")
