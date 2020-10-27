@@ -76,7 +76,7 @@ def readData(inScenarioId, inDataTable, inDataDir, OutFile):
                 
 				#print(f"scenario_id={scenario_id}, region_name={region_name}, region_id={region_id}, reported_date={reported_date}, weekly_hospitalizations_med={weekly_hospitalizations_med}, weekly_hospitalizations_lower_bound={weekly_hospitalizations_lower_bound}, weekly_hospitalizations_upper_bound={weekly_hospitalizations_upper_bound}, max_daily_occupancy={max_daily_occupancy}, max_daily_occupancy_lower_bound={max_daily_occupancy_lower_bound}, max_daily_occupancy_upper_bound={max_daily_occupancy_upper_bound}, last_update={last_update}, ")
 
-               insert_str += f"('{scenario_id}','{region_name}','{region_id}','{reported_date}',{weekly_hospitalizations_med},{weekly_hospitalizations_lower_bound},{weekly_hospitalizations_upper_bound},{max_daily_occupancy},{max_daily_occupancy_lower_bound},{max_daily_occupancy_upper_bound},'{last_update}, {duration}'),\n"
+               insert_str += f"('{scenario_id}','{region_name}','{region_id}','{reported_date}',{weekly_hospitalizations_med},{weekly_hospitalizations_lower_bound},{weekly_hospitalizations_upper_bound},{max_daily_occupancy},{max_daily_occupancy_lower_bound},{max_daily_occupancy_upper_bound},'{last_update}', {duration}),\n"
 
 			   #print(f"current_insert_str = {insert_str}")
                out_file.write(f"{insert_str[:-2]};"+"\n")

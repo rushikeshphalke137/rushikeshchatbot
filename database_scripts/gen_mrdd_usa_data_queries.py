@@ -1,4 +1,4 @@
-#!/d/Installations/python3/python
+#!/usr/bin/env python3
 """This script reads data files for each scenario, constructs insert queries to insert data into 'usa_mrdd_data' table.
    It will append generated insert queries into 'queries_mrdd_usa_data.sql'.
    
@@ -92,7 +92,7 @@ def main():
     argDataTable = sys.argv[2]
     argDataDir = sys.argv[3]
     argOutFile = sys.argv[4]
-    print(f"#212 - main():argScenarioId={argScenarioId}, argDataTable={argDataTable}, argDataDir={argDataDir}")
+    #print(f"#212 - main():argScenarioId={argScenarioId}, argDataTable={argDataTable}, argDataDir={argDataDir}, argOutFile={argOutFile}")
     readData(argScenarioId, argDataTable, argDataDir, argOutFile)
 
 if __name__ == '__main__':
