@@ -18,7 +18,7 @@ touch $OUT_FILE
 
 #Read the active scenerios
 SCENARIO_DATA=$(psql -h $HOST_NAME -d $DB_NAME -A -t -q -c "(SELECT scenario_id, data_directory FROM $SCEN_TABLE_NAME WHERE end_date IS NULL)")
-
+echo "SCENARIO_DATA=$SCENARIO_DATA..."
 if [ $? -ne 0 ]
 then
         echo "Failed to retrieve dates from $SCEN_TABLE_NAME table."
@@ -26,12 +26,20 @@ then
 fi
 
 #\read -r -a SCENARIO_DATA_ARRAY <<< $SCENARIO_DATA
-mapfile -t SCENARIO_DATA_ARRAY <<< $SCENARIO_DATA
+#mapfile -t SCENARIO_DATA_ARRAY <<< $SCENARIO_DATA
+
+SAVEIFS=$IFS
+IFS=$'\n'
+SCENARIO_DATA_ARRAY=($SCENARIO_DATA)
+IFS=$SAVEIFS
+
+echo "SCENARIO_DATA_ARRAY=$SCENARIO_DATA_ARRAY..."
 for SINGLE_SCENARIO_DATA in "${SCENARIO_DATA_ARRAY[@]}"; do
 	
 	SCENARIO_ID=`echo $SINGLE_SCENARIO_DATA|cut -d'|' -f1`
 	DATA_DIR=$BASE_DIR_PATH/`echo $SINGLE_SCENARIO_DATA|cut -d'|' -f2`
 	
+	echo "Outfile=$OUT_FILE..."
 	./gen_mrdd_usa_data_queries.py $SCENARIO_ID $DATA_TABLE_NAME $DATA_DIR $OUT_FILE
 	
 	# run sql script generated in above step to populate 'usa_mrdd_data' table.

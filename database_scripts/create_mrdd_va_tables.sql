@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS :current_schema.usa_va_mrdd_scenarios
 	default_duration integer,
 	start_date date default (now() at time zone 'UTC'),
 	end_date date NULL,
+	last_update date default (now() at time zone 'UTC'),
 	PRIMARY KEY (name)
 );
 
