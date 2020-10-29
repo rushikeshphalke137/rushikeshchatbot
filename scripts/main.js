@@ -825,18 +825,20 @@ require([
                     }
                 },
                 buttons: [{
-                    extend: 'csvHtml5',
-                    text: downloadOptions,
-                    titleAttr: 'CSV'
-                }, {
-                    extend: 'csvHtml5',
-                    text: downloadAllOption,
-                    titleAttr: 'CSV',
-                    className: 'excelButton',
-                    action: function(e, dt, node, config) {
-                        downloadAll();
+                        extend: 'csvHtml5',
+                        text: downloadOptions,
+                        titleAttr: 'CSV'
                     }
-                }],
+                    //, {
+                    //     extend: 'csvHtml5',
+                    //     text: downloadAllOption,
+                    //     titleAttr: 'CSV',
+                    //     className: 'excelButton',
+                    //     action: function(e, dt, node, config) {
+                    //         downloadAll();
+                    //     }
+                    // }
+                ],
                 columnDefs: [{
                     render: function(data, type, full, meta) {
                         return "<div class='text-wrap width-600'>" + data + "</div>";
@@ -1485,7 +1487,13 @@ function applyDurationSliderOnScenarioData(scenariosDirectory, currentData) {
     for (var i = 0; i < globals.timelineJsonData.length; i++) {
         var currentDate = globals.timelineJsonData[i]["date"];
 
-        var index = dailyData.findIndex(obj => obj.date == currentDate);
+        //var index = dailyData.findIndex(obj => obj.date == currentDate);
+
+        for (index = 0; index < dailyData.length; index++) {
+            if (dailyData[index].date == currentDate) {
+                break;
+            }
+        }
 
         var maxCapacity = 0;
         var maxLowerCapacity = 0;
@@ -1548,7 +1556,12 @@ function querySearchAutocomplete() {
                 for (var i = 0; i < selectedRegionData.length; i++) {
                     selectedRegionData[i] = selectedRegionData[i].trim()
                 }
-                filteredRegionData = filteredRegionData.filter(val => !selectedRegionData.includes(val));
+
+                //filteredRegionData = filteredRegionData.filter(val => !selectedRegionData.includes(val));
+
+                filteredRegionData = filteredRegionData.filter(function(val) {
+                    return !selectedRegionData.includes(val);
+                });
 
                 response($.ui.autocomplete.filter(
                     filteredRegionData, extractLast(request.term)));
@@ -1742,15 +1755,15 @@ $('#allToggleButton').on('change', function(e) {
 
 //Csv object data read function
 function processData(data) {
-    const csvRows = [];
-    const headers = Object.keys(data[0]);
+    var csvRows = [];
+    var headers = Object.keys(data[0]);
     csvRows.push(headers.join(","));
 
-    for (const row of data) {
-        const values = headers.map(header => {
-            const val = row[header];
-            const escaped = ('' + row[header.replace(/"/g, '\\"')]);
-            return `${escaped}`;
+    for (var i = 0; i < data.length; i++) {
+        var row = data[i];
+        var values = headers.map(header => {
+            var escaped = ('' + row[header.replace(/"/g, '\\"')]);
+            return escaped;
         });
         csvRows.push(values.join(','));
     }
@@ -1764,11 +1777,11 @@ function downloadAll() {
     var filesObject = [];
     //Itarte scenarios list and get summary file
     $.each(globals.scenarios, function(key, val1) {
-        var summaryFile = val1.directory + "/nssac_ncov_ro-summary.csv";
+        var summaryFile = val1.directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro-summary.csv";
         var rawData = getJSONData(summaryFile);
         // Itarte directory and get date wise file list
         $.each(rawData, function(key, val) {
-            var rFile = val1.directory + "/nssac_ncov_ro_" + val.date + ".csv";
+            var rFile = val1.directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro_" + val.date + ".csv";
             filesObject.push(rFile);
         });
     });
