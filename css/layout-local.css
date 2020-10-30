@@ -1643,7 +1643,7 @@ div#socialSharing a span#linkedin:hover {
     background-color: #ffc107 !important;
     border-color: #ffc107 !important;
     cursor: pointer;
-    /* padding: 0px 5px !important;
-    height: 30px !important; */
-    width: auto;
+    /* padding: 0px 5px !important;*/
+    /* height: 30px !important;  */
+    width: 220px !important;
 }
