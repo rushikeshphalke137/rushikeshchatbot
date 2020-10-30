@@ -22,7 +22,10 @@ function renderChartData(chartTitle) {
 
     // Create chart instance
     var chart = am4core.create("chartdiv", am4charts.XYChart);
-    chart.data = globals.timelineJsonData;
+
+    // Deep cloning chart data to remove last week from display.
+    var data = $.extend(true, [], globals.timelineJsonData);
+    chart.data = data;
 
     if (chart.data != undefined)
         chart.data.pop();
@@ -589,7 +592,7 @@ function renderAllScenariosPOB(chartTitle) {
         globals.series[i].defaultState.transitionDuration = 1000;
 
         globals.series[i].name = globals.scenarios[i].scenario_display_name_line1;
-        globals.series[i].tooltipText = "{name}: [bold]{valueY}[/]";
+        globals.series[i].tooltipText = "{name}: [bold]{valueY}%[/]";
         globals.series[i].tooltip.getFillFromObject = false;
         globals.series[i].tooltip.background.fill = am4core.color(colors[i]);
 
