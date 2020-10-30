@@ -765,6 +765,7 @@ require([
             var tableHTML = null;
             var lengthMenuOptions = null;
             var downloadOptions = "";
+            downloadAllOption="";
 
             var regionNameColumn = Object.keys(csvData[0])[1];
             tableHTML = '<table id="example" class="display" cellspacing="0" width="100%">\n<thead><tr>';
@@ -829,15 +830,15 @@ require([
                         text: downloadOptions,
                         titleAttr: 'CSV'
                     }
-                    //, {
-                    //     extend: 'csvHtml5',
-                    //     text: downloadAllOption,
-                    //     titleAttr: 'CSV',
-                    //     className: 'excelButton',
-                    //     action: function(e, dt, node, config) {
-                    //         downloadAll();
-                    //     }
-                    // }
+                    , {
+                        extend: 'csvHtml5',
+                        text: downloadAllOption,
+                        titleAttr: 'CSV',
+                        className: 'excelButton',
+                        action: function(e, dt, node, config) {
+                            downloadAll();
+                        }
+                    }
                 ],
                 columnDefs: [{
                     render: function(data, type, full, meta) {
@@ -1777,13 +1778,16 @@ function downloadAll() {
     var filesObject = [];
     //Itarte scenarios list and get summary file
     $.each(globals.scenarios, function(key, val1) {
-        var summaryFile = val1.directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro-summary.csv";
+        for(var i = 1; i <= globals.hospitalDuration; i++){
+        var summaryFile = val1.directory + "/duration" + i + "/nssac_ncov_ro-summary.csv";
         var rawData = getJSONData(summaryFile);
         // Itarte directory and get date wise file list
         $.each(rawData, function(key, val) {
-            var rFile = val1.directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro_" + val.date + ".csv";
+           // var rFile = val1.directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro_" + val.date + ".csv";
+           rFile = val1.directory + "/duration" + i + "/nssac_ncov_ro_" + val.date + ".csv";
             filesObject.push(rFile);
         });
+    }
     });
 
     for (var i = 0; i < filesObject.length; i++) {
@@ -1791,7 +1795,7 @@ function downloadAll() {
         //Function for read conetnt of csv data 
         var csvFileData = processData(content);
         var splitFilePath = filesObject[i].split("/");
-        splitFilePath = splitFilePath[1] + "/" + splitFilePath[2];
+        splitFilePath = splitFilePath[1] + "/" + splitFilePath[2]+"/"+splitFilePath[3];
         // Add csv file and csv data
         zip.file(splitFilePath, csvFileData);
     }
