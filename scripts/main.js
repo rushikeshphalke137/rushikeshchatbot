@@ -765,11 +765,11 @@ require([
             var tableHTML = null;
             var lengthMenuOptions = null;
             var downloadOptions = "";
-            downloadAllOption="";
+            downloadAllOption = "";
 
             var regionNameColumn = Object.keys(csvData[0])[1];
             tableHTML = '<table id="example" class="display" cellspacing="0" width="100%">\n<thead><tr>';
-            tableHTML += "<th>" + regionNameColumn + "</th>";
+            tableHTML += "<th>" + "Region Name" + "</th>";
             tableHTML += "<th>" + "Percentage of Occupied Beds" + "</th>";
             tableHTML += "<th>" + "Weekly Hospitalizations" + "</th>";
 
@@ -826,20 +826,18 @@ require([
                     }
                 },
                 buttons: [{
-                        extend: 'csvHtml5',
-                        text: downloadOptions,
-                        titleAttr: 'CSV'
+                    extend: 'csvHtml5',
+                    text: downloadOptions,
+                    titleAttr: 'CSV'
+                }, {
+                    extend: 'csvHtml5',
+                    text: downloadAllOption,
+                    titleAttr: 'CSV',
+                    className: 'excelButton',
+                    action: function(e, dt, node, config) {
+                        downloadAll();
                     }
-                    , {
-                        extend: 'csvHtml5',
-                        text: downloadAllOption,
-                        titleAttr: 'CSV',
-                        className: 'excelButton',
-                        action: function(e, dt, node, config) {
-                            downloadAll();
-                        }
-                    }
-                ],
+                }],
                 columnDefs: [{
                     render: function(data, type, full, meta) {
                         return "<div class='text-wrap width-600'>" + data + "</div>";
@@ -1490,7 +1488,7 @@ function applyDurationSliderOnScenarioData(scenariosDirectory, currentData) {
 
         //var index = dailyData.findIndex(obj => obj.date == currentDate);
 
-        for (index = 0; index < dailyData.length; index++) {
+        for (var index = 0; index < dailyData.length; index++) {
             if (dailyData[index].date == currentDate) {
                 break;
             }
@@ -1762,10 +1760,17 @@ function processData(data) {
 
     for (var i = 0; i < data.length; i++) {
         var row = data[i];
-        var values = headers.map(header => {
+
+        var values = headers.map(function(header) {
             var escaped = ('' + row[header.replace(/"/g, '\\"')]);
             return escaped;
         });
+
+        // ES6 version
+        // var values = headers.map(header => {
+        //     var escaped = ('' + row[header.replace(/"/g, '\\"')]);
+        //     return escaped;
+        // });
         csvRows.push(values.join(','));
     }
     return csvRows.join('\n');
@@ -1776,18 +1781,16 @@ function processData(data) {
 function downloadAll() {
     var zip = new JSZip();
     var filesObject = [];
-    //Itarte scenarios list and get summary file
+
+    //Iterate scenarios list and get summary file
     $.each(globals.scenarios, function(key, val1) {
-        for(var i = 1; i <= globals.hospitalDuration; i++){
-        var summaryFile = val1.directory + "/duration" + i + "/nssac_ncov_ro-summary.csv";
+        var summaryFile = val1.directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro-summary.csv";
         var rawData = getJSONData(summaryFile);
-        // Itarte directory and get date wise file list
+        // Iterate directory and get date wise file list
         $.each(rawData, function(key, val) {
-           // var rFile = val1.directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro_" + val.date + ".csv";
-           rFile = val1.directory + "/duration" + i + "/nssac_ncov_ro_" + val.date + ".csv";
+            var rFile = val1.directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro_" + val.date + ".csv";
             filesObject.push(rFile);
         });
-    }
     });
 
     for (var i = 0; i < filesObject.length; i++) {
@@ -1795,7 +1798,7 @@ function downloadAll() {
         //Function for read conetnt of csv data 
         var csvFileData = processData(content);
         var splitFilePath = filesObject[i].split("/");
-        splitFilePath = splitFilePath[1] + "/" + splitFilePath[2]+"/"+splitFilePath[3];
+        splitFilePath = splitFilePath[1] + "/" + splitFilePath[2] + "/" + splitFilePath[3];
         // Add csv file and csv data
         zip.file(splitFilePath, csvFileData);
     }
