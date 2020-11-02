@@ -140,6 +140,9 @@ require([
         CsvStore
     ) {
         parser.parse();
+        $(document).ready(function() {
+            $("#allToggleButton").bootstrapToggle("on");
+        });
 
         $.getJSON("data_us_durations/supported_scenarios.json")
             //$.getJSON("data_va/supported_scenarios.json")
@@ -1607,8 +1610,8 @@ function bindChartAndDataTab() {
         $('.data').removeClass('selectedFilter');
         $('.charts').addClass('selectedFilter');
         $('#dataTable').parent().addClass('d-none');
+        $('.charContainerHeight').show();
         if (globals.mobileDevice() || (isTablet && !isLandscape)) {
-            $('.charContainerHeight').show();
             $('.map').removeClass('selectedFilter');
             $('#mapContainerRow').addClass('invisibleHeight0');
             $('.projectionsRow').addClass('invisibleHeight0');
@@ -1641,6 +1644,7 @@ function bindChartAndDataTab() {
             $('#mapContainerRow').addClass('invisibleHeight0');
             $('.projectionsRow').addClass('invisibleHeight0');
         }
+        $('.charContainerHeight').hide();
         $('#dataTable').parent().removeClass('d-none');
         $('#allToggleButton').parent().addClass('d-none');
         $('#scenariosDropdown').parent().addClass('d-none');
@@ -1805,3 +1809,4 @@ function downloadAll() {
             saveAs(content, "All-Scenarios.zip");
         });
 }
+
