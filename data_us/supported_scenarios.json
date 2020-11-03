@@ -31,10 +31,11 @@
             "HRRCITY",
             "DHS_Beds",
             "Total_Pop"
-        ]
+        ],
+        "defaultDuration": 7,
+        "regionFile": "data_us/HRR_Data.csv"
     },
-    "scenarios": [
-        {
+    "scenarios": [{
             "scenario_display_name_line1": "Adaptive",
             "scenario_display_name_line2": "",
             "position": 0,

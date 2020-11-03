@@ -1714,14 +1714,14 @@ function bindSliderEvents() {
 
 function loadRegionData() {
     if (globals.configuration.region == 'vhass') {
-        var fileURL = "data_va/VHASS_Region_Counts.csv";
         globals.regionDataNameColumn = "#VHASS_Region";
         globals.regionDataBedsColumn = "Beds";
     } else {
-        var fileURL = "data_ro/HRR_Data.csv";
         globals.regionDataNameColumn = "HRRCITY";
         globals.regionDataBedsColumn = "DHS_Beds";
     }
+
+    var fileURL = globals.configuration.regionFile;
 
     $.ajax({
         url: fileURL,
@@ -1812,4 +1812,3 @@ function downloadAll() {
             saveAs(content, "All-Scenarios.zip");
         });
 }
-

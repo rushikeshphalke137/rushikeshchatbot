@@ -1,13 +1,13 @@
 {
     "configuration": {
-        "region" : "vhass",
+        "region": "vhass",
         "application_title": "COVID-19 Medical Resource Demand Dashboard - Virginia",
         "chart_title": "Virginia Health Demand Forecast",
         "layer_url": "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/1",
         "layer_attribute": "VHASS_Reg",
         "query_attribute": "VHASS_Reg",
         "zoom_level": 6,
-		"min_zoom_level": 4,
+        "min_zoom_level": 4,
         "extent": {
             "xmin": -83.6753991625592,
             "xmax": -75.2417293387953,
@@ -30,12 +30,12 @@
             "VHASS_Reg",
             "InPoly_FID"
         ],
-        "defaultDuration": 8
+        "defaultDuration": 8,
+        "regionFile": "data_va/VHASS_Region_Counts.csv"
     },
-    "scenarios": [
-        {
+    "scenarios": [{
             "scenario_display_name_line1": "Adaptive",
-            "scenario_display_name_line2":"",
+            "scenario_display_name_line2": "",
             "position": 0,
             "directory": "data_va/scVA-Adaptive-dur8-projBounds",
             "description": "The Adaptive Fitting Projection model fits each county precisely, using recent trends to guide the future projections. This scenario assumes typical COVID-19 hospitalizations last about 8 days. Updated 2020-10-13."
