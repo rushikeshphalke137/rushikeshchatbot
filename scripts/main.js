@@ -1788,14 +1788,19 @@ function downloadAll() {
 
     //Iterate scenarios list and get summary file
     $.each(globals.scenarios, function(key, val1) {
+       
         var summaryFile = val1.directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro-summary.csv";
         var rawData = getJSONData(summaryFile);
         // Iterate directory and get date wise file list
         $.each(rawData, function(key, val) {
-            var rFile = val1.directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro_" + val.date + ".csv";
+            for(var i = 1; i <= globals.hospitalDuration; i++){
+            var rFile = val1.directory + "/duration" + i + "/nssac_ncov_ro_" + val.date + ".csv";
             filesObject.push(rFile);
+            }
         });
+        
     });
+
 
     for (var i = 0; i < filesObject.length; i++) {
         var content = getJSONData(filesObject[i]);
