@@ -52,6 +52,7 @@ def readScenariosData():
         currScenName, currDuration, currDescription, currDataDirectory = ''.join({item['scenario_display_name_line1']}), ''.join({item['scenario_display_name_line2']}), ''.join({item['description']}), ''.join({item['directory']})
         #print(f"#73 - currScenName = {currScenName}, currDuration = {currDuration}, currDescription = {currDescription}, currDataDirectory = {currDataDirectory}")
         currDescription = currDescription.replace("'", "''")
+        last_update = item['last_update]
 
         concatScenName = currScenName + " " + currDuration
         #print(f"#73 - concatScenName = {concatScenName}")
@@ -85,7 +86,7 @@ def readScenariosData():
                 #print(f"#73 - num_of_rows Inserted = {num_of_rows}")
            else:
                 scenarioNames += concatScenName + "','"
-                postgreSQL_Update_Query = (f"UPDATE {data_table} SET last_update=NOW() WHERE name = '{concatScenName}';")
+                postgreSQL_Update_Query = (f"UPDATE {data_table} SET last_update={last_update} WHERE name = '{concatScenName}';")
                 #print(f"postgreSQL_Update_Query = {postgreSQL_Update_Query}")
                 cursor.execute(postgreSQL_Update_Query)
                 postgreSQL_Update_Query = (f"UPDATE {data_table} SET description='{currDescription}' WHERE name = '{concatScenName}';")
