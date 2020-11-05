@@ -510,10 +510,14 @@ function renderAllScenariosPOB(chartTitle) {
     // Create Demand Value axis
     var demandValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-    demandValueAxis.min = 0;
-    demandValueAxis.max = 170;
+    demandValueAxis.min = 40;
+
+    if (globals.minHospitalCapacity == 40)
+        demandValueAxis.min = 20;
+
+    demandValueAxis.max = 180;
     demandValueAxis.strictMinMax = true;
-    demandValueAxis.renderer.minGridDistance = 30; //used for steps in right hand side y axis
+    demandValueAxis.renderer.minGridDistance = 20; //used for steps in right hand side y axis
     demandValueAxis.renderer.grid.template.strokeWidth = 0;
     demandValueAxis.tooltip.disabled = true; //right hand size 
 
