@@ -275,30 +275,22 @@
     #mapContainerRow {
         order: 2;
         height: 100%;
-        padding-bottom: 30px;
     }
     .mapContainer {
-        max-height: calc(100% - 90px);
-        /* height: 403px; */
-    }
-    .chartContainer {
-        max-height: calc(100% - 94px);
-        /* height: 472px; */
+        height: calc(100% - 45px);
     }
     .dataTableContainer {
-        /* max-height: calc(100% - 89px); */
-        /* height: 483px; */
-        max-height: calc(100% - 53px);
+        height: calc(100% - 50px);
+    }
+    .dataTables_scroll {
+        height: calc(100% - 80px);
+    }
+    .charContainerHeight {
+        height: calc(100% - 80px);
     }
     #renderField button>span::after {
         content: "";
     }
-    /* .projectionsRow {
-  position: absolute;
-    z-index: 1;
-    top: 224px;
-    left: 11px;
-} */
     .renderField .fa-bed,
     .renderField .fa-users {
         padding-right: 0px !important;
@@ -390,12 +382,6 @@
         color: white;
         width: calc(100% - 270px);
     }
-    /* .sliderRow .applyBtn {
-        width: 15%;
-    } */
-    body .mapDataContainer {
-        height: calc(100% - 177px);
-    }
     body #mapContainerRow,
     .sliderRow .hospitalSliderContainer,
     body #chartDataTableContainerRow {
@@ -457,6 +443,18 @@
     #duration-slider {
         color: white;
         width: calc(100% - 270px);
+    }
+    .supported-content {
+        height: calc(100% - 55px);
+    }
+    .charContainerHeight {
+        height: calc(100% - 100px);
+    }
+    .dataTableContainer {
+        height: calc(100% - 70px);
+    }
+    .mapContainer {
+        height: calc(100% - 100px);
     }
 }
 
@@ -534,6 +532,15 @@
         color: white;
         width: calc(100% - 200px);
     }
+    .mapDataContainer {
+        height: calc(100% - 160px);
+    }
+    .dataTables_scroll {
+        height: calc(100% - 110px) !important;
+    }
+    .mapContainer {
+        height: calc(100% - 120px);
+    }
 }
 
 
@@ -557,21 +564,6 @@
 /* iPhone 5, 5C, 5S, iPod Touch 5g */
 
 @media screen and (device-aspect-ratio: 40/71) {
-    /* select,
-  textarea,
-  input[type="text"],
-  input[type="password"],
-  input[type="datetime"],
-  input[type="datetime-local"],
-  input[type="date"],
-  input[type="month"],
-  input[type="time"],
-  input[type="week"],
-  input[type="number"],
-  input[type="email"],
-  input[type="url"] {
-    font-size: 16px;
-  } */
     select,
     textarea,
     input[type="text"],
@@ -587,36 +579,12 @@
     input[type="url"] {
         font-size: 16px;
     }
-    /*  .projectionsRow {
-    top: 249px;
-}
-  .supported-content {
-    height: calc(100% - 152px);
-}
-  .dataTableContainer {
-    max-height: calc(100% - 277px);
-} */
 }
 
 
 /* iPhone 6 Plus, iPhone 6s Plus, iPhone 7 Plus portrait/landscape */
 
 @media screen and (device-aspect-ratio: 9/16) {
-    /* select,
-  textarea,
-  input[type="text"],
-  input[type="password"],
-  input[type="datetime"],
-  input[type="datetime-local"],
-  input[type="date"],
-  input[type="month"],
-  input[type="time"],
-  input[type="week"],
-  input[type="number"],
-  input[type="email"],
-  input[type="url"] {
-    font-size: 16px;
-  } */
     select,
     textarea,
     input[type="text"],
@@ -632,7 +600,4 @@
     input[type="url"] {
         font-size: 16px;
     }
-    /* .dataTableContainer {
-    max-height: calc(100% - 89px);
-  } */
 }

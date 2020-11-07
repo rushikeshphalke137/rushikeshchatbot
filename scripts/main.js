@@ -1613,6 +1613,7 @@ function bindChartAndDataTab() {
             $('.map').removeClass('selectedFilter');
             $('#mapContainerRow').addClass('invisibleHeight0');
             $('.projectionsRow').addClass('invisibleHeight0');
+            $('.foot-note-chart').removeClass('d-none');
 
             if ($('#allToggleButton')[0].checked) {
                 if (globals.selectedRegionNum != 0) {
@@ -1641,6 +1642,7 @@ function bindChartAndDataTab() {
             $('.map').removeClass('selectedFilter');
             $('#mapContainerRow').addClass('invisibleHeight0');
             $('.projectionsRow').addClass('invisibleHeight0');
+            $('.foot-note-chart').removeClass('d-none');
         }
         $('.charContainerHeight').hide();
         $('#dataTable').parent().removeClass('d-none');
@@ -1664,6 +1666,7 @@ function bindChartAndDataTab() {
             $('.charContainerHeight').hide();
             $('#allToggleButton').parent().addClass('d-none');
             $('#scenariosDropdown').parent().addClass('d-none');
+            $('.foot-note-chart').addClass('d-none');
         }
     });
 }
@@ -1788,17 +1791,17 @@ function downloadAll() {
 
     //Iterate scenarios list and get summary file
     $.each(globals.scenarios, function(key, val1) {
-       
+
         var summaryFile = val1.directory + "/duration" + globals.hospitalDuration + "/nssac_ncov_ro-summary.csv";
         var rawData = getJSONData(summaryFile);
         // Iterate directory and get date wise file list
         $.each(rawData, function(key, val) {
-            for(var i = 1; i <= globals.hospitalDuration; i++){
-            var rFile = val1.directory + "/duration" + i + "/nssac_ncov_ro_" + val.date + ".csv";
-            filesObject.push(rFile);
+            for (var i = 1; i <= globals.hospitalDuration; i++) {
+                var rFile = val1.directory + "/duration" + i + "/nssac_ncov_ro_" + val.date + ".csv";
+                filesObject.push(rFile);
             }
         });
-        
+
     });
 
 

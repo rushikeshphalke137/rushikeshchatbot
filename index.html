@@ -418,41 +418,42 @@
             </div>
 
             <div class="col-lg-6 col-xl-5 col-sm-12 col-12 dataContainer" id="chartDataTableContainerRow">
-                <div class="h-100">
-                    <div class="row tabMenu">
-                        <div class="col-12 d-flex align-items-center">
-                            <div class="map d-flex col-lg-6 col-md-6 col-sm-4 d-xl-none d-lg-none pt-2 pb-1 justify-content-center dataChartFilter selectedFilter" style="border-bottom: 2px solid rgb(255,140,0);">Map</div>
-                            <div class="charts col-lg-6 col-md-6 col-sm-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter" style="border-bottom: 2px solid rgb(255,140,0);">Chart</div>
-                            <div class="data col-lg-6 col-md-6 col-sm-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter" style="border-bottom: 2px solid rgb(255,140,0);">Data</div>
+                <!-- <div class="h-100"> -->
+                <div class="row tabMenu">
+                    <div class="col-12 d-flex align-items-center">
+                        <div class="map d-flex col-lg-6 col-md-6 col-sm-4 d-xl-none d-lg-none pt-2 pb-1 justify-content-center dataChartFilter selectedFilter" style="border-bottom: 2px solid rgb(255,140,0);">Map</div>
+                        <div class="charts col-lg-6 col-md-6 col-sm-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter" style="border-bottom: 2px solid rgb(255,140,0);">Chart</div>
+                        <div class="data col-lg-6 col-md-6 col-sm-4 pt-2 pb-1 d-flex justify-content-center dataChartFilter" style="border-bottom: 2px solid rgb(255,140,0);">Data</div>
+                    </div>
+
+                </div>
+                <div style="height: calc(100% - 35px);">
+                    <div class="col-12 d-flex align-items-centers">
+                        <div class="mt-2">
+                            <input id="allToggleButton" type="checkbox" checked data-toggle="toggle" data-width="150" data-height="35" data-off="All Scenarios" data-on="Selected Scenario" data-onstyle="success" data-offstyle="danger" />
                         </div>
 
-                    </div>
-                    <div class="h-100">
-                        <div class="col-12 d-flex align-items-centers">
-                            <div class="mt-2">
-                                <input id="allToggleButton" type="checkbox" checked data-toggle="toggle" data-width="150" data-height="35" data-off="All Scenarios" data-on="Selected Scenario" data-onstyle="success" data-offstyle="danger" />
-                            </div>
-
-                            <div class="scenarioDropdown mt-2" style="display:none; margin-left: 25px;">
-                                <select name="dropdown" id="scenariosDropdown" class="topKSelect custom-select">
+                        <div class="scenarioDropdown mt-2" style="display:none; margin-left: 25px;">
+                            <select name="dropdown" id="scenariosDropdown" class="topKSelect custom-select">
                                     <option value="pob">Percentage of Occupied Beds</option>
                                     <option value="wh">Weekly Hospitalizations</option>
                                 </select>
-                            </div>
-                        </div>
-
-                        <div class="row d-none dataTableContainer h-75">
-                            <div id="dataTable" class="col-12 h-100"></div>
-                        </div>
-                        <div class="h-100 charContainerHeight">
-                            <div class="row chartContainer h-75">
-                                <div id="chartdiv" class="col-12 pl-0 pr-0"></div>
-                            </div>
-                            <div class="foot-note-chart h-25" id="chartMessage">Weekly Hospitalizations and Percentage of Occupied Beds are projected values to convey relative trends, and should not be taken as actuals. They will be updated as more information becomes available.</div>
-
                         </div>
                     </div>
+
+                    <div class="row d-none dataTableContainer">
+                        <div id="dataTable" class="col-12 h-100"></div>
+                    </div>
+
+                    <div class="charContainerHeight">
+                        <div class="row h-100 chartContainer">
+                            <div id="chartdiv" class="col-12 pl-0 pr-0"></div>
+                        </div>
+                    </div>
+
+                    <div class="foot-note-chart" id="chartMessage">Weekly Hospitalizations and Percentage of Occupied Beds are projected values to convey relative trends, and should not be taken as actuals. They will be updated as more information becomes available.</div>
                 </div>
+                <!-- </div> -->
 
             </div>
 
