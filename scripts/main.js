@@ -811,7 +811,7 @@ require([
             }
 
             $('table.display').DataTable({
-                dom: 'Blfrtip',
+                //dom: 'Blfrtip',
                 "order": [
                     // [0, "asc"]
                 ],
@@ -828,19 +828,19 @@ require([
                         "sPrevious": '<i title="Previous" class="fa fa-chevron-left" ></i>'
                     }
                 },
-                buttons: [{
-                    extend: 'csvHtml5',
-                    text: downloadOptions,
-                    titleAttr: 'CSV'
-                }, {
-                    extend: 'csvHtml5',
-                    text: downloadAllOption,
-                    titleAttr: 'CSV',
-                    className: 'excelButton',
-                    action: function(e, dt, node, config) {
-                        downloadAll();
-                    }
-                }],
+                // buttons: [{
+                //     extend: 'csvHtml5',
+                //     text: downloadOptions,
+                //     titleAttr: 'CSV'
+                // }, {
+                //     extend: 'csvHtml5',
+                //     text: downloadAllOption,
+                //     titleAttr: 'CSV',
+                //     className: 'excelButton',
+                //     action: function(e, dt, node, config) {
+                //         downloadAll();
+                //     }
+                // }],
                 columnDefs: [{
                     render: function(data, type, full, meta) {
                         return "<div class='text-wrap width-600'>" + data + "</div>";
