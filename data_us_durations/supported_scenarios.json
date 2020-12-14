@@ -33,7 +33,8 @@
             "Total_Pop"
         ],
         "defaultDuration": 7,
-        "regionFile": "data_us_durations/HRR_Data.csv"
+        "regionFile": "data_us_durations/HRR_Data.csv",
+        "noticeMessage": "Notice: Due to maintenance updates on December 16th and 17th, the Medical Resource Demand Dashboard may experience intermittent downtime on those days."
     },
     "scenarios": [{
             "scenario_display_name_line1": "Adaptive",

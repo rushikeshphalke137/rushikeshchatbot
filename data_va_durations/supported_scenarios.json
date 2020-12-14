@@ -31,7 +31,8 @@
             "InPoly_FID"
         ],
         "defaultDuration": 8,
-        "regionFile": "data_va_durations/VHASS_Region_Counts.csv"
+        "regionFile": "data_va_durations/VHASS_Region_Counts.csv",
+        "noticeMessage": "Notice: Due to maintenance updates on December 16th and 17th, the Medical Resource Demand Dashboard may experience intermittent downtime on those days."
     },
     "scenarios": [{
             "scenario_display_name_line1": "Adaptive",
