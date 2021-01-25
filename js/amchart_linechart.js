@@ -913,8 +913,8 @@ function renderProjectionsChart() {
         return series;
     }
 
-    createSeries("actual", "Actual", am4core.color("#3479A1"));
-    createSeries("projected", "Projected", am4core.color("#dc3545"), true);
+    createSeries("actual", "Actual", am4core.color("#2ca25f"));
+    createSeries("projected", "Projected", am4core.color("#8856a7"), true);
 
     chart.legend = new am4charts.Legend();
     chart.legend.labels.template.fill = am4core.color("#fff");
