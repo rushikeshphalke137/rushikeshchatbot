@@ -2,7 +2,7 @@
     "configuration": {
         "region": "region",
         "application_title": "COVID-19 Medical Resource Demand Dashboard - US National",
-        "chart_title": "United States National Demand Forecast",
+        "chart_title": "United States National Demand Projections",
         "layer_url": "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/0",
         "layer_attribute": "HRRCITY",
         "query_attribute": "HRRNUM",
