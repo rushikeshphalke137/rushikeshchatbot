@@ -817,10 +817,12 @@ function renderProjectionsChart() {
     chart.data = getActualData();
 
     let maxValue = 0;
-    let minValue = 100;
+    let minValue = 50;
 
     chart.data.forEach(function(chartValue, index) {
-        if (maxValue < Number(chartValue['projected_ub']))
+        if (chartValue['actual'] != undefined && maxValue < Number(chartValue['actual'])) {
+            maxValue = Number(chartValue['actual']);
+        } else if (maxValue < Number(chartValue['projected_ub']))
             maxValue = Number(chartValue['projected_ub']);
 
         if (minValue > Number(chartValue['projected_lb']))
