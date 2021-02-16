@@ -104,6 +104,7 @@ require([
         "esri/Color",
         "esri/geometry/Extent",
         "esri/graphic",
+        "esri/lang",
         "esri/dijit/Legend",
         "esri/InfoTemplate",
         "esri/layers/FeatureLayer",
@@ -131,7 +132,7 @@ require([
         "dojo/domReady!"
     ],
     function(
-        Color, Extent, Graphic, Legend, InfoTemplate,
+        Color, Extent, Graphic, esriLang, Legend, InfoTemplate,
         FeatureLayer, GraphicsLayer, Map, ClassBreaksRenderer,
         SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer,
         TimeExtent, TimeSlider,
@@ -141,11 +142,11 @@ require([
         CsvStore
     ) {
         parser.parse();
-        $(document).ready(function() {
-            $("#allToggleButton").bootstrapToggle("on");
-        });
+        // $(document).ready(function() {
+        //     $("#allToggleButton").bootstrapToggle("on");
+        // });
 
-        $.getJSON("data_va_actuals/supported_scenarios.json")
+        $.getJSON("data_us_actuals/supported_scenarios.json")
             //$.getJSON("data_va/supported_scenarios.json")
             .done(function(json) {
                 globals.configuration = json.configuration;
@@ -163,6 +164,8 @@ require([
 
                 if (globals.configuration.region == 'vhass')
                     $(".scenarioActualDropdown").show();
+
+                $("#allToggleButton").bootstrapToggle("on");
 
                 loadRegionData();
                 setupMapLayer();
@@ -329,6 +332,19 @@ require([
 
             //setup QueryTask (for filter by region)
             setQueryTask();
+
+            layer.on("mouse-out", closeDialog);
+
+            layer.on("mouse-over", function mouseOver(evt) {
+                var content = esriLang.substitute(evt.graphic.attributes, globals.getRegionInfoForMouseOver(evt.graphic.attributes[globals.configuration.layer_attribute]));
+                globals.map.infoWindow.setTitle(evt.graphic.attributes[globals.configuration.layer_attribute]);
+                globals.map.infoWindow.setContent(content);
+                globals.map.infoWindow.show(evt.screenPoint);
+            });
+
+            function closeDialog() {
+                globals.map.infoWindow.hide();
+            }
 
             globals.map.on("update-end", function() {
                 $('#overlay').hide();
@@ -593,6 +609,19 @@ require([
             return 0;
         }
 
+        globals.getRegionInfoForMouseOver = function(regionName) {
+            var content = '';
+            for (var i = 0; i < globals.jsonData.length; i++) {
+                var key = Object.keys(globals.jsonData[i])[1];
+                if (globals.jsonData[i][key] == regionName) {
+                    content += "<b> Percentage of Occupied Beds:</b><br>&emsp;" + globals.jsonData[i]["Total Projected Demand (Range)"];
+                    content += "<br><b>Weekly Hospitalizations:</b><br>&emsp;" + globals.jsonData[i]["Total Hospitalizations (Range)"];
+                    break;
+                }
+            }
+            return content;
+        }
+
         globals.getRegionInfo = function(value) {
             var returnValue = '';
             for (var i = 0; i < globals.jsonData.length; i++) {
@@ -792,8 +821,8 @@ require([
                     }
 
                     showCSVDataInTable(globals.jsonData);
-                    var extent = esri.graphicsExtent(fset.features);
-                    globals.map.setExtent(extent, true);
+                    //var extent = esri.graphicsExtent(fset.features);
+                    //globals.map.setExtent(extent, true);
                 } else {
                     $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
                     $('#noResultFoundButton').click();
