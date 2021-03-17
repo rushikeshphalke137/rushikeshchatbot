@@ -33,7 +33,8 @@
             "Total_Pop"
         ],
         "defaultDuration": 7,
-        "regionFile": "data_us_actuals/HRR_Data.csv"
+        "regionFile": "data_us_actuals/HRR_Data.csv",
+        "chatbotVisible": false
     },
     "scenarios": [{
             "scenario_display_name_line1": "Adaptive",

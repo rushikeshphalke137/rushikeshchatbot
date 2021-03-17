@@ -31,7 +31,8 @@
             "InPoly_FID"
         ],
         "defaultDuration": 8,
-        "regionFile": "data_va_actuals/VHASS_Region_Counts.csv"
+        "regionFile": "data_va_actuals/VHASS_Region_Counts.csv",
+        "chatbotVisible": false
     },
     "scenarios": [{
             "scenario_display_name_line1": "Adaptive",

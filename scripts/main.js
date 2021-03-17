@@ -82,7 +82,8 @@ globals.selectedRegionNum = 0;
 globals.selectedRegionName = "";
 
 globals.rawData = {};
-
+globals.isclosed = true;
+globals.isRestart = false;
 globals.jsonData = {};
 globals.timelineJsonData = {};
 globals.regionData = {};
@@ -164,6 +165,10 @@ require([
 
                 if (globals.configuration.region == 'vhass')
                     $(".scenarioActualDropdown").show();
+
+                if (!globals.configuration.chatbotVisible) {
+                    $('.profile_div').addClass('d-none');
+                }
 
                 $("#allToggleButton").bootstrapToggle("on");
 
@@ -768,8 +773,9 @@ require([
                     showCSVDataInTable(globals.jsonData);
 
                 } else {
-                    $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
-                    $('#noResultFoundButton').click();
+                    alert("No result found for " + inputStr + ".");
+                    // $('.queryResultPopUp')[0].innerHTML = "No result found for <b>" + inputStr + "</b>.";
+                    // $('#noResultFoundButton').click();
                     $('#overlay').hide(); //need to remove from here later(hide on mobile after query button clicked)
                 }
             });
