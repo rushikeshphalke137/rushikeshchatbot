@@ -1508,3 +1508,9 @@ div#socialSharing a span#linkedin:hover {
 .charContainerHeight {
     height: calc(100% - 85px);
 }
+
+.datatableTitle {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-left: 50px;
+}

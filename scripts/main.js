@@ -837,52 +837,83 @@ require([
         }
 
         function showCSVDataInTable(csvData) {
+            var title = globals.configuration.chart_title;
+
             var filteredNames = [];
             if (globals.selectedRegionNum != 0) {
                 filteredNames.push(globals.selectedRegionName);
+                title = "Demand Projections for " + globals.selectedRegionName;
             } else if (globals.queriedRegionNames.length != 0) {
                 filteredNames = globals.queriedRegionNames;
+                title = "Demand Projections for Queried Regions"
             }
             var tableHTML = null;
             var lengthMenuOptions = null;
             var downloadOptions = "";
             downloadAllOption = "";
 
-            var regionNameColumn = Object.keys(csvData[0])[1];
-            tableHTML = '<table id="example" class="display" cellspacing="0" width="100%">\n<thead><tr>';
-            tableHTML += "<th>" + "Region Name" + "</th>";
-            tableHTML += "<th>" + "Percentage of Occupied Beds" + "</th>";
-            tableHTML += "<th>" + "Weekly Hospitalizations" + "</th>";
+            // If user has selected the region on map, then display data for all dates.
+            if (globals.selectedRegionNum != 0) {
+                var regionNameColumn = Object.keys(csvData[0])[1];
+                tableHTML = '<table id="example" class="display" cellspacing="0" width="100%">\n<thead><tr>';
+                tableHTML += "<th>" + "Week Ending" + "</th>";
+                tableHTML += "<th>" + "Percentage of Occupied Beds" + "</th>";
+                tableHTML += "<th>" + "Weekly Hospitalizations" + "</th>";
 
-            tableHTML += "</tr></thead><tbody>";
-            for (var i = 0; i < csvData.length; i++) {
-                var name = csvData[i][regionNameColumn];
+                tableHTML += "</tr></thead><tbody>";
+                for (var i = 0; i < globals.timelineJsonData.length - 1; i++) {
 
-                if (filteredNames.length > 0 && filteredNames.indexOf(name) == -1)
-                    continue;
-                else {
                     tableHTML += "<tr>";
 
-                    // Region Name, Hospitalizations (Range), Projected Demand (Range)
-                    tableHTML += "<td>" + csvData[i][regionNameColumn] + "</td>";
-                    tableHTML += "<td>" + csvData[i]["Total Projected Demand (Range)"] + "</td>";
-                    tableHTML += "<td>" + csvData[i]["Total Hospitalizations (Range)"] + "</td>";
+                    formattedDate = new Date(globals.timelineJsonData[i]["date"].replace(/-/g, "/"));
+                    representationDate = new Date(formattedDate).toDateString().slice(4).substring(0, 6);
+
+                    // Date, Hospitalizations (Range), Projected Demand (Range)
+                    tableHTML += "<td>" + representationDate + "</td>";
+                    tableHTML += "<td>" + globals.timelineJsonData[i]["Total Projected Demand (Range)"] + "</td>";
+                    tableHTML += "<td>" + globals.timelineJsonData[i]["Total Hospitalizations (Range)"] + "</td>";
 
                     tableHTML += "</tr>\n";
                 }
+                tableHTML += "</table>";
+            } else {
+                var regionNameColumn = Object.keys(csvData[0])[1];
+                tableHTML = '<table id="example" class="display" cellspacing="0" width="100%">\n<thead><tr>';
+                tableHTML += "<th>" + "Region Name" + "</th>";
+                tableHTML += "<th>" + "Percentage of Occupied Beds" + "</th>";
+                tableHTML += "<th>" + "Weekly Hospitalizations" + "</th>";
+
+                tableHTML += "</tr></thead><tbody>";
+                for (var i = 0; i < csvData.length; i++) {
+                    var name = csvData[i][regionNameColumn];
+
+                    if (filteredNames.length > 0 && filteredNames.indexOf(name) == -1)
+                        continue;
+                    else {
+                        tableHTML += "<tr>";
+
+                        // Region Name, Hospitalizations (Range), Projected Demand (Range)
+                        tableHTML += "<td>" + csvData[i][regionNameColumn] + "</td>";
+                        tableHTML += "<td>" + csvData[i]["Total Projected Demand (Range)"] + "</td>";
+                        tableHTML += "<td>" + csvData[i]["Total Hospitalizations (Range)"] + "</td>";
+
+                        tableHTML += "</tr>\n";
+                    }
+                }
+                tableHTML += "</table>";
             }
-            tableHTML += "</table>";
+
             dojo.byId("dataTable").innerHTML = tableHTML;
 
             if (/Android|webOS|iPhone|iPod|ipad|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                 lengthMenuOptions = '<select> <option value="10">10</option> <option value="25">25</option>' +
-                    '<option value="50">50</option> <option value="-1">All</option> </select>';
+                    '<option value="50">50</option> <option value="-1">All</option> </select>' + '<span class="datatableTitle">' + title + '</span>';
 
                 downloadOptions = '<i class="fa fa-download" aria-hidden="true"></i>';
                 downloadAllOption = '<i class="fa fa-download float-right" aria-hidden="true"></i>';
             } else {
                 lengthMenuOptions = 'Display <select> <option value="10">10</option> <option value="25">25</option>' +
-                    '<option value="50">50</option> <option value="-1">All</option> </select>';
+                    '<option value="50">50</option> <option value="-1">All</option> </select>' + '<span class="datatableTitle">' + title + '</span>';
 
                 downloadOptions = 'Download';
                 downloadAllOption = 'Download All';
