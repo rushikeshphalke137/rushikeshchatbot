@@ -6,7 +6,7 @@
         "layer_url": "https://services2.arcgis.com/8k2PygHqghVevhzy/arcgis/rest/services/covid19_nssac_resource_optimization/FeatureServer/1",
         "layer_attribute": "VHASS_Reg",
         "query_attribute": "VHASS_Reg",
-        "zoom_level": 6,
+        "zoom_level": 7,
         "min_zoom_level": 4,
         "extent": {
             "xmin": -83.6753991625592,
@@ -18,9 +18,9 @@
             }
         },
         "extentMobile": {
-            "xmin": -103.6753991625592,
-            "xmax": -55.2417293387953,
-            "ymin": 26.541660218841,
+            "xmin": -82.6753991625592,
+            "xmax": -75.2417293387953,
+            "ymin": 32.541660218841,
             "ymax": 39.4660198481876,
             "spatialReference": {
                 "wkid": 4326
